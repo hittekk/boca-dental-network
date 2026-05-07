@@ -2,6 +2,7 @@ import { Hero } from './components/Hero/Hero'
 import { Header } from './components/Header/Header'
 import { About } from './components/About/About'
 import { Locations } from './components/Locations/Locations'
+import { Services } from './components/Services/Services'
 import { INITIAL_DATA } from './data/initialData'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Hero brand={INITIAL_DATA.brand} />
       <About />
       <Locations />
+      <Services />
     </div>
   )
 }
