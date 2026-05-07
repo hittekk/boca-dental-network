@@ -145,7 +145,7 @@ export function Hero({ brand }: HeroProps) {
 
       <div
         className="relative z-10 text-center px-6"
-        style={{ maxWidth: 780, margin: '0 auto', paddingTop: 120, paddingBottom: 80 }}
+        style={{ maxWidth: 900, margin: '0 auto', paddingTop: 120, paddingBottom: 80 }}
       >
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -167,50 +167,26 @@ export function Hero({ brand }: HeroProps) {
           Accepting New Patients · Most Insurance · Medicaid Welcome
         </motion.div>
 
-        <div style={{ overflow: 'hidden' }}>
-          {[
-            {
-              parts: [
-                { text: "Las Vegas' " },
-                { text: 'Most Trusted', orange: true },
-              ],
-              delay: 0.4,
-            },
-            {
-              parts: [{ text: 'Dental & Braces Group' }],
-              delay: 0.6,
-            },
-          ].map((line, i) => (
-            <div key={i} style={{ overflow: 'hidden' }} className="whitespace-nowrap">
-              <motion.div
-                initial={{ y: '100%', opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{
-                  delay: line.delay,
-                  duration: 0.6,
-                  ease: [0.0, 0.0, 0.2, 1.0],
-                }}
-                className="whitespace-nowrap"
-              >
-                <span
-                  className="block font-display font-extrabold uppercase leading-none whitespace-nowrap"
-                  style={{
-                    fontSize: 'clamp(36px, 5.5vw, 72px)',
-                    letterSpacing: '-1px',
-                    color: 'white',
-                    marginBottom: 4,
-                  }}
-                >
-                  {line.parts.map((p, j) => (
-                    <span key={j} style={{ color: p.orange ? '#F3672A' : 'inherit' }}>
-                      {p.text}
-                    </span>
-                  ))}
-                </span>
-              </motion.div>
-            </div>
-          ))}
-        </div>
+        <motion.h1
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.6, ease: [0.0, 0.0, 0.2, 1.0] }}
+          style={{
+            fontSize: 'clamp(32px, 5vw, 68px)',
+            fontWeight: 800,
+            textTransform: 'uppercase',
+            letterSpacing: '-0.5px',
+            lineHeight: 1.05,
+            color: 'white',
+            margin: '0 0 20px',
+            textAlign: 'center',
+          }}
+        >
+          Las Vegas'{' '}
+          <span style={{ color: '#F3672A' }}>Most Trusted</span>
+          <br />
+          Dental &amp; Braces Group
+        </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 12 }}
