@@ -181,7 +181,7 @@ export function Hero({ brand }: HeroProps) {
               delay: 0.6,
             },
           ].map((line, i) => (
-            <div key={i} style={{ overflow: 'hidden' }}>
+            <div key={i} style={{ overflow: 'hidden' }} className="whitespace-nowrap">
               <motion.div
                 initial={{ y: '100%', opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -190,11 +190,12 @@ export function Hero({ brand }: HeroProps) {
                   duration: 0.6,
                   ease: [0.0, 0.0, 0.2, 1.0],
                 }}
+                className="whitespace-nowrap"
               >
                 <span
-                  className="block font-display font-extrabold uppercase leading-none"
+                  className="block font-display font-extrabold uppercase leading-none whitespace-nowrap"
                   style={{
-                    fontSize: 'clamp(48px, 7vw, 96px)',
+                    fontSize: 'clamp(36px, 5.5vw, 72px)',
                     letterSpacing: '-1px',
                     color: 'white',
                     marginBottom: 4,
