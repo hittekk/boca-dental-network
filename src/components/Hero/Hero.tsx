@@ -55,7 +55,7 @@ function StatItem({
       style={{
         borderRight:
           index < STATS.length - 1
-            ? '1px solid rgba(255,255,255,0.1)'
+            ? '1px solid rgba(255,255,255,0.12)'
             : 'none',
       }}
     >
@@ -97,6 +97,7 @@ export function Hero({ brand }: HeroProps) {
       className="relative flex items-center justify-center overflow-hidden"
       style={{
         minHeight: '100vh',
+        paddingBottom: 120,
         background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)',
       }}
     >
@@ -168,9 +169,17 @@ export function Hero({ brand }: HeroProps) {
 
         <div style={{ overflow: 'hidden' }}>
           {[
-            { text: "Las Vegas'", delay: 0.4 },
-            { text: 'Most Trusted', delay: 0.55, orange: true },
-            { text: 'Dental & Braces Group', delay: 0.7 },
+            {
+              parts: [
+                { text: "Las Vegas' " },
+                { text: 'Most Trusted', orange: true },
+              ],
+              delay: 0.4,
+            },
+            {
+              parts: [{ text: 'Dental & Braces Group' }],
+              delay: 0.6,
+            },
           ].map((line, i) => (
             <div key={i} style={{ overflow: 'hidden' }}>
               <motion.div
@@ -185,13 +194,17 @@ export function Hero({ brand }: HeroProps) {
                 <span
                   className="block font-display font-extrabold uppercase leading-none"
                   style={{
-                    fontSize: 'clamp(44px, 8vw, 88px)',
+                    fontSize: 'clamp(48px, 7vw, 96px)',
                     letterSpacing: '-1px',
-                    color: line.orange ? '#F3672A' : 'white',
+                    color: 'white',
                     marginBottom: 4,
                   }}
                 >
-                  {line.text}
+                  {line.parts.map((p, j) => (
+                    <span key={j} style={{ color: p.orange ? '#F3672A' : 'inherit' }}>
+                      {p.text}
+                    </span>
+                  ))}
                 </span>
               </motion.div>
             </div>
