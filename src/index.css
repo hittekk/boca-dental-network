@@ -55,10 +55,10 @@ All colors MUST be HSL.
     --sidebar-ring: 217.2 91.2% 59.8%;
 
     /* Brand */
-    --color-orange:        17 82% 50%;
-    --color-orange-hover:  17 75% 43%;
-    --color-navy:          224 43% 28%;
-    --color-navy-dark:     224 50% 18%;
+    --color-orange:        19 89% 57%;
+    --color-orange-hover:  19 89% 48%;
+    --color-navy:          227 67% 29%;
+    --color-navy-dark:     214 100% 12%;
     --color-navy-light:    228 57% 36%;
 
     /* Neutrals */
@@ -124,7 +124,7 @@ All colors MUST be HSL.
   }
 
   body {
-    font-family: 'Barlow', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-size: 16px;
     line-height: 1.7;
     color: hsl(var(--color-text-primary));
@@ -133,7 +133,7 @@ All colors MUST be HSL.
   }
 
   h1, h2, h3, h4 {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     text-transform: uppercase;
     line-height: 1.05;
     letter-spacing: -0.5px;

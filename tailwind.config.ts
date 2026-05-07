@@ -14,8 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['Barlow Condensed', 'sans-serif'],
-        body: ['Barlow', 'sans-serif'],
+        display: ['Open Sans', 'sans-serif'],
+        body: ['Open Sans', 'sans-serif'],
+        sans: ['Open Sans', 'sans-serif'],
       },
       colors: {
         orange: "hsl(var(--color-orange) / <alpha-value>)",
