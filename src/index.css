@@ -53,6 +53,30 @@ All colors MUST be HSL.
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Brand */
+    --color-orange:        17 82% 50%;
+    --color-orange-hover:  17 75% 43%;
+    --color-navy:          224 43% 28%;
+    --color-navy-dark:     224 50% 18%;
+    --color-navy-light:    228 57% 36%;
+
+    /* Neutrals */
+    --color-white:         0 0% 100%;
+    --color-off-white:     240 14% 97%;
+    --color-light-gray:    216 33% 95%;
+    --color-border:        214 32% 91%;
+
+    /* Text */
+    --color-text-primary:  222 47% 11%;
+    --color-text-secondary:215 16% 47%;
+    --color-text-muted:    215 20% 65%;
+
+    /* Glass nav */
+    --glass-bg:            rgba(16, 29, 74, 0.75);
+    --glass-blur:          blur(20px) saturate(180%);
+    --glass-border:        rgba(255, 255, 255, 0.08);
+    --glass-shadow:        0 4px 30px rgba(0, 0, 0, 0.3);
   }
 
   .dark {
@@ -100,6 +124,18 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    font-family: 'Barlow', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: hsl(var(--color-text-primary));
+    background: hsl(var(--color-white));
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    text-transform: uppercase;
+    line-height: 1.05;
+    letter-spacing: -0.5px;
   }
 }

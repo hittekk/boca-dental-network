@@ -13,7 +13,22 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        display: ['Barlow Condensed', 'sans-serif'],
+        body: ['Barlow', 'sans-serif'],
+      },
       colors: {
+        orange: "hsl(var(--color-orange) / <alpha-value>)",
+        "orange-hover": "hsl(var(--color-orange-hover) / <alpha-value>)",
+        navy: "hsl(var(--color-navy) / <alpha-value>)",
+        "navy-dark": "hsl(var(--color-navy-dark) / <alpha-value>)",
+        "navy-light": "hsl(var(--color-navy-light) / <alpha-value>)",
+        "off-white": "hsl(var(--color-off-white) / <alpha-value>)",
+        "light-gray": "hsl(var(--color-light-gray) / <alpha-value>)",
+        "border-gray": "hsl(var(--color-border) / <alpha-value>)",
+        "text-primary": "hsl(var(--color-text-primary) / <alpha-value>)",
+        "text-secondary": "hsl(var(--color-text-secondary) / <alpha-value>)",
+        "text-muted": "hsl(var(--color-text-muted) / <alpha-value>)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -62,6 +77,10 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        card: "16px",
+        btn: "8px",
+        pill: "20px",
+        input: "8px",
       },
       keyframes: {
         "accordion-down": {
