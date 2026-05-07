@@ -1,17 +1,25 @@
 export function BocaLogo() {
   return (
-    <a href="/" className="flex items-center flex-shrink-0 no-underline">
-      <svg
-        viewBox="0 0 2135 786"
-        className="h-9 w-auto"
-        style={{ color: 'white' }}
-        fill="currentColor"
-        aria-label="Boca Dental and Braces"
+    <a href="/" className="flex items-center gap-2 flex-shrink-0 no-underline">
+      <div
+        className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+        style={{ background: '#F3672A' }}
       >
-        <g transform="translate(0,786) scale(0.1,-0.1)">
-          [PASTE SVG PATH DATA HERE]
-        </g>
-      </svg>
+        <span className="text-white font-extrabold text-xl leading-none">B</span>
+      </div>
+      <div className="leading-none">
+        <div className="text-white font-extrabold text-lg tracking-wide leading-none">
+          <span style={{ color: '#F3672A' }}>BOCA</span> DENTAL · BRACES
+        </div>
+        <div
+          className="text-white/40 uppercase mt-0.5 tracking-widest"
+          style={{ fontSize: 9 }}
+        >
+          Las Vegas · 9 Locations
+        </div>
+      </div>
     </a>
-  )
+  );
 }
+
+export default BocaLogo;
