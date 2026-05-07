@@ -138,33 +138,6 @@ function AnnouncementBar({ data }: { data: Announcement }) {
   );
 }
 
-// ── BocaLogo ──────────────────────────────────────────────────────────────────
-
-function BocaLogo() {
-  return (
-    <a href="/" className="flex items-center gap-3 no-underline group" aria-label="Boca Dental and Braces — Home">
-      <div
-        className="w-10 h-10 rounded-btn flex items-center justify-center
-                   font-display font-black text-white text-xl shrink-0
-                   shadow-lg group-hover:scale-105 transition-transform"
-        style={{ background: 'hsl(var(--color-orange))' }}
-      >
-        B
-      </div>
-      <div className="flex flex-col leading-none">
-        <div className="font-display font-black text-white text-base sm:text-lg tracking-tight">
-          BOCA
-          <span className="text-white/70 font-bold"> DENTAL </span>
-          <span className="text-white/40">·</span>
-          <span className="text-white/70 font-bold"> BRACES</span>
-        </div>
-        <div className="text-[10px] sm:text-[11px] font-body font-semibold text-white/60 uppercase tracking-wider mt-0.5">
-          Las Vegas · 9 Locations
-        </div>
-      </div>
-    </a>
-  );
-}
 
 // ── DesktopNav ────────────────────────────────────────────────────────────────
 
