@@ -1,21 +1,33 @@
+import { BocaLogoSVG } from './BocaLogoSVG';
+
 export function BocaLogo() {
   return (
-    <a href="/" className="flex items-center gap-2 flex-shrink-0 no-underline">
+    <a
+      href="/"
+      className="flex items-center gap-3 flex-shrink-0 no-underline"
+      aria-label="Boca Dental and Braces — home"
+    >
+      <span style={{ color: '#F3672A', display: 'inline-flex' }}>
+        <BocaLogoSVG height={28} />
+      </span>
       <div
-        className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-        style={{ background: '#F3672A' }}
+        className="leading-none"
+        style={{
+          paddingLeft: 12,
+          borderLeft: '1px solid rgba(255,255,255,0.18)',
+        }}
       >
-        <span className="text-white font-extrabold text-xl leading-none">B</span>
-      </div>
-      <div className="leading-none">
-        <div className="text-white font-extrabold text-lg tracking-wide leading-none">
-          <span style={{ color: '#F3672A' }}>BOCA</span> DENTAL · BRACES
+        <div
+          className="text-white/90 uppercase font-semibold"
+          style={{ fontSize: 10, letterSpacing: 1.5, lineHeight: 1.1 }}
+        >
+          Las Vegas
         </div>
         <div
-          className="text-white/40 uppercase mt-0.5 tracking-widest"
-          style={{ fontSize: 9 }}
+          className="text-white/45 uppercase mt-1 tracking-widest"
+          style={{ fontSize: 9, letterSpacing: 1.5 }}
         >
-          Las Vegas · 9 Locations
+          9 Locations
         </div>
       </div>
     </a>

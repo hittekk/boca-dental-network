@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Phone, MapPin } from 'lucide-react'
 import { INITIAL_DATA } from '../../data/initialData'
+import { BocaLogoSVG } from '../Header/BocaLogoSVG'
 
 const QUICK_LINKS = [
   { label: 'About Boca', href: '#about' },
@@ -54,25 +55,16 @@ export function Footer() {
           {/* Col 1 — Logo + tagline + phone */}
           <div>
             <div style={{ marginBottom: 20 }}>
-              <div
-                style={{
-                  fontSize: 22,
-                  fontWeight: 800,
-                  letterSpacing: '-0.3px',
-                  lineHeight: 1,
-                  textTransform: 'uppercase',
-                }}
-              >
-                <span style={{ color: '#F3672A' }}>BOCA</span>{' '}
-                <span style={{ color: 'white' }}>DENTAL · BRACES</span>
-              </div>
+              <span style={{ color: '#F3672A', display: 'inline-flex' }}>
+                <BocaLogoSVG height={36} />
+              </span>
               <div
                 style={{
                   fontSize: 10,
                   color: 'rgba(255,255,255,0.4)',
                   textTransform: 'uppercase',
                   letterSpacing: 2,
-                  marginTop: 6,
+                  marginTop: 12,
                 }}
               >
                 Las Vegas · 9 Locations
