@@ -20,12 +20,21 @@ import { ServicesV2 } from './components/v2/ServicesV2'
 import { WhyBocaV2 } from './components/v2/WhyBocaV2'
 import { CTAv2 } from './components/v2/CTAv2'
 
+import { HeaderV3 } from './components/v3/HeaderV3'
 import { HeroV3 } from './components/v3/HeroV3'
 import { AboutV3 } from './components/v3/AboutV3'
 import { DoctorFeatureV3 } from './components/v3/DoctorFeatureV3'
 import { ServicesV3 } from './components/v3/ServicesV3'
 import { WhyBocaV3 } from './components/v3/WhyBocaV3'
+import { StepsV3 } from './components/v3/StepsV3'
+import { BocaKidsV3 } from './components/v3/BocaKidsV3'
+import { TestimonialsV3 } from './components/v3/TestimonialsV3'
+import { FAQV3 } from './components/v3/FAQV3'
+import { FinancingV3 } from './components/v3/FinancingV3'
+import { LocationsV3 } from './components/v3/LocationsV3'
+import { ConsultationFormV3 } from './components/v3/ConsultationFormV3'
 import { CTAv3 } from './components/v3/CTAv3'
+import { FooterV3 } from './components/v3/FooterV3'
 
 import { VariantSwitcher, type Variant } from './components/VariantSwitcher'
 import { INITIAL_DATA } from './data/initialData'
@@ -61,13 +70,12 @@ function App() {
 
   return (
     <div>
-      <Header
-        brand={INITIAL_DATA.brand}
-        announcement={INITIAL_DATA.announcement}
-      />
-
       {variant === 'a' && (
         <>
+          <Header
+            brand={INITIAL_DATA.brand}
+            announcement={INITIAL_DATA.announcement}
+          />
           <Hero brand={INITIAL_DATA.brand} />
           <About />
           <Services />
@@ -80,11 +88,16 @@ function App() {
           <Locations />
           <ConsultationForm />
           <CTA />
+          <Footer />
         </>
       )}
 
       {variant === 'b' && (
         <>
+          <Header
+            brand={INITIAL_DATA.brand}
+            announcement={INITIAL_DATA.announcement}
+          />
           <HeroV2 brand={INITIAL_DATA.brand} />
           <AboutV2 />
           <ServicesV2 />
@@ -97,28 +110,32 @@ function App() {
           <Locations />
           <ConsultationForm />
           <CTAv2 />
+          <Footer />
         </>
       )}
 
       {variant === 'c' && (
         <>
+          <HeaderV3
+            brand={INITIAL_DATA.brand}
+            announcement={INITIAL_DATA.announcement}
+          />
           <HeroV3 brand={INITIAL_DATA.brand} />
           <AboutV3 />
           <DoctorFeatureV3 />
           <ServicesV3 />
           <WhyBocaV3 />
-          <Steps />
-          <BocaKids />
-          <Testimonials />
-          <FAQ />
-          <Financing />
-          <Locations />
-          <ConsultationForm />
+          <StepsV3 />
+          <BocaKidsV3 />
+          <TestimonialsV3 />
+          <FAQV3 />
+          <FinancingV3 />
+          <LocationsV3 />
+          <ConsultationFormV3 />
           <CTAv3 />
+          <FooterV3 />
         </>
       )}
-
-      <Footer />
 
       <VariantSwitcher current={variant} onChange={switchVariant} />
     </div>
