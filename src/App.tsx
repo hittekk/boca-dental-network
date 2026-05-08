@@ -5,6 +5,7 @@ import { Locations } from './components/Locations/Locations'
 import { Services } from './components/Services/Services'
 import { WhyBoca } from './components/WhyBoca/WhyBoca'
 import { Steps } from './components/Steps/Steps'
+import { BocaKids } from './components/BocaKids/BocaKids'
 import { INITIAL_DATA } from './data/initialData'
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <Services />
       <WhyBoca />
       <Steps />
+      <BocaKids />
     </div>
   )
 }
