@@ -36,6 +36,22 @@ import { ConsultationFormV3 } from './components/v3/ConsultationFormV3'
 import { CTAv3 } from './components/v3/CTAv3'
 import { FooterV3 } from './components/v3/FooterV3'
 
+import { HeaderV4 } from './components/v4/HeaderV4'
+import { HeroV4 } from './components/v4/HeroV4'
+import { AboutV4 } from './components/v4/AboutV4'
+import { DoctorFeatureV4 } from './components/v4/DoctorFeatureV4'
+import { ServicesV4 } from './components/v4/ServicesV4'
+import { WhyBocaV4 } from './components/v4/WhyBocaV4'
+import { StepsV4 } from './components/v4/StepsV4'
+import { BocaKidsV4 } from './components/v4/BocaKidsV4'
+import { TestimonialsV4 } from './components/v4/TestimonialsV4'
+import { FAQV4 } from './components/v4/FAQV4'
+import { FinancingV4 } from './components/v4/FinancingV4'
+import { LocationsV4 } from './components/v4/LocationsV4'
+import { ConsultationFormV4 } from './components/v4/ConsultationFormV4'
+import { CTAv4 } from './components/v4/CTAv4'
+import { FooterV4 } from './components/v4/FooterV4'
+
 import { VariantSwitcher, type Variant } from './components/VariantSwitcher'
 import { INITIAL_DATA } from './data/initialData'
 
@@ -44,6 +60,7 @@ function readVariantFromUrl(): Variant {
   const v = new URLSearchParams(window.location.search).get('variant')
   if (v === 'b') return 'b'
   if (v === 'c') return 'c'
+  if (v === 'd') return 'd'
   return 'a'
 }
 
@@ -134,6 +151,29 @@ function App() {
           <ConsultationFormV3 />
           <CTAv3 />
           <FooterV3 />
+        </>
+      )}
+
+      {variant === 'd' && (
+        <>
+          <HeaderV4
+            brand={INITIAL_DATA.brand}
+            announcement={INITIAL_DATA.announcement}
+          />
+          <HeroV4 brand={INITIAL_DATA.brand} />
+          <AboutV4 />
+          <DoctorFeatureV4 />
+          <ServicesV4 />
+          <WhyBocaV4 />
+          <StepsV4 />
+          <BocaKidsV4 />
+          <TestimonialsV4 />
+          <FAQV4 />
+          <FinancingV4 />
+          <LocationsV4 />
+          <ConsultationFormV4 />
+          <CTAv4 />
+          <FooterV4 />
         </>
       )}
 

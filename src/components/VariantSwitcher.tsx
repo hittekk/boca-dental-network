@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 
-export type Variant = 'a' | 'b' | 'c'
+export type Variant = 'a' | 'b' | 'c' | 'd'
 
 interface VariantSwitcherProps {
   current: Variant
@@ -11,6 +11,7 @@ const VARIANTS: { key: Variant; label: string; tag: string }[] = [
   { key: 'a', label: 'A', tag: 'Modern Clinic' },
   { key: 'b', label: 'B', tag: 'Warm Editorial' },
   { key: 'c', label: 'C', tag: 'Super Modern' },
+  { key: 'd', label: 'D', tag: 'Futuristic Light' },
 ]
 
 export function VariantSwitcher({ current, onChange }: VariantSwitcherProps) {
@@ -67,7 +68,7 @@ export function VariantSwitcher({ current, onChange }: VariantSwitcherProps) {
               color: active ? 'white' : 'rgba(255,255,255,0.7)',
               border: 'none',
               borderRadius: 999,
-              padding: '8px 16px',
+              padding: '8px 14px',
               fontSize: 12,
               fontWeight: 700,
               letterSpacing: 0.5,
