@@ -1,5 +1,3 @@
-import { BocaLogoSVG } from './BocaLogoSVG';
-
 export function BocaLogo() {
   return (
     <a
@@ -7,9 +5,11 @@ export function BocaLogo() {
       className="flex items-center gap-3 flex-shrink-0 no-underline"
       aria-label="Boca Dental and Braces — home"
     >
-      <span style={{ color: '#ffffff', display: 'inline-flex' }}>
-        <BocaLogoSVG height={28} />
-      </span>
+      <img
+        src="/boca-logo.svg"
+        alt="Boca Dental and Braces"
+        style={{ height: 36, width: 'auto', display: 'block' }}
+      />
       <div
         className="leading-none"
         style={{

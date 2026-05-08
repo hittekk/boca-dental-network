@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import { Phone, MapPin } from 'lucide-react'
 import { INITIAL_DATA } from '../../data/initialData'
-import { BocaLogoSVG } from '../Header/BocaLogoSVG'
 
 const QUICK_LINKS = [
   { label: 'About Boca', href: '#about' },
@@ -55,9 +54,11 @@ export function Footer() {
           {/* Col 1 — Logo + tagline + phone */}
           <div>
             <div style={{ marginBottom: 20 }}>
-              <span style={{ color: '#ffffff', display: 'inline-flex' }}>
-                <BocaLogoSVG height={36} />
-              </span>
+              <img
+                src="/boca-logo.svg"
+                alt="Boca Dental and Braces"
+                style={{ height: 44, width: 'auto', display: 'block' }}
+              />
               <div
                 style={{
                   fontSize: 10,
