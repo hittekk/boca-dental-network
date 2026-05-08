@@ -55,7 +55,7 @@ export function Footer() {
           {/* Col 1 — Logo + tagline + phone */}
           <div>
             <div style={{ marginBottom: 20 }}>
-              <span style={{ color: '#F3672A', display: 'inline-flex' }}>
+              <span style={{ color: '#ffffff', display: 'inline-flex' }}>
                 <BocaLogoSVG height={36} />
               </span>
               <div

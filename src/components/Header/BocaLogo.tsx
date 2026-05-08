@@ -7,7 +7,7 @@ export function BocaLogo() {
       className="flex items-center gap-3 flex-shrink-0 no-underline"
       aria-label="Boca Dental and Braces — home"
     >
-      <span style={{ color: '#F3672A', display: 'inline-flex' }}>
+      <span style={{ color: '#ffffff', display: 'inline-flex' }}>
         <BocaLogoSVG height={28} />
       </span>
       <div
