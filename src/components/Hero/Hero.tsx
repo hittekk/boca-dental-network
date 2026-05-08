@@ -96,9 +96,8 @@ export function Hero({ brand }: HeroProps) {
     <section
       className="relative flex items-start justify-center overflow-hidden"
       style={{
-        minHeight: '100vh',
         paddingTop: 160,
-        paddingBottom: 120,
+        paddingBottom: 96,
         background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)',
       }}
     >
