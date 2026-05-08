@@ -94,9 +94,9 @@ export function Hero({ brand }: HeroProps) {
 
   return (
     <section
-      className="relative flex items-start justify-center overflow-hidden"
+      className="relative overflow-hidden"
       style={{
-        paddingTop: 160,
+        paddingTop: 180,
         paddingBottom: 96,
         background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)',
       }}
@@ -144,15 +144,27 @@ export function Hero({ brand }: HeroProps) {
       />
 
       <div
-        className="relative z-10 text-center px-6"
-        style={{ maxWidth: 1180, margin: '0 auto', paddingBottom: 80 }}
+        style={{
+          position: 'relative',
+          zIndex: 10,
+          maxWidth: 1100,
+          margin: '0 auto',
+          padding: '0 32px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          textAlign: 'center',
+        }}
       >
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="inline-flex items-center gap-2 mb-8"
           style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
+            marginBottom: 28,
             background: 'rgba(243,103,42,0.12)',
             border: '1px solid rgba(243,103,42,0.32)',
             borderRadius: 20,
@@ -172,28 +184,36 @@ export function Hero({ brand }: HeroProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.6, ease: [0.0, 0.0, 0.2, 1.0] }}
           style={{
-            fontSize: 'clamp(32px, 5vw, 68px)',
+            fontSize: 'clamp(34px, 4.6vw, 58px)',
             fontWeight: 800,
             textTransform: 'uppercase',
-            letterSpacing: '-0.5px',
+            letterSpacing: '-1px',
             lineHeight: 1.05,
             color: 'white',
-            margin: '0 0 20px',
-            textAlign: 'center',
+            margin: '0 0 22px',
+            maxWidth: 940,
           }}
         >
-          Las Vegas'{' '}
-          <span style={{ color: '#F3672A' }}>Most Trusted</span>
-          <br />
-          Dental &amp; Braces Group
+          <span style={{ display: 'block' }}>
+            Las Vegas'{' '}
+            <span style={{ color: '#F3672A' }}>Most Trusted</span>
+          </span>
+          <span style={{ display: 'block' }}>
+            Dental &amp; Braces Group
+          </span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0, duration: 0.5 }}
-          className="text-white/65 leading-relaxed mb-10 mx-auto"
-          style={{ fontSize: 17, maxWidth: 520 }}
+          style={{
+            fontSize: 17,
+            color: 'rgba(255,255,255,0.7)',
+            lineHeight: 1.65,
+            maxWidth: 540,
+            margin: '0 0 36px',
+          }}
         >
           General dentistry, braces, implants, and pediatric care
           across 9 convenient Las Vegas–area locations.
@@ -203,19 +223,30 @@ export function Hero({ brand }: HeroProps) {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.1, duration: 0.5 }}
-          className="flex items-center justify-center gap-4 flex-wrap"
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 14,
+            flexWrap: 'wrap',
+            marginBottom: 64,
+          }}
         >
           <button
             onClick={scrollToLocations}
-            className="inline-flex items-center gap-2 font-bold transition-all"
             style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
               background: '#F3672A',
               color: 'white',
               border: 'none',
               borderRadius: 8,
               padding: '14px 32px',
               fontSize: 15,
+              fontWeight: 700,
               cursor: 'pointer',
+              transition: 'background 0.2s ease',
             }}
             onMouseEnter={(e) =>
               ((e.currentTarget as HTMLElement).style.background = '#d95a22')
@@ -230,14 +261,19 @@ export function Hero({ brand }: HeroProps) {
 
           <a
             href={`tel:${brand.phone.replace(/\D/g, '')}`}
-            className="inline-flex items-center gap-2 font-semibold transition-all no-underline"
             style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
               background: 'transparent',
               color: 'white',
               border: '2px solid rgba(255,255,255,0.35)',
               borderRadius: 8,
               padding: '14px 32px',
               fontSize: 15,
+              fontWeight: 600,
+              textDecoration: 'none',
+              transition: 'background 0.2s ease',
             }}
             onMouseEnter={(e) =>
               ((e.currentTarget as HTMLElement).style.background =
@@ -257,8 +293,14 @@ export function Hero({ brand }: HeroProps) {
           initial={{ opacity: 0 }}
           animate={statsVisible ? { opacity: 1 } : {}}
           transition={{ duration: 0.5, delay: 1.3 }}
-          className="flex flex-wrap justify-center mt-16 pt-10"
-          style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}
+          style={{
+            width: '100%',
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            paddingTop: 36,
+            borderTop: '1px solid rgba(255,255,255,0.08)',
+          }}
         >
           {STATS.map((stat, i) => (
             <StatItem
