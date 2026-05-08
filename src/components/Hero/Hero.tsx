@@ -145,7 +145,7 @@ export function Hero({ brand }: HeroProps) {
 
       <div
         className="relative z-10 text-center px-6"
-        style={{ maxWidth: 900, margin: '0 auto', paddingTop: 120, paddingBottom: 80 }}
+        style={{ maxWidth: 900, margin: '0 auto', paddingTop: 200, paddingBottom: 80 }}
       >
         <motion.div
           initial={{ opacity: 0, y: 16 }}
