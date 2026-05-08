@@ -15,6 +15,8 @@ export interface Service {
   slug: string;
   label: string;
   desc: string;
+  /** Sitemap category — General, Cosmetic, Restorative, Implants, etc. */
+  category?: string;
 }
 
 /** A single location — mirrors wp_options location JSON structure */
@@ -36,6 +38,18 @@ export interface Location {
   /** Google Business Profile Place ID — required for schema GBP alignment */
   gbp_id: string;
   faqs: FAQ[];
+}
+
+/** A single dentist — gets its own /about-us/dentists/[slug]/ page with Person + Physician schema (E-E-A-T) */
+export interface Doctor {
+  slug: string;
+  name: string;
+  title: string;
+  bio: string;
+  /** Optional headshot URL — uploaded via admin */
+  photo?: string;
+  /** Slugs of locations this doctor practices at — empty array OK during mocking */
+  locations: string[];
 }
 
 /**
@@ -64,6 +78,7 @@ export interface InitialData {
   announcement: Announcement;
   locations: Location[];
   services: Service[];
+  doctors: Doctor[];
 }
 
 /** Single navigation link */

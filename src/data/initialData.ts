@@ -3,6 +3,9 @@
 // Simulates window.INITIAL_DATA injected by PHP in production.
 // In development this file is imported directly.
 // In production PHP writes the equivalent JSON to window.INITIAL_DATA.
+//
+// Sitemap source of truth: ~/Desktop/Boca Dental/Brand/Boca Dental Web Build Sitemap V1.xlsx
+// (use the "Expansion" sheet for service detail; V1 sheet for location names)
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { InitialData } from '../types';
@@ -24,8 +27,8 @@ export const INITIAL_DATA: InitialData = {
   locations: [
     {
       id:           1,
-      slug:         'russell',
-      label:        'Russell',
+      slug:         'eastern-russell',
+      label:        'Eastern & Russell',
       address:      '5642 S Eastern Ave, Ste B',
       city:         'Las Vegas',
       state:        'NV',
@@ -36,22 +39,22 @@ export const INITIAL_DATA: InitialData = {
       rating:       4.9,
       review_count: 312,
       neighborhood: 'Southeast Las Vegas',
-      gbp_id:       'ChIJ-russell-placeholder',
+      gbp_id:       'ChIJ-eastern-russell-placeholder',
       faqs: [
         {
           question: 'Does Boca Dental on Eastern Ave accept walk-ins?',
-          answer:   'Yes — we accept walk-ins at our Russell location during regular business hours, though we recommend calling ahead to minimize wait times.',
+          answer:   'Yes — we accept walk-ins at our Eastern & Russell location during regular business hours, though we recommend calling ahead to minimize wait times.',
         },
         {
-          question: 'Do you accept Medicaid at the Russell office?',
-          answer:   'Yes. Our Russell location accepts Nevada Medicaid and CHIP for qualifying patients including children.',
+          question: 'Do you accept Medicaid at the Eastern & Russell office?',
+          answer:   'Yes. Our Eastern & Russell location accepts Nevada Medicaid and CHIP for qualifying patients including children.',
         },
       ],
     },
     {
       id:           2,
-      slug:         'russell-kids',
-      label:        'Russell — Boca Kids',
+      slug:         'eastern-russell-kids',
+      label:        'Eastern & Russell – Kids',
       address:      '5642 S Eastern Ave, Ste F',
       city:         'Las Vegas',
       state:        'NV',
@@ -62,7 +65,7 @@ export const INITIAL_DATA: InitialData = {
       rating:       4.9,
       review_count: 198,
       neighborhood: 'Southeast Las Vegas',
-      gbp_id:       'ChIJ-russell-kids-placeholder',
+      gbp_id:       'ChIJ-eastern-russell-kids-placeholder',
       faqs: [
         {
           question: 'At what age should my child first see a dentist?',
@@ -76,8 +79,8 @@ export const INITIAL_DATA: InitialData = {
     },
     {
       id:           3,
-      slug:         'bonanza',
-      label:        'Bonanza',
+      slug:         'eastern-bonanza',
+      label:        'Eastern & Bonanza',
       address:      '556 N Eastern Ave, Ste I',
       city:         'Las Vegas',
       state:        'NV',
@@ -88,13 +91,13 @@ export const INITIAL_DATA: InitialData = {
       rating:       4.8,
       review_count: 156,
       neighborhood: 'Downtown Las Vegas',
-      gbp_id:       'ChIJ-bonanza-placeholder',
+      gbp_id:       'ChIJ-eastern-bonanza-placeholder',
       faqs: [],
     },
     {
       id:           4,
-      slug:         'sahara',
-      label:        'Sahara',
+      slug:         'sahara-decatur',
+      label:        'Sahara & Decatur',
       address:      '4750 W Sahara Ave, Ste 12',
       city:         'Las Vegas',
       state:        'NV',
@@ -105,13 +108,13 @@ export const INITIAL_DATA: InitialData = {
       rating:       4.8,
       review_count: 203,
       neighborhood: 'West Las Vegas',
-      gbp_id:       'ChIJ-sahara-placeholder',
+      gbp_id:       'ChIJ-sahara-decatur-placeholder',
       faqs: [],
     },
     {
       id:           5,
-      slug:         'jones',
-      label:        'Jones',
+      slug:         'jones-alta',
+      label:        'Jones & Alta',
       address:      '240 N Jones Blvd, Ste B',
       city:         'Las Vegas',
       state:        'NV',
@@ -122,13 +125,13 @@ export const INITIAL_DATA: InitialData = {
       rating:       4.7,
       review_count: 134,
       neighborhood: 'West Las Vegas',
-      gbp_id:       'ChIJ-jones-placeholder',
+      gbp_id:       'ChIJ-jones-alta-placeholder',
       faqs: [],
     },
     {
       id:           6,
-      slug:         'charleston',
-      label:        'Charleston',
+      slug:         'charleston-eastern',
+      label:        'Charleston & Eastern',
       address:      '4235 E Charleston Blvd',
       city:         'Las Vegas',
       state:        'NV',
@@ -139,13 +142,13 @@ export const INITIAL_DATA: InitialData = {
       rating:       4.8,
       review_count: 178,
       neighborhood: 'East Las Vegas',
-      gbp_id:       'ChIJ-charleston-placeholder',
+      gbp_id:       'ChIJ-charleston-eastern-placeholder',
       faqs: [],
     },
     {
       id:           7,
-      slug:         'flamingo',
-      label:        'Flamingo',
+      slug:         'flamingo-torrey',
+      label:        'Flamingo & Torrey Pines',
       address:      '6680 W Flamingo Rd, Ste A',
       city:         'Las Vegas',
       state:        'NV',
@@ -156,13 +159,13 @@ export const INITIAL_DATA: InitialData = {
       rating:       4.9,
       review_count: 241,
       neighborhood: 'Spring Valley',
-      gbp_id:       'ChIJ-flamingo-placeholder',
+      gbp_id:       'ChIJ-flamingo-torrey-placeholder',
       faqs: [],
     },
     {
       id:           8,
-      slug:         'cheyenne-rainbow',
-      label:        'Cheyenne & Rainbow',
+      slug:         'rainbow-cheyenne',
+      label:        'Rainbow & Cheyenne',
       address:      '3163 N Rainbow Blvd',
       city:         'Las Vegas',
       state:        'NV',
@@ -173,11 +176,33 @@ export const INITIAL_DATA: InitialData = {
       rating:       4.7,
       review_count: 112,
       neighborhood: 'Northwest Las Vegas',
-      gbp_id:       'ChIJ-cheyenne-placeholder',
+      gbp_id:       'ChIJ-rainbow-cheyenne-placeholder',
       faqs: [],
     },
     {
+      // PLACEHOLDER LOCATION — display name "Beltway Marketplace" per Robert.
+      // May rebrand to "Eastern & Serene" later. Address/phone/hours/rating are
+      // mock values for the design phase; real GBP-tied data needed before launch.
       id:           9,
+      slug:         'eastern-serene',
+      label:        'Beltway Marketplace',
+      address:      'Eastern Ave & E Serene Ave',
+      city:         'Las Vegas',
+      state:        'NV',
+      zip:          '89123',
+      phone:        '(702) 000-0000',
+      hours:        'Mon–Fri 9am–7pm · Sat 9am–7pm',
+      kids:         false,
+      rating:       4.8,
+      review_count: 0,
+      neighborhood: 'Southeast Las Vegas',
+      gbp_id:       'ChIJ-eastern-serene-placeholder',
+      faqs: [],
+    },
+    {
+      // Henderson Boca Kids — currently NOT in the LV sitemap V1, but Robert is
+      // keeping it for now. May be removed or moved to the Reno/Tahoe site later.
+      id:           10,
       slug:         'boca-kids-henderson',
       label:        'Boca Kids — Henderson',
       address:      '2340 McDaniel St',
@@ -195,13 +220,32 @@ export const INITIAL_DATA: InitialData = {
     },
   ],
   services: [
-    { slug: 'general',    label: 'General Dentistry',     desc: 'Cleanings, exams, fillings, X-rays' },
-    { slug: 'braces',     label: 'Braces & Orthodontics', desc: 'Metal, clear, lingual & retainers' },
-    { slug: 'invisalign', label: 'Invisalign',            desc: 'Virtually invisible straightening' },
-    { slug: 'implants',   label: 'Dental Implants',       desc: 'Single tooth, full arch, same-day' },
-    { slug: 'whitening',  label: 'Teeth Whitening',       desc: 'In-office and take-home kits' },
-    { slug: 'emergency',  label: 'Emergency Dental',      desc: 'Same-day appointments available' },
-    { slug: 'kids',       label: 'Pediatric Care',        desc: 'Kids dentistry from age 1' },
-    { slug: 'crowns',     label: 'Crowns & Veneers',      desc: 'Porcelain, zirconia, same-day' },
+    { slug: 'general',    label: 'General Dentistry',     desc: 'Cleanings, exams, fillings, X-rays',     category: 'General' },
+    { slug: 'braces',     label: 'Braces & Orthodontics', desc: 'Metal, clear, lingual & retainers',     category: 'Orthodontics' },
+    { slug: 'invisalign', label: 'Invisalign',            desc: 'Virtually invisible straightening',     category: 'Orthodontics' },
+    { slug: 'implants',   label: 'Dental Implants',       desc: 'Single tooth, full arch, same-day',     category: 'Implants' },
+    { slug: 'whitening',  label: 'Teeth Whitening',       desc: 'In-office and take-home kits',          category: 'Cosmetic' },
+    { slug: 'emergency',  label: 'Emergency Dental',      desc: 'Same-day appointments available',       category: 'General' },
+    { slug: 'kids',       label: 'Pediatric Care',        desc: 'Kids dentistry from age 1',             category: 'Pediatric' },
+    { slug: 'crowns',     label: 'Crowns & Veneers',      desc: 'Porcelain, zirconia, same-day',         category: 'Restorative' },
+  ],
+  doctors: [
+    // PLACEHOLDER DOCTORS — names from sitemap, titles/bios/photos/location
+    // assignments are mock values during design phase. Real bios + photos + per-
+    // location assignments come from Frankie via the admin dashboard later.
+    { slug: 'dr-wyatt-dannels',    name: 'Dr. Wyatt Dannels, DDS',    title: 'Lead Dentist & Founder',     bio: '', locations: [] },
+    { slug: 'dr-harrison-luu',     name: 'Dr. Harrison Luu, DDS',     title: 'General Dentist',            bio: '', locations: [] },
+    { slug: 'dr-sana-fahim',       name: 'Dr. Sana Fahim, DDS',       title: 'General Dentist',            bio: '', locations: [] },
+    { slug: 'dr-justin-wall',      name: 'Dr. Justin Wall, DDS',      title: 'General Dentist',            bio: '', locations: [] },
+    { slug: 'dr-kelcey-loveland',  name: 'Dr. Kelcey Loveland, DDS',  title: 'General Dentist',            bio: '', locations: [] },
+    { slug: 'minh-nguyen',         name: 'Minh Nguyen, DDS',          title: 'General Dentist',            bio: '', locations: [] },
+    { slug: 'dr-johnson-fong',     name: 'Dr. Johnson Fong, DDS',     title: 'General Dentist',            bio: '', locations: [] },
+    { slug: 'dr-michael-st-laurent', name: 'Dr. Michael St Laurent, DDS', title: 'General Dentist',        bio: '', locations: [] },
+    { slug: 'dr-bredan-marlin',    name: 'Dr. Bredan Marlin, DDS',    title: 'General Dentist',            bio: '', locations: [] },
+    { slug: 'dr-charles-calder',   name: 'Dr. Charles Calder, DDS',   title: 'General Dentist',            bio: '', locations: [] },
+    { slug: 'dr-james-yun',        name: 'Dr. James Yun, DDS',        title: 'General Dentist',            bio: '', locations: [] },
+    { slug: 'dr-kathy-gonzalez',   name: 'Dr. Kathy Gonzalez, DDS',   title: 'General Dentist',            bio: '', locations: [] },
+    { slug: 'dr-cole-thompson',    name: 'Dr. Cole Thompson, DDS',    title: 'General Dentist',            bio: '', locations: [] },
+    { slug: 'dr-farhan-hossain',   name: 'Dr. Farhan Hossain, DDS',   title: 'General Dentist',            bio: '', locations: [] },
   ],
 };
