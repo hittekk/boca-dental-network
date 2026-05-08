@@ -94,9 +94,10 @@ export function Hero({ brand }: HeroProps) {
 
   return (
     <section
-      className="relative flex items-center justify-center overflow-hidden"
+      className="relative flex items-start justify-center overflow-hidden"
       style={{
         minHeight: '100vh',
+        paddingTop: 160,
         paddingBottom: 120,
         background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)',
       }}
@@ -145,7 +146,7 @@ export function Hero({ brand }: HeroProps) {
 
       <div
         className="relative z-10 text-center px-6"
-        style={{ maxWidth: 900, margin: '0 auto', paddingTop: 200, paddingBottom: 80 }}
+        style={{ maxWidth: 900, margin: '0 auto', paddingBottom: 80 }}
       >
         <motion.div
           initial={{ opacity: 0, y: 16 }}
