@@ -1,11 +1,16 @@
-import { Hero } from './components/Hero/Hero'
 import { Header } from './components/Header/Header'
+import { Hero } from './components/Hero/Hero'
 import { About } from './components/About/About'
-import { Locations } from './components/Locations/Locations'
 import { Services } from './components/Services/Services'
 import { WhyBoca } from './components/WhyBoca/WhyBoca'
 import { Steps } from './components/Steps/Steps'
 import { BocaKids } from './components/BocaKids/BocaKids'
+import { Testimonials } from './components/Testimonials/Testimonials'
+import { FAQ } from './components/FAQ/FAQ'
+import { Financing } from './components/Financing/Financing'
+import { Locations } from './components/Locations/Locations'
+import { CTA } from './components/CTA/CTA'
+import { Footer } from './components/Footer/Footer'
 import { INITIAL_DATA } from './data/initialData'
 
 function App() {
@@ -17,11 +22,16 @@ function App() {
       />
       <Hero brand={INITIAL_DATA.brand} />
       <About />
-      <Locations />
       <Services />
       <WhyBoca />
       <Steps />
       <BocaKids />
+      <Testimonials />
+      <FAQ />
+      <Financing />
+      <Locations />
+      <CTA />
+      <Footer />
     </div>
   )
 }
