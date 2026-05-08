@@ -55,9 +55,9 @@ export function Footer() {
           <div>
             <div style={{ marginBottom: 20 }}>
               <img
-                src="/boca-logo.svg"
+                src="/boca-logo.png"
                 alt="Boca Dental and Braces"
-                style={{ height: 44, width: 'auto', display: 'block' }}
+                style={{ height: 52, width: 'auto', display: 'block' }}
               />
               <div
                 style={{

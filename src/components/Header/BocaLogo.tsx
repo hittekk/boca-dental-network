@@ -6,9 +6,9 @@ export function BocaLogo() {
       aria-label="Boca Dental and Braces — home"
     >
       <img
-        src="/boca-logo.svg"
+        src="/boca-logo.png"
         alt="Boca Dental and Braces"
-        style={{ height: 36, width: 'auto', display: 'block' }}
+        style={{ height: 40, width: 'auto', display: 'block' }}
       />
       <div
         className="leading-none"
