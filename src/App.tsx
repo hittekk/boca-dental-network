@@ -11,6 +11,7 @@ import { FAQ } from './components/FAQ/FAQ'
 import { Financing } from './components/Financing/Financing'
 import { Locations } from './components/Locations/Locations'
 import { CTA } from './components/CTA/CTA'
+import { ConsultationForm } from './components/ConsultationForm/ConsultationForm'
 import { Footer } from './components/Footer/Footer'
 
 import { HeroV2 } from './components/v2/HeroV2'
@@ -70,6 +71,7 @@ function App() {
           <FAQ />
           <Financing />
           <Locations />
+          <ConsultationForm />
           <CTA />
         </>
       ) : (
@@ -84,6 +86,7 @@ function App() {
           <FAQ />
           <Financing />
           <Locations />
+          <ConsultationForm />
           <CTAv2 />
         </>
       )}
