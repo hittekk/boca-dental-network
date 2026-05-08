@@ -20,15 +20,22 @@ import { ServicesV2 } from './components/v2/ServicesV2'
 import { WhyBocaV2 } from './components/v2/WhyBocaV2'
 import { CTAv2 } from './components/v2/CTAv2'
 
-import { VariantSwitcher } from './components/VariantSwitcher'
-import { INITIAL_DATA } from './data/initialData'
+import { HeroV3 } from './components/v3/HeroV3'
+import { AboutV3 } from './components/v3/AboutV3'
+import { DoctorFeatureV3 } from './components/v3/DoctorFeatureV3'
+import { ServicesV3 } from './components/v3/ServicesV3'
+import { WhyBocaV3 } from './components/v3/WhyBocaV3'
+import { CTAv3 } from './components/v3/CTAv3'
 
-type Variant = 'a' | 'b'
+import { VariantSwitcher, type Variant } from './components/VariantSwitcher'
+import { INITIAL_DATA } from './data/initialData'
 
 function readVariantFromUrl(): Variant {
   if (typeof window === 'undefined') return 'a'
   const v = new URLSearchParams(window.location.search).get('variant')
-  return v === 'b' ? 'b' : 'a'
+  if (v === 'b') return 'b'
+  if (v === 'c') return 'c'
+  return 'a'
 }
 
 function App() {
@@ -45,7 +52,7 @@ function App() {
     setVariant(next)
     const params = new URLSearchParams(window.location.search)
     if (next === 'a') params.delete('variant')
-    else params.set('variant', 'b')
+    else params.set('variant', next)
     const qs = params.toString()
     const url = window.location.pathname + (qs ? '?' + qs : '')
     window.history.replaceState({}, '', url)
@@ -59,7 +66,7 @@ function App() {
         announcement={INITIAL_DATA.announcement}
       />
 
-      {variant === 'a' ? (
+      {variant === 'a' && (
         <>
           <Hero brand={INITIAL_DATA.brand} />
           <About />
@@ -74,7 +81,9 @@ function App() {
           <ConsultationForm />
           <CTA />
         </>
-      ) : (
+      )}
+
+      {variant === 'b' && (
         <>
           <HeroV2 brand={INITIAL_DATA.brand} />
           <AboutV2 />
@@ -88,6 +97,24 @@ function App() {
           <Locations />
           <ConsultationForm />
           <CTAv2 />
+        </>
+      )}
+
+      {variant === 'c' && (
+        <>
+          <HeroV3 brand={INITIAL_DATA.brand} />
+          <AboutV3 />
+          <DoctorFeatureV3 />
+          <ServicesV3 />
+          <WhyBocaV3 />
+          <Steps />
+          <BocaKids />
+          <Testimonials />
+          <FAQ />
+          <Financing />
+          <Locations />
+          <ConsultationForm />
+          <CTAv3 />
         </>
       )}
 
