@@ -3,6 +3,7 @@ import { Header } from './components/Header/Header'
 import { About } from './components/About/About'
 import { Locations } from './components/Locations/Locations'
 import { Services } from './components/Services/Services'
+import { WhyBoca } from './components/WhyBoca/WhyBoca'
 import { INITIAL_DATA } from './data/initialData'
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <About />
       <Locations />
       <Services />
+      <WhyBoca />
     </div>
   )
 }
