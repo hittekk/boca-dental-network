@@ -60,9 +60,9 @@ export function Hero({ brand }: HeroProps) {
           margin: '0 auto',
           padding: '0 32px',
           display: 'grid',
-          gridTemplateColumns: '1.1fr 1fr',
+          gridTemplateColumns: '1fr 1fr',
           gap: 64,
-          alignItems: 'center',
+          alignItems: 'stretch',
         }}
       >
         {/* LEFT — copy + CTAs */}
@@ -95,19 +95,19 @@ export function Hero({ brand }: HeroProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6, ease: [0.0, 0.0, 0.2, 1.0] }}
             style={{
-              fontSize: 'clamp(36px, 4.8vw, 60px)',
+              fontSize: 'clamp(32px, 4.2vw, 54px)',
               fontWeight: 800,
               textTransform: 'uppercase',
               letterSpacing: '-1px',
-              lineHeight: 1.05,
+              lineHeight: 1.0,
               color: 'white',
               margin: '0 0 22px',
             }}
           >
-            Las Vegas' Dental Home
+            Las Vegas' dental home
             <br />
-            For the{' '}
-            <span style={{ color: '#F3672A' }}>Whole Family</span>
+            for the{' '}
+            <span style={{ color: '#F3672A' }}>whole family</span>
           </motion.h1>
 
           <motion.p
@@ -230,7 +230,7 @@ export function Hero({ brand }: HeroProps) {
           </motion.div>
         </div>
 
-        {/* RIGHT — hero image */}
+        {/* RIGHT — hero image (stretches to match copy column height) */}
         <motion.div
           initial={{ opacity: 0, x: 32 }}
           animate={{ opacity: 1, x: 0 }}
@@ -242,7 +242,7 @@ export function Hero({ brand }: HeroProps) {
             boxShadow:
               '0 24px 64px rgba(0,0,0,0.32), 0 8px 16px rgba(0,0,0,0.18)',
             border: '1px solid rgba(255,255,255,0.06)',
-            aspectRatio: '16/10',
+            minHeight: 520,
           }}
         >
           <img
@@ -253,9 +253,12 @@ export function Hero({ brand }: HeroProps) {
             loading="eager"
             decoding="async"
             style={{
+              position: 'absolute',
+              inset: 0,
               width: '100%',
               height: '100%',
               objectFit: 'cover',
+              objectPosition: 'center 35%',
               display: 'block',
             }}
           />
