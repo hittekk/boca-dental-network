@@ -1,0 +1,24 @@
+[build]
+  command   = "npm run build"
+  publish   = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# SPA fallback — any unknown route serves index.html so React Router handles it
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
+
+# Cache static assets aggressively (filename-hashed by Vite)
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Don't cache index.html — needs to update so users get fresh JS hashes
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
