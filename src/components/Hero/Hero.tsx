@@ -1,93 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { MapPin, Phone, ChevronDown } from 'lucide-react'
+import { MapPin, Phone, ChevronDown, Star } from 'lucide-react'
 import type { Brand } from '../../types'
 
 interface HeroProps {
   brand: Brand
 }
 
-const STATS = [
-  { value: 4.9, suffix: '★', label: 'Average Rating' },
-  { value: 1200, suffix: '+', label: 'Patient Reviews' },
-  { value: 9, suffix: '', label: 'Locations' },
-  { value: 20, suffix: 'yrs', label: 'Experience' },
-]
-
-function useCountUp(target: number, duration: number, start: boolean) {
-  const [count, setCount] = useState(0)
-  useEffect(() => {
-    if (!start) return
-    let startTime: number
-    const step = (timestamp: number) => {
-      if (!startTime) startTime = timestamp
-      const progress = Math.min((timestamp - startTime) / duration, 1)
-      const eased = 1 - Math.pow(1 - progress, 3)
-      setCount(Math.floor(eased * target))
-      if (progress < 1) requestAnimationFrame(step)
-      else setCount(target)
-    }
-    requestAnimationFrame(step)
-  }, [start, target, duration])
-  return count
-}
-
-function StatItem({
-  stat,
-  index,
-  animate,
-}: {
-  stat: (typeof STATS)[0]
-  index: number
-  animate: boolean
-}) {
-  const decimalCount = useCountUp(stat.value * 10, 2000, animate)
-  const intCount = useCountUp(stat.value, 2000, animate)
-  const display =
-    stat.value % 1 !== 0 ? (decimalCount / 10).toFixed(1) : intCount
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={animate ? { opacity: 1, y: 0 } : {}}
-      transition={{ delay: 1.4 + index * 0.1, duration: 0.5 }}
-      className="text-center px-6 md:px-10"
-      style={{
-        borderRight:
-          index < STATS.length - 1
-            ? '1px solid rgba(255,255,255,0.12)'
-            : 'none',
-      }}
-    >
-      <div
-        className="font-display font-extrabold leading-none"
-        style={{
-          fontSize: 'clamp(28px, 4vw, 40px)',
-          color: '#F3672A',
-        }}
-      >
-        {display}
-        {stat.suffix}
-      </div>
-      <div
-        className="text-white/50 uppercase tracking-widest mt-1"
-        style={{ fontSize: 9 }}
-      >
-        {stat.label}
-      </div>
-    </motion.div>
-  )
-}
-
 export function Hero({ brand }: HeroProps) {
-  const [statsVisible, setStatsVisible] = useState(false)
-  const statsRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const timer = setTimeout(() => setStatsVisible(true), 1200)
-    return () => clearTimeout(timer)
-  }, [])
-
   const scrollToLocations = () => {
     document.getElementById('locations')?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -98,9 +17,11 @@ export function Hero({ brand }: HeroProps) {
       style={{
         paddingTop: 180,
         paddingBottom: 96,
-        background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)',
+        background:
+          'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)',
       }}
     >
+      {/* Decorative rings (kept) */}
       <div
         className="absolute pointer-events-none"
         style={{
@@ -124,18 +45,6 @@ export function Hero({ brand }: HeroProps) {
         }}
       />
       <div
-        className="absolute pointer-events-none"
-        style={{
-          top: '20%',
-          left: '5%',
-          width: '200px',
-          height: '200px',
-          borderRadius: '50%',
-          border: '1px solid rgba(243,103,42,0.06)',
-        }}
-      />
-
-      <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
@@ -147,175 +56,289 @@ export function Hero({ brand }: HeroProps) {
         style={{
           position: 'relative',
           zIndex: 10,
-          maxWidth: 1100,
+          maxWidth: 1280,
           margin: '0 auto',
           padding: '0 32px',
-          display: 'flex',
-          flexDirection: 'column',
+          display: 'grid',
+          gridTemplateColumns: '1.1fr 1fr',
+          gap: 64,
           alignItems: 'center',
-          textAlign: 'center',
         }}
       >
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 8,
-            marginBottom: 28,
-            background: 'rgba(243,103,42,0.12)',
-            border: '1px solid rgba(243,103,42,0.32)',
-            borderRadius: 20,
-            padding: '6px 20px',
-            fontSize: 11,
-            fontWeight: 700,
-            letterSpacing: '2px',
-            textTransform: 'uppercase',
-            color: '#F3672A',
-          }}
-        >
-          Accepting New Patients · Most Insurance · Medicaid Welcome
-        </motion.div>
+        {/* LEFT — copy + CTAs */}
+        <div>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              marginBottom: 28,
+              background: 'rgba(243,103,42,0.12)',
+              border: '1px solid rgba(243,103,42,0.32)',
+              borderRadius: 20,
+              padding: '6px 20px',
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: '2px',
+              textTransform: 'uppercase',
+              color: '#F3672A',
+            }}
+          >
+            Accepting New Patients · Most Insurance · Medicaid Welcome
+          </motion.div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.6, ease: [0.0, 0.0, 0.2, 1.0] }}
-          style={{
-            fontSize: 'clamp(34px, 4.6vw, 58px)',
-            fontWeight: 800,
-            textTransform: 'uppercase',
-            letterSpacing: '-1px',
-            lineHeight: 1.05,
-            color: 'white',
-            margin: '0 0 22px',
-            maxWidth: 940,
-          }}
-        >
-          <span style={{ display: 'block' }}>
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6, ease: [0.0, 0.0, 0.2, 1.0] }}
+            style={{
+              fontSize: 'clamp(36px, 4.8vw, 60px)',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              letterSpacing: '-1px',
+              lineHeight: 1.05,
+              color: 'white',
+              margin: '0 0 22px',
+            }}
+          >
             Las Vegas' Dental Home
-          </span>
-          <span style={{ display: 'block' }}>
+            <br />
             For the{' '}
             <span style={{ color: '#F3672A' }}>Whole Family</span>
-          </span>
-        </motion.h1>
+          </motion.h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.0, duration: 0.5 }}
-          style={{
-            fontSize: 17,
-            color: 'rgba(255,255,255,0.7)',
-            lineHeight: 1.65,
-            maxWidth: 540,
-            margin: '0 0 36px',
-          }}
-        >
-          9 locations. One team. General, cosmetic, orthodontic, and
-          specialty dental care under one roof — with flexible scheduling and
-          most insurance accepted across Las Vegas.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.1, duration: 0.5 }}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: 14,
-            flexWrap: 'wrap',
-            marginBottom: 64,
-          }}
-        >
-          <button
-            onClick={scrollToLocations}
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.5 }}
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              background: '#F3672A',
-              color: 'white',
-              border: 'none',
-              borderRadius: 8,
-              padding: '14px 32px',
-              fontSize: 15,
-              fontWeight: 700,
-              cursor: 'pointer',
-              transition: 'background 0.2s ease',
+              fontSize: 17,
+              color: 'rgba(255,255,255,0.7)',
+              lineHeight: 1.65,
+              maxWidth: 540,
+              margin: '0 0 36px',
             }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLElement).style.background = '#d95a22')
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLElement).style.background = '#F3672A')
-            }
           >
-            <MapPin size={16} />
-            Find My Location
-          </button>
+            9 locations. One team. General, cosmetic, orthodontic, and
+            specialty dental care under one roof — with flexible scheduling
+            and most insurance accepted across Las Vegas.
+          </motion.p>
 
-          <a
-            href={`tel:${brand.phone.replace(/\D/g, '')}`}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.85, duration: 0.5 }}
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              background: 'transparent',
-              color: 'white',
-              border: '2px solid rgba(255,255,255,0.35)',
-              borderRadius: 8,
-              padding: '14px 32px',
-              fontSize: 15,
-              fontWeight: 600,
-              textDecoration: 'none',
-              transition: 'background 0.2s ease',
+              display: 'flex',
+              gap: 14,
+              flexWrap: 'wrap',
+              marginBottom: 36,
             }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLElement).style.background =
-                'rgba(255,255,255,0.08)')
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLElement).style.background = 'transparent')
-            }
           >
-            <Phone size={16} />
-            {brand.phone}
-          </a>
-        </motion.div>
+            <button
+              onClick={scrollToLocations}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                background: '#F3672A',
+                color: 'white',
+                border: 'none',
+                borderRadius: 8,
+                padding: '14px 30px',
+                fontSize: 15,
+                fontWeight: 800,
+                cursor: 'pointer',
+                textTransform: 'uppercase',
+                letterSpacing: 0.5,
+                transition: 'background 0.2s ease',
+                boxShadow: '0 12px 28px rgba(243,103,42,0.32)',
+              }}
+              onMouseEnter={(e) =>
+                ((e.currentTarget as HTMLElement).style.background = '#d95a22')
+              }
+              onMouseLeave={(e) =>
+                ((e.currentTarget as HTMLElement).style.background = '#F3672A')
+              }
+            >
+              <MapPin size={16} />
+              Find a Location Near You
+            </button>
 
+            <a
+              href={`tel:${brand.phone.replace(/\D/g, '')}`}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                background: 'transparent',
+                color: 'white',
+                border: '2px solid rgba(255,255,255,0.35)',
+                borderRadius: 8,
+                padding: '12px 28px',
+                fontSize: 15,
+                fontWeight: 600,
+                textDecoration: 'none',
+                transition: 'background 0.2s ease',
+              }}
+              onMouseEnter={(e) =>
+                ((e.currentTarget as HTMLElement).style.background =
+                  'rgba(255,255,255,0.08)')
+              }
+              onMouseLeave={(e) =>
+                ((e.currentTarget as HTMLElement).style.background =
+                  'transparent')
+              }
+            >
+              <Phone size={16} />
+              {brand.phone}
+            </a>
+          </motion.div>
+
+          {/* Inline rating line — micro trust signal in copy column */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.05, duration: 0.5 }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              fontSize: 13,
+              color: 'rgba(255,255,255,0.7)',
+              flexWrap: 'wrap',
+            }}
+          >
+            <div style={{ display: 'flex', gap: 2 }}>
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star
+                  key={i}
+                  size={14}
+                  fill="#F3672A"
+                  style={{ color: '#F3672A' }}
+                />
+              ))}
+            </div>
+            <span style={{ fontWeight: 700, color: 'white' }}>4.9</span>
+            <span style={{ opacity: 0.55 }}>·</span>
+            <span>1,200+ Google reviews</span>
+            <span style={{ opacity: 0.55 }}>·</span>
+            <span>across 9 Las Vegas offices</span>
+          </motion.div>
+        </div>
+
+        {/* RIGHT — hero image */}
         <motion.div
-          ref={statsRef}
-          initial={{ opacity: 0 }}
-          animate={statsVisible ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 1.3 }}
+          initial={{ opacity: 0, x: 32 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5, duration: 0.7, ease: [0.0, 0.0, 0.2, 1.0] }}
           style={{
-            width: '100%',
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            paddingTop: 36,
-            borderTop: '1px solid rgba(255,255,255,0.08)',
+            position: 'relative',
+            borderRadius: 20,
+            overflow: 'hidden',
+            boxShadow:
+              '0 24px 64px rgba(0,0,0,0.32), 0 8px 16px rgba(0,0,0,0.18)',
+            border: '1px solid rgba(255,255,255,0.06)',
+            aspectRatio: '16/10',
           }}
         >
-          {STATS.map((stat, i) => (
-            <StatItem
-              key={stat.label}
-              stat={stat}
-              index={i}
-              animate={statsVisible}
-            />
-          ))}
+          <img
+            src="/hero-1.png"
+            alt="A mother and daughter sharing a moment in the warmly lit Boca Dental and Braces waiting room — Las Vegas family dental practice"
+            width={1312}
+            height={736}
+            loading="eager"
+            decoding="async"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              display: 'block',
+            }}
+          />
+
+          {/* Bottom gradient + caption chip */}
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: 110,
+              background:
+                'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.55) 100%)',
+              pointerEvents: 'none',
+            }}
+          />
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0, duration: 0.5 }}
+            style={{
+              position: 'absolute',
+              bottom: 18,
+              left: 18,
+              right: 18,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 12,
+              flexWrap: 'wrap',
+            }}
+          >
+            <div
+              style={{
+                background: 'rgba(255,255,255,0.92)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                borderRadius: 999,
+                padding: '8px 16px',
+                fontSize: 11,
+                fontWeight: 800,
+                letterSpacing: 1.5,
+                textTransform: 'uppercase',
+                color: '#162E7A',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+              }}
+            >
+              <span
+                style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: '50%',
+                  background: '#10b981',
+                }}
+              />
+              Now Booking
+            </div>
+            <div
+              style={{
+                background: '#F3672A',
+                color: 'white',
+                borderRadius: 999,
+                padding: '8px 16px',
+                fontSize: 11,
+                fontWeight: 800,
+                letterSpacing: 1.5,
+                textTransform: 'uppercase',
+                boxShadow: '0 6px 14px rgba(243,103,42,0.45)',
+              }}
+            >
+              Se Habla Español
+            </div>
+          </motion.div>
         </motion.div>
       </div>
 
+      {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, y: [0, 6, 0] }}
         transition={{
@@ -324,7 +347,10 @@ export function Hero({ brand }: HeroProps) {
         }}
         onClick={scrollToLocations}
       >
-        <span className="text-white/30 uppercase tracking-widest" style={{ fontSize: 9 }}>
+        <span
+          className="text-white/30 uppercase tracking-widest"
+          style={{ fontSize: 9 }}
+        >
           Scroll
         </span>
         <ChevronDown size={16} className="text-white/30" />
