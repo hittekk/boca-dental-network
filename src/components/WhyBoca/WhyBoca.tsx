@@ -1,36 +1,37 @@
 import { motion } from 'framer-motion'
-import { CheckCircle, Zap, Shield, Users, Clock, CreditCard } from 'lucide-react'
+import { MapPin, Clock, CheckCircle, CreditCard, Award, Users } from 'lucide-react'
 
+// Treysyde spec — Section 4 differentiator cards (2×3)
 const REASONS = [
   {
+    icon: MapPin,
+    title: '9 Locations Across Las Vegas',
+    body: 'From Bonanza to Serene, we are close to where you live, work, and raise your family. No long drives, no waiting weeks for an appointment.',
+  },
+  {
+    icon: Clock,
+    title: 'Evening & Weekend Hours',
+    body: 'We work around your schedule — not the other way around. Appointments available Monday through Saturday, including early morning and evening slots.',
+  },
+  {
     icon: CheckCircle,
-    title: '30+ Insurance Plans',
-    body: 'We work with Delta Dental, MetLife, Cigna, Aetna, and more. We verify your benefits before your first visit — no surprises at checkout.',
+    title: 'Most Insurance Accepted',
+    body: 'Boca Dental & Braces accepts most major PPO dental insurance plans. Our front desk team verifies your benefits before your appointment so there are no surprises.',
   },
   {
-    icon: Zap,
-    title: 'Same-Day Emergencies',
-    body: 'Toothache or broken crown? Most Boca locations offer same-day emergency appointments. Call us and we will get you in.',
+    icon: CreditCard,
+    title: 'Flexible Financing Options',
+    body: 'Treatment shouldn\'t wait because of cost. We offer CareCredit financing and in-house payment plans to make dental care accessible for every budget.',
   },
   {
-    icon: Shield,
-    title: 'Medicaid & CHIP Welcome',
-    body: 'All 9 locations accept Nevada Medicaid and CHIP for qualifying patients — including full pediatric dental coverage.',
+    icon: Award,
+    title: 'Experienced, Caring Providers',
+    body: 'Our team includes general dentists, a board-eligible orthodontist, oral surgeons, periodontists, and pediatric specialists — all under one practice umbrella.',
   },
   {
     icon: Users,
     title: 'Bilingual Staff',
-    body: 'Spanish-speaking team members at every location. Hablamos español en todas nuestras oficinas para servirle mejor.',
-  },
-  {
-    icon: Clock,
-    title: 'Extended Hours',
-    body: 'Open Monday through Saturday at most locations — early mornings and evenings available so dental care fits your schedule.',
-  },
-  {
-    icon: CreditCard,
-    title: 'Flexible Financing',
-    body: 'We offer in-house payment plans and work with CareCredit, Sunbit, and other financing partners so cost is never a barrier.',
+    body: 'We serve Las Vegas\' full community. Spanish-speaking staff are available at multiple locations to ensure every patient feels understood and at ease.',
   },
 ]
 

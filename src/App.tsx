@@ -57,6 +57,7 @@ import { AudienceRouting } from './components/shared/AudienceRouting'
 import { MeetTheTeam } from './components/shared/MeetTheTeam'
 import { LocationsMap } from './components/shared/LocationsMap'
 import { HomepageSchema } from './components/shared/HomepageSchema'
+import { MobileStickyCTA } from './components/shared/MobileStickyCTA'
 
 import { VariantSwitcher, type Variant } from './components/VariantSwitcher'
 import { INITIAL_DATA } from './data/initialData'
@@ -210,6 +211,7 @@ function App() {
         </>
       )}
 
+      <MobileStickyCTA phone={INITIAL_DATA.brand.phone} />
       <VariantSwitcher current={variant} onChange={switchVariant} />
     </div>
   )

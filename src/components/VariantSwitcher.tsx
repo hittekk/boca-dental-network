@@ -22,6 +22,7 @@ export function VariantSwitcher({ current, onChange }: VariantSwitcherProps) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 1.5, duration: 0.4 }}
+      className="boca-variant-switcher"
       style={{
         position: 'fixed',
         bottom: 24,
@@ -39,6 +40,12 @@ export function VariantSwitcher({ current, onChange }: VariantSwitcherProps) {
         border: '1px solid rgba(255,255,255,0.1)',
       }}
     >
+      {/* On mobile lift above the sticky CTA bar */}
+      <style>{`
+        @media (max-width: 767px) {
+          .boca-variant-switcher { bottom: 90px !important; }
+        }
+      `}</style>
       <div
         style={{
           fontSize: 9,
