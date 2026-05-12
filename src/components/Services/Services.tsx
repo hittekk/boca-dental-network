@@ -12,6 +12,7 @@ interface ServiceCardProps {
 function ServiceCard({ service, index }: ServiceCardProps) {
   const [hovered, setHovered] = useState(false)
   const Icon = SERVICE_ICON_MAP[service.slug]
+  const numberLabel = String(index + 1).padStart(2, '0')
 
   return (
     <motion.a
@@ -23,71 +24,145 @@ function ServiceCard({ service, index }: ServiceCardProps) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
+        position: 'relative',
         background: hovered ? '#162E7A' : '#F7F7FA',
         border: `1px solid ${hovered ? '#162E7A' : '#E2E8F0'}`,
-        borderRadius: 12,
-        padding: '24px 22px',
+        borderRadius: 16,
+        padding: '28px 26px',
         cursor: 'pointer',
         textDecoration: 'none',
-        transition: 'background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease',
+        overflow: 'hidden',
+        transition:
+          'background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease',
         boxShadow: hovered
-          ? '0 12px 32px rgba(22,46,122,0.2)'
+          ? '0 16px 36px rgba(22,46,122,0.22)'
           : '0 1px 4px rgba(0,0,0,0.04)',
         transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
-        // Fixed-height layout so hover never shifts the grid
         display: 'flex',
         flexDirection: 'column',
-        minHeight: 200,
+        minHeight: 220,
       }}
     >
+      {/* Watermark — oversized service icon faded into bottom-right corner */}
       {Icon && (
-        <div style={{ marginBottom: 14 }}>
-          <Icon size={36} color={hovered ? '#F3672A' : '#162E7A'} />
+        <div
+          aria-hidden
+          style={{
+            position: 'absolute',
+            bottom: -36,
+            right: -28,
+            opacity: hovered ? 0.12 : 0.07,
+            transition: 'opacity 0.25s ease, transform 0.25s ease',
+            transform: hovered ? 'rotate(-6deg)' : 'rotate(0deg)',
+            pointerEvents: 'none',
+          }}
+        >
+          <Icon size={180} color={hovered ? '#F3672A' : '#162E7A'} />
         </div>
       )}
+
+      {/* Top row: foreground icon + mono index */}
       <div
         style={{
-          fontSize: 15,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: 18,
+          position: 'relative',
+          zIndex: 1,
+        }}
+      >
+        {Icon && (
+          <Icon size={34} color={hovered ? '#F3672A' : '#162E7A'} />
+        )}
+        <div
+          style={{
+            fontSize: 11,
+            fontWeight: 800,
+            letterSpacing: 1.5,
+            color: hovered ? 'rgba(255,255,255,0.45)' : 'rgba(22,46,122,0.4)',
+            fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+            transition: 'color 0.25s ease',
+          }}
+        >
+          / {numberLabel}
+        </div>
+      </div>
+
+      <div
+        style={{
+          fontSize: 16,
           fontWeight: 800,
           textTransform: 'uppercase',
-          letterSpacing: '-0.2px',
+          letterSpacing: '-0.3px',
           color: hovered ? 'white' : '#162E7A',
           marginBottom: 8,
           lineHeight: 1.15,
-          transition: 'color 0.2s ease',
+          transition: 'color 0.25s ease',
+          position: 'relative',
+          zIndex: 1,
         }}
       >
         {service.label}
       </div>
+
       <div
         style={{
-          fontSize: 12,
-          color: hovered ? 'rgba(255,255,255,0.65)' : '#64748B',
+          fontSize: 13,
+          color: hovered ? 'rgba(255,255,255,0.7)' : '#64748B',
           lineHeight: 1.6,
-          marginBottom: 14,
-          transition: 'color 0.2s ease',
+          marginBottom: 18,
+          transition: 'color 0.25s ease',
           flex: 1,
+          position: 'relative',
+          zIndex: 1,
         }}
       >
         {service.desc}
       </div>
-      {/* Always rendered — fades in on hover so the card layout never shifts */}
+
+      {/* Bottom row: explore link + hairline accent */}
       <div
         style={{
-          fontSize: 11,
-          fontWeight: 800,
-          letterSpacing: 1.2,
-          textTransform: 'uppercase',
-          color: '#F3672A',
-          display: 'inline-flex',
+          position: 'relative',
+          zIndex: 1,
+          paddingTop: 14,
+          borderTop: `1px solid ${
+            hovered ? 'rgba(255,255,255,0.12)' : 'rgba(22,46,122,0.08)'
+          }`,
+          transition: 'border-color 0.25s ease',
+          display: 'flex',
           alignItems: 'center',
-          gap: 4,
-          opacity: hovered ? 1 : 0,
-          transform: hovered ? 'translateX(0)' : 'translateX(-4px)',
-          transition: 'opacity 0.2s ease, transform 0.2s ease',
+          justifyContent: 'space-between',
         }}
       >
-        Explore <ChevronRight size={13} />
+        <span
+          style={{
+            fontSize: 11,
+            fontWeight: 800,
+            letterSpacing: 1.2,
+            textTransform: 'uppercase',
+            color: hovered ? 'white' : '#162E7A',
+            transition: 'color 0.25s ease',
+          }}
+        >
+          Learn more
+        </span>
+        <div
+          style={{
+            width: 28,
+            height: 28,
+            borderRadius: '50%',
+            background: hovered ? '#F3672A' : 'rgba(243,103,42,0.12)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: hovered ? 'white' : '#F3672A',
+            transition: 'all 0.25s ease',
+          }}
+        >
+          <ChevronRight size={14} />
+        </div>
       </div>
     </motion.a>
   )
@@ -143,7 +218,7 @@ export function Services() {
           </p>
         </motion.div>
 
-        {/* 3×3 grid per Treysyde spec — 9 services fill evenly with no orphan tile */}
+        {/* 3×3 grid per Treysyde spec */}
         <div
           style={{
             display: 'grid',
