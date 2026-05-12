@@ -56,8 +56,9 @@ import { TrustBar } from './components/shared/TrustBar'
 import { AudienceRouting } from './components/shared/AudienceRouting'
 import { MeetTheTeam } from './components/shared/MeetTheTeam'
 import { LocationsMap } from './components/shared/LocationsMap'
-import { HomepageSchema } from './components/shared/HomepageSchema'
 import { MobileStickyCTA } from './components/shared/MobileStickyCTA'
+// HomepageSchema is no longer JS-rendered — JSON-LD is now static in index.html
+// via scripts/inject-schema.mjs (runs as part of `npm run build`).
 
 import { VariantSwitcher, type Variant } from './components/VariantSwitcher'
 import { INITIAL_DATA } from './data/initialData'
@@ -100,12 +101,11 @@ function App() {
         S5 Testimonials → S6 Locations + GEO/Map → S8 MeetTheTeam → S9 FAQ → S10 CTA
         + bonus sections (Steps, BocaKids, Financing, Form) tucked between
         spec sections for richer demo. S7 Smile Transformations deferred to Phase 2.
-        HomepageSchema injects all JSON-LD (Organization, MedicalBusiness,
-        LocalBusiness × 10, AggregateRating, FAQPage, WebSite+SearchAction,
-        Person × 4) for view-source and Rich Results Test.
+        JSON-LD schema graph is injected into index.html as static HTML by
+        scripts/inject-schema.mjs (runs before vite build) so the full schema
+        graph appears in raw view-source — Google + Rich Results Test see it
+        without executing JavaScript.
       */}
-      <HomepageSchema />
-
 
       {/* ────────── VARIANT A — Modern Clinic ────────── */}
       {variant === 'a' && (
