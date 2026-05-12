@@ -64,7 +64,7 @@ export function MeetTheTeam({ theme = 'light' }: { theme?: Theme }) {
       id="meet-the-team"
       style={{
         background: sectionBg,
-        padding: '120px 32px',
+        padding: '96px 32px',
         position: 'relative',
         overflow: 'hidden',
       }}

@@ -53,7 +53,7 @@ export function AudienceRouting({ theme = 'light' }: { theme?: Theme }) {
       id="how-can-we-help"
       style={{
         background: sectionBg,
-        padding: '120px 32px',
+        padding: '96px 32px',
         position: 'relative',
       }}
     >
@@ -63,7 +63,7 @@ export function AudienceRouting({ theme = 'light' }: { theme?: Theme }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          style={{ textAlign: 'center', marginBottom: 56, maxWidth: 720, margin: '0 auto 56px' }}
+          style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 48px' }}
         >
           <div
             style={{
