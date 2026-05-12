@@ -55,6 +55,8 @@ import { FooterV4 } from './components/v4/FooterV4'
 import { TrustBar } from './components/shared/TrustBar'
 import { AudienceRouting } from './components/shared/AudienceRouting'
 import { MeetTheTeam } from './components/shared/MeetTheTeam'
+import { LocationsMap } from './components/shared/LocationsMap'
+import { HomepageSchema } from './components/shared/HomepageSchema'
 
 import { VariantSwitcher, type Variant } from './components/VariantSwitcher'
 import { INITIAL_DATA } from './data/initialData'
@@ -94,10 +96,15 @@ function App() {
       {/*
         Homepage section order follows Treysyde 10-section spec:
         Hero → TrustBar → S2 AudienceRouting → S3 Services → S4 WhyBoca →
-        S5 Testimonials → S6 Locations → S8 MeetTheTeam → S9 FAQ → S10 CTA
+        S5 Testimonials → S6 Locations + GEO/Map → S8 MeetTheTeam → S9 FAQ → S10 CTA
         + bonus sections (Steps, BocaKids, Financing, Form) tucked between
         spec sections for richer demo. S7 Smile Transformations deferred to Phase 2.
+        HomepageSchema injects all JSON-LD (Organization, MedicalBusiness,
+        LocalBusiness × 10, AggregateRating, FAQPage, WebSite+SearchAction,
+        Person × 4) for view-source and Rich Results Test.
       */}
+      <HomepageSchema />
+
 
       {/* ────────── VARIANT A — Modern Clinic ────────── */}
       {variant === 'a' && (
@@ -115,6 +122,7 @@ function App() {
           <Testimonials />
           <BocaKids />
           <Locations />
+          <LocationsMap theme="light" />
           <MeetTheTeam theme="light" />
           <Financing />
           <FAQ />
@@ -140,6 +148,7 @@ function App() {
           <Testimonials />
           <BocaKids />
           <Locations />
+          <LocationsMap theme="cream" />
           <MeetTheTeam theme="cream" />
           <Financing />
           <FAQ />
@@ -165,6 +174,7 @@ function App() {
           <TestimonialsV3 />
           <BocaKidsV3 />
           <LocationsV3 />
+          <LocationsMap theme="dark" />
           <MeetTheTeam theme="dark" />
           <FinancingV3 />
           <FAQV3 />
@@ -190,6 +200,7 @@ function App() {
           <TestimonialsV4 />
           <BocaKidsV4 />
           <LocationsV4 />
+          <LocationsMap theme="light" />
           <MeetTheTeam theme="light" />
           <FinancingV4 />
           <FAQV4 />

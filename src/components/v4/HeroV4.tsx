@@ -222,7 +222,7 @@ export function HeroV4({ brand }: HeroV4Props) {
                 textTransform: 'uppercase',
               }}
             >
-              <span style={{ display: 'block' }}>The future</span>
+              <span style={{ display: 'block' }}>Las Vegas'</span>
               <span
                 style={{
                   display: 'block',
@@ -235,10 +235,10 @@ export function HeroV4({ brand }: HeroV4Props) {
                   animation: 'gradient-shift 6s ease-in-out infinite',
                 }}
               >
-                of dental
+                dental home
               </span>
-              <span style={{ display: 'block', display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
-                lives here.
+              <span style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
+                for everyone.
                 <Sparkles
                   size={48}
                   color="#F3672A"
@@ -261,9 +261,9 @@ export function HeroV4({ brand }: HeroV4Props) {
                 maxWidth: 560,
               }}
             >
-              Nine offices across LV. Modern technology, transparent pricing,
-              and a team that takes Medicaid because every smile deserves the
-              best of what dentistry can do today.
+              9 locations. One team. General, cosmetic, orthodontic, and
+              specialty dental care under one roof — with flexible scheduling,
+              most insurance accepted, and free consultations.
             </motion.p>
 
             <motion.div

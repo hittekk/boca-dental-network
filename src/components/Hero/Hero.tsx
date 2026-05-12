@@ -195,11 +195,11 @@ export function Hero({ brand }: HeroProps) {
           }}
         >
           <span style={{ display: 'block' }}>
-            Las Vegas'{' '}
-            <span style={{ color: '#F3672A' }}>Most Trusted</span>
+            Las Vegas' Dental Home
           </span>
           <span style={{ display: 'block' }}>
-            Dental &amp; Braces Group
+            For the{' '}
+            <span style={{ color: '#F3672A' }}>Whole Family</span>
           </span>
         </motion.h1>
 
@@ -215,8 +215,9 @@ export function Hero({ brand }: HeroProps) {
             margin: '0 0 36px',
           }}
         >
-          General dentistry, braces, implants, and pediatric care
-          across 9 convenient Las Vegas–area locations.
+          9 locations. One team. General, cosmetic, orthodontic, and
+          specialty dental care under one roof — with flexible scheduling and
+          most insurance accepted across Las Vegas.
         </motion.p>
 
         <motion.div

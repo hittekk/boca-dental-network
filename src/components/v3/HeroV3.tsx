@@ -170,10 +170,10 @@ export function HeroV3({ brand }: HeroV3Props) {
                 textTransform: 'uppercase',
               }}
             >
-              <span style={{ display: 'block' }}>Las Vegas</span>
-              <span style={{ display: 'block' }}>dental,</span>
+              <span style={{ display: 'block' }}>Las Vegas'</span>
+              <span style={{ display: 'block' }}>dental home —</span>
               <span style={{ display: 'block', color: '#F3672A' }}>
-                reimagined.
+                9 offices, one team.
               </span>
             </motion.h1>
 
@@ -189,9 +189,9 @@ export function HeroV3({ brand }: HeroV3Props) {
                 maxWidth: 520,
               }}
             >
-              Nine offices across LV. One shared standard — modern technology,
-              transparent pricing, and a team that takes Medicaid because every
-              smile deserves it.
+              9 locations. General, cosmetic, orthodontic, and specialty
+              dental care under one roof — with flexible scheduling, most
+              insurance accepted, and free consultations across Las Vegas.
             </motion.p>
 
             <motion.div

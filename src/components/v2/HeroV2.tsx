@@ -126,9 +126,9 @@ export function HeroV2({ brand }: HeroV2Props) {
                 textTransform: 'uppercase',
               }}
             >
-              <span style={{ display: 'block' }}>Smiles built</span>
+              <span style={{ display: 'block' }}>Vegas' dental home</span>
               <span style={{ display: 'block', color: '#F3672A' }}>
-                for Vegas.
+                for the whole family.
               </span>
               <span
                 style={{
@@ -143,9 +143,9 @@ export function HeroV2({ brand }: HeroV2Props) {
                   lineHeight: 1.3,
                 }}
               >
-                Nine offices. One promise — world-class care
+                9 locations. One team. General, cosmetic, orthodontic,
                 <br />
-                you can actually afford.
+                and specialty care under one roof.
               </span>
             </motion.h1>
 
