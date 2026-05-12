@@ -178,7 +178,7 @@ export function FAQ() {
                 marginBottom: 12,
               }}
             >
-              Common Questions
+              FAQs
             </div>
             <h2
               style={{
@@ -191,9 +191,9 @@ export function FAQ() {
                 margin: '0 0 20px',
               }}
             >
-              Questions?
+              Frequently Asked Questions
               <br />
-              <span style={{ color: '#F3672A' }}>We Have Answers.</span>
+              <span style={{ color: '#F3672A' }}>About Boca Dental &amp; Braces</span>
             </h2>
             <p
               style={{

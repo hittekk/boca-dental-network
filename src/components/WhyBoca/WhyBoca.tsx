@@ -57,7 +57,7 @@ export function WhyBoca() {
             textTransform: 'uppercase', color: '#F3672A',
             marginBottom: 10,
           }}>
-            Why Choose Boca
+            Why Boca
           </div>
           <h2 style={{
             fontSize: 'clamp(28px, 4vw, 44px)',
@@ -67,7 +67,7 @@ export function WhyBoca() {
             margin: '0 0 12px',
             letterSpacing: '-0.5px',
           }}>
-            The Boca Difference
+            Why Las Vegas Chooses Boca Dental & Braces
           </h2>
           <p style={{
             fontSize: 15,

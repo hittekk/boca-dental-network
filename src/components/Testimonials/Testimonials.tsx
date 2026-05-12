@@ -210,7 +210,7 @@ export function Testimonials() {
                 lineHeight: 1.05,
               }}
             >
-              What Our Patients Say
+              What Las Vegas Patients Say About Boca Dental & Braces
             </h2>
             <p
               style={{

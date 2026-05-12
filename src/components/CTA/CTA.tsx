@@ -83,7 +83,7 @@ export function CTA() {
                 marginBottom: 12,
               }}
             >
-              Book Your Visit
+              Final Step
             </div>
             <h2
               style={{
@@ -96,7 +96,7 @@ export function CTA() {
                 lineHeight: 1.05,
               }}
             >
-              Ready to Book Your Appointment?
+              Ready to Book? Your New Las Vegas Dentist Is Waiting.
             </h2>
             <p
               style={{
@@ -107,9 +107,8 @@ export function CTA() {
                 maxWidth: 480,
               }}
             >
-              Same-day and next-day appointments available at most of
-              our 9 Las Vegas–area locations. New patients always
-              welcome.
+              Free consultations available. Most insurance accepted.
+              Evening and weekend hours at all 9 Las Vegas locations.
             </p>
           </motion.div>
 

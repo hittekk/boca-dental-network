@@ -106,7 +106,7 @@ export function Services() {
               marginBottom: 10,
             }}
           >
-            What We Offer
+            Our Dental Services
           </div>
           <h2
             style={{
@@ -118,7 +118,7 @@ export function Services() {
               letterSpacing: '-0.5px',
             }}
           >
-            Full-Spectrum Dental Care
+            Comprehensive Dental Care for Every Stage of Life
           </h2>
           <p
             style={{
@@ -129,8 +129,9 @@ export function Services() {
               lineHeight: 1.65,
             }}
           >
-            From routine cleanings to full-mouth restorations — every Boca
-            location offers comprehensive dental services for the whole family.
+            From routine cleanings to full-mouth restorations, orthodontics
+            to pediatric care, Boca Dental & Braces provides a complete range
+            of dental services at 9 Las Vegas locations.
           </p>
         </motion.div>
 
@@ -144,6 +145,27 @@ export function Services() {
           {INITIAL_DATA.services.map((service, i) => (
             <ServiceCard key={service.slug} service={service} index={i} />
           ))}
+        </div>
+
+        <div style={{ textAlign: 'center', marginTop: 40 }}>
+          <a
+            href="/services/"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              fontSize: 14,
+              fontWeight: 800,
+              letterSpacing: 0.4,
+              color: '#162E7A',
+              textDecoration: 'none',
+              borderBottom: '2px solid #F3672A',
+              paddingBottom: 4,
+              textTransform: 'uppercase',
+            }}
+          >
+            View all dental services at Boca Dental & Braces →
+          </a>
         </div>
       </div>
     </section>
