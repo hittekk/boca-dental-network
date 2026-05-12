@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { MapPin, Phone, ChevronDown, Star } from 'lucide-react'
 import type { Brand } from '../../types'
+import { GoogleG } from '../shared/icons/GoogleG'
 
 interface HeroProps {
   brand: Brand
@@ -226,7 +227,16 @@ export function Hero({ brand }: HeroProps) {
             </div>
             <span style={{ fontWeight: 700, color: 'white' }}>4.9</span>
             <span style={{ opacity: 0.55 }}>·</span>
-            <span>1,200+ Google reviews</span>
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+              }}
+            >
+              <GoogleG size={14} />
+              <span>1,200+ Google reviews</span>
+            </span>
             <span style={{ opacity: 0.55 }}>·</span>
             <span>across 9 Las Vegas offices</span>
           </motion.div>
