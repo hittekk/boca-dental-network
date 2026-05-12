@@ -60,8 +60,8 @@ export function Hero({ brand }: HeroProps) {
           margin: '0 auto',
           padding: '0 32px',
           display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: 64,
+          gridTemplateColumns: '1.15fr 0.85fr',
+          gap: 56,
           alignItems: 'stretch',
         }}
       >
@@ -95,19 +95,21 @@ export function Hero({ brand }: HeroProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6, ease: [0.0, 0.0, 0.2, 1.0] }}
             style={{
-              fontSize: 'clamp(32px, 4.2vw, 54px)',
+              fontSize: 'clamp(34px, 4.6vw, 56px)',
               fontWeight: 800,
               textTransform: 'uppercase',
-              letterSpacing: '-1px',
+              letterSpacing: '-1.2px',
               lineHeight: 1.0,
               color: 'white',
               margin: '0 0 22px',
             }}
           >
-            Las Vegas' dental home
-            <br />
-            for the{' '}
-            <span style={{ color: '#F3672A' }}>whole family</span>
+            <span style={{ display: 'block' }}>Las Vegas'</span>
+            <span style={{ display: 'block' }}>Dental Home</span>
+            <span style={{ display: 'block' }}>
+              for the{' '}
+              <span style={{ color: '#F3672A' }}>Whole Family</span>
+            </span>
           </motion.h1>
 
           <motion.p
