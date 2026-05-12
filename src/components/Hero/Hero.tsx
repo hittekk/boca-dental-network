@@ -53,7 +53,21 @@ export function Hero({ brand }: HeroProps) {
         }}
       />
 
+      {/* Mobile-stack media query — Treysyde spec: single column on small screens */}
+      <style>{`
+        @media (max-width: 768px) {
+          .boca-hero-grid {
+            grid-template-columns: 1fr !important;
+            gap: 32px !important;
+          }
+          .boca-hero-image {
+            min-height: 320px !important;
+            order: -1 !important;
+          }
+        }
+      `}</style>
       <div
+        className="boca-hero-grid"
         style={{
           position: 'relative',
           zIndex: 10,
@@ -105,11 +119,23 @@ export function Hero({ brand }: HeroProps) {
               margin: '0 0 22px',
             }}
           >
-            <span style={{ display: 'block' }}>Las Vegas'</span>
-            <span style={{ display: 'block' }}>Dental Home</span>
+            <span style={{ display: 'block' }}>Las Vegas' Dental Home</span>
             <span style={{ display: 'block' }}>
               for the{' '}
               <span style={{ color: '#F3672A' }}>Whole Family</span>
+            </span>
+            <span
+              style={{
+                display: 'block',
+                fontSize: '0.34em',
+                fontWeight: 700,
+                letterSpacing: 2,
+                textTransform: 'uppercase',
+                color: 'rgba(255,255,255,0.55)',
+                marginTop: 18,
+              }}
+            >
+              — 9 Locations · One Team
             </span>
           </motion.h1>
 
@@ -125,9 +151,9 @@ export function Hero({ brand }: HeroProps) {
               margin: '0 0 36px',
             }}
           >
-            9 locations. One team. General, cosmetic, orthodontic, and
-            specialty dental care under one roof — with flexible scheduling
-            and most insurance accepted across Las Vegas.
+            General, cosmetic, orthodontic, and specialty dental care under
+            one roof — with flexible scheduling, most insurance accepted, and
+            free consultations at locations across Las Vegas.
           </motion.p>
 
           <motion.div
@@ -141,8 +167,9 @@ export function Hero({ brand }: HeroProps) {
               marginBottom: 36,
             }}
           >
-            <button
-              onClick={scrollToLocations}
+            {/* Primary CTA: Book an Appointment (per Treysyde spec) */}
+            <a
+              href="#request-consultation"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -154,7 +181,7 @@ export function Hero({ brand }: HeroProps) {
                 padding: '14px 30px',
                 fontSize: 15,
                 fontWeight: 800,
-                cursor: 'pointer',
+                textDecoration: 'none',
                 textTransform: 'uppercase',
                 letterSpacing: 0.5,
                 transition: 'background 0.2s ease',
@@ -167,12 +194,12 @@ export function Hero({ brand }: HeroProps) {
                 ((e.currentTarget as HTMLElement).style.background = '#F3672A')
               }
             >
-              <MapPin size={16} />
-              Find a Location Near You
-            </button>
+              Book an Appointment
+            </a>
 
-            <a
-              href={`tel:${brand.phone.replace(/\D/g, '')}`}
+            {/* Secondary CTA: Find a Location Near You (per Treysyde spec) */}
+            <button
+              onClick={scrollToLocations}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -184,7 +211,8 @@ export function Hero({ brand }: HeroProps) {
                 padding: '12px 28px',
                 fontSize: 15,
                 fontWeight: 600,
-                textDecoration: 'none',
+                cursor: 'pointer',
+                fontFamily: 'inherit',
                 transition: 'background 0.2s ease',
               }}
               onMouseEnter={(e) =>
@@ -196,9 +224,9 @@ export function Hero({ brand }: HeroProps) {
                   'transparent')
               }
             >
-              <Phone size={16} />
-              {brand.phone}
-            </a>
+              <MapPin size={16} />
+              Find a Location Near You
+            </button>
           </motion.div>
 
           {/* Inline rating line — micro trust signal in copy column */}
@@ -244,6 +272,7 @@ export function Hero({ brand }: HeroProps) {
 
         {/* RIGHT — hero image (stretches to match copy column height) */}
         <motion.div
+          className="boca-hero-image"
           initial={{ opacity: 0, x: 32 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 0.7, ease: [0.0, 0.0, 0.2, 1.0] }}

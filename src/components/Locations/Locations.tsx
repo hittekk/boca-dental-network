@@ -14,7 +14,8 @@ function LocationCard({
   const [hovered, setHovered] = useState(false)
 
   return (
-    <motion.div
+    <motion.a
+      href={`/clinics/${location.slug}/`}
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
@@ -27,6 +28,7 @@ function LocationCard({
         border: `1.5px solid ${hovered ? '#F3672A' : '#E2E8F0'}`,
         padding: '20px 20px 16px',
         cursor: 'pointer',
+        textDecoration: 'none',
         transition: 'all 0.2s ease',
         boxShadow: hovered
           ? '0 8px 28px rgba(243,103,42,0.13)'
@@ -34,6 +36,7 @@ function LocationCard({
         transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
         position: 'relative',
         overflow: 'hidden',
+        display: 'block',
       }}
     >
       {location.kids && (
@@ -144,7 +147,7 @@ function LocationCard({
           Details <ChevronRight size={13} />
         </span>
       </div>
-    </motion.div>
+    </motion.a>
   )
 }
 
@@ -187,7 +190,7 @@ export function Locations() {
               letterSpacing: '-0.5px',
             }}
           >
-            9 Offices Near You
+            9 Boca Dental & Braces Locations Across Las Vegas
           </h2>
           <p
             style={{

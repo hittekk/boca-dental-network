@@ -78,9 +78,9 @@ export function LocationsMap({ theme = 'light' }: { theme?: Theme }) {
                 textTransform: 'uppercase',
               }}
             >
-              9 Boca Dental & Braces
+              Coverage Across the
               <br />
-              <span style={{ color: '#F3672A' }}>Locations Across Las Vegas</span>
+              <span style={{ color: '#F3672A' }}>Las Vegas Valley</span>
             </h3>
 
             {/* The GEO paragraph — entity-rich copy for AI / LLM citation per Treysyde spec */}

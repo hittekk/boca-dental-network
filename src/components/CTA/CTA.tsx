@@ -125,8 +125,9 @@ export function CTA() {
               gap: 12,
             }}
           >
+            {/* Primary CTA: Book an Appointment Online (per Treysyde spec) */}
             <a
-              href="#locations"
+              href="#request-consultation"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -154,10 +155,10 @@ export function CTA() {
                   'translateY(0)')
               }
             >
-              <MapPin size={17} />
-              Find a Location
+              Book an Appointment Online
             </a>
 
+            {/* Secondary CTA: Call Us Now — click-to-call (per Treysyde spec) */}
             <a
               href="tel:7024560005"
               style={{
@@ -173,7 +174,8 @@ export function CTA() {
                 fontSize: 15,
                 fontWeight: 800,
                 textDecoration: 'none',
-                letterSpacing: 0.3,
+                textTransform: 'uppercase',
+                letterSpacing: 0.5,
                 width: '100%',
                 maxWidth: 360,
               }}
@@ -190,7 +192,7 @@ export function CTA() {
               }}
             >
               <Phone size={16} />
-              (702) 456-0005
+              Call Us Now · (702) 456-0005
             </a>
 
             <div

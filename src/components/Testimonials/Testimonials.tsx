@@ -2,54 +2,44 @@ import { motion } from 'framer-motion'
 import { Star } from 'lucide-react'
 import { GoogleG } from '../shared/icons/GoogleG'
 
+// 4 cards covering: (1) general/family/new-patient · (2) ortho-cosmetic ·
+// (3) pediatric/family · (4) location-specific · per Treysyde spec.
 const REVIEWS = [
   {
     initials: 'MG',
     name: 'Maria G.',
-    location: 'Sahara Location',
+    location: 'Sahara Office',
     rating: 5,
+    target: 'General · New patient experience',
     quote:
       'The whole team at Boca Sahara made me feel so welcome. Hablan español perfecto and they explained every option with my insurance. Best dental experience I have ever had in Las Vegas.',
   },
   {
-    initials: 'JR',
-    name: 'James R.',
-    location: 'Russell Location',
-    rating: 5,
-    quote:
-      'Got a same-day emergency appointment when my crown popped off. Dr. and his team had me fixed up in under an hour. Honest pricing, no upsell. I am a Boca patient for life.',
-  },
-  {
     initials: 'SL',
     name: 'Sofia L.',
-    location: 'Flamingo Location',
+    location: 'Flamingo Office',
     rating: 5,
+    target: 'Orthodontic · Cosmetic',
     quote:
       'Started Invisalign here 8 months ago and my smile is already transformed. The financing through Sunbit made it actually affordable. Front desk is amazing and patient with all my questions.',
   },
   {
-    initials: 'DT',
-    name: 'David T.',
-    location: 'Jones Location',
-    rating: 5,
-    quote:
-      'Brought my whole family here for cleanings. Took our Aetna insurance, no surprises at checkout. The hygienist was gentle and thorough. Highly recommend if you are looking for a real family dentist.',
-  },
-  {
     initials: 'AM',
     name: 'Ana M.',
-    location: 'Boca Kids — Henderson',
+    location: 'Boca Kids — Russell',
     rating: 5,
+    target: 'Pediatric · Family',
     quote:
       'My 4-year-old was terrified of the dentist. The Boca Kids team turned it into a fun visit — she now ASKS to go back. They accept Medicaid which made it possible for us. Forever grateful.',
   },
   {
-    initials: 'RK',
-    name: 'Robert K.',
-    location: 'Bonanza Location',
+    initials: 'DT',
+    name: 'David T.',
+    location: 'Jones & Alta Office',
     rating: 5,
+    target: 'Location-specific · Family',
     quote:
-      'Needed two implants and the price quoted at Boca was thousands less than the other place I checked. Dr. walked me through every step and the in-house payment plan made it manageable.',
+      'Brought my whole family to the Jones location for cleanings. Took our Aetna insurance, no surprises at checkout. The hygienist was gentle and thorough. Highly recommend if you are looking for a real family dentist on the west side.',
   },
 ]
 
@@ -175,139 +165,111 @@ export function Testimonials() {
     >
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         {/* Header row */}
-        <div
+        {/* Centered header — H2 + intro (Treysyde Section 5) */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
           style={{
-            display: 'flex',
-            alignItems: 'flex-end',
-            justifyContent: 'space-between',
-            gap: 32,
-            marginBottom: 48,
-            flexWrap: 'wrap',
+            textAlign: 'center',
+            maxWidth: 720,
+            margin: '0 auto 24px',
           }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            style={{ maxWidth: 540 }}
-          >
-            <div
-              style={{
-                fontSize: 11,
-                fontWeight: 700,
-                letterSpacing: 3,
-                textTransform: 'uppercase',
-                color: '#F3672A',
-                marginBottom: 10,
-              }}
-            >
-              Patient Reviews
-            </div>
-            <h2
-              style={{
-                fontSize: 'clamp(28px, 4vw, 44px)',
-                fontWeight: 800,
-                textTransform: 'uppercase',
-                color: '#162E7A',
-                margin: '0 0 12px',
-                letterSpacing: '-0.5px',
-                lineHeight: 1.05,
-              }}
-            >
-              What Las Vegas Patients Say About Boca Dental & Braces
-            </h2>
-            <p
-              style={{
-                fontSize: 15,
-                color: '#64748B',
-                lineHeight: 1.65,
-                margin: 0,
-              }}
-            >
-              Real stories from real Las Vegas families across all 9
-              Boca locations.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.15 }}
+          <div
             style={{
-              background: 'white',
-              border: '1px solid #E2E8F0',
-              borderRadius: 16,
-              padding: '20px 28px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 20,
-              boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: 3,
+              textTransform: 'uppercase',
+              color: '#F3672A',
+              marginBottom: 10,
             }}
           >
-            <div style={{ textAlign: 'center' }}>
-              <div
-                style={{
-                  fontSize: 36,
-                  fontWeight: 800,
-                  color: '#F3672A',
-                  lineHeight: 1,
-                }}
-              >
-                4.9
-              </div>
-              <div style={{ display: 'flex', gap: 2, marginTop: 6 }}>
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star
-                    key={i}
-                    size={12}
-                    fill="#F3672A"
-                    style={{ color: '#F3672A' }}
-                  />
-                ))}
-              </div>
-            </div>
-            <div
-              style={{
-                width: 1,
-                alignSelf: 'stretch',
-                background: '#E2E8F0',
-              }}
-            />
-            <div>
-              <div
-                style={{
-                  fontSize: 22,
-                  fontWeight: 800,
-                  color: '#162E7A',
-                  lineHeight: 1,
-                  letterSpacing: '-0.3px',
-                }}
-              >
-                1,200+
-              </div>
-              <div
-                style={{
-                  fontSize: 10,
-                  color: '#94A3B8',
-                  textTransform: 'uppercase',
-                  letterSpacing: 1.5,
-                  marginTop: 4,
-                }}
-              >
-                Verified Reviews
-              </div>
-            </div>
-          </motion.div>
-        </div>
+            Patient Reviews
+          </div>
+          <h2
+            style={{
+              fontSize: 'clamp(28px, 4vw, 44px)',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              color: '#162E7A',
+              margin: '0 0 12px',
+              letterSpacing: '-0.5px',
+              lineHeight: 1.05,
+            }}
+          >
+            What Las Vegas Patients Say About Boca Dental & Braces
+          </h2>
+        </motion.div>
 
-        {/* Reviews grid */}
+        {/* Aggregate Rating Callout — single line, above reviews per Treysyde spec */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 14,
+            flexWrap: 'wrap',
+            marginBottom: 48,
+            fontSize: 15,
+            color: '#0F172A',
+          }}
+        >
+          <span
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+          >
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star
+                key={i}
+                size={16}
+                fill="#F3672A"
+                style={{ color: '#F3672A' }}
+              />
+            ))}
+            <strong
+              style={{
+                fontWeight: 800,
+                color: '#162E7A',
+                marginLeft: 4,
+              }}
+            >
+              4.9 out of 5 stars
+            </strong>
+          </span>
+          <span style={{ color: '#94A3B8' }}>·</span>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <GoogleG size={15} />
+            <span>1,200+ Google reviews across all 9 Las Vegas locations</span>
+          </span>
+          <span style={{ color: '#94A3B8' }}>·</span>
+          <a
+            href="https://www.google.com/search?q=Boca+Dental+and+Braces+Las+Vegas+reviews"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: '#F3672A',
+              fontWeight: 800,
+              textDecoration: 'none',
+              borderBottom: '1.5px solid #F3672A',
+              paddingBottom: 1,
+            }}
+          >
+            Read all reviews →
+          </a>
+        </motion.div>
+
+        {/* Reviews grid — 4 cards per Treysyde spec, auto-wraps on mobile */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-            gap: 20,
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: 16,
           }}
         >
           {REVIEWS.map((review, i) => (
