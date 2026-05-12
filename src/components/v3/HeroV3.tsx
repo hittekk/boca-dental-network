@@ -8,7 +8,7 @@ interface HeroV3Props {
 
 const STATS = [
   { value: '4.9', suffix: '★', label: 'Avg patient rating' },
-  { value: '2,200', suffix: '+', label: 'Verified reviews' },
+  { value: '1,200', suffix: '+', label: 'Verified reviews' },
   { value: '9', suffix: '', label: 'LV-area offices' },
   { value: '20', suffix: 'yrs', label: 'Family-owned' },
 ]

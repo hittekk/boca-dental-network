@@ -280,7 +280,7 @@ export function Testimonials() {
                   letterSpacing: '-0.3px',
                 }}
               >
-                2,200+
+                1,200+
               </div>
               <div
                 style={{

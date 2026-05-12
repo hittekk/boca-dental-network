@@ -188,7 +188,7 @@ export function TestimonialsV3() {
                   lineHeight: 1,
                 }}
               >
-                2,200+
+                1,200+
               </div>
               <div
                 style={{

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
+
+// Variant A — Modern Clinic
 import { Header } from './components/Header/Header'
 import { Hero } from './components/Hero/Hero'
-import { About } from './components/About/About'
 import { Services } from './components/Services/Services'
 import { WhyBoca } from './components/WhyBoca/WhyBoca'
 import { Steps } from './components/Steps/Steps'
@@ -14,16 +15,15 @@ import { CTA } from './components/CTA/CTA'
 import { ConsultationForm } from './components/ConsultationForm/ConsultationForm'
 import { Footer } from './components/Footer/Footer'
 
+// Variant B — Warm Editorial
 import { HeroV2 } from './components/v2/HeroV2'
-import { AboutV2 } from './components/v2/AboutV2'
 import { ServicesV2 } from './components/v2/ServicesV2'
 import { WhyBocaV2 } from './components/v2/WhyBocaV2'
 import { CTAv2 } from './components/v2/CTAv2'
 
+// Variant C — Super Modern
 import { HeaderV3 } from './components/v3/HeaderV3'
 import { HeroV3 } from './components/v3/HeroV3'
-import { AboutV3 } from './components/v3/AboutV3'
-import { DoctorFeatureV3 } from './components/v3/DoctorFeatureV3'
 import { ServicesV3 } from './components/v3/ServicesV3'
 import { WhyBocaV3 } from './components/v3/WhyBocaV3'
 import { StepsV3 } from './components/v3/StepsV3'
@@ -36,10 +36,9 @@ import { ConsultationFormV3 } from './components/v3/ConsultationFormV3'
 import { CTAv3 } from './components/v3/CTAv3'
 import { FooterV3 } from './components/v3/FooterV3'
 
+// Variant D — Futuristic Light
 import { HeaderV4 } from './components/v4/HeaderV4'
 import { HeroV4 } from './components/v4/HeroV4'
-import { AboutV4 } from './components/v4/AboutV4'
-import { DoctorFeatureV4 } from './components/v4/DoctorFeatureV4'
 import { ServicesV4 } from './components/v4/ServicesV4'
 import { WhyBocaV4 } from './components/v4/WhyBocaV4'
 import { StepsV4 } from './components/v4/StepsV4'
@@ -51,6 +50,11 @@ import { LocationsV4 } from './components/v4/LocationsV4'
 import { ConsultationFormV4 } from './components/v4/ConsultationFormV4'
 import { CTAv4 } from './components/v4/CTAv4'
 import { FooterV4 } from './components/v4/FooterV4'
+
+// Shared (Treysyde spec sections — drop in across all variants)
+import { TrustBar } from './components/shared/TrustBar'
+import { AudienceRouting } from './components/shared/AudienceRouting'
+import { MeetTheTeam } from './components/shared/MeetTheTeam'
 
 import { VariantSwitcher, type Variant } from './components/VariantSwitcher'
 import { INITIAL_DATA } from './data/initialData'
@@ -87,6 +91,15 @@ function App() {
 
   return (
     <div>
+      {/*
+        Homepage section order follows Treysyde 10-section spec:
+        Hero → TrustBar → S2 AudienceRouting → S3 Services → S4 WhyBoca →
+        S5 Testimonials → S6 Locations → S8 MeetTheTeam → S9 FAQ → S10 CTA
+        + bonus sections (Steps, BocaKids, Financing, Form) tucked between
+        spec sections for richer demo. S7 Smile Transformations deferred to Phase 2.
+      */}
+
+      {/* ────────── VARIANT A — Modern Clinic ────────── */}
       {variant === 'a' && (
         <>
           <Header
@@ -94,21 +107,24 @@ function App() {
             announcement={INITIAL_DATA.announcement}
           />
           <Hero brand={INITIAL_DATA.brand} />
-          <About />
+          <TrustBar theme="light" />
+          <AudienceRouting theme="light" />
           <Services />
           <WhyBoca />
           <Steps />
-          <BocaKids />
           <Testimonials />
-          <FAQ />
-          <Financing />
+          <BocaKids />
           <Locations />
+          <MeetTheTeam theme="light" />
+          <Financing />
+          <FAQ />
           <ConsultationForm />
           <CTA />
           <Footer />
         </>
       )}
 
+      {/* ────────── VARIANT B — Warm Editorial ────────── */}
       {variant === 'b' && (
         <>
           <Header
@@ -116,21 +132,24 @@ function App() {
             announcement={INITIAL_DATA.announcement}
           />
           <HeroV2 brand={INITIAL_DATA.brand} />
-          <AboutV2 />
+          <TrustBar theme="cream" />
+          <AudienceRouting theme="cream" />
           <ServicesV2 />
           <WhyBocaV2 />
           <Steps />
-          <BocaKids />
           <Testimonials />
-          <FAQ />
-          <Financing />
+          <BocaKids />
           <Locations />
+          <MeetTheTeam theme="cream" />
+          <Financing />
+          <FAQ />
           <ConsultationForm />
           <CTAv2 />
           <Footer />
         </>
       )}
 
+      {/* ────────── VARIANT C — Super Modern (Dark) ────────── */}
       {variant === 'c' && (
         <>
           <HeaderV3
@@ -138,22 +157,24 @@ function App() {
             announcement={INITIAL_DATA.announcement}
           />
           <HeroV3 brand={INITIAL_DATA.brand} />
-          <AboutV3 />
-          <DoctorFeatureV3 />
+          <TrustBar theme="dark" />
+          <AudienceRouting theme="dark" />
           <ServicesV3 />
           <WhyBocaV3 />
           <StepsV3 />
-          <BocaKidsV3 />
           <TestimonialsV3 />
-          <FAQV3 />
-          <FinancingV3 />
+          <BocaKidsV3 />
           <LocationsV3 />
+          <MeetTheTeam theme="dark" />
+          <FinancingV3 />
+          <FAQV3 />
           <ConsultationFormV3 />
           <CTAv3 />
           <FooterV3 />
         </>
       )}
 
+      {/* ────────── VARIANT D — Futuristic Light ────────── */}
       {variant === 'd' && (
         <>
           <HeaderV4
@@ -161,16 +182,17 @@ function App() {
             announcement={INITIAL_DATA.announcement}
           />
           <HeroV4 brand={INITIAL_DATA.brand} />
-          <AboutV4 />
-          <DoctorFeatureV4 />
+          <TrustBar theme="light" />
+          <AudienceRouting theme="light" />
           <ServicesV4 />
           <WhyBocaV4 />
           <StepsV4 />
-          <BocaKidsV4 />
           <TestimonialsV4 />
-          <FAQV4 />
-          <FinancingV4 />
+          <BocaKidsV4 />
           <LocationsV4 />
+          <MeetTheTeam theme="light" />
+          <FinancingV4 />
+          <FAQV4 />
           <ConsultationFormV4 />
           <CTAv4 />
           <FooterV4 />

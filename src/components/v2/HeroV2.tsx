@@ -8,7 +8,7 @@ interface HeroV2Props {
 
 const HIGHLIGHTS = [
   { value: '4.9', suffix: '★', label: 'Avg Rating' },
-  { value: '2,200', suffix: '+', label: 'Reviews' },
+  { value: '1,200', suffix: '+', label: 'Reviews' },
   { value: '20', suffix: 'yrs', label: 'Experience' },
 ]
 
@@ -240,7 +240,7 @@ export function HeroV2({ brand }: HeroV2Props) {
               </div>
               <span style={{ fontWeight: 700, color: '#001D3D' }}>4.9</span>
               <span style={{ opacity: 0.6 }}>·</span>
-              <span>2,200+ verified reviews</span>
+              <span>1,200+ verified reviews</span>
               <span style={{ opacity: 0.6 }}>·</span>
               <span>Medicaid welcome · Se Habla Español</span>
             </motion.div>

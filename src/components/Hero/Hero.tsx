@@ -9,7 +9,7 @@ interface HeroProps {
 
 const STATS = [
   { value: 4.9, suffix: '★', label: 'Average Rating' },
-  { value: 2200, suffix: '+', label: 'Patient Reviews' },
+  { value: 1200, suffix: '+', label: 'Patient Reviews' },
   { value: 9, suffix: '', label: 'Locations' },
   { value: 20, suffix: 'yrs', label: 'Experience' },
 ]

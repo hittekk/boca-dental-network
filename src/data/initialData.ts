@@ -20,7 +20,7 @@ export const INITIAL_DATA: InitialData = {
   },
   announcement: {
     enabled:   true,
-    text:      'Now accepting new patients at all 9 locations · Se Habla Español',
+    text:      'Now accepting new patients at all 9 Las Vegas locations · Se Habla Español',
     link:      '/contact',
     linkLabel: 'Book Today',
   },
@@ -219,15 +219,17 @@ export const INITIAL_DATA: InitialData = {
       faqs: [],
     },
   ],
+  // 9 service categories per Treysyde homepage spec — each links to /services/[slug]/
   services: [
-    { slug: 'general',    label: 'General Dentistry',     desc: 'Cleanings, exams, fillings, X-rays',     category: 'General' },
-    { slug: 'braces',     label: 'Braces & Orthodontics', desc: 'Metal, clear, lingual & retainers',     category: 'Orthodontics' },
-    { slug: 'invisalign', label: 'Invisalign',            desc: 'Virtually invisible straightening',     category: 'Orthodontics' },
-    { slug: 'implants',   label: 'Dental Implants',       desc: 'Single tooth, full arch, same-day',     category: 'Implants' },
-    { slug: 'whitening',  label: 'Teeth Whitening',       desc: 'In-office and take-home kits',          category: 'Cosmetic' },
-    { slug: 'emergency',  label: 'Emergency Dental',      desc: 'Same-day appointments available',       category: 'General' },
-    { slug: 'kids',       label: 'Pediatric Care',        desc: 'Kids dentistry from age 1',             category: 'Pediatric' },
-    { slug: 'crowns',     label: 'Crowns & Veneers',      desc: 'Porcelain, zirconia, same-day',         category: 'Restorative' },
+    { slug: 'general-dentistry',     label: 'General Dentistry',     desc: 'Exams, cleanings, X-rays, fillings, emergency care',     category: 'General' },
+    { slug: 'cosmetic-dentistry',    label: 'Cosmetic Dentistry',    desc: 'Teeth whitening, veneers, bonding, smile makeovers',     category: 'Cosmetic' },
+    { slug: 'restorative-dentistry', label: 'Restorative Dentistry', desc: 'Crowns, bridges, dentures, fillings, cracked tooth repair', category: 'Restorative' },
+    { slug: 'dental-implants',       label: 'Dental Implants',       desc: 'Single tooth, full arch, All-on-4, implant dentures',     category: 'Implants' },
+    { slug: 'orthodontics',          label: 'Orthodontics',          desc: 'Invisalign, traditional braces, teen & adult ortho',     category: 'Orthodontics' },
+    { slug: 'pediatric-dentistry',   label: 'Pediatric Dentistry',   desc: 'Kids exams, infant care, sealants, emergency pedo',      category: 'Pediatric' },
+    { slug: 'sedation-dentistry',    label: 'Sedation Dentistry',    desc: 'Nitrous oxide, oral sedation, IV sedation',              category: 'Sedation' },
+    { slug: 'oral-surgery',          label: 'Oral Surgery',          desc: 'Extractions, wisdom teeth, bone grafting',               category: 'Surgery' },
+    { slug: 'periodontal',           label: 'Periodontal Care',      desc: 'Gum disease treatment, deep cleaning, maintenance',      category: 'Periodontal' },
   ],
   doctors: [
     // PLACEHOLDER DOCTORS — names from sitemap, titles/bios/photos/location

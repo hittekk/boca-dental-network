@@ -35,7 +35,7 @@ export function HeroV4({ brand }: HeroV4Props) {
     return () => clearTimeout(t)
   }, [])
 
-  const reviews = useCountUp(2200, 2200, animateStats)
+  const reviews = useCountUp(1200, 2200, animateStats)
   const locations = useCountUp(9, 1000, animateStats)
   const years = useCountUp(20, 1500, animateStats)
 
@@ -496,7 +496,7 @@ export function HeroV4({ brand }: HeroV4Props) {
                     marginTop: 2,
                   }}
                 >
-                  2,200+ reviews
+                  1,200+ reviews
                 </div>
               </div>
             </motion.div>

@@ -125,7 +125,7 @@ export function TestimonialsV4() {
                   color: '#F3672A',
                 }}
               >
-                2,200+ Five-Star Reviews
+                1,200+ Five-Star Reviews
               </span>
             </div>
 
