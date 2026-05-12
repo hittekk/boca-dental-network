@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ArrowUpRight, Stethoscope } from 'lucide-react'
+import { ArrowUpRight, Stethoscope, User2, Camera } from 'lucide-react'
 
 type Theme = 'light' | 'dark' | 'cream'
 
@@ -189,26 +189,83 @@ export function MeetTheTeam({ theme = 'light' }: { theme?: Theme }) {
                 ;(e.currentTarget as HTMLElement).style.borderColor = cardBorder
               }}
             >
+              {/* Headshot placeholder — silhouette + camera badge clearly signals
+                  "real doctor photo will live here" during the mockup phase */}
               <div
                 style={{
-                  width: 64,
-                  height: 64,
-                  borderRadius: '50%',
-                  background: `linear-gradient(135deg, ${provider.accent} 0%, ${
-                    provider.accent === '#F3672A' ? '#FF8A50' : '#3a52a6'
-                  } 100%)`,
-                  color: 'white',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: 20,
-                  fontWeight: 800,
-                  letterSpacing: 0.5,
+                  position: 'relative',
+                  width: 76,
+                  height: 76,
                   marginBottom: 22,
-                  boxShadow: `0 8px 20px ${provider.accent}45`,
+                  flexShrink: 0,
                 }}
               >
-                {provider.initials}
+                {/* Main circle — softer gradient + dashed border to read as placeholder */}
+                <div
+                  style={{
+                    width: 76,
+                    height: 76,
+                    borderRadius: '50%',
+                    background: `linear-gradient(135deg, ${provider.accent}28 0%, ${
+                      provider.accent === '#F3672A' ? '#FF8A5028' : '#3a52a628'
+                    } 100%)`,
+                    border: `2px dashed ${provider.accent}80`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: `0 6px 16px ${provider.accent}25`,
+                  }}
+                  aria-hidden
+                >
+                  <User2
+                    size={36}
+                    strokeWidth={1.5}
+                    color={provider.accent}
+                    style={{ opacity: 0.85 }}
+                  />
+                </div>
+
+                {/* Initials badge — top-left, ID-tag style */}
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: -4,
+                    left: -4,
+                    background: provider.accent,
+                    color: 'white',
+                    fontSize: 10,
+                    fontWeight: 800,
+                    letterSpacing: 0.5,
+                    padding: '3px 7px',
+                    borderRadius: 999,
+                    boxShadow: `0 4px 10px ${provider.accent}55`,
+                    border: '2px solid ' + (isDark ? '#0A0A0F' : 'white'),
+                  }}
+                  aria-label={`${provider.name} initials placeholder`}
+                >
+                  {provider.initials}
+                </div>
+
+                {/* Camera badge — bottom-right, signals "photo upload spot" */}
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: -2,
+                    right: -2,
+                    width: 26,
+                    height: 26,
+                    borderRadius: '50%',
+                    background: isDark ? '#0A0A0F' : 'white',
+                    border: `2px solid ${provider.accent}`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 4px 10px rgba(10,10,15,0.18)',
+                  }}
+                  aria-label="Real photo will be uploaded here"
+                >
+                  <Camera size={12} color={provider.accent} strokeWidth={2.5} />
+                </div>
               </div>
 
               <div
