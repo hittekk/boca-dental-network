@@ -14,24 +14,30 @@ function ServiceCard({ service, index }: ServiceCardProps) {
   const Icon = SERVICE_ICON_MAP[service.slug]
 
   return (
-    <motion.div
+    <motion.a
+      href={`/services/${service.slug}/`}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
-      transition={{ delay: index * 0.07, duration: 0.4 }}
+      transition={{ delay: index * 0.05, duration: 0.4 }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
         background: hovered ? '#162E7A' : '#F7F7FA',
         border: `1px solid ${hovered ? '#162E7A' : '#E2E8F0'}`,
         borderRadius: 12,
-        padding: '24px 20px',
+        padding: '24px 22px',
         cursor: 'pointer',
-        transition: 'all 0.2s ease',
+        textDecoration: 'none',
+        transition: 'background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease',
         boxShadow: hovered
-          ? '0 8px 24px rgba(22,46,122,0.18)'
+          ? '0 12px 32px rgba(22,46,122,0.2)'
           : '0 1px 4px rgba(0,0,0,0.04)',
         transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
+        // Fixed-height layout so hover never shifts the grid
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: 200,
       }}
     >
       {Icon && (
@@ -46,8 +52,8 @@ function ServiceCard({ service, index }: ServiceCardProps) {
           textTransform: 'uppercase',
           letterSpacing: '-0.2px',
           color: hovered ? 'white' : '#162E7A',
-          marginBottom: 6,
-          lineHeight: 1.1,
+          marginBottom: 8,
+          lineHeight: 1.15,
           transition: 'color 0.2s ease',
         }}
       >
@@ -56,32 +62,34 @@ function ServiceCard({ service, index }: ServiceCardProps) {
       <div
         style={{
           fontSize: 12,
-          color: hovered ? 'rgba(255,255,255,0.6)' : '#64748B',
+          color: hovered ? 'rgba(255,255,255,0.65)' : '#64748B',
           lineHeight: 1.6,
-          marginBottom: hovered ? 14 : 0,
+          marginBottom: 14,
           transition: 'color 0.2s ease',
+          flex: 1,
         }}
       >
         {service.desc}
       </div>
-      {hovered && (
-        <motion.div
-          initial={{ opacity: 0, y: 4 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.15 }}
-          style={{
-            fontSize: 12,
-            fontWeight: 700,
-            color: '#F3672A',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 3,
-          }}
-        >
-          Learn more <ChevronRight size={12} />
-        </motion.div>
-      )}
-    </motion.div>
+      {/* Always rendered — fades in on hover so the card layout never shifts */}
+      <div
+        style={{
+          fontSize: 11,
+          fontWeight: 800,
+          letterSpacing: 1.2,
+          textTransform: 'uppercase',
+          color: '#F3672A',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 4,
+          opacity: hovered ? 1 : 0,
+          transform: hovered ? 'translateX(0)' : 'translateX(-4px)',
+          transition: 'opacity 0.2s ease, transform 0.2s ease',
+        }}
+      >
+        Explore <ChevronRight size={13} />
+      </div>
+    </motion.a>
   )
 }
 
@@ -135,10 +143,11 @@ export function Services() {
           </p>
         </motion.div>
 
+        {/* 3×3 grid per Treysyde spec — 9 services fill evenly with no orphan tile */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+            gridTemplateColumns: 'repeat(3, 1fr)',
             gap: 16,
           }}
         >
