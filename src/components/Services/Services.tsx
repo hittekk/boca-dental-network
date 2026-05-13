@@ -193,12 +193,13 @@ export function Services() {
           </div>
           <h2
             style={{
-              fontSize: 'clamp(28px, 4vw, 44px)',
+              fontSize: 'clamp(22px, 3.2vw, 34px)',
               fontWeight: 800,
               textTransform: 'uppercase',
               color: '#162E7A',
-              margin: '0 0 12px',
-              letterSpacing: '-0.5px',
+              margin: '0 0 14px',
+              letterSpacing: '-1px',
+              lineHeight: 1.15,
             }}
           >
             Comprehensive Dental Care for Every Stage of Life
