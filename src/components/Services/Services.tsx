@@ -232,24 +232,41 @@ export function Services() {
           ))}
         </div>
 
-        <div style={{ textAlign: 'center', marginTop: 40 }}>
+        <div style={{ textAlign: 'center', marginTop: 48 }}>
           <a
             href="/services/"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: 8,
-              fontSize: 14,
+              gap: 10,
+              fontSize: 13,
               fontWeight: 800,
-              letterSpacing: 0.4,
+              letterSpacing: 0.5,
               color: '#162E7A',
+              background: 'white',
               textDecoration: 'none',
-              borderBottom: '2px solid #F3672A',
-              paddingBottom: 4,
+              border: '2px solid #162E7A',
+              borderRadius: 999,
+              padding: '13px 28px',
               textTransform: 'uppercase',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              ;(e.currentTarget as HTMLElement).style.background = '#162E7A'
+              ;(e.currentTarget as HTMLElement).style.color = 'white'
+              ;(e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'
+              ;(e.currentTarget as HTMLElement).style.boxShadow =
+                '0 12px 24px rgba(22,46,122,0.18)'
+            }}
+            onMouseLeave={(e) => {
+              ;(e.currentTarget as HTMLElement).style.background = 'white'
+              ;(e.currentTarget as HTMLElement).style.color = '#162E7A'
+              ;(e.currentTarget as HTMLElement).style.transform = 'translateY(0)'
+              ;(e.currentTarget as HTMLElement).style.boxShadow = 'none'
             }}
           >
-            View all dental services at Boca Dental & Braces →
+            View All Dental Services
+            <span style={{ fontSize: 16, lineHeight: 1 }}>→</span>
           </a>
         </div>
       </div>
