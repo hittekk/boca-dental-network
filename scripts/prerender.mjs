@@ -20,6 +20,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import serveHandler from 'serve-handler'
 import puppeteer from 'puppeteer'
+import prettier from 'prettier'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..')
@@ -92,10 +93,26 @@ html = html.replace(
   '',
 )
 
+// ── Pretty-print HTML for readable view-source ────────────────────────────
+// Prettier formats the markup with consistent indentation and line breaks.
+// Doesn't change semantic output — gzip-on-the-wire is essentially identical.
+try {
+  const formatted = await prettier.format(html, {
+    parser: 'html',
+    printWidth: 120,
+    tabWidth: 2,
+    htmlWhitespaceSensitivity: 'css',
+  })
+  html = formatted
+  console.log('✓ Prettier formatted the HTML')
+} catch (err) {
+  console.warn('⚠ Prettier formatting skipped:', err.message)
+}
+
 // ── Write back to dist/index.html ─────────────────────────────────────────
 const outPath = path.join(DIST, 'index.html')
 fs.writeFileSync(outPath, html, 'utf-8')
-console.log(`✓ Wrote prerendered HTML → ${outPath}`)
+console.log(`✓ Wrote prerendered HTML → ${outPath} (${html.length.toLocaleString()} bytes)`)
 
 // ── Cleanup ───────────────────────────────────────────────────────────────
 await browser.close()

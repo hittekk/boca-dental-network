@@ -2,8 +2,14 @@ export function BocaLogo() {
   return (
     <a
       href="/"
-      className="flex items-center gap-3 flex-shrink-0 no-underline"
       aria-label="Boca Dental and Braces — home"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 12,
+        flexShrink: 0,
+        textDecoration: 'none',
+      }}
     >
       <img
         src="/boca-logo.png"
@@ -11,27 +17,39 @@ export function BocaLogo() {
         style={{ height: 40, width: 'auto', display: 'block' }}
       />
       <div
-        className="leading-none"
         style={{
           paddingLeft: 12,
           borderLeft: '1px solid rgba(255,255,255,0.18)',
+          lineHeight: 1,
         }}
       >
         <div
-          className="text-white/90 uppercase font-semibold"
-          style={{ fontSize: 10, letterSpacing: 1.5, lineHeight: 1.1 }}
+          style={{
+            fontSize: 10,
+            fontWeight: 600,
+            letterSpacing: 1.5,
+            lineHeight: 1.1,
+            color: 'rgba(255,255,255,0.9)',
+            textTransform: 'uppercase',
+          }}
         >
           Las Vegas
         </div>
         <div
-          className="text-white/45 uppercase mt-1 tracking-widest"
-          style={{ fontSize: 9, letterSpacing: 1.5 }}
+          style={{
+            fontSize: 9,
+            fontWeight: 600,
+            letterSpacing: 1.5,
+            marginTop: 4,
+            color: 'rgba(255,255,255,0.45)',
+            textTransform: 'uppercase',
+          }}
         >
           9 Locations
         </div>
       </div>
     </a>
-  );
+  )
 }
 
-export default BocaLogo;
+export default BocaLogo
