@@ -334,32 +334,6 @@ export function Footer() {
                 {link.label}
               </a>
             ))}
-            <a
-              href="https://datastacklogic.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                fontSize: 11,
-                color: 'rgba(255,255,255,0.35)',
-                textDecoration: 'none',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: 1,
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 5,
-              }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.color = '#F3672A')
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.color =
-                  'rgba(255,255,255,0.35)')
-              }
-            >
-              <MapPin size={10} />
-              Built by DataStackLogic
-            </a>
           </div>
         </div>
       </div>

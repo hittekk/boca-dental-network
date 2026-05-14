@@ -28,6 +28,8 @@ interface HeaderProps {
   brand: Brand
   announcement: Announcement
   activeSection?: string
+  /** 'white' = light logo for dark heroes (Variant A); 'dark' = navy logo for cream/light heroes (Variant B) */
+  logoMode?: 'white' | 'dark'
 }
 
 // ── Constants ────────────────────────────────────────────────────────────────
@@ -218,7 +220,16 @@ function AnnouncementBar({ data }: { data: Announcement }) {
 
 // ── DesktopNav ──────────────────────────────────────────────────────────────
 
-function DesktopNav({ activeSection }: { activeSection?: string }) {
+function DesktopNav({
+  activeSection,
+  logoMode = 'white',
+}: {
+  activeSection?: string
+  logoMode?: 'white' | 'dark'
+}) {
+  const isDark = logoMode === 'dark'
+  const idleColor = isDark ? 'rgba(0,29,61,0.85)' : 'rgba(255,255,255,0.85)'
+  const hoverColor = isDark ? '#001D3D' : 'white'
   return (
     <nav
       className="boca-hdr-desktop-only"
@@ -240,7 +251,7 @@ function DesktopNav({ activeSection }: { activeSection?: string }) {
             variants={navItemVariants}
             style={{
               position: 'relative',
-              color: 'rgba(255,255,255,0.85)',
+              color: idleColor,
               fontSize: 14,
               fontWeight: 600,
               textDecoration: 'none',
@@ -248,11 +259,10 @@ function DesktopNav({ activeSection }: { activeSection?: string }) {
               transition: 'color 0.2s ease',
             }}
             onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLElement).style.color = 'white')
+              ((e.currentTarget as HTMLElement).style.color = hoverColor)
             }
             onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLElement).style.color =
-                'rgba(255,255,255,0.85)')
+              ((e.currentTarget as HTMLElement).style.color = idleColor)
             }
           >
             {link.label}
@@ -279,7 +289,11 @@ function DesktopNav({ activeSection }: { activeSection?: string }) {
 
 // ── HeaderCTAs ──────────────────────────────────────────────────────────────
 
-function HeaderCTAs({ phone }: { phone: string }) {
+function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: 'white' | 'dark' }) {
+  const isDark = logoMode === 'dark'
+  const subtleColor = isDark ? 'rgba(0,29,61,0.6)' : 'rgba(255,255,255,0.6)'
+  const phoneIdle = isDark ? 'rgba(0,29,61,0.75)' : 'rgba(255,255,255,0.75)'
+  const phoneHover = isDark ? '#001D3D' : 'white'
   return (
     <div
       className="boca-hdr-desktop-only"
@@ -290,7 +304,7 @@ function HeaderCTAs({ phone }: { phone: string }) {
     >
       <span
         style={{
-          color: 'rgba(255,255,255,0.6)',
+          color: subtleColor,
           fontSize: 11,
           fontWeight: 600,
           textTransform: 'uppercase',
@@ -306,7 +320,7 @@ function HeaderCTAs({ phone }: { phone: string }) {
           display: 'inline-flex',
           alignItems: 'center',
           gap: 6,
-          color: 'rgba(255,255,255,0.75)',
+          color: phoneIdle,
           fontSize: 12,
           fontWeight: 600,
           textDecoration: 'none',
@@ -314,11 +328,10 @@ function HeaderCTAs({ phone }: { phone: string }) {
           transition: 'color 0.2s ease',
         }}
         onMouseEnter={(e) =>
-          ((e.currentTarget as HTMLElement).style.color = 'white')
+          ((e.currentTarget as HTMLElement).style.color = phoneHover)
         }
         onMouseLeave={(e) =>
-          ((e.currentTarget as HTMLElement).style.color =
-            'rgba(255,255,255,0.75)')
+          ((e.currentTarget as HTMLElement).style.color = phoneIdle)
         }
       >
         <Phone size={14} />
@@ -607,7 +620,7 @@ function HamburgerBtn({
  * @example
  *   <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} />
  */
-export function Header({ brand, announcement, activeSection }: HeaderProps) {
+export function Header({ brand, announcement, activeSection, logoMode = 'white' }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -671,9 +684,18 @@ export function Header({ brand, announcement, activeSection }: HeaderProps) {
               justifyContent: 'space-between',
             }}
           >
-            <BocaLogo />
-            <DesktopNav activeSection={activeSection} />
-            <HeaderCTAs phone={brand.phone} />
+            {/* Once the user scrolls, the dark navy glass background kicks in
+                — at that point everything must read as light-on-dark regardless
+                of the variant's idle logoMode. */}
+            <BocaLogo mode={scrolled ? 'white' : logoMode} />
+            <DesktopNav
+              activeSection={activeSection}
+              logoMode={scrolled ? 'white' : logoMode}
+            />
+            <HeaderCTAs
+              phone={brand.phone}
+              logoMode={scrolled ? 'white' : logoMode}
+            />
             <HamburgerBtn
               isOpen={mobileOpen}
               onClick={() => setMobileOpen((o) => !o)}

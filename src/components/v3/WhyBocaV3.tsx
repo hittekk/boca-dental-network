@@ -74,10 +74,10 @@ export function WhyBocaV3() {
             </div>
             <h2
               style={{
-                fontSize: 'clamp(44px, 5.6vw, 76px)',
+                fontSize: 'clamp(40px, 4.6vw, 62px)',
                 fontWeight: 800,
                 lineHeight: 0.95,
-                letterSpacing: '-2.2px',
+                letterSpacing: '-1.8px',
                 color: 'white',
                 margin: 0,
                 textTransform: 'uppercase',
@@ -85,7 +85,10 @@ export function WhyBocaV3() {
             >
               Six things we
               <br />
-              do <span style={{ color: '#F3672A' }}>differently.</span>
+              <span style={{ whiteSpace: 'nowrap' }}>
+                do{' '}
+                <span style={{ color: '#F3672A' }}>differently.</span>
+              </span>
             </h2>
           </div>
           <p

@@ -15,7 +15,7 @@ export function ServicesV3() {
     <section
       id="services"
       style={{
-        background: '#F5F0EA',
+        background: '#0A0A0F',
         padding: '140px 32px',
         position: 'relative',
         overflow: 'hidden',
@@ -30,7 +30,7 @@ export function ServicesV3() {
           left: -10,
           fontSize: 'clamp(220px, 26vw, 420px)',
           fontWeight: 800,
-          color: 'rgba(10,10,15,0.04)',
+          color: 'rgba(255,255,255,0.04)',
           lineHeight: 0.85,
           letterSpacing: '-14px',
           pointerEvents: 'none',
@@ -39,6 +39,23 @@ export function ServicesV3() {
       >
         03
       </div>
+
+      {/* Grid pattern overlay */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage:
+            'linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px)',
+          backgroundSize: '64px 64px',
+          maskImage:
+            'radial-gradient(ellipse 80% 60% at 30% 50%, black 20%, transparent 85%)',
+          WebkitMaskImage:
+            'radial-gradient(ellipse 80% 60% at 30% 50%, black 20%, transparent 85%)',
+          pointerEvents: 'none',
+        }}
+      />
 
       <div
         style={{
@@ -78,27 +95,29 @@ export function ServicesV3() {
             </div>
             <h2
               style={{
-                fontSize: 'clamp(44px, 5.6vw, 76px)',
+                fontSize: 'clamp(40px, 4.6vw, 62px)',
                 fontWeight: 800,
                 lineHeight: 0.95,
-                letterSpacing: '-2.2px',
-                color: '#0A0A0F',
+                letterSpacing: '-1.8px',
+                color: 'white',
                 margin: 0,
                 textTransform: 'uppercase',
               }}
             >
               Every kind of
               <br />
-              dental care, in
+              dental care,
               <br />
-              <span style={{ color: '#F3672A' }}>one network.</span>
+              <span style={{ whiteSpace: 'nowrap' }}>
+                in <span style={{ color: '#F3672A' }}>one network.</span>
+              </span>
             </h2>
           </div>
           <div>
             <p
               style={{
                 fontSize: 17,
-                color: 'rgba(10,10,15,0.7)',
+                color: 'rgba(255,255,255,0.72)',
                 lineHeight: 1.65,
                 margin: '0 0 24px',
                 maxWidth: 460,
@@ -123,9 +142,9 @@ export function ServicesV3() {
                     fontWeight: 700,
                     letterSpacing: 1.2,
                     textTransform: 'uppercase',
-                    background: 'rgba(10,10,15,0.05)',
-                    color: 'rgba(10,10,15,0.7)',
-                    border: '1px solid rgba(10,10,15,0.1)',
+                    background: 'rgba(255,255,255,0.06)',
+                    color: 'rgba(255,255,255,0.78)',
+                    border: '1px solid rgba(255,255,255,0.12)',
                     borderRadius: 999,
                     padding: '6px 14px',
                   }}
@@ -137,25 +156,28 @@ export function ServicesV3() {
           </div>
         </motion.div>
 
-        {/* Service grid — flat cards with bottom accent that animates on hover */}
+        {/* Service grid — dark glass cards with bottom accent on hover */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
+            gridTemplateColumns: 'repeat(3, 1fr)',
             gap: 0,
-            border: '1px solid rgba(10,10,15,0.08)',
+            border: '1px solid rgba(255,255,255,0.1)',
             borderRadius: 20,
-            background: 'white',
+            background: 'rgba(255,255,255,0.02)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
             overflow: 'hidden',
           }}
         >
           {INITIAL_DATA.services.map((service, i) => {
             const Icon = SERVICE_ICON_MAP[service.slug]
             const isHovered = hovered === service.slug
-            const col = i % 4
-            const row = Math.floor(i / 4)
-            const isLastRow = row === Math.floor((INITIAL_DATA.services.length - 1) / 4)
-            const isLastCol = col === 3
+            const col = i % 3
+            const row = Math.floor(i / 3)
+            const isLastRow =
+              row === Math.floor((INITIAL_DATA.services.length - 1) / 3)
+            const isLastCol = col === 2
             return (
               <motion.a
                 key={service.slug}
@@ -171,15 +193,17 @@ export function ServicesV3() {
                   padding: '36px 28px 32px',
                   borderRight: isLastCol
                     ? 'none'
-                    : '1px solid rgba(10,10,15,0.06)',
+                    : '1px solid rgba(255,255,255,0.06)',
                   borderBottom: isLastRow
                     ? 'none'
-                    : '1px solid rgba(10,10,15,0.06)',
-                  background: isHovered ? '#0A0A0F' : 'white',
-                  color: isHovered ? 'white' : '#0A0A0F',
+                    : '1px solid rgba(255,255,255,0.06)',
+                  background: isHovered
+                    ? 'rgba(243,103,42,0.08)'
+                    : 'transparent',
+                  color: 'white',
                   textDecoration: 'none',
                   cursor: 'pointer',
-                  transition: 'background 0.25s ease, color 0.25s ease',
+                  transition: 'background 0.25s ease',
                   overflow: 'hidden',
                 }}
               >
@@ -189,20 +213,23 @@ export function ServicesV3() {
                     fontWeight: 800,
                     letterSpacing: 1.5,
                     textTransform: 'uppercase',
-                    color: isHovered ? 'rgba(255,255,255,0.4)' : 'rgba(10,10,15,0.4)',
+                    color: isHovered
+                      ? '#F3672A'
+                      : 'rgba(255,255,255,0.4)',
                     marginBottom: 20,
                     fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
                     transition: 'color 0.25s ease',
                   }}
                 >
-                  / {String(i + 1).padStart(2, '0')} · {service.category ?? 'Service'}
+                  / {String(i + 1).padStart(2, '0')} ·{' '}
+                  {service.category ?? 'Service'}
                 </div>
 
                 {Icon && (
                   <div style={{ marginBottom: 24 }}>
                     <Icon
                       size={32}
-                      color={isHovered ? '#F3672A' : '#0A0A0F'}
+                      color={isHovered ? '#F3672A' : 'rgba(255,255,255,0.85)'}
                     />
                   </div>
                 )}
@@ -215,6 +242,7 @@ export function ServicesV3() {
                     lineHeight: 1.1,
                     textTransform: 'uppercase',
                     marginBottom: 10,
+                    color: 'white',
                   }}
                 >
                   {service.label}
@@ -223,13 +251,10 @@ export function ServicesV3() {
                 <div
                   style={{
                     fontSize: 13,
-                    color: isHovered
-                      ? 'rgba(255,255,255,0.6)'
-                      : 'rgba(10,10,15,0.6)',
+                    color: 'rgba(255,255,255,0.55)',
                     lineHeight: 1.55,
                     marginBottom: 28,
                     minHeight: 40,
-                    transition: 'color 0.25s ease',
                   }}
                 >
                   {service.desc}

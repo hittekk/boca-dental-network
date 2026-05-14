@@ -120,6 +120,22 @@ export function ConsultationForm() {
         BOOK
       </div>
 
+      {/* Soft radial glow — bottom left */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          bottom: -120,
+          left: -80,
+          width: 460,
+          height: 460,
+          borderRadius: '50%',
+          background:
+            'radial-gradient(circle, rgba(243,103,42,0.10) 0%, rgba(243,103,42,0) 70%)',
+          pointerEvents: 'none',
+        }}
+      />
+
       <div
         style={{
           maxWidth: 1180,
@@ -128,7 +144,95 @@ export function ConsultationForm() {
           zIndex: 1,
         }}
       >
+        {/* Big editorial section header (matches V2 style of WhyBocaV2 / ServicesV2) */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="cf-header"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1.2fr 1fr',
+            gap: 56,
+            alignItems: 'flex-end',
+            marginBottom: 56,
+          }}
+        >
+          <style>{`
+            @media (max-width: 980px) {
+              .cf-header { grid-template-columns: 1fr !important; gap: 24px !important; margin-bottom: 32px !important; }
+              .cf-body-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+              .cf-form-card { padding: 28px 24px !important; }
+            }
+          `}</style>
+          <div>
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 10,
+                marginBottom: 18,
+              }}
+            >
+              <span
+                style={{
+                  width: 36,
+                  height: 1,
+                  background: '#F3672A',
+                  display: 'inline-block',
+                }}
+              />
+              <div
+                style={{
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: 3,
+                  textTransform: 'uppercase',
+                  color: '#F3672A',
+                }}
+              >
+                Request a Consultation
+              </div>
+            </div>
+            <h2
+              style={{
+                fontSize: 'clamp(40px, 5.5vw, 72px)',
+                fontWeight: 800,
+                lineHeight: 0.95,
+                letterSpacing: '-2px',
+                color: '#001D3D',
+                margin: 0,
+                textTransform: 'uppercase',
+              }}
+            >
+              Let's get your
+              <br />
+              smile{' '}
+              <span style={{ color: '#F3672A', fontStyle: 'italic' }}>
+                started.
+              </span>
+            </h2>
+          </div>
+          <p
+            style={{
+              fontSize: 17,
+              color: 'rgba(0,29,61,0.7)',
+              lineHeight: 1.65,
+              margin: 0,
+              paddingBottom: 8,
+              borderLeft: '2px solid #F3672A',
+              paddingLeft: 18,
+              fontStyle: 'italic',
+            }}
+          >
+            We respond within 1 business hour during regular hours. No bots,
+            no pushy upsells — just a real person from the office you choose.
+          </p>
+        </motion.div>
+
         <div
+          className="cf-body-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: '1.4fr 1fr',
@@ -142,52 +246,83 @@ export function ConsultationForm() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.5 }}
+            className="cf-form-card"
             style={{
               background: 'white',
               border: '1px solid rgba(0,29,61,0.08)',
               borderRadius: 20,
               padding: '40px 44px',
               boxShadow: '0 16px 48px rgba(0,29,61,0.06)',
+              position: 'relative',
+              overflow: 'hidden',
             }}
           >
+            {/* Top gradient accent bar */}
+            <div
+              aria-hidden
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: 3,
+                background: 'linear-gradient(90deg, #F3672A 0%, #FF8A50 100%)',
+              }}
+            />
+
             <div
               style={{
-                fontSize: 11,
-                fontWeight: 700,
-                letterSpacing: 3,
-                textTransform: 'uppercase',
-                color: '#F3672A',
-                marginBottom: 12,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 12,
+                marginBottom: 24,
+                paddingBottom: 18,
+                borderBottom: '1px solid rgba(0,29,61,0.08)',
               }}
             >
-              Request a Consultation
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 10,
+                }}
+              >
+                <span
+                  style={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: '50%',
+                    background: '#F3672A',
+                    display: 'inline-block',
+                    boxShadow: '0 0 0 4px rgba(243,103,42,0.18)',
+                  }}
+                />
+                <span
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 800,
+                    letterSpacing: 1.5,
+                    textTransform: 'uppercase',
+                    color: '#001D3D',
+                  }}
+                >
+                  Step 1 — Tell us about you
+                </span>
+              </div>
+              <span
+                style={{
+                  fontSize: 10,
+                  fontWeight: 800,
+                  letterSpacing: 1.5,
+                  textTransform: 'uppercase',
+                  color: 'rgba(0,29,61,0.4)',
+                  fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+                }}
+              >
+                ~ 60 seconds
+              </span>
             </div>
-            <h2
-              style={{
-                fontSize: 'clamp(28px, 3.4vw, 40px)',
-                fontWeight: 800,
-                lineHeight: 1.05,
-                letterSpacing: '-0.8px',
-                color: '#001D3D',
-                margin: '0 0 12px',
-                textTransform: 'uppercase',
-              }}
-            >
-              Let's get your smile{' '}
-              <span style={{ color: '#F3672A', fontStyle: 'italic' }}>started.</span>
-            </h2>
-            <p
-              style={{
-                fontSize: 15,
-                color: 'rgba(0,29,61,0.65)',
-                lineHeight: 1.6,
-                margin: '0 0 32px',
-              }}
-            >
-              We respond within 1 business hour during regular hours.
-              No bots, no pushy upsells — just a real person from the
-              office you choose.
-            </p>
 
             <AnimatePresence mode="wait">
               {status === 'success' ? (
@@ -571,6 +706,7 @@ export function ConsultationForm() {
                 fontSize: 13,
                 color: 'rgba(0,29,61,0.7)',
                 lineHeight: 1.55,
+                marginBottom: 16,
               }}
             >
               <strong style={{ color: '#001D3D', fontSize: 12, letterSpacing: 1.5, textTransform: 'uppercase' }}>
@@ -580,6 +716,220 @@ export function ConsultationForm() {
                 Hablamos español en todas nuestras oficinas. Pídelo al llamar
                 o márcalo arriba — un miembro bilingüe del equipo te
                 responderá.
+              </div>
+            </div>
+
+            {/* Recent-caller testimonial — fills the column and adds last-minute social proof */}
+            <div
+              style={{
+                background: 'white',
+                border: '1px solid rgba(0,29,61,0.08)',
+                borderRadius: 16,
+                padding: '22px 22px 20px',
+                marginBottom: 16,
+                position: 'relative',
+                overflow: 'hidden',
+                boxShadow: '0 4px 14px rgba(0,29,61,0.04)',
+              }}
+            >
+              <div
+                aria-hidden
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  height: 3,
+                  width: 48,
+                  background: 'linear-gradient(90deg, #F3672A 0%, #FF8A50 100%)',
+                }}
+              />
+              <div style={{ display: 'flex', gap: 2, marginBottom: 10 }}>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <span
+                    key={i}
+                    aria-hidden
+                    style={{
+                      color: '#F3672A',
+                      fontSize: 12,
+                      lineHeight: 1,
+                    }}
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
+              <blockquote
+                style={{
+                  fontFamily: 'Georgia, "Playfair Display", serif',
+                  fontStyle: 'italic',
+                  fontSize: 14,
+                  lineHeight: 1.55,
+                  color: '#001D3D',
+                  margin: '0 0 14px',
+                }}
+              >
+                &ldquo;Filled this out at 9am, got a call back by 9:38am.
+                They actually do what they say.&rdquo;
+              </blockquote>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  paddingTop: 12,
+                  borderTop: '1px solid rgba(0,29,61,0.06)',
+                }}
+              >
+                <span
+                  style={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: '50%',
+                    background: '#FFF4ED',
+                    border: '1px solid rgba(243,103,42,0.22)',
+                    color: '#F3672A',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: 10,
+                    fontWeight: 800,
+                    letterSpacing: 0.3,
+                    flexShrink: 0,
+                  }}
+                >
+                  DT
+                </span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 800,
+                      color: '#162E7A',
+                      letterSpacing: '-0.1px',
+                      textTransform: 'uppercase',
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    David T.
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 10,
+                      color: 'rgba(0,29,61,0.5)',
+                      marginTop: 1,
+                      fontFamily: 'Georgia, "Playfair Display", serif',
+                      fontStyle: 'italic',
+                    }}
+                  >
+                    Jones &amp; I-95 office · 2 days ago
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Live-activity ticker — fills remaining space with real-feeling proof */}
+            <div
+              style={{
+                background: 'rgba(255,255,255,0.6)',
+                border: '1px solid rgba(243,103,42,0.18)',
+                borderRadius: 16,
+                padding: '16px 20px',
+                backdropFilter: 'blur(6px)',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  marginBottom: 10,
+                }}
+              >
+                <span
+                  aria-hidden
+                  style={{
+                    width: 7,
+                    height: 7,
+                    borderRadius: '50%',
+                    background: '#22C55E',
+                    boxShadow: '0 0 0 4px rgba(34,197,94,0.18)',
+                    flexShrink: 0,
+                  }}
+                />
+                <span
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 800,
+                    letterSpacing: 1.5,
+                    textTransform: 'uppercase',
+                    color: '#001D3D',
+                  }}
+                >
+                  Live · this week
+                </span>
+              </div>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  gap: '10px 16px',
+                  fontSize: 12,
+                  color: 'rgba(0,29,61,0.7)',
+                  lineHeight: 1.3,
+                }}
+              >
+                <div>
+                  <div
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 800,
+                      color: '#F3672A',
+                      letterSpacing: '-0.5px',
+                      lineHeight: 1,
+                      fontStyle: 'italic',
+                    }}
+                  >
+                    127
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      letterSpacing: 1.2,
+                      textTransform: 'uppercase',
+                      color: 'rgba(0,29,61,0.55)',
+                      marginTop: 4,
+                    }}
+                  >
+                    Consults booked
+                  </div>
+                </div>
+                <div>
+                  <div
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 800,
+                      color: '#F3672A',
+                      letterSpacing: '-0.5px',
+                      lineHeight: 1,
+                      fontStyle: 'italic',
+                    }}
+                  >
+                    38m
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      letterSpacing: 1.2,
+                      textTransform: 'uppercase',
+                      color: 'rgba(0,29,61,0.55)',
+                      marginTop: 4,
+                    }}
+                  >
+                    Avg call-back
+                  </div>
+                </div>
               </div>
             </div>
           </motion.aside>

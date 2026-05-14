@@ -1,8 +1,32 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronRight } from 'lucide-react'
+import {
+  ChevronRight,
+  Smile,
+  Sparkles,
+  Crown,
+  Wrench,
+  Activity,
+  Baby,
+  Moon,
+  Stethoscope,
+  ShieldCheck,
+} from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import { INITIAL_DATA } from '../../data/initialData'
-import { SERVICE_ICON_MAP } from './ServiceIcons'
+
+// Map each service slug (from initialData) to its lucide icon.
+const SERVICE_ICON_MAP: Record<string, LucideIcon> = {
+  'general-dentistry':     Smile,
+  'cosmetic-dentistry':    Sparkles,
+  'restorative-dentistry': Crown,
+  'dental-implants':       Wrench,
+  'orthodontics':          Activity,
+  'pediatric-dentistry':   Baby,
+  'sedation-dentistry':    Moon,
+  'oral-surgery':          Stethoscope,
+  'periodontal':           ShieldCheck,
+}
 
 interface ServiceCardProps {
   service: { slug: string; label: string; desc: string }
@@ -16,7 +40,7 @@ function ServiceCard({ service, index }: ServiceCardProps) {
 
   return (
     <motion.a
-      href={`/services/${service.slug}/`}
+      href={`/${service.slug}/`}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
@@ -171,7 +195,7 @@ function ServiceCard({ service, index }: ServiceCardProps) {
 export function Services() {
   return (
     <section id="services" style={{ background: '#ffffff', padding: '96px 32px' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -193,7 +217,7 @@ export function Services() {
           </div>
           <h2
             style={{
-              fontSize: 'clamp(22px, 3.2vw, 34px)',
+              fontSize: 'clamp(28px, 4vw, 44px)',
               fontWeight: 800,
               textTransform: 'uppercase',
               color: '#162E7A',
@@ -202,7 +226,8 @@ export function Services() {
               lineHeight: 1.15,
             }}
           >
-            Comprehensive Dental Care for Every Stage of Life
+            Comprehensive Dental Care
+            <span style={{ display: 'block' }}>For Every Stage of Life</span>
           </h2>
           <p
             style={{

@@ -75,6 +75,7 @@ export function MeetTheTeam({ theme = 'light' }: { theme?: Theme }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
+          className="team-intro-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
@@ -83,6 +84,11 @@ export function MeetTheTeam({ theme = 'light' }: { theme?: Theme }) {
             marginBottom: 56,
           }}
         >
+          <style>{`
+            @media (max-width: 880px) {
+              .team-intro-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+            }
+          `}</style>
           <div>
             <div
               style={{
@@ -140,21 +146,28 @@ export function MeetTheTeam({ theme = 'light' }: { theme?: Theme }) {
             Las Vegas, Nevada area. Our team includes licensed general
             dentists, a board-eligible orthodontist, oral and maxillofacial
             surgeons, periodontists, and pediatric dental specialists — all
-            working under one unified practice to provide comprehensive dental
-            care for patients of all ages. We believe access to high-quality
-            dental care should not depend on your zip code, schedule, or
-            budget.
+            working under one unified practice to provide comprehensive
+            dental care for patients of all ages. We believe that access to
+            high-quality dental care should not depend on your zip code,
+            schedule, or budget, which is why every Boca Dental & Braces
+            location accepts most major insurance plans and offers flexible
+            payment options.
           </p>
         </motion.div>
 
         {/* Provider grid */}
         <div
+          className="team-providers-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(4, 1fr)',
             gap: 16,
           }}
         >
+          <style>{`
+            @media (max-width: 980px){ .team-providers-grid{ grid-template-columns: repeat(2, 1fr) !important; } }
+            @media (max-width: 520px){ .team-providers-grid{ grid-template-columns: 1fr !important; } }
+          `}</style>
           {PROVIDERS.map((provider, i) => (
             <motion.a
               key={provider.slug}

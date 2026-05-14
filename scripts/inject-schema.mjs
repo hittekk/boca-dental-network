@@ -72,7 +72,7 @@ const HOMEPAGE_FAQS = [
   {
     question: "Where are Boca Dental & Braces' Las Vegas locations?",
     answer:
-      'Boca Dental & Braces has 9 dental clinic locations across Las Vegas, Nevada, including locations near Eastern & Bonanza, Eastern & Russell, Sahara & Decatur, Charleston & Eastern, Flamingo & Torrey Pines, Rainbow & Cheyenne, Eastern & Serene, Jones & Alta, and a dedicated kids clinic at Eastern & Russell.',
+      'Boca Dental & Braces has 9 dental clinic locations across Las Vegas, Nevada: Bonanza & Eastern, Russell & Eastern, Sahara & Decatur, Charleston & Lamb, Flamingo & Torrey Pines, Cheyenne Commons, Beltway Marketplace, Jones & I-95, and our dedicated pediatric clinic Boca Kids Dentistry.',
   },
   {
     question: 'What are your office hours?',
@@ -87,12 +87,18 @@ const HOMEPAGE_FAQS = [
   {
     question: 'Is Boca Dental & Braces good for kids?',
     answer:
-      'Absolutely. Boca Dental & Braces has a dedicated pediatric dentistry program and a kids-focused clinic at the Eastern & Russell location. We see patients starting from their first tooth. Our team is experienced in creating a calm, friendly environment for children, and we offer preventive services like sealants and fluoride treatments specifically designed for young patients.',
+      'Absolutely. Boca Dental & Braces has a dedicated pediatric dentistry program and a fully kid-focused clinic — Boca Kids Dentistry — adjacent to our Russell & Eastern flagship. We see patients starting from their first tooth. Our team is experienced in creating a calm, friendly environment for children, and we offer preventive services like sealants and fluoride treatments specifically designed for young patients.',
   },
 ]
 
 // ── Build the graph ────────────────────────────────────────────────────────
-const locationsGraph = INITIAL_DATA.locations.map((loc) => ({
+// Filter to 9 LV-area locations only (Treysyde spec §6). The Henderson clinic
+// is not part of the Las Vegas homepage scope — it belongs to the future
+// Reno/Tahoe site or a Henderson sub-page per boca-dental.md memory.
+const lvLocations = INITIAL_DATA.locations.filter(
+  (loc) => loc.city === 'Las Vegas',
+)
+const locationsGraph = lvLocations.map((loc) => ({
   '@type': loc.kids ? 'DentalSpecialty' : 'Dentist',
   '@id': `${DOMAIN}/clinics/${loc.slug}/#localbusiness`,
   name: `Boca Dental & Braces — ${loc.label}`,
@@ -107,11 +113,14 @@ const locationsGraph = INITIAL_DATA.locations.map((loc) => ({
     addressCountry: 'US',
   },
   openingHours: ['Mo-Fr 09:00-19:00', 'Sa 09:00-19:00'],
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: loc.rating.toFixed(1),
-    reviewCount: loc.review_count,
-  },
+  aggregateRating:
+    loc.review_count > 0
+      ? {
+          '@type': 'AggregateRating',
+          ratingValue: loc.rating.toFixed(1),
+          reviewCount: loc.review_count,
+        }
+      : undefined,
   areaServed: { '@type': 'City', name: 'Las Vegas' },
 }))
 
@@ -171,7 +180,7 @@ const graph = {
           itemOffered: {
             '@type': 'MedicalProcedure',
             name: s.label,
-            url: `${DOMAIN}/services/${s.slug}/`,
+            url: `${DOMAIN}/${s.slug}/`,
           },
         })),
       },
@@ -227,5 +236,5 @@ if (re.test(html)) {
 }
 
 fs.writeFileSync(indexPath, html)
-console.log(`  ${INITIAL_DATA.locations.length} locations · ${PROVIDERS.length} providers · ${HOMEPAGE_FAQS.length} FAQs · ${INITIAL_DATA.services.length} services`)
+console.log(`  ${lvLocations.length} LV locations (${INITIAL_DATA.locations.length} total) · ${PROVIDERS.length} providers · ${HOMEPAGE_FAQS.length} FAQs · ${INITIAL_DATA.services.length} services`)
 console.log(`  → ${indexPath}`)

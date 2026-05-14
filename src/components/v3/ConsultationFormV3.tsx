@@ -1,6 +1,6 @@
-import { FormEvent, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Phone, Shield, CheckCircle2, Loader2, ArrowUpRight } from 'lucide-react'
+import { FormEvent, useRef, useState } from 'react'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
+import { CheckCircle2, Loader2, ArrowUpRight } from 'lucide-react'
 import { INITIAL_DATA } from '../../data/initialData'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
@@ -92,8 +92,18 @@ export function ConsultationFormV3() {
     setStatus('success')
   }
 
+  // Parallax: as the section scrolls through the viewport, the bg image
+  // translates slower than the foreground (classic parallax depth cue).
+  const sectionRef = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  })
+  const bgY = useTransform(scrollYProgress, [0, 1], ['-12%', '12%'])
+
   return (
     <section
+      ref={sectionRef}
       id="request-consultation"
       style={{
         background: '#0A0A0F',
@@ -102,53 +112,106 @@ export function ConsultationFormV3() {
         overflow: 'hidden',
       }}
     >
+      {/* Parallax Vegas Strip background — drifts as the section scrolls */}
+      <motion.img
+        aria-hidden
+        src="/vegas-strip.webp"
+        alt=""
+        onError={(e) => {
+          // Fallback to the office image until a real strip photo is dropped in
+          ;(e.currentTarget as HTMLImageElement).src =
+            '/boca-modern-office.webp'
+        }}
+        style={{
+          position: 'absolute',
+          top: '-12%',
+          left: 0,
+          width: '100%',
+          height: '124%',
+          objectFit: 'cover',
+          objectPosition: 'center',
+          opacity: 0.22,
+          filter: 'saturate(0.8) brightness(0.55)',
+          y: bgY,
+          pointerEvents: 'none',
+          userSelect: 'none',
+          zIndex: 0,
+        }}
+      />
+
+      {/* Vignette / dark overlay so the form is readable */}
       <div
         aria-hidden
         style={{
           position: 'absolute',
-          top: '20%',
+          inset: 0,
+          background:
+            'linear-gradient(180deg, rgba(10,10,15,0.85) 0%, rgba(10,10,15,0.55) 35%, rgba(10,10,15,0.55) 65%, rgba(10,10,15,0.95) 100%)',
+          pointerEvents: 'none',
+          zIndex: 1,
+        }}
+      />
+
+      {/* Soft orange glow accent */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          top: '30%',
           right: '-12%',
           width: 700,
           height: 700,
           background:
-            'radial-gradient(circle, rgba(243,103,42,0.16) 0%, transparent 60%)',
+            'radial-gradient(circle, rgba(243,103,42,0.14) 0%, transparent 60%)',
           filter: 'blur(60px)',
           pointerEvents: 'none',
+          zIndex: 1,
+        }}
+      />
+
+      {/* Subtle grid overlay */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage:
+            'linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px)',
+          backgroundSize: '64px 64px',
+          maskImage:
+            'radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 90%)',
+          WebkitMaskImage:
+            'radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 90%)',
+          pointerEvents: 'none',
+          zIndex: 2,
         }}
       />
 
       <div
         style={{
-          maxWidth: 1280,
+          maxWidth: 760,
           margin: '0 auto',
           position: 'relative',
-          zIndex: 1,
+          zIndex: 3,
         }}
       >
-        <div
+        {/* Centered form — no sidebar */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.6 }}
           style={{
-            display: 'grid',
-            gridTemplateColumns: '1.4fr 1fr',
-            gap: 48,
-            alignItems: 'flex-start',
+            background:
+              'linear-gradient(180deg, rgba(10,10,15,0.6) 0%, rgba(10,10,15,0.4) 100%)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: 22,
+            padding: '44px 44px',
+            backdropFilter: 'blur(20px) saturate(140%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(140%)',
+            boxShadow: '0 32px 80px rgba(0,0,0,0.5)',
           }}
         >
-          {/* LEFT — form card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ duration: 0.6 }}
-            style={{
-              background:
-                'linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.02) 100%)',
-              border: '1px solid rgba(255,255,255,0.08)',
-              borderRadius: 22,
-              padding: '44px 44px',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
-            }}
-          >
             <div
               style={{
                 fontSize: 11,
@@ -491,163 +554,6 @@ export function ConsultationFormV3() {
               )}
             </AnimatePresence>
           </motion.div>
-
-          {/* RIGHT — info column */}
-          <motion.aside
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 14,
-            }}
-          >
-            <div
-              style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: 18,
-                padding: '32px 28px',
-                position: 'relative',
-                overflow: 'hidden',
-                backdropFilter: 'blur(12px)',
-                WebkitBackdropFilter: 'blur(12px)',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 10,
-                  fontWeight: 800,
-                  letterSpacing: 2,
-                  textTransform: 'uppercase',
-                  color: 'rgba(255,255,255,0.5)',
-                  marginBottom: 8,
-                  fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
-                }}
-              >
-                / Or call directly
-              </div>
-              <a
-                href="tel:7024560005"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 10,
-                  fontSize: 28,
-                  fontWeight: 800,
-                  color: 'white',
-                  letterSpacing: '-0.6px',
-                  textDecoration: 'none',
-                  marginBottom: 12,
-                }}
-              >
-                <Phone size={22} color="#F3672A" />
-                (702) 456-0005
-              </a>
-              <div
-                style={{
-                  fontSize: 12,
-                  color: 'rgba(255,255,255,0.55)',
-                  lineHeight: 1.5,
-                }}
-              >
-                24/7 line · Routes to your nearest open office during business
-                hours, voicemail otherwise.
-              </div>
-            </div>
-
-            <div
-              style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: 18,
-                padding: '24px 26px',
-                display: 'flex',
-                gap: 14,
-                alignItems: 'flex-start',
-                backdropFilter: 'blur(12px)',
-                WebkitBackdropFilter: 'blur(12px)',
-              }}
-            >
-              <div
-                style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 10,
-                  background: 'rgba(243,103,42,0.12)',
-                  border: '1px solid rgba(243,103,42,0.28)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                }}
-              >
-                <Shield size={16} color="#F3672A" />
-              </div>
-              <div>
-                <div
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 800,
-                    letterSpacing: 1.5,
-                    textTransform: 'uppercase',
-                    color: 'rgba(255,255,255,0.45)',
-                    marginBottom: 6,
-                    fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
-                  }}
-                >
-                  / HIPAA-grade
-                </div>
-                <div
-                  style={{
-                    fontSize: 13,
-                    color: 'rgba(255,255,255,0.85)',
-                    lineHeight: 1.55,
-                  }}
-                >
-                  Form data encrypted in transit and at rest. We never share
-                  patient info with anyone outside our network.
-                </div>
-              </div>
-            </div>
-
-            <div
-              style={{
-                background:
-                  'linear-gradient(135deg, rgba(243,103,42,0.18) 0%, rgba(243,103,42,0.04) 100%)',
-                border: '1px solid rgba(243,103,42,0.32)',
-                borderRadius: 18,
-                padding: '24px 26px',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 11,
-                  fontWeight: 800,
-                  letterSpacing: 1.5,
-                  textTransform: 'uppercase',
-                  color: '#F3672A',
-                  marginBottom: 8,
-                  fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
-                }}
-              >
-                / Se Habla Español
-              </div>
-              <div
-                style={{
-                  fontSize: 13,
-                  color: 'white',
-                  lineHeight: 1.55,
-                }}
-              >
-                Hablamos español en todas nuestras 9 oficinas. Pídelo al
-                llamar — un miembro bilingüe del equipo te responderá.
-              </div>
-            </div>
-          </motion.aside>
-        </div>
       </div>
     </section>
   )
@@ -681,6 +587,87 @@ function FieldDark({
           [ {error} ]
         </div>
       )}
+    </div>
+  )
+}
+
+// Console-table style form row — label on the left, input on the right.
+// Each row is a hairline-divided line in a data-entry table.
+function ConsoleRow({
+  idx,
+  label,
+  error,
+  isLast,
+  children,
+}: {
+  idx: string
+  label: string
+  error?: string
+  isLast?: boolean
+  children: React.ReactNode
+}) {
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '52px 140px 1fr',
+        gap: 16,
+        alignItems: 'center',
+        padding: '14px 18px',
+        borderBottom: isLast
+          ? 'none'
+          : '1px solid rgba(255,255,255,0.06)',
+        transition: 'background 0.2s ease',
+      }}
+      onMouseEnter={(e) => {
+        ;(e.currentTarget as HTMLElement).style.background =
+          'rgba(255,255,255,0.015)'
+      }}
+      onMouseLeave={(e) => {
+        ;(e.currentTarget as HTMLElement).style.background = 'transparent'
+      }}
+    >
+      <div
+        style={{
+          fontSize: 11,
+          fontWeight: 800,
+          letterSpacing: 1.5,
+          color: 'rgba(255,255,255,0.4)',
+          fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+        }}
+      >
+        / {idx}
+      </div>
+      <div>
+        <div
+          style={{
+            fontSize: 12,
+            fontWeight: 700,
+            letterSpacing: 0.6,
+            textTransform: 'uppercase',
+            color: 'white',
+            fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+          }}
+        >
+          {label}
+        </div>
+        {error && (
+          <div
+            style={{
+              fontSize: 10,
+              color: '#fca5a5',
+              marginTop: 3,
+              fontWeight: 600,
+              fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+              textTransform: 'uppercase',
+              letterSpacing: 0.6,
+            }}
+          >
+            [ {error} ]
+          </div>
+        )}
+      </div>
+      <div>{children}</div>
     </div>
   )
 }

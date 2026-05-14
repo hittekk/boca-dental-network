@@ -26,7 +26,7 @@ const REVIEWS = [
   {
     initials: 'AM',
     name: 'Ana M.',
-    location: 'Boca Kids — Russell',
+    location: 'Boca Kids Dentistry',
     rating: 5,
     target: 'Pediatric · Family',
     quote:
@@ -35,11 +35,11 @@ const REVIEWS = [
   {
     initials: 'DT',
     name: 'David T.',
-    location: 'Jones & Alta Office',
+    location: 'Jones & I-95 Office',
     rating: 5,
     target: 'Location-specific · Family',
     quote:
-      'Brought my whole family to the Jones location for cleanings. Took our Aetna insurance, no surprises at checkout. The hygienist was gentle and thorough. Highly recommend if you are looking for a real family dentist on the west side.',
+      'Brought my whole family to the Jones & I-95 location for cleanings. Took our Aetna insurance, no surprises at checkout. The hygienist was gentle and thorough. Highly recommend if you are looking for a real family dentist on the west side.',
   },
 ]
 
@@ -163,7 +163,7 @@ export function Testimonials() {
       id="testimonials"
       style={{ background: '#F7F7FA', padding: '96px 32px' }}
     >
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         {/* Header row */}
         {/* Centered header — H2 + intro (Treysyde Section 5) */}
         <motion.div
@@ -405,23 +405,19 @@ export function Testimonials() {
               }}
             >
               {/* Healthgrades brandmark */}
-              <div
+              <img
+                src="/healthgrades-logo.png"
+                alt="Healthgrades"
+                width={28}
+                height={28}
                 style={{
                   width: 28,
                   height: 28,
-                  borderRadius: 6,
-                  background: 'linear-gradient(135deg, #F3672A 0%, #FF8A50 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'white',
-                  fontSize: 14,
-                  fontWeight: 800,
-                  letterSpacing: '-0.5px',
+                  objectFit: 'contain',
+                  display: 'block',
+                  flexShrink: 0,
                 }}
-              >
-                H
-              </div>
+              />
               <div style={{ textAlign: 'left' }}>
                 <div
                   style={{
@@ -467,12 +463,12 @@ export function Testimonials() {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 8,
-                background: 'transparent',
+                gap: 10,
+                background: 'white',
                 color: '#162E7A',
                 border: '2px solid #162E7A',
                 borderRadius: 999,
-                padding: '12px 24px',
+                padding: '13px 28px',
                 fontSize: 13,
                 fontWeight: 800,
                 textDecoration: 'none',
@@ -483,13 +479,19 @@ export function Testimonials() {
               onMouseEnter={(e) => {
                 ;(e.currentTarget as HTMLElement).style.background = '#162E7A'
                 ;(e.currentTarget as HTMLElement).style.color = 'white'
+                ;(e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'
+                ;(e.currentTarget as HTMLElement).style.boxShadow =
+                  '0 12px 24px rgba(22,46,122,0.18)'
               }}
               onMouseLeave={(e) => {
-                ;(e.currentTarget as HTMLElement).style.background = 'transparent'
+                ;(e.currentTarget as HTMLElement).style.background = 'white'
                 ;(e.currentTarget as HTMLElement).style.color = '#162E7A'
+                ;(e.currentTarget as HTMLElement).style.transform = 'translateY(0)'
+                ;(e.currentTarget as HTMLElement).style.boxShadow = 'none'
               }}
             >
-              Read All Reviews →
+              Read All Reviews
+              <span style={{ fontSize: 16, lineHeight: 1 }}>→</span>
             </a>
           </div>
         </motion.div>

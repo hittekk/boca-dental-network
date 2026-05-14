@@ -1,151 +1,329 @@
 import { motion } from 'framer-motion'
+import {
+  Phone,
+  FileText,
+  Stethoscope,
+  ClipboardCheck,
+  Clock,
+  ArrowRight,
+} from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
-const STEPS = [
+interface Step {
+  number: string
+  title: string
+  body: string
+  icon: LucideIcon
+  duration: string
+}
+
+const STEPS: Step[] = [
   {
     number: '01',
     title: 'Book Your Appointment',
     body: 'Call any Boca location or book online. Most locations offer same-day and next-day appointments for new patients.',
+    icon: Phone,
+    duration: '< 5 min',
   },
   {
     number: '02',
     title: 'Complete Your Forms',
     body: 'Download and complete your new patient forms before your visit to save time. We accept most insurance plans.',
+    icon: FileText,
+    duration: '~ 10 min',
   },
   {
     number: '03',
     title: 'Your First Visit',
     body: 'Meet your dentist, get a full exam and X-rays, and discuss your treatment options — no pressure, no surprises.',
+    icon: Stethoscope,
+    duration: '~ 45 min',
   },
   {
     number: '04',
     title: 'Your Treatment Plan',
     body: 'We build a personalized treatment plan around your needs and budget. Financing options available if needed.',
+    icon: ClipboardCheck,
+    duration: 'Same visit',
   },
 ]
+
+const ORANGE = '#F3672A'
+const NAVY = '#162E7A'
+const NAVY_DEEP = '#001D3D'
 
 export function Steps() {
   return (
     <section
       id="new-patients"
-      style={{ background: '#F7F7FA', padding: '96px 32px' }}
+      style={{
+        background: 'linear-gradient(180deg, #F7F7FA 0%, #EEF1F8 100%)',
+        padding: '96px 32px',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
     >
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+      {/* Soft orange glow accent */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          top: '20%',
+          left: '-10%',
+          width: 600,
+          height: 600,
+          background:
+            'radial-gradient(circle, rgba(243,103,42,0.10) 0%, transparent 65%)',
+          filter: 'blur(70px)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          style={{ textAlign: 'center', marginBottom: 72 }}
+          style={{ textAlign: 'center', marginBottom: 64 }}
         >
-          <div style={{
-            fontSize: 11, fontWeight: 700, letterSpacing: 3,
-            textTransform: 'uppercase', color: '#F3672A',
-            marginBottom: 10,
-          }}>
-            New Patients
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '6px 14px 6px 10px',
+              background: 'rgba(243,103,42,0.10)',
+              border: `1px solid rgba(243,103,42,0.22)`,
+              borderRadius: 999,
+              marginBottom: 18,
+            }}
+          >
+            <span
+              aria-hidden
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: '50%',
+                background: ORANGE,
+                boxShadow: '0 0 10px rgba(243,103,42,0.6)',
+              }}
+            />
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 800,
+                letterSpacing: 2,
+                textTransform: 'uppercase',
+                color: ORANGE,
+              }}
+            >
+              New patients · simple process
+            </span>
           </div>
-          <h2 style={{
-            fontSize: 'clamp(28px, 4vw, 44px)',
-            fontWeight: 800,
-            textTransform: 'uppercase',
-            color: '#162E7A',
-            margin: '0 0 12px',
-            letterSpacing: '-0.5px',
-          }}>
-            Getting Started Is Easy
+          <h2
+            style={{
+              fontSize: 'clamp(28px, 4vw, 44px)',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              color: NAVY_DEEP,
+              margin: '0 0 14px',
+              letterSpacing: '-0.5px',
+              lineHeight: 1.05,
+            }}
+          >
+            Getting started is{' '}
+            <span style={{ color: ORANGE, fontStyle: 'italic' }}>easy.</span>
           </h2>
-          <p style={{
-            fontSize: 15, color: '#64748B',
-            maxWidth: 440, margin: '0 auto', lineHeight: 1.65,
-          }}>
-            From your first call to your first appointment —
-            here is what to expect when you choose Boca Dental.
+          <p
+            style={{
+              fontSize: 16,
+              color: '#475569',
+              maxWidth: 540,
+              margin: '0 auto',
+              lineHeight: 1.65,
+              textWrap: 'balance' as React.CSSProperties['textWrap'],
+            }}
+          >
+            From your first call to your first appointment — here&apos;s what to
+            expect when you choose Boca Dental &amp; Braces.
           </p>
         </motion.div>
 
-        {/* Steps */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: 0,
-          position: 'relative',
-        }}>
-          {/* Connector line */}
-          <div style={{
-            position: 'absolute',
-            top: 36,
-            left: '12.5%',
-            right: '12.5%',
-            height: 2,
-            background: 'linear-gradient(90deg, #F3672A, #162E7A)',
-            zIndex: 0,
-          }} />
+        {/* Steps grid — cards with icons + duration chips */}
+        <div
+          className="steps-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: 18,
+            position: 'relative',
+          }}
+        >
+          <style>{`
+            @media (max-width: 980px) {
+              .steps-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
+              .steps-connector { display: none !important; }
+            }
+            @media (max-width: 560px) {
+              .steps-grid { grid-template-columns: 1fr !important; }
+            }
+            .step-card { transition: all 0.25s ease; }
+            .step-card:hover {
+              transform: translateY(-4px);
+              box-shadow: 0 18px 40px rgba(0,29,61,0.12), 0 2px 6px rgba(0,29,61,0.06) !important;
+              border-color: rgba(243,103,42,0.35) !important;
+            }
+            .step-card:hover .step-icon-bg {
+              background: ${ORANGE} !important;
+              border-color: ${ORANGE} !important;
+              color: white !important;
+              transform: rotate(-6deg);
+            }
+          `}</style>
 
-          {STEPS.map((step, i) => (
-            <motion.div
-              key={step.number}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ delay: i * 0.12, duration: 0.5 }}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                textAlign: 'center',
-                padding: '0 20px',
-                position: 'relative',
-                zIndex: 1,
-              }}
-            >
-              {/* Step number circle */}
-              <div style={{
-                width: 72,
-                height: 72,
-                borderRadius: '50%',
-                background: i === 0 ? '#F3672A' : 'white',
-                border: `2px solid ${i === 0 ? '#F3672A' : '#E2E8F0'}`,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: 24,
-                boxShadow: i === 0
-                  ? '0 8px 24px rgba(243,103,42,0.35)'
-                  : '0 2px 12px rgba(0,0,0,0.06)',
-                flexShrink: 0,
-              }}>
-                <span style={{
-                  fontSize: 20,
-                  fontWeight: 800,
-                  color: i === 0 ? 'white' : '#162E7A',
-                  letterSpacing: '-0.5px',
-                }}>
-                  {step.number}
-                </span>
-              </div>
+          {/* Connector line behind cards */}
+          <div
+            aria-hidden
+            className="steps-connector"
+            style={{
+              position: 'absolute',
+              top: 52,
+              left: '8%',
+              right: '8%',
+              height: 2,
+              background:
+                'linear-gradient(90deg, rgba(243,103,42,0.5) 0%, rgba(243,103,42,0.3) 33%, rgba(22,46,122,0.3) 66%, rgba(22,46,122,0.5) 100%)',
+              zIndex: 0,
+            }}
+          />
 
-              {/* Content */}
-              <div style={{
-                fontSize: 16,
-                fontWeight: 800,
-                textTransform: 'uppercase',
-                color: '#162E7A',
-                marginBottom: 10,
-                letterSpacing: '-0.2px',
-                lineHeight: 1.15,
-              }}>
-                {step.title}
-              </div>
-              <div style={{
-                fontSize: 13,
-                color: '#64748B',
-                lineHeight: 1.65,
-              }}>
-                {step.body}
-              </div>
-            </motion.div>
-          ))}
+          {STEPS.map((step, i) => {
+            const Icon = step.icon
+            return (
+              <motion.div
+                key={step.number}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+                className="step-card"
+                style={{
+                  background: 'white',
+                  border: '1px solid rgba(0,29,61,0.08)',
+                  borderRadius: 16,
+                  padding: '22px 22px 24px',
+                  position: 'relative',
+                  zIndex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  boxShadow: '0 4px 14px rgba(0,29,61,0.05)',
+                  minHeight: 280,
+                }}
+              >
+                {/* Icon tile + step number badge */}
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                    marginBottom: 16,
+                  }}
+                >
+                  <div
+                    className="step-icon-bg"
+                    style={{
+                      width: 56,
+                      height: 56,
+                      borderRadius: 14,
+                      background:
+                        'linear-gradient(135deg, rgba(243,103,42,0.14) 0%, rgba(243,103,42,0.04) 100%)',
+                      border: '1px solid rgba(243,103,42,0.22)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.25s ease',
+                      color: ORANGE,
+                    }}
+                  >
+                    <Icon size={26} strokeWidth={2} />
+                  </div>
+                  <div
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      minWidth: 40,
+                      height: 40,
+                      padding: '0 12px',
+                      borderRadius: 999,
+                      background: i === 0 ? ORANGE : 'white',
+                      border: `2px solid ${i === 0 ? ORANGE : '#E2E8F0'}`,
+                      color: i === 0 ? 'white' : NAVY,
+                      fontSize: 15,
+                      fontWeight: 800,
+                      letterSpacing: '-0.5px',
+                      boxShadow:
+                        i === 0
+                          ? '0 6px 16px rgba(243,103,42,0.35)'
+                          : '0 1px 3px rgba(0,0,0,0.06)',
+                    }}
+                  >
+                    {step.number}
+                  </div>
+                </div>
+
+                {/* Title */}
+                <h3
+                  style={{
+                    fontSize: 17,
+                    fontWeight: 800,
+                    textTransform: 'uppercase',
+                    color: NAVY_DEEP,
+                    margin: '0 0 10px',
+                    letterSpacing: '-0.3px',
+                    lineHeight: 1.2,
+                  }}
+                >
+                  {step.title}
+                </h3>
+
+                {/* Body */}
+                <p
+                  style={{
+                    fontSize: 13.5,
+                    color: '#64748B',
+                    lineHeight: 1.65,
+                    margin: '0 0 16px',
+                    flex: 1,
+                  }}
+                >
+                  {step.body}
+                </p>
+
+                {/* Duration chip footer */}
+                <div
+                  style={{
+                    paddingTop: 14,
+                    borderTop: '1px solid rgba(0,29,61,0.06)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 7,
+                    fontSize: 11,
+                    fontWeight: 800,
+                    letterSpacing: 1.2,
+                    textTransform: 'uppercase',
+                    color: NAVY,
+                    fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+                  }}
+                >
+                  <Clock size={12} color={ORANGE} strokeWidth={2.5} />
+                  {step.duration}
+                </div>
+              </motion.div>
+            )
+          })}
         </div>
 
         {/* CTA below steps */}
@@ -154,38 +332,56 @@ export function Steps() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.5, duration: 0.5 }}
-          style={{ textAlign: 'center', marginTop: 64 }}
+          style={{
+            textAlign: 'center',
+            marginTop: 56,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 12,
+          }}
         >
           <a
             href="tel:7024560005"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: 8,
-              background: '#F3672A',
+              gap: 10,
+              background: ORANGE,
               color: 'white',
               borderRadius: 8,
-              padding: '14px 36px',
-              fontSize: 15,
-              fontWeight: 700,
+              padding: '15px 30px',
+              fontSize: 14,
+              fontWeight: 800,
               textDecoration: 'none',
               textTransform: 'uppercase',
-              letterSpacing: 0.5,
+              letterSpacing: 0.6,
+              boxShadow: '0 14px 32px rgba(243,103,42,0.32)',
+              transition: 'all 0.2s ease',
             }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLElement).style.background = '#d95a22')
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLElement).style.background = '#F3672A')
-            }
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLElement
+              el.style.background = '#d95a22'
+              el.style.transform = 'translateY(-2px)'
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLElement
+              el.style.background = ORANGE
+              el.style.transform = 'translateY(0)'
+            }}
           >
+            <Phone size={15} />
             Call to Book — (702) 456-0005
+            <ArrowRight size={14} />
           </a>
-          <div style={{
-            marginTop: 12,
-            fontSize: 12,
-            color: '#94A3B8',
-          }}>
+          <div
+            style={{
+              fontSize: 12,
+              color: '#94A3B8',
+              fontWeight: 600,
+              letterSpacing: 0.3,
+            }}
+          >
             Or book online at any location page
           </div>
         </motion.div>

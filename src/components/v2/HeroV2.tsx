@@ -43,24 +43,21 @@ export function HeroV2({ brand }: HeroV2Props) {
           pointerEvents: 'none',
         }}
       />
-      <div
+      <img
         aria-hidden
+        src="/boca-logo-color.png"
+        alt=""
         style={{
           position: 'absolute',
-          top: 80,
-          right: 64,
-          fontSize: 'clamp(180px, 24vw, 380px)',
-          fontWeight: 800,
-          color: 'rgba(243,103,42,0.05)',
-          lineHeight: 0.85,
-          textTransform: 'uppercase',
-          letterSpacing: '-12px',
+          top: 40,
+          right: -80,
+          width: 'clamp(640px, 70vw, 1200px)',
+          height: 'auto',
+          opacity: 0.07,
           pointerEvents: 'none',
           userSelect: 'none',
         }}
-      >
-        BOCA
-      </div>
+      />
 
       <div
         style={{
@@ -72,6 +69,7 @@ export function HeroV2({ brand }: HeroV2Props) {
         }}
       >
         <div
+          className="hero-v2-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: '1.4fr 1fr',
@@ -79,8 +77,15 @@ export function HeroV2({ brand }: HeroV2Props) {
             alignItems: 'center',
           }}
         >
+          <style>{`
+            @media (max-width: 768px) {
+              .hero-v2-copy { text-align: center !important; }
+              .hero-v2-copy > * { margin-left: auto !important; margin-right: auto !important; }
+              .hero-v2-ctas { justify-content: center !important; }
+            }
+          `}</style>
           {/* LEFT — Editorial headline */}
-          <div>
+          <div className="hero-v2-copy">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -117,18 +122,19 @@ export function HeroV2({ brand }: HeroV2Props) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.6, ease: [0.0, 0.0, 0.2, 1.0] }}
               style={{
-                fontSize: 'clamp(44px, 6.5vw, 88px)',
+                fontSize: 'clamp(38px, 4.8vw, 60px)',
                 fontWeight: 800,
-                lineHeight: 0.92,
-                letterSpacing: '-2.5px',
+                lineHeight: 1.0,
+                letterSpacing: '-1.5px',
                 color: '#001D3D',
                 margin: '0 0 28px',
                 textTransform: 'uppercase',
               }}
             >
-              <span style={{ display: 'block' }}>Vegas' dental home</span>
+              <span style={{ display: 'block' }}>Vegas' Dental</span>
+              <span style={{ display: 'block' }}>Home for the</span>
               <span style={{ display: 'block', color: '#F3672A' }}>
-                for the whole family.
+                Whole Family.
               </span>
               <span
                 style={{
@@ -140,12 +146,13 @@ export function HeroV2({ brand }: HeroV2Props) {
                   color: 'rgba(0,29,61,0.55)',
                   marginTop: 18,
                   fontStyle: 'italic',
-                  lineHeight: 1.3,
+                  lineHeight: 1.4,
                 }}
               >
-                9 locations. One team. General, cosmetic, orthodontic,
+                9 locations. One team.
                 <br />
-                and specialty care under one roof.
+                General, cosmetic, orthodontic &amp; specialty care under one
+                roof.
               </span>
             </motion.h1>
 
@@ -153,8 +160,15 @@ export function HeroV2({ brand }: HeroV2Props) {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.5 }}
+              className="hero-v2-ctas"
               style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 40 }}
             >
+              <style>{`
+                @media (max-width: 768px) {
+                  .hero-v2-ctas { flex-direction: column !important; align-items: stretch !important; gap: 12px !important; }
+                  .hero-v2-ctas > a, .hero-v2-ctas > button { width: 100% !important; justify-content: center !important; }
+                }
+              `}</style>
               <button
                 onClick={scrollToLocations}
                 style={{
@@ -259,75 +273,21 @@ export function HeroV2({ brand }: HeroV2Props) {
                 aspectRatio: '4/5',
                 borderRadius: 20,
                 overflow: 'hidden',
-                background:
-                  'linear-gradient(155deg, #F3672A 0%, #d95a22 60%, #001D3D 100%)',
                 position: 'relative',
                 boxShadow: '0 24px 64px rgba(0,29,61,0.18)',
               }}
             >
-              {/* Decorative number */}
-              <div
-                aria-hidden
+              <img
+                src="/boca-family-warm.webp"
+                alt="A mother and daughter sharing a warm hug in a sunlit Boca Dental and Braces waiting room — Las Vegas family dental practice"
                 style={{
-                  position: 'absolute',
-                  bottom: 24,
-                  left: 24,
-                  fontSize: 280,
-                  fontWeight: 800,
-                  color: 'rgba(255,255,255,0.18)',
-                  lineHeight: 0.85,
-                  letterSpacing: '-12px',
-                  pointerEvents: 'none',
-                  userSelect: 'none',
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: '48% center',
+                  display: 'block',
                 }}
-              >
-                9
-              </div>
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 28,
-                  left: 28,
-                  right: 28,
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: 2,
-                  textTransform: 'uppercase',
-                  color: 'rgba(255,255,255,0.7)',
-                }}
-              >
-                Boca Dental and Braces
-              </div>
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: 32,
-                  right: 28,
-                  textAlign: 'right',
-                  color: 'white',
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 800,
-                    textTransform: 'uppercase',
-                    letterSpacing: '-0.2px',
-                    lineHeight: 1.2,
-                  }}
-                >
-                  Locations
-                </div>
-                <div
-                  style={{
-                    fontSize: 12,
-                    opacity: 0.7,
-                    marginTop: 4,
-                  }}
-                >
-                  Across Las Vegas
-                </div>
-              </div>
+              />
             </div>
 
             {/* Floating stat card */}

@@ -8,36 +8,46 @@ const CARDS = [
     icon: Users,
     title: 'New Family Patient',
     body: 'Exams, cleanings & family care',
-    href: '/services/general-dentistry/',
+    href: '/general-dentistry/',
     color: '#162E7A',
+    colorBright: '#2E4AB0',
+    tag: 'New here?',
   },
   {
     icon: Baby,
     title: 'Parent / Child Patient',
     body: 'Pediatric & kids dentistry',
-    href: '/services/pediatric-dentistry/',
+    href: '/pediatric-dentistry/',
     color: '#0E7C66',
+    colorBright: '#1FA188',
+    tag: 'Ages 0–17',
   },
   {
     icon: Sparkles,
     title: 'Adult / Cosmetic Patient',
     body: 'Smile makeovers, whitening, veneers',
-    href: '/services/cosmetic-dentistry/',
+    href: '/cosmetic-dentistry/',
     color: '#B86F0F',
+    colorBright: '#D88718',
+    tag: 'Smile goals',
   },
   {
     icon: Siren,
     title: 'Dental Emergency',
     body: 'Same-day care, pain relief',
-    href: '/services/emergency-dental-care/',
+    href: '/general-dentistry/emergency-dental-care/',
     color: '#B83A2D',
+    colorBright: '#D85040',
+    tag: 'Same day',
   },
   {
     icon: Brackets,
     title: 'Orthodontic Patient',
     body: 'Invisalign & braces',
-    href: '/services/orthodontics/',
+    href: '/orthodontics/',
     color: '#5B3FB8',
+    colorBright: '#7D5DD8',
+    tag: 'Teens & adults',
   },
 ]
 
@@ -94,7 +104,7 @@ export function AudienceRouting({ theme = 'light' }: { theme?: Theme }) {
                 color: '#F3672A',
               }}
             >
-              Audience Routing · 5 Quickest Paths
+              Skip the menu · 5 quickest paths
             </span>
           </div>
           <h2
@@ -116,11 +126,13 @@ export function AudienceRouting({ theme = 'light' }: { theme?: Theme }) {
               fontSize: 16,
               color: subColor,
               lineHeight: 1.65,
-              margin: 0,
+              margin: '0 auto',
+              maxWidth: 620,
+              textWrap: 'balance' as React.CSSProperties['textWrap'],
             }}
           >
-            Skip the mega-menu. Pick the path that matches you and we'll
-            route you to the right page in two seconds.
+            Skip the mega-menu. Pick the path that matches you and we'll route
+            you to the right page in two seconds.
           </p>
         </motion.div>
 
@@ -131,8 +143,17 @@ export function AudienceRouting({ theme = 'light' }: { theme?: Theme }) {
             gap: 14,
           }}
         >
+          <style>{`
+            .audience-card { transition: all 0.3s cubic-bezier(0.0, 0.0, 0.2, 1.0); }
+            .audience-card:hover { transform: translateY(-6px); }
+            .audience-card:hover .audience-watermark { transform: rotate(-10deg) scale(1.1); opacity: 0.16 !important; }
+            .audience-card:hover .audience-arrow { transform: translate(3px, -3px); }
+            .audience-card:hover .audience-icon-tile { background: rgba(255,255,255,0.32) !important; transform: rotate(-4deg) scale(1.06); }
+            .audience-card:hover .audience-start { gap: 10px !important; }
+          `}</style>
           {CARDS.map((card, i) => {
             const Icon = card.icon
+            const idx = String(i + 1).padStart(2, '0')
             return (
               <motion.a
                 key={card.title}
@@ -141,46 +162,111 @@ export function AudienceRouting({ theme = 'light' }: { theme?: Theme }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ delay: i * 0.07, duration: 0.45 }}
-                whileHover={{ y: -6 }}
+                className="audience-card"
                 style={{
-                  background: card.color,
+                  // Subtle gradient from card.colorBright (top-left) to card.color (bottom-right)
+                  background: `linear-gradient(135deg, ${card.colorBright} 0%, ${card.color} 65%, ${card.color} 100%)`,
                   color: 'white',
                   borderRadius: 18,
-                  padding: '28px 22px 24px',
+                  padding: '24px 22px 22px',
                   textDecoration: 'none',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  minHeight: 220,
+                  minHeight: 260,
                   position: 'relative',
                   overflow: 'hidden',
-                  transition: 'box-shadow 0.25s ease',
-                  boxShadow: '0 4px 16px rgba(10,10,15,0.06)',
+                  boxShadow: `0 6px 18px ${card.color}28`,
+                  // Subtle top highlight (glass effect)
+                  border: '1px solid rgba(255,255,255,0.08)',
                 }}
                 onMouseEnter={(e) => {
-                  ;(e.currentTarget as HTMLElement).style.boxShadow = `0 16px 40px ${card.color}80`
+                  ;(e.currentTarget as HTMLElement).style.boxShadow = `0 18px 44px ${card.color}66`
                 }}
                 onMouseLeave={(e) => {
-                  ;(e.currentTarget as HTMLElement).style.boxShadow =
-                    '0 4px 16px rgba(10,10,15,0.06)'
+                  ;(e.currentTarget as HTMLElement).style.boxShadow = `0 6px 18px ${card.color}28`
                 }}
               >
+                {/* Watermark icon — large, faded, bottom-right corner */}
                 <div
+                  aria-hidden
+                  className="audience-watermark"
                   style={{
-                    width: 48,
-                    height: 48,
-                    borderRadius: 12,
-                    background: 'rgba(255,255,255,0.18)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: 24,
+                    position: 'absolute',
+                    bottom: -28,
+                    right: -22,
+                    opacity: 0.09,
+                    transition: 'all 0.35s ease',
+                    pointerEvents: 'none',
                   }}
                 >
-                  <Icon size={22} color="white" />
+                  <Icon size={180} color="white" strokeWidth={1.4} />
                 </div>
 
-                <div>
+                {/* Top row: icon tile + mono index */}
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                    marginBottom: 18,
+                    position: 'relative',
+                    zIndex: 1,
+                  }}
+                >
+                  <div
+                    className="audience-icon-tile"
+                    style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 12,
+                      background: 'rgba(255,255,255,0.18)',
+                      border: '1px solid rgba(255,255,255,0.18)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.3s ease',
+                      backdropFilter: 'blur(8px)',
+                      WebkitBackdropFilter: 'blur(8px)',
+                    }}
+                  >
+                    <Icon size={22} color="white" strokeWidth={2} />
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 800,
+                      letterSpacing: 1.5,
+                      color: 'rgba(255,255,255,0.55)',
+                      fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+                    }}
+                  >
+                    / {idx}
+                  </div>
+                </div>
+
+                {/* Bottom block: tag + title + body + Start here */}
+                <div style={{ position: 'relative', zIndex: 1 }}>
+                  {/* Tag chip */}
+                  <div
+                    style={{
+                      display: 'inline-block',
+                      padding: '3px 9px',
+                      borderRadius: 999,
+                      background: 'rgba(255,255,255,0.16)',
+                      border: '1px solid rgba(255,255,255,0.2)',
+                      fontSize: 10,
+                      fontWeight: 800,
+                      letterSpacing: 1.2,
+                      textTransform: 'uppercase',
+                      color: 'rgba(255,255,255,0.95)',
+                      marginBottom: 10,
+                      backdropFilter: 'blur(6px)',
+                      WebkitBackdropFilter: 'blur(6px)',
+                    }}
+                  >
+                    {card.tag}
+                  </div>
                   <div
                     style={{
                       fontSize: 17,
@@ -189,6 +275,7 @@ export function AudienceRouting({ theme = 'light' }: { theme?: Theme }) {
                       letterSpacing: '-0.3px',
                       lineHeight: 1.15,
                       marginBottom: 8,
+                      color: 'white',
                     }}
                   >
                     {card.title}
@@ -203,20 +290,35 @@ export function AudienceRouting({ theme = 'light' }: { theme?: Theme }) {
                   >
                     {card.body}
                   </div>
+                  {/* Start here — animated arrow on hover */}
                   <div
+                    className="audience-start"
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: 6,
                       fontSize: 11,
                       fontWeight: 800,
-                      letterSpacing: 1,
+                      letterSpacing: 1.2,
                       textTransform: 'uppercase',
-                      color: 'rgba(255,255,255,0.9)',
+                      color: 'white',
+                      paddingTop: 12,
+                      borderTop: '1px solid rgba(255,255,255,0.16)',
+                      width: '100%',
+                      justifyContent: 'space-between',
+                      transition: 'gap 0.25s ease',
                     }}
                   >
-                    Start here
-                    <ArrowUpRight size={13} />
+                    <span>Start here</span>
+                    <span
+                      className="audience-arrow"
+                      style={{
+                        display: 'inline-flex',
+                        transition: 'transform 0.25s ease',
+                      }}
+                    >
+                      <ArrowUpRight size={14} strokeWidth={2.5} />
+                    </span>
                   </div>
                 </div>
               </motion.a>

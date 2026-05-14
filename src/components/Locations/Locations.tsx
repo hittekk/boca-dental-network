@@ -160,7 +160,7 @@ export function Locations() {
       id="locations"
       style={{ background: '#F7F7FA', padding: '96px 32px' }}
     >
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -186,19 +186,41 @@ export function Locations() {
               fontWeight: 800,
               textTransform: 'uppercase',
               color: '#162E7A',
-              margin: '0 0 12px',
+              margin: '0 0 20px',
               letterSpacing: '-0.5px',
             }}
           >
-            9 Boca Dental & Braces Locations Across Las Vegas
+            9 Boca Dental &amp; Braces Locations
+            <span style={{ display: 'block' }}>Across Las Vegas</span>
           </h2>
+          {/* GEO paragraph — Treysyde spec §6: "single most important GEO block on the homepage" */}
           <p
             style={{
-              fontSize: 15,
+              fontSize: 16,
+              color: '#1F2A4A',
+              maxWidth: 880,
+              margin: '0 auto 16px',
+              lineHeight: 1.75,
+            }}
+          >
+            Boca Dental &amp; Braces operates 9 dental clinics across Las
+            Vegas, Nevada: Bonanza &amp; Eastern, Russell &amp; Eastern,
+            Sahara &amp; Decatur, Charleston &amp; Lamb, Flamingo &amp;
+            Torrey Pines, Cheyenne Commons, Beltway Marketplace, Jones
+            &amp; I-95, and our dedicated pediatric clinic Boca Kids
+            Dentistry. Every location offers general and preventive dental
+            care, with specialist services including orthodontics, oral
+            surgery, pediatric dentistry, and sedation dentistry available
+            at select clinics.
+          </p>
+          <p
+            style={{
+              fontSize: 14,
               color: '#64748B',
-              maxWidth: 480,
+              maxWidth: 520,
               margin: '0 auto',
               lineHeight: 1.65,
+              fontStyle: 'italic',
             }}
           >
             Click any location to see hours, services, and book an appointment.

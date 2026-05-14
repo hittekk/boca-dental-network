@@ -1,5 +1,10 @@
 import { motion } from 'framer-motion'
+import { Star, Quote, Phone, ArrowRight, Smile, ShieldCheck, Heart, Sparkles } from 'lucide-react'
 import { KIDS_FEATURE_ICONS } from './KidsIcons'
+
+const ORANGE = '#F3672A'
+const NAVY = '#162E7A'
+const NAVY_DEEP = '#001D3D'
 
 const KIDS_FEATURES = [
   'Pediatric dental care from age 1',
@@ -10,69 +15,273 @@ const KIDS_FEATURES = [
   'Orthodontics and braces for kids and teens',
 ]
 
+const STATS = [
+  { value: 'Age 1+',  label: 'First-visit age' },
+  { value: '1,500+',  label: 'Happy kids served' },
+  { value: '★ 4.9',   label: 'Parent rating' },
+  { value: 'EN · ES', label: 'Bilingual care' },
+]
+
 export function BocaKids() {
   return (
     <section
       id="boca-kids"
-      style={{ background: '#ffffff', padding: '96px 32px' }}
+      style={{
+        background:
+          'linear-gradient(180deg, #FFFAF6 0%, #FFF4ED 60%, #FFFAF6 100%)',
+        padding: '96px 32px',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
     >
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: 80,
-          alignItems: 'center',
-        }}>
-          {/* Left — content */}
+      {/* Soft orange glow accents */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          top: '-10%',
+          right: '-12%',
+          width: 720,
+          height: 720,
+          background:
+            'radial-gradient(circle, rgba(243,103,42,0.18) 0%, transparent 65%)',
+          filter: 'blur(80px)',
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          bottom: '-20%',
+          left: '-10%',
+          width: 580,
+          height: 580,
+          background:
+            'radial-gradient(circle, rgba(22,46,122,0.08) 0%, transparent 65%)',
+          filter: 'blur(70px)',
+          pointerEvents: 'none',
+        }}
+      />
+      {/* Faint star pattern (playful pediatric feel) */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage:
+            'radial-gradient(rgba(243,103,42,0.05) 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+          pointerEvents: 'none',
+        }}
+      />
+
+      <div
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 1,
+        }}
+      >
+        <div
+          className="boca-kids-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: 64,
+            alignItems: 'center',
+          }}
+        >
+          <style>{`
+            @media (max-width: 980px) {
+              .boca-kids-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+              .boca-kids-image-col { order: -1; }
+            }
+            @media (max-width: 768px) {
+              .boca-kids-ctas { flex-direction: column !important; }
+              .boca-kids-ctas > a { width: 100% !important; justify-content: center !important; }
+            }
+            @media (max-width: 560px) {
+              .boca-kids-stats { grid-template-columns: 1fr !important; }
+              .boca-kids-features { grid-template-columns: 1fr !important; }
+            }
+            .kid-feature { transition: all 0.25s ease; }
+            .kid-feature:hover {
+              background: white !important;
+              border-color: rgba(243,103,42,0.3) !important;
+              transform: translateY(-2px);
+              box-shadow: 0 8px 20px rgba(243,103,42,0.10);
+            }
+            .kid-feature:hover .kid-feat-icon {
+              background: ${ORANGE} !important;
+              color: white !important;
+              transform: rotate(-6deg);
+            }
+          `}</style>
+
+          {/* LEFT — content */}
           <motion.div
             initial={{ opacity: 0, x: -32 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6, ease: [0.0, 0.0, 0.2, 1.0] }}
           >
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              marginBottom: 20,
-              background: '#FFF4F0',
-              border: '1px solid rgba(243,103,42,0.2)',
-              borderRadius: 20,
-              padding: '6px 16px',
-            }}>
-              <span style={{
-                fontSize: 11,
-                fontWeight: 800,
-                letterSpacing: 2,
-                textTransform: 'uppercase',
-                color: '#F3672A',
-              }}>
-                Boca Kids Dental & Braces
+            {/* Eyebrow badge with smile icon */}
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                marginBottom: 20,
+                background: 'white',
+                border: '1px solid rgba(243,103,42,0.28)',
+                borderRadius: 999,
+                padding: '6px 14px 6px 8px',
+                boxShadow: '0 4px 14px rgba(243,103,42,0.10)',
+              }}
+            >
+              <span
+                style={{
+                  width: 22,
+                  height: 22,
+                  borderRadius: '50%',
+                  background: ORANGE,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                }}
+              >
+                <Smile size={13} strokeWidth={2.5} />
+              </span>
+              <span
+                style={{
+                  fontSize: 11,
+                  fontWeight: 800,
+                  letterSpacing: 2,
+                  textTransform: 'uppercase',
+                  color: ORANGE,
+                }}
+              >
+                Boca Kids Dental &amp; Braces
               </span>
             </div>
 
-            <h2 style={{
-              fontSize: 'clamp(28px, 3.5vw, 44px)',
-              fontWeight: 800,
-              textTransform: 'uppercase',
-              color: '#162E7A',
-              lineHeight: 1.05,
-              letterSpacing: '-0.5px',
-              margin: '0 0 20px',
-            }}>
-              Dental Care Built
-              <br />
-              <span style={{ color: '#F3672A' }}>For Kids</span>
+            <h2
+              style={{
+                fontSize: 'clamp(28px, 4vw, 46px)',
+                fontWeight: 800,
+                textTransform: 'uppercase',
+                color: NAVY_DEEP,
+                lineHeight: 1.05,
+                letterSpacing: '-0.6px',
+                margin: '0 0 18px',
+              }}
+            >
+              Dental Care{' '}
+              <span
+                style={{
+                  position: 'relative',
+                  display: 'inline-block',
+                  color: ORANGE,
+                }}
+              >
+                built
+                <span
+                  aria-hidden
+                  style={{
+                    position: 'absolute',
+                    bottom: -2,
+                    left: 0,
+                    right: 0,
+                    height: 8,
+                    background: 'rgba(243,103,42,0.22)',
+                    borderRadius: 4,
+                    zIndex: -1,
+                  }}
+                />
+              </span>{' '}
+              for kids.
             </h2>
 
-            <p style={{ fontSize: 16, color: '#64748B', lineHeight: 1.75, margin: '0 0 28px' }}>
-              Boca Kids is our dedicated pediatric practice — designed from the ground up to make every child's dental visit comfortable, fun, and fear-free.
-            </p>
-            <p style={{ fontSize: 16, color: '#64748B', lineHeight: 1.75, margin: '0 0 32px' }}>
-              Our pediatric team specializes in treating children from their very first tooth through their teenage years, including braces and orthodontic care.
+            <p
+              style={{
+                fontSize: 16.5,
+                color: 'rgba(0,29,61,0.7)',
+                lineHeight: 1.7,
+                margin: '0 0 28px',
+                maxWidth: 540,
+              }}
+            >
+              Boca Kids is our dedicated pediatric practice — designed from the ground
+              up to make every child&apos;s dental visit comfortable, fun, and fear-free.
+              From their first tooth through their teenage years.
             </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 36 }}>
+            {/* Stats cluster */}
+            <div
+              className="boca-kids-stats"
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(4, 1fr)',
+                gap: 10,
+                marginBottom: 28,
+              }}
+            >
+              {STATS.map((s, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 + i * 0.05, duration: 0.4 }}
+                  style={{
+                    background: 'white',
+                    border: '1px solid rgba(243,103,42,0.16)',
+                    borderTop: `2px solid ${ORANGE}`,
+                    borderRadius: 10,
+                    padding: '14px 12px',
+                    textAlign: 'center',
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: 'clamp(15px, 1.5vw, 19px)',
+                      fontWeight: 800,
+                      color: NAVY,
+                      letterSpacing: '-0.3px',
+                      lineHeight: 1,
+                      marginBottom: 6,
+                    }}
+                  >
+                    {s.value}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      letterSpacing: 1.2,
+                      textTransform: 'uppercase',
+                      color: 'rgba(0,29,61,0.55)',
+                    }}
+                  >
+                    {s.label}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Feature mini-cards — 2 column grid */}
+            <div
+              className="boca-kids-features"
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: 10,
+                marginBottom: 32,
+              }}
+            >
               {KIDS_FEATURES.map((feature, i) => {
                 const Icon = KIDS_FEATURE_ICONS[i]
                 return (
@@ -81,125 +290,189 @@ export function BocaKids() {
                     initial={{ opacity: 0, x: 12 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: i * 0.07, duration: 0.4 }}
+                    transition={{ delay: i * 0.06, duration: 0.4 }}
+                    className="kid-feature"
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 12,
-                      fontSize: 14,
-                      color: '#0F172A',
-                      fontWeight: 500,
+                      gap: 10,
+                      padding: '12px 14px',
+                      background: 'rgba(255,255,255,0.6)',
+                      border: '1px solid rgba(243,103,42,0.12)',
+                      borderRadius: 10,
                     }}
                   >
                     {Icon && (
-                      <div style={{
-                        width: 36, height: 36,
-                        background: '#FFF4F0',
-                        border: '1px solid rgba(243,103,42,0.15)',
-                        borderRadius: 8,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0,
-                      }}>
-                        <Icon size={20} color="#F3672A" />
+                      <div
+                        className="kid-feat-icon"
+                        style={{
+                          width: 34,
+                          height: 34,
+                          background: 'rgba(243,103,42,0.10)',
+                          border: '1px solid rgba(243,103,42,0.22)',
+                          borderRadius: 8,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0,
+                          color: ORANGE,
+                          transition: 'all 0.25s ease',
+                        }}
+                      >
+                        <Icon size={17} />
                       </div>
                     )}
-                    {feature}
+                    <span
+                      style={{
+                        fontSize: 13,
+                        color: NAVY_DEEP,
+                        fontWeight: 600,
+                        lineHeight: 1.35,
+                      }}
+                    >
+                      {feature}
+                    </span>
                   </motion.div>
                 )
               })}
             </div>
 
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            {/* CTAs */}
+            <div
+              className="boca-kids-ctas"
+              style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}
+            >
               <a
-                href="#locations"
+                href="/clinics/boca-kids-dentistry/"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  background: '#F3672A',
+                  gap: 10,
+                  background: ORANGE,
                   color: 'white',
                   borderRadius: 8,
-                  padding: '12px 24px',
+                  padding: '14px 26px',
                   fontSize: 14,
-                  fontWeight: 700,
+                  fontWeight: 800,
                   textDecoration: 'none',
                   textTransform: 'uppercase',
-                  letterSpacing: 0.5,
+                  letterSpacing: 0.6,
+                  boxShadow: '0 14px 32px rgba(243,103,42,0.34)',
+                  transition: 'all 0.2s ease',
                 }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = '#d95a22')}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = '#F3672A')}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.background = '#d95a22'
+                  el.style.transform = 'translateY(-2px)'
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.background = ORANGE
+                  el.style.transform = 'translateY(0)'
+                }}
               >
-                Find Boca Kids Near You
+                Find Boca Kids near you
+                <ArrowRight size={14} />
               </a>
               <a
                 href="tel:7023891543"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
+                  gap: 8,
                   background: 'transparent',
-                  color: '#162E7A',
-                  border: '2px solid #162E7A',
+                  color: NAVY_DEEP,
+                  border: '2px solid rgba(0,29,61,0.22)',
                   borderRadius: 8,
                   padding: '12px 24px',
                   fontSize: 14,
-                  fontWeight: 700,
+                  fontWeight: 800,
                   textDecoration: 'none',
                   textTransform: 'uppercase',
-                  letterSpacing: 0.5,
+                  letterSpacing: 0.6,
+                  transition: 'all 0.2s ease',
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = '#162E7A'
-                  ;(e.currentTarget as HTMLElement).style.color = 'white'
+                  const el = e.currentTarget as HTMLElement
+                  el.style.background = NAVY_DEEP
+                  el.style.color = 'white'
+                  el.style.borderColor = NAVY_DEEP
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'transparent'
-                  ;(e.currentTarget as HTMLElement).style.color = '#162E7A'
+                  const el = e.currentTarget as HTMLElement
+                  el.style.background = 'transparent'
+                  el.style.color = NAVY_DEEP
+                  el.style.borderColor = 'rgba(0,29,61,0.22)'
                 }}
               >
+                <Phone size={14} color={ORANGE} />
                 (702) 389-1543
               </a>
             </div>
           </motion.div>
 
-          {/* Right — image placeholder */}
+          {/* RIGHT — image + floating badges + parent quote */}
           <motion.div
             initial={{ opacity: 0, x: 32 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6, ease: [0.0, 0.0, 0.2, 1.0] }}
             style={{ position: 'relative' }}
+            className="boca-kids-image-col"
           >
-            <div style={{
-              width: '100%',
-              aspectRatio: '4/3',
-              borderRadius: 16,
-              background: 'linear-gradient(135deg, #FFF4F0 0%, #FFE4D6 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              position: 'relative',
-              overflow: 'hidden',
-              border: '1px solid rgba(243,103,42,0.15)',
-            }}>
-              <div style={{ textAlign: 'center', color: 'rgba(243,103,42,0.5)' }}>
-                <svg width="64" height="64" viewBox="0 0 40 40" fill="none">
-                  <path d="M15 11C12 11 9.5 13.5 9.5 16.5C9.5 19 10.5 20.5 11.5 22C12.5 23.5 13 27 14 28.5C14.5 29.5 15 30 16 30C17 30 17.5 29 18 27L18.5 24H21.5L22 27C22.5 29 23 30 24 30C25 30 25.5 29.5 26 28.5C27 27 27.5 23.5 28.5 22C29.5 20.5 30.5 19 30.5 16.5C30.5 13.5 28 11 25 11C23.5 11 22.5 11.5 21.5 12C21 12.3 20.5 12.4 20 12.4C19.5 12.4 19 12.3 18.5 12C17.5 11.5 16.5 11 15 11Z" stroke="rgba(243,103,42,0.5)" strokeWidth="1.75" strokeLinejoin="round"/>
-                  <path d="M16.5 18.5C16.5 18.5 17.5 20.5 20 20.5C22.5 20.5 23.5 18.5 23.5 18.5" stroke="rgba(243,103,42,0.5)" strokeWidth="1.5" strokeLinecap="round"/>
-                  <circle cx="17.5" cy="16.5" r="1" fill="rgba(243,103,42,0.5)"/>
-                  <circle cx="22.5" cy="16.5" r="1" fill="rgba(243,103,42,0.5)"/>
-                </svg>
-                <div style={{ fontSize: 12, marginTop: 10, letterSpacing: 1 }}>
-                  Boca Kids Office Photo
-                </div>
-              </div>
-              <div style={{
-                position: 'absolute',
-                bottom: 0, left: 0, right: 0,
-                height: 4, background: '#F3672A',
-              }} />
+            {/* Main image card */}
+            <div
+              style={{
+                width: '100%',
+                aspectRatio: '4/5',
+                borderRadius: 20,
+                position: 'relative',
+                overflow: 'hidden',
+                border: '1px solid rgba(243,103,42,0.22)',
+                boxShadow:
+                  '0 30px 60px rgba(243,103,42,0.16), 0 8px 24px rgba(0,29,61,0.10)',
+              }}
+            >
+              <img
+                src="/boca-kids-office.webp"
+                alt="Smiling child in a Boca Kids dental chair with a friendly hygienist showing them a mirror"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: '35% center',
+                  display: 'block',
+                }}
+              />
+              {/* Subtle gradient overlay at bottom for legibility */}
+              <div
+                aria-hidden
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  height: '30%',
+                  background:
+                    'linear-gradient(180deg, transparent 0%, rgba(0,29,61,0.6) 100%)',
+                  pointerEvents: 'none',
+                }}
+              />
+              {/* Bottom orange accent strip */}
+              <div
+                aria-hidden
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  height: 4,
+                  background: ORANGE,
+                }}
+              />
             </div>
 
+            {/* Floating "Age 1+" badge (bottom-left, on image) */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -207,27 +480,204 @@ export function BocaKids() {
               transition={{ delay: 0.3, duration: 0.5 }}
               style={{
                 position: 'absolute',
-                bottom: -20, left: -20,
-                background: '#162E7A',
-                borderRadius: 12,
-                padding: '16px 20px',
-                boxShadow: '0 8px 32px rgba(22,46,122,0.25)',
+                bottom: -18,
+                left: -16,
+                background: NAVY_DEEP,
+                borderRadius: 14,
+                padding: '14px 18px',
+                boxShadow: '0 14px 36px rgba(0,29,61,0.32)',
                 textAlign: 'center',
-                minWidth: 130,
+                minWidth: 124,
+                border: '2px solid white',
               }}
             >
-              <div style={{ fontSize: 28, fontWeight: 800, color: 'white', lineHeight: 1 }}>
+              <div
+                style={{
+                  fontSize: 26,
+                  fontWeight: 800,
+                  color: 'white',
+                  lineHeight: 1,
+                  letterSpacing: '-0.5px',
+                }}
+              >
                 Age 1+
               </div>
-              <div style={{
-                fontSize: 10,
-                color: 'rgba(255,255,255,0.6)',
-                textTransform: 'uppercase',
-                letterSpacing: 1.5, marginTop: 4,
-              }}>
+              <div
+                style={{
+                  fontSize: 10,
+                  color: 'rgba(255,255,255,0.65)',
+                  textTransform: 'uppercase',
+                  letterSpacing: 1.5,
+                  marginTop: 6,
+                  fontWeight: 700,
+                  fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+                }}
+              >
                 First Visit
               </div>
             </motion.div>
+
+            {/* Floating Medicaid badge (top-right, on image) */}
+            <motion.div
+              initial={{ opacity: 0, y: -16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              style={{
+                position: 'absolute',
+                top: 16,
+                right: -16,
+                background: 'white',
+                borderRadius: 12,
+                padding: '10px 14px',
+                boxShadow: '0 12px 28px rgba(0,29,61,0.16)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 9,
+                border: '1px solid rgba(243,103,42,0.2)',
+              }}
+            >
+              <div
+                style={{
+                  width: 30,
+                  height: 30,
+                  borderRadius: 8,
+                  background: 'rgba(34,197,94,0.12)',
+                  border: '1px solid rgba(34,197,94,0.35)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#16a34a',
+                }}
+              >
+                <ShieldCheck size={16} strokeWidth={2.5} />
+              </div>
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 800, color: NAVY_DEEP, lineHeight: 1.1 }}>
+                  Medicaid + CHIP
+                </div>
+                <div
+                  style={{
+                    fontSize: 9,
+                    fontWeight: 700,
+                    color: 'rgba(0,29,61,0.55)',
+                    textTransform: 'uppercase',
+                    letterSpacing: 1,
+                    marginTop: 2,
+                    fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+                  }}
+                >
+                  Accepted
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Floating "Fear-free" sparkle badge (middle-right, on image) */}
+            <motion.div
+              initial={{ opacity: 0, x: 16 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.55, duration: 0.5 }}
+              style={{
+                position: 'absolute',
+                top: '46%',
+                right: -22,
+                background: ORANGE,
+                color: 'white',
+                borderRadius: 10,
+                padding: '9px 14px',
+                boxShadow: '0 12px 28px rgba(243,103,42,0.36)',
+                fontSize: 11,
+                fontWeight: 800,
+                letterSpacing: 1.5,
+                textTransform: 'uppercase',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+              }}
+            >
+              <Sparkles size={13} strokeWidth={2.5} />
+              Fear-free zone
+            </motion.div>
+
+            {/* Parent testimonial quote card (below image) */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+              style={{
+                marginTop: 32,
+                background: 'white',
+                border: '1px solid rgba(243,103,42,0.18)',
+                borderRadius: 14,
+                padding: '20px 22px',
+                boxShadow: '0 10px 28px rgba(0,29,61,0.06)',
+                position: 'relative',
+              }}
+            >
+              <Quote
+                size={22}
+                color={ORANGE}
+                strokeWidth={1.8}
+                style={{ opacity: 0.4, marginBottom: 8 }}
+              />
+              <p
+                style={{
+                  fontSize: 14,
+                  color: NAVY_DEEP,
+                  lineHeight: 1.55,
+                  margin: '0 0 12px',
+                  fontStyle: 'italic',
+                }}
+              >
+                "My 4-year-old was terrified of the dentist until we came to Boca Kids. They have a special quiet room and the team is amazing with sensory-sensitive kids. Game-changer."
+              </p>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  paddingTop: 10,
+                  borderTop: '1px solid rgba(0,29,61,0.06)',
+                }}
+              >
+                <div>
+                  <div style={{ fontSize: 12, fontWeight: 800, color: NAVY_DEEP }}>
+                    Jessica P.
+                  </div>
+                  <div style={{ fontSize: 10, color: 'rgba(0,29,61,0.55)', marginTop: 2 }}>
+                    Henderson · Google review
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: 1, color: ORANGE }}>
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} size={12} fill={ORANGE} color={ORANGE} />
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Decorative heart corner */}
+            <div
+              aria-hidden
+              style={{
+                position: 'absolute',
+                top: -22,
+                left: -14,
+                width: 44,
+                height: 44,
+                borderRadius: '50%',
+                background: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 6px 16px rgba(243,103,42,0.22)',
+                color: ORANGE,
+              }}
+            >
+              <Heart size={18} fill={ORANGE} strokeWidth={2} />
+            </div>
           </motion.div>
         </div>
       </div>

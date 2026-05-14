@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence, useScroll } from 'framer-motion'
-import { Phone, ArrowUpRight, Menu, X } from 'lucide-react'
+import { Phone, ArrowUpRight, Menu, X, Star, MapPin, Globe } from 'lucide-react'
 import type { Brand, Announcement } from '../../types'
 
 interface HeaderV3Props {
@@ -15,6 +15,110 @@ const NAV = [
   { label: 'Why Boca', href: '#why-boca' },
   { label: 'FAQ', href: '#faq' },
 ]
+
+// ── Ticker bar helpers ─────────────────────────────────────────
+function TickerSegment({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 8,
+        padding: '0 20px',
+        cursor: 'default',
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+function TickerLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <span
+      style={{
+        fontSize: 11,
+        fontWeight: 700,
+        letterSpacing: 1.2,
+        textTransform: 'uppercase',
+        color: 'rgba(255,255,255,0.7)',
+        fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+        whiteSpace: 'nowrap',
+      }}
+    >
+      {children}
+    </span>
+  )
+}
+
+function TickerDivider() {
+  return (
+    <div
+      aria-hidden
+      style={{
+        width: 1,
+        background: 'rgba(255,255,255,0.08)',
+        margin: '8px 0',
+        flexShrink: 0,
+      }}
+    />
+  )
+}
+
+// Rotating announcement / news ticker. Cycles through the messages every 5s,
+// cross-fading between each. Items are easy to swap by editing the NEWS array.
+const NEWS = [
+  'Now booking next week · 9 LV offices',
+  'Closed Mon May 26 · Memorial Day',
+  'New Henderson Boca Kids clinic — now open',
+  'Same-day emergencies always available',
+  'See location pages for holiday hours',
+]
+
+function NewsTicker() {
+  const [idx, setIdx] = useState(0)
+  useEffect(() => {
+    const t = setInterval(() => setIdx((i) => (i + 1) % NEWS.length), 5000)
+    return () => clearInterval(t)
+  }, [])
+  return (
+    <span
+      style={{
+        position: 'relative',
+        display: 'inline-block',
+        minWidth: 280,
+        height: 14,
+        overflow: 'hidden',
+        verticalAlign: 'middle',
+      }}
+    >
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={idx}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.35, ease: 'easeOut' }}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            fontSize: 11,
+            fontWeight: 700,
+            letterSpacing: 1.2,
+            textTransform: 'uppercase',
+            color: 'rgba(255,255,255,0.85)',
+            fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+            whiteSpace: 'nowrap',
+            display: 'inline-flex',
+            alignItems: 'center',
+          }}
+        >
+          {NEWS[idx]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  )
+}
 
 export function HeaderV3({ brand, announcement }: HeaderV3Props) {
   const [scrolled, setScrolled] = useState(false)
@@ -36,54 +140,135 @@ export function HeaderV3({ brand, announcement }: HeaderV3Props) {
         zIndex: 50,
       }}
     >
-      {/* Slim announcement strip — different vibe than v1 orange bar */}
+      {/* Multi-segment data ticker — premium "by-the-numbers" strip */}
       {announcement.enabled && (
         <div
           style={{
             background: '#0A0A0F',
-            borderBottom: '1px solid rgba(255,255,255,0.06)',
-            padding: '8px 24px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: 14,
-            fontSize: 11,
-            fontWeight: 700,
-            letterSpacing: 1.5,
-            textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.65)',
-            fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+            borderBottom: '1px solid rgba(255,255,255,0.08)',
+            position: 'relative',
+            overflow: 'hidden',
           }}
         >
-          <span
+          {/* Scan line accent at the top */}
+          <div
+            aria-hidden
             style={{
-              width: 5,
-              height: 5,
-              borderRadius: '50%',
-              background: '#10b981',
-              boxShadow: '0 0 0 3px rgba(16,185,129,0.18)',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 1,
+              background:
+                'linear-gradient(to right, transparent 0%, rgba(243,103,42,0.4) 15%, rgba(243,103,42,0.6) 50%, rgba(243,103,42,0.4) 85%, transparent 100%)',
             }}
           />
-          {announcement.text}
-          {announcement.linkLabel && (
-            <a
-              href={announcement.link ?? '#'}
-              style={{
-                color: '#F3672A',
-                textDecoration: 'none',
-                fontWeight: 800,
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 5,
-              }}
-            >
-              {announcement.linkLabel}
-              <ArrowUpRight size={11} />
-            </a>
-          )}
+
+          {/* Animated shimmer that drifts across */}
+          <motion.div
+            aria-hidden
+            animate={{ x: ['-30%', '130%'] }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
+            style={{
+              position: 'absolute',
+              top: 0,
+              width: '20%',
+              height: 1,
+              background:
+                'linear-gradient(to right, transparent 0%, rgba(243,103,42,1) 50%, transparent 100%)',
+              pointerEvents: 'none',
+            }}
+          />
+
+          <div
+            style={{
+              maxWidth: 1440,
+              margin: '0 auto',
+              padding: '0 24px',
+              display: 'flex',
+              alignItems: 'stretch',
+              minHeight: 44,
+            }}
+          >
+            {/* Segment 1 — Rotating news ticker */}
+            <TickerSegment>
+              <motion.span
+                animate={{
+                  scale: [1, 1.3, 1],
+                  boxShadow: [
+                    '0 0 0 0 rgba(243,103,42,0.6)',
+                    '0 0 0 6px rgba(243,103,42,0)',
+                    '0 0 0 0 rgba(243,103,42,0)',
+                  ],
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+                style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: '50%',
+                  background: '#F3672A',
+                  display: 'inline-block',
+                  flexShrink: 0,
+                }}
+              />
+              <NewsTicker />
+            </TickerSegment>
+
+            <TickerDivider />
+
+            {/* Segment 2 — Rating */}
+            <TickerSegment>
+              <Star
+                size={12}
+                fill="#F3672A"
+                style={{ color: '#F3672A', flexShrink: 0 }}
+              />
+              <TickerLabel>
+                <strong style={{ color: 'white', fontWeight: 800 }}>4.9</strong>
+                <span style={{ color: 'rgba(255,255,255,0.4)' }}> · </span>
+                1,200+ Google reviews
+              </TickerLabel>
+            </TickerSegment>
+
+            <TickerDivider />
+
+            {/* Segment 3 — Locations */}
+            <TickerSegment>
+              <MapPin size={12} style={{ color: '#F3672A', flexShrink: 0 }} />
+              <TickerLabel>
+                <strong style={{ color: 'white', fontWeight: 800 }}>9</strong>{' '}
+                LV offices
+                <span style={{ color: 'rgba(255,255,255,0.4)' }}> · </span>
+                Open 7 days
+              </TickerLabel>
+            </TickerSegment>
+
+            <TickerDivider />
+
+            {/* Segment 4 — Languages */}
+            <TickerSegment>
+              <Globe size={12} style={{ color: '#F3672A', flexShrink: 0 }} />
+              <TickerLabel>EN · ES · Medicaid welcome</TickerLabel>
+            </TickerSegment>
+          </div>
         </div>
       )}
 
+      {/* Mobile/desktop visibility helpers — applied via classNames below */}
+      <style>{`
+        @media (max-width: 900px) {
+          .hv3-nav, .hv3-phone-text { display: none !important; }
+          .hv3-burger { display: inline-flex !important; }
+          .hv3-book-cta { padding: 9px 16px !important; font-size: 11px !important; }
+        }
+        @media (max-width: 560px) {
+          .hv3-logo-meta { display: none !important; }
+        }
+      `}</style>
       {/* Main nav row — glass when scrolled, transparent at top */}
       <motion.div
         animate={{
@@ -128,6 +313,7 @@ export function HeaderV3({ brand, announcement }: HeaderV3Props) {
               style={{ height: 28, width: 'auto', display: 'block' }}
             />
             <div
+              className="hv3-logo-meta"
               style={{
                 paddingLeft: 14,
                 borderLeft: '1px solid rgba(255,255,255,0.16)',
@@ -147,6 +333,7 @@ export function HeaderV3({ brand, announcement }: HeaderV3Props) {
 
           {/* Desktop nav */}
           <nav
+            className="hv3-nav"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -197,6 +384,7 @@ export function HeaderV3({ brand, announcement }: HeaderV3Props) {
           >
             <a
               href={`tel:${brand.phone.replace(/\D/g, '')}`}
+              className="hv3-phone-text"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -222,6 +410,7 @@ export function HeaderV3({ brand, announcement }: HeaderV3Props) {
 
             <a
               href="#request-consultation"
+              className="hv3-book-cta"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -251,6 +440,7 @@ export function HeaderV3({ brand, announcement }: HeaderV3Props) {
             <button
               onClick={() => setOpen((o) => !o)}
               aria-label="Toggle menu"
+              className="hv3-burger"
               style={{
                 display: 'none',
                 width: 40,

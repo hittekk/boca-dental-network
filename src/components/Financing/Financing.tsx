@@ -53,7 +53,7 @@ export function Financing() {
       id="financing"
       style={{ background: '#F7F7FA', padding: '96px 32px' }}
     >
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -102,6 +102,7 @@ export function Financing() {
         </motion.div>
 
         <div
+          className="financing-two-col"
           style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
@@ -109,6 +110,11 @@ export function Financing() {
             alignItems: 'flex-start',
           }}
         >
+          <style>{`
+            @media (max-width: 980px) {
+              .financing-two-col { grid-template-columns: 1fr !important; gap: 24px !important; }
+            }
+          `}</style>
           {/* Left — financing plans */}
           <motion.div
             initial={{ opacity: 0, x: -24 }}

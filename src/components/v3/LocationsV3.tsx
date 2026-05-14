@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { MapPin, Phone, Clock, ArrowUpRight, Star } from 'lucide-react'
 import type { Location } from '../../types'
 import { INITIAL_DATA } from '../../data/initialData'
@@ -19,28 +19,27 @@ function LocationRow({
     <motion.button
       onClick={onSelect}
       onMouseEnter={onSelect}
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, x: -8 }}
+      whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.04, duration: 0.4 }}
+      transition={{ delay: index * 0.03, duration: 0.35 }}
       style={{
         width: '100%',
         textAlign: 'left',
-        background: active ? '#F3672A' : 'rgba(255,255,255,0.03)',
-        border: active
-          ? '1px solid #F3672A'
-          : '1px solid rgba(255,255,255,0.08)',
-        borderRadius: 14,
-        padding: '20px 22px',
+        background: active
+          ? 'rgba(243,103,42,0.1)'
+          : 'transparent',
+        border: 'none',
+        borderLeft: `3px solid ${active ? '#F3672A' : 'transparent'}`,
+        padding: '14px 18px',
         cursor: 'pointer',
         display: 'grid',
-        gridTemplateColumns: '36px 1fr auto',
+        gridTemplateColumns: '40px 1fr auto',
         gap: 14,
         alignItems: 'center',
         fontFamily: 'inherit',
-        transition: 'all 0.18s ease',
-        backdropFilter: 'blur(8px)',
-        WebkitBackdropFilter: 'blur(8px)',
+        transition: 'all 0.2s ease',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
       }}
     >
       <div
@@ -48,28 +47,29 @@ function LocationRow({
           fontSize: 11,
           fontWeight: 800,
           letterSpacing: 1.5,
-          color: active ? 'white' : 'rgba(255,255,255,0.45)',
+          color: active ? '#F3672A' : 'rgba(255,255,255,0.35)',
           fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+          transition: 'color 0.2s ease',
         }}
       >
         / {String(index + 1).padStart(2, '0')}
       </div>
-      <div>
+      <div style={{ minWidth: 0 }}>
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: 8,
-            marginBottom: 4,
+            marginBottom: 3,
           }}
         >
           <div
             style={{
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: 800,
-              color: active ? 'white' : 'white',
+              color: 'white',
               textTransform: 'uppercase',
-              letterSpacing: '-0.2px',
+              letterSpacing: '-0.1px',
               lineHeight: 1.1,
             }}
           >
@@ -78,14 +78,14 @@ function LocationRow({
           {location.kids && (
             <div
               style={{
-                fontSize: 9,
+                fontSize: 8,
                 fontWeight: 800,
                 letterSpacing: 1,
                 textTransform: 'uppercase',
-                background: active ? 'rgba(0,0,0,0.25)' : '#F3672A',
+                background: '#F3672A',
                 color: 'white',
                 borderRadius: 999,
-                padding: '2px 8px',
+                padding: '2px 7px',
               }}
             >
               Kids
@@ -95,17 +95,20 @@ function LocationRow({
         <div
           style={{
             fontSize: 11,
-            color: active ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.5)',
-            fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
-            letterSpacing: 0.4,
+            color: 'rgba(255,255,255,0.45)',
+            letterSpacing: 0.3,
           }}
         >
           {location.neighborhood}
         </div>
       </div>
       <ArrowUpRight
-        size={16}
-        color={active ? 'white' : 'rgba(255,255,255,0.45)'}
+        size={14}
+        style={{
+          color: active ? '#F3672A' : 'rgba(255,255,255,0.3)',
+          transform: active ? 'translateX(2px)' : 'translateX(0)',
+          transition: 'all 0.2s ease',
+        }}
       />
     </motion.button>
   )
@@ -113,227 +116,237 @@ function LocationRow({
 
 function LocationDetailCard({ location }: { location: Location }) {
   return (
-    <motion.div
-      key={location.id}
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35 }}
-      style={{
-        background:
-          'linear-gradient(155deg, rgba(243,103,42,0.18) 0%, rgba(22,46,122,0.16) 60%, rgba(255,255,255,0.04) 100%)',
-        border: '1px solid rgba(255,255,255,0.1)',
-        borderRadius: 20,
-        padding: '40px 36px',
-        height: '100%',
-        position: 'relative',
-        overflow: 'hidden',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-      }}
-    >
-      {/* Backdrop big number */}
-      <div
-        aria-hidden
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={location.id}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -8 }}
+        transition={{ duration: 0.25 }}
         style={{
-          position: 'absolute',
-          top: -20,
-          right: -10,
-          fontSize: 280,
-          fontWeight: 800,
-          color: 'rgba(255,255,255,0.05)',
-          lineHeight: 0.85,
-          letterSpacing: '-12px',
-          pointerEvents: 'none',
-          userSelect: 'none',
+          background:
+            'linear-gradient(155deg, rgba(243,103,42,0.08) 0%, rgba(255,255,255,0.03) 100%)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          borderRadius: 18,
+          padding: '28px 28px 24px',
+          position: 'relative',
+          overflow: 'hidden',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
         }}
       >
-        {String(location.id).padStart(2, '0')}
-      </div>
-
-      <div style={{ position: 'relative', zIndex: 1 }}>
+        {/* Subtle backdrop number — smaller than before */}
         <div
+          aria-hidden
           style={{
-            fontSize: 10,
+            position: 'absolute',
+            top: -10,
+            right: 14,
+            fontSize: 120,
             fontWeight: 800,
-            letterSpacing: 2,
-            textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.5)',
-            marginBottom: 14,
-            fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+            color: 'rgba(255,255,255,0.05)',
+            lineHeight: 0.85,
+            letterSpacing: '-6px',
+            pointerEvents: 'none',
+            userSelect: 'none',
           }}
         >
-          / Selected · LOC-{String(location.id).padStart(3, '0')}
+          {String(location.id).padStart(2, '0')}
         </div>
 
-        <div
-          style={{
-            fontSize: 'clamp(28px, 3.4vw, 44px)',
-            fontWeight: 800,
-            color: 'white',
-            textTransform: 'uppercase',
-            letterSpacing: '-1.2px',
-            lineHeight: 1.05,
-            marginBottom: 8,
-          }}
-        >
-          {location.label}
-        </div>
-        <div
-          style={{
-            fontSize: 13,
-            color: 'rgba(255,255,255,0.65)',
-            marginBottom: 32,
-            fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
-            letterSpacing: 0.4,
-          }}
-        >
-          {location.neighborhood} · {location.city}, {location.state}
-        </div>
-
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 16,
-            marginBottom: 32,
-          }}
-        >
-          {[
-            {
-              icon: <MapPin size={14} />,
-              label: 'Address',
-              value: `${location.address}, ${location.city} ${location.zip}`,
-            },
-            {
-              icon: <Phone size={14} />,
-              label: 'Phone',
-              value: location.phone,
-            },
-            {
-              icon: <Clock size={14} />,
-              label: 'Hours',
-              value: location.hours,
-            },
-          ].map((row) => (
-            <div
-              key={row.label}
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '32px 90px 1fr',
-                gap: 12,
-                alignItems: 'flex-start',
-              }}
-            >
-              <div
-                style={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: 8,
-                  background: 'rgba(243,103,42,0.16)',
-                  border: '1px solid rgba(243,103,42,0.32)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#F3672A',
-                }}
-              >
-                {row.icon}
-              </div>
-              <div
-                style={{
-                  fontSize: 10,
-                  fontWeight: 800,
-                  letterSpacing: 1.5,
-                  textTransform: 'uppercase',
-                  color: 'rgba(255,255,255,0.4)',
-                  fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
-                  paddingTop: 8,
-                }}
-              >
-                {row.label}
-              </div>
-              <div
-                style={{
-                  fontSize: 14,
-                  color: 'white',
-                  lineHeight: 1.5,
-                  paddingTop: 6,
-                }}
-              >
-                {row.value}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingTop: 24,
-            borderTop: '1px solid rgba(255,255,255,0.1)',
-            gap: 16,
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Star size={14} fill="#F3672A" style={{ color: '#F3672A' }} />
-            <span
-              style={{
-                fontSize: 14,
-                fontWeight: 700,
-                color: 'white',
-                letterSpacing: '-0.2px',
-              }}
-            >
-              {location.rating.toFixed(1)}
-            </span>
-            <span
-              style={{
-                fontSize: 11,
-                color: 'rgba(255,255,255,0.55)',
-                fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
-                letterSpacing: 0.4,
-              }}
-            >
-              · {location.review_count} reviews
-            </span>
-          </div>
-          <a
-            href={`/clinics/${location.slug}/`}
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              background: '#F3672A',
-              color: 'white',
-              borderRadius: 8,
-              padding: '12px 20px',
-              fontSize: 12,
+              fontSize: 10,
               fontWeight: 800,
-              textDecoration: 'none',
+              letterSpacing: 2,
               textTransform: 'uppercase',
-              letterSpacing: 0.6,
+              color: 'rgba(255,255,255,0.45)',
+              marginBottom: 10,
+              fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
             }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLElement).style.background = '#d95a22')
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLElement).style.background = '#F3672A')
-            }
           >
-            View office
-            <ArrowUpRight size={13} />
-          </a>
+            / Selected · LOC-{String(location.id).padStart(3, '0')}
+          </div>
+
+          <div
+            style={{
+              fontSize: 'clamp(22px, 2.4vw, 30px)',
+              fontWeight: 800,
+              color: 'white',
+              textTransform: 'uppercase',
+              letterSpacing: '-0.7px',
+              lineHeight: 1.1,
+              marginBottom: 6,
+            }}
+          >
+            {location.label}
+          </div>
+          <div
+            style={{
+              fontSize: 12,
+              color: 'rgba(255,255,255,0.55)',
+              marginBottom: 22,
+              fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+              letterSpacing: 0.4,
+            }}
+          >
+            {location.neighborhood} · {location.city}, {location.state}
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 12,
+              marginBottom: 22,
+            }}
+          >
+            {[
+              {
+                icon: <MapPin size={13} />,
+                label: 'Address',
+                value: `${location.address}, ${location.city} ${location.zip}`,
+              },
+              {
+                icon: <Phone size={13} />,
+                label: 'Phone',
+                value: location.phone,
+              },
+              {
+                icon: <Clock size={13} />,
+                label: 'Hours',
+                value: location.hours,
+              },
+            ].map((row) => (
+              <div
+                key={row.label}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '26px 1fr',
+                  gap: 12,
+                  alignItems: 'flex-start',
+                }}
+              >
+                <div
+                  style={{
+                    width: 26,
+                    height: 26,
+                    borderRadius: 7,
+                    background: 'rgba(243,103,42,0.14)',
+                    border: '1px solid rgba(243,103,42,0.28)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#F3672A',
+                  }}
+                >
+                  {row.icon}
+                </div>
+                <div>
+                  <div
+                    style={{
+                      fontSize: 9,
+                      fontWeight: 800,
+                      letterSpacing: 1.4,
+                      textTransform: 'uppercase',
+                      color: 'rgba(255,255,255,0.4)',
+                      fontFamily:
+                        'ui-monospace, "SF Mono", Menlo, monospace',
+                      marginBottom: 2,
+                    }}
+                  >
+                    {row.label}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: 'white',
+                      lineHeight: 1.45,
+                    }}
+                  >
+                    {row.value}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingTop: 18,
+              borderTop: '1px solid rgba(255,255,255,0.1)',
+              gap: 14,
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+              <Star size={12} fill="#F3672A" style={{ color: '#F3672A' }} />
+              <span
+                style={{
+                  fontSize: 13,
+                  fontWeight: 700,
+                  color: 'white',
+                }}
+              >
+                {location.rating.toFixed(1)}
+              </span>
+              <span
+                style={{
+                  fontSize: 11,
+                  color: 'rgba(255,255,255,0.5)',
+                  fontFamily:
+                    'ui-monospace, "SF Mono", Menlo, monospace',
+                  letterSpacing: 0.3,
+                }}
+              >
+                · {location.review_count} reviews
+              </span>
+            </div>
+            <a
+              href={`/clinics/${location.slug}/`}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                background: '#F3672A',
+                color: 'white',
+                borderRadius: 8,
+                padding: '9px 16px',
+                fontSize: 11,
+                fontWeight: 800,
+                textDecoration: 'none',
+                textTransform: 'uppercase',
+                letterSpacing: 0.6,
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement
+                el.style.background = '#d95a22'
+                el.style.transform = 'translateY(-1px)'
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement
+                el.style.background = '#F3672A'
+                el.style.transform = 'translateY(0)'
+              }}
+            >
+              View office
+              <ArrowUpRight size={12} />
+            </a>
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </AnimatePresence>
   )
 }
 
 export function LocationsV3() {
   const [selected, setSelected] = useState(INITIAL_DATA.locations[0].id)
   const active = INITIAL_DATA.locations.find((l) => l.id === selected)!
+  const totalCount = INITIAL_DATA.locations.length
 
   return (
     <section
@@ -342,7 +355,10 @@ export function LocationsV3() {
         background: '#0A0A0F',
         padding: '140px 32px',
         position: 'relative',
-        overflow: 'hidden',
+        // `clip` clips the decorative grid overlay but — unlike `hidden` —
+        // doesn't establish a scroll container, so `position: sticky` on the
+        // detail card still works as the user scrolls through the list.
+        overflow: 'clip',
       }}
     >
       <div
@@ -374,70 +390,138 @@ export function LocationsV3() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          style={{ marginBottom: 56 }}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: 56,
+            alignItems: 'flex-end',
+            marginBottom: 48,
+          }}
         >
-          <div
-            style={{
-              fontSize: 11,
-              fontWeight: 800,
-              letterSpacing: 2,
-              textTransform: 'uppercase',
-              color: '#F3672A',
-              marginBottom: 24,
-              fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
-            }}
-          >
-            [ 10 ] · The Network
-          </div>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1.4fr 1fr',
-              gap: 56,
-              alignItems: 'flex-end',
-            }}
-          >
+          <div>
+            <div
+              style={{
+                fontSize: 11,
+                fontWeight: 800,
+                letterSpacing: 2,
+                textTransform: 'uppercase',
+                color: '#F3672A',
+                marginBottom: 22,
+                fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+              }}
+            >
+              [ 10 ] · The Network
+            </div>
             <h2
               style={{
-                fontSize: 'clamp(44px, 5.6vw, 76px)',
+                fontSize: 'clamp(36px, 4.5vw, 56px)',
                 fontWeight: 800,
                 lineHeight: 0.95,
-                letterSpacing: '-2.2px',
+                letterSpacing: '-1.6px',
                 color: 'white',
                 margin: 0,
                 textTransform: 'uppercase',
               }}
             >
-              Ten offices
-              <br />
+              Offices{' '}
               <span style={{ color: '#F3672A' }}>across</span> the valley.
             </h2>
-            <p
+          </div>
+          <p
+            style={{
+              fontSize: 15,
+              color: 'rgba(255,255,255,0.6)',
+              lineHeight: 1.65,
+              margin: 0,
+              maxWidth: 440,
+            }}
+          >
+            From Bonanza & Eastern in the southeast to Cheyenne Commons in the
+            northwest, plus our Beltway Marketplace clinic in the south — every
+            location runs the same Boca standard of care.{' '}
+            <span
               style={{
-                fontSize: 17,
-                color: 'rgba(255,255,255,0.65)',
-                lineHeight: 1.65,
-                margin: 0,
-                maxWidth: 460,
+                color: 'rgba(255,255,255,0.85)',
+                fontWeight: 700,
               }}
             >
-              From Eastern & Bonanza in the east to Rainbow & Cheyenne in the
-              northwest, plus Henderson — every location runs the same Boca
-              standard of care.
-            </p>
-          </div>
+              Hover any office.
+            </span>
+          </p>
         </motion.div>
 
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1.1fr',
-            gap: 28,
+            gridTemplateColumns: '1fr 1fr',
+            gap: 32,
             alignItems: 'flex-start',
           }}
         >
-          {/* LEFT — interactive list */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {/* LEFT — interactive list (tighter, line-based) */}
+          <div
+            style={{
+              border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: 14,
+              overflow: 'hidden',
+              background: 'rgba(255,255,255,0.02)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+            }}
+          >
+            {/* Header strip */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '40px 1fr auto',
+                gap: 14,
+                alignItems: 'center',
+                padding: '12px 18px',
+                background: 'rgba(255,255,255,0.03)',
+                borderBottom: '1px solid rgba(255,255,255,0.08)',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 9,
+                  fontWeight: 800,
+                  letterSpacing: 1.5,
+                  textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.4)',
+                  fontFamily:
+                    'ui-monospace, "SF Mono", Menlo, monospace',
+                }}
+              >
+                / IDX
+              </div>
+              <div
+                style={{
+                  fontSize: 9,
+                  fontWeight: 800,
+                  letterSpacing: 1.5,
+                  textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.4)',
+                  fontFamily:
+                    'ui-monospace, "SF Mono", Menlo, monospace',
+                }}
+              >
+                Location · Neighborhood
+              </div>
+              <div
+                style={{
+                  fontSize: 9,
+                  fontWeight: 800,
+                  letterSpacing: 1.5,
+                  textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.4)',
+                  fontFamily:
+                    'ui-monospace, "SF Mono", Menlo, monospace',
+                }}
+              >
+                {totalCount} TOTAL
+              </div>
+            </div>
+
             {INITIAL_DATA.locations.map((loc, i) => (
               <LocationRow
                 key={loc.id}

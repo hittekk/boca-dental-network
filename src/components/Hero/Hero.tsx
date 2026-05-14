@@ -64,6 +64,11 @@ export function Hero({ brand }: HeroProps) {
             min-height: 320px !important;
             order: -1 !important;
           }
+          .boca-hero-copy { text-align: center !important; }
+          .boca-hero-copy > * { margin-left: auto !important; margin-right: auto !important; }
+          .boca-hero-ctas { flex-direction: column !important; align-items: stretch !important; gap: 12px !important; }
+          .boca-hero-ctas > a, .boca-hero-ctas > button { width: 100% !important; justify-content: center !important; }
+          .boca-hero-rating { justify-content: center !important; }
         }
       `}</style>
       <div
@@ -81,7 +86,7 @@ export function Hero({ brand }: HeroProps) {
         }}
       >
         {/* LEFT — copy + CTAs */}
-        <div>
+        <div className="boca-hero-copy">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -119,10 +124,10 @@ export function Hero({ brand }: HeroProps) {
               margin: '0 0 22px',
             }}
           >
-            <span style={{ display: 'block' }}>Las Vegas' Dental Home</span>
-            <span style={{ display: 'block' }}>
-              for the{' '}
-              <span style={{ color: '#F3672A' }}>Whole Family</span>
+            <span style={{ display: 'block' }}>Las Vegas' Dental</span>
+            <span style={{ display: 'block' }}>Home for the</span>
+            <span style={{ display: 'block', color: '#F3672A' }}>
+              Whole Family
             </span>
             <span
               style={{
@@ -135,7 +140,7 @@ export function Hero({ brand }: HeroProps) {
                 marginTop: 18,
               }}
             >
-              — 9 Locations · One Team
+              9 Locations · One Team
             </span>
           </motion.h1>
 
@@ -157,6 +162,7 @@ export function Hero({ brand }: HeroProps) {
           </motion.p>
 
           <motion.div
+            className="boca-hero-ctas"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.85, duration: 0.5 }}
@@ -231,6 +237,7 @@ export function Hero({ brand }: HeroProps) {
 
           {/* Inline rating line — micro trust signal in copy column */}
           <motion.div
+            className="boca-hero-rating"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.05, duration: 0.5 }}
@@ -266,7 +273,10 @@ export function Hero({ brand }: HeroProps) {
               <span>1,200+ Google reviews</span>
             </span>
             <span style={{ opacity: 0.55 }}>·</span>
-            <span>across 9 Las Vegas offices</span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+              <MapPin size={13} color="#F3672A" />
+              <span>across 9 Las Vegas offices</span>
+            </span>
           </motion.div>
         </div>
 

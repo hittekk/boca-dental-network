@@ -1,6 +1,5 @@
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Plus } from 'lucide-react'
+import { useState, useMemo } from 'react'
+import { motion } from 'framer-motion'
 
 const FAQS = [
   {
@@ -43,29 +42,59 @@ const FAQS = [
     cat: 'Pediatric',
     question: 'How young can my child start at Boca Kids?',
     answer:
-      'We recommend a child\'s first dental visit by age 1, or within 6 months of their first tooth. Boca Kids is built specifically for pediatric care from toddler years through teen years, including braces.',
+      "We recommend a child's first dental visit by age 1, or within 6 months of their first tooth. Boca Kids is built specifically for pediatric care from toddler years through teen years, including braces.",
   },
   {
     cat: 'Hours',
     question: 'When are you open?',
     answer:
-      'Most Boca locations are open Monday–Friday 9am–7pm and Saturday 9am–7pm — a few offices have shorter Saturday hours. Closed Sundays. Visit any location page for that office\'s exact schedule.',
+      "Most Boca locations are open Monday–Friday 9am–7pm and Saturday 9am–7pm — a few offices have shorter Saturday hours. Closed Sundays. Visit any location page for that office's exact schedule.",
   },
 ]
 
+const ALL_TAG = 'All'
+
 export function FAQV3() {
-  const [openIndex, setOpenIndex] = useState<number>(0)
+  const [activeCat, setActiveCat] = useState<string>(ALL_TAG)
+
+  const categories = useMemo(() => {
+    const uniq = Array.from(new Set(FAQS.map((f) => f.cat)))
+    return [ALL_TAG, ...uniq]
+  }, [])
+
+  const filtered = useMemo(() => {
+    if (activeCat === ALL_TAG) return FAQS
+    return FAQS.filter((f) => f.cat === activeCat)
+  }, [activeCat])
 
   return (
     <section
       id="faq"
       style={{
-        background: '#F5F0EA',
+        background: '#0A0A0F',
         padding: '140px 32px',
         position: 'relative',
-        overflow: 'hidden',
+        overflow: 'clip',
       }}
     >
+      {/* Grid pattern */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage:
+            'linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px)',
+          backgroundSize: '64px 64px',
+          maskImage:
+            'radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 90%)',
+          WebkitMaskImage:
+            'radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 90%)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Big ? watermark */}
       <div
         aria-hidden
         style={{
@@ -74,7 +103,7 @@ export function FAQV3() {
           right: 40,
           fontSize: 'clamp(180px, 22vw, 360px)',
           fontWeight: 800,
-          color: 'rgba(10,10,15,0.04)',
+          color: 'rgba(255,255,255,0.05)',
           lineHeight: 0.85,
           letterSpacing: '-12px',
           pointerEvents: 'none',
@@ -87,28 +116,29 @@ export function FAQV3() {
 
       <div
         style={{
-          maxWidth: 1180,
+          maxWidth: 1280,
           margin: '0 auto',
           position: 'relative',
           zIndex: 1,
         }}
       >
-        <div
+        {/* ── Header — compact 2-col asymmetric ───────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
           style={{
             display: 'grid',
-            gridTemplateColumns: '0.85fr 1.15fr',
-            gap: 80,
-            alignItems: 'flex-start',
+            gridTemplateColumns: '1fr 1fr',
+            gap: 56,
+            alignItems: 'flex-end',
+            marginBottom: 36,
+            paddingBottom: 22,
+            borderBottom: '1px solid rgba(255,255,255,0.1)',
           }}
         >
-          {/* LEFT — sticky panel */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5 }}
-            style={{ position: 'sticky', top: 110 }}
-          >
+          <div>
             <div
               style={{
                 fontSize: 11,
@@ -116,201 +146,341 @@ export function FAQV3() {
                 letterSpacing: 2,
                 textTransform: 'uppercase',
                 color: '#F3672A',
-                marginBottom: 24,
+                marginBottom: 22,
                 fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
               }}
             >
-              [ 08 ] · Asked & Answered
+              [ 08 ] · Knowledge Base
             </div>
             <h2
               style={{
-                fontSize: 'clamp(40px, 5vw, 64px)',
+                fontSize: 'clamp(40px, 4.6vw, 62px)',
                 fontWeight: 800,
                 lineHeight: 0.95,
-                letterSpacing: '-2px',
-                color: '#0A0A0F',
-                margin: '0 0 28px',
+                letterSpacing: '-1.8px',
+                color: 'white',
+                margin: 0,
                 textTransform: 'uppercase',
               }}
             >
-              The questions
+              <span style={{ whiteSpace: 'nowrap' }}>Filter by topic.</span>
               <br />
-              we hear{' '}
-              <span style={{ color: '#F3672A' }}>every day.</span>
+              <span style={{ whiteSpace: 'nowrap', color: '#F3672A' }}>
+                Find an answer.
+              </span>
             </h2>
-            <p
-              style={{
-                fontSize: 16,
-                color: 'rgba(10,10,15,0.65)',
-                lineHeight: 1.65,
-                margin: '0 0 28px',
-                maxWidth: 380,
-              }}
-            >
-              Insurance, pricing, kids, emergencies, hours — the eight things
-              our front desk gets asked most. Yours not here? Just call.
-            </p>
+          </div>
+          <p
+            style={{
+              fontSize: 15,
+              color: 'rgba(255,255,255,0.6)',
+              lineHeight: 1.65,
+              margin: 0,
+              maxWidth: 460,
+            }}
+          >
+            Pick a category — or scan all eight. Yours not here? Just call us
+            at{' '}
             <a
               href="tel:7024560005"
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 10,
-                background: '#0A0A0F',
-                color: 'white',
-                borderRadius: 8,
-                padding: '14px 26px',
-                fontSize: 13,
-                fontWeight: 800,
+                color: '#F3672A',
                 textDecoration: 'none',
-                textTransform: 'uppercase',
-                letterSpacing: 0.6,
+                fontWeight: 700,
               }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.background = '#1a1a24')
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.background = '#0A0A0F')
-              }
             >
-              Call (702) 456-0005
-            </a>
-          </motion.div>
+              (702) 456-0005
+            </a>{' '}
+            and someone will pick up.
+          </p>
+        </motion.div>
 
-          {/* RIGHT — accordion */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.05 }}
-            transition={{ duration: 0.6 }}
+        {/* ── Category filter pills ──────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1, duration: 0.4 }}
+          style={{
+            display: 'flex',
+            gap: 8,
+            flexWrap: 'wrap',
+            marginBottom: 32,
+            alignItems: 'center',
+          }}
+        >
+          <span
+            style={{
+              fontSize: 10,
+              fontWeight: 800,
+              letterSpacing: 1.5,
+              textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.4)',
+              fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+              marginRight: 4,
+            }}
           >
-            {FAQS.map((faq, i) => {
-              const isOpen = openIndex === i
-              return (
-                <motion.div
-                  key={faq.question}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.04, duration: 0.35 }}
+            / FILTER:
+          </span>
+          {categories.map((cat) => {
+            const active = activeCat === cat
+            const count =
+              cat === ALL_TAG
+                ? FAQS.length
+                : FAQS.filter((f) => f.cat === cat).length
+            return (
+              <button
+                key={cat}
+                onClick={() => setActiveCat(cat)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  fontSize: 11,
+                  fontWeight: 800,
+                  letterSpacing: 1.2,
+                  textTransform: 'uppercase',
+                  background: active ? '#F3672A' : 'rgba(255,255,255,0.04)',
+                  border: active
+                    ? '1px solid #F3672A'
+                    : '1px solid rgba(255,255,255,0.1)',
+                  color: active ? 'white' : 'rgba(255,255,255,0.75)',
+                  borderRadius: 999,
+                  padding: '7px 14px',
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  if (!active) {
+                    ;(e.currentTarget as HTMLElement).style.borderColor =
+                      'rgba(243,103,42,0.4)'
+                    ;(e.currentTarget as HTMLElement).style.color = 'white'
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!active) {
+                    ;(e.currentTarget as HTMLElement).style.borderColor =
+                      'rgba(255,255,255,0.1)'
+                    ;(e.currentTarget as HTMLElement).style.color =
+                      'rgba(255,255,255,0.75)'
+                  }
+                }}
+              >
+                {cat}
+                <span
                   style={{
-                    borderTop: '1px solid rgba(10,10,15,0.12)',
-                    borderBottom:
-                      i === FAQS.length - 1
-                        ? '1px solid rgba(10,10,15,0.12)'
-                        : 'none',
+                    fontSize: 10,
+                    color: active
+                      ? 'rgba(255,255,255,0.7)'
+                      : 'rgba(255,255,255,0.4)',
+                    fontFamily:
+                      'ui-monospace, "SF Mono", Menlo, monospace',
                   }}
                 >
-                  <button
-                    onClick={() => setOpenIndex(isOpen ? -1 : i)}
-                    style={{
-                      width: '100%',
-                      background: 'transparent',
-                      border: 'none',
-                      padding: '28px 0',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 24,
-                      textAlign: 'left',
-                      cursor: 'pointer',
-                      fontFamily: 'inherit',
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 800,
-                        letterSpacing: 1.5,
-                        textTransform: 'uppercase',
-                        color: 'rgba(10,10,15,0.4)',
-                        fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
-                        minWidth: 80,
-                        flexShrink: 0,
-                      }}
-                    >
-                      / {String(i + 1).padStart(2, '0')}
-                    </div>
-                    <div
-                      style={{
-                        flex: 1,
-                        fontSize: 19,
-                        fontWeight: 700,
-                        color: isOpen ? '#F3672A' : '#0A0A0F',
-                        letterSpacing: '-0.3px',
-                        lineHeight: 1.3,
-                        transition: 'color 0.2s ease',
-                      }}
-                    >
-                      {faq.question}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: 10,
-                        fontWeight: 700,
-                        letterSpacing: 1.2,
-                        textTransform: 'uppercase',
-                        color: '#F3672A',
-                        background: 'rgba(243,103,42,0.08)',
-                        border: '1px solid rgba(243,103,42,0.18)',
-                        borderRadius: 999,
-                        padding: '4px 10px',
-                        fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
-                        flexShrink: 0,
-                      }}
-                    >
-                      {faq.cat}
-                    </div>
-                    <motion.div
-                      animate={{ rotate: isOpen ? 45 : 0 }}
-                      transition={{ duration: 0.25, ease: 'easeInOut' }}
-                      style={{
-                        width: 36,
-                        height: 36,
-                        borderRadius: '50%',
-                        background: isOpen ? '#F3672A' : 'rgba(10,10,15,0.06)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0,
-                        transition: 'background 0.2s ease',
-                      }}
-                    >
-                      <Plus
-                        size={16}
-                        style={{ color: isOpen ? 'white' : '#0A0A0F' }}
-                      />
-                    </motion.div>
-                  </button>
+                  {String(count).padStart(2, '0')}
+                </span>
+              </button>
+            )
+          })}
+        </motion.div>
 
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: [0.0, 0.0, 0.2, 1.0] }}
-                        style={{ overflow: 'hidden' }}
-                      >
-                        <div
-                          style={{
-                            paddingLeft: 104,
-                            paddingRight: 60,
-                            paddingBottom: 32,
-                            fontSize: 16,
-                            color: 'rgba(10,10,15,0.7)',
-                            lineHeight: 1.7,
-                          }}
-                        >
-                          {faq.answer}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              )
-            })}
-          </motion.div>
+        {/* ── Result counter ───────────────────────────── */}
+        <div
+          style={{
+            fontSize: 10,
+            fontWeight: 800,
+            letterSpacing: 1.5,
+            textTransform: 'uppercase',
+            color: 'rgba(255,255,255,0.4)',
+            fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+            marginBottom: 18,
+          }}
+        >
+          / SHOWING {String(filtered.length).padStart(2, '0')} OF{' '}
+          {String(FAQS.length).padStart(2, '0')}
+          {activeCat !== ALL_TAG && ` · TOPIC: ${activeCat}`}
         </div>
+
+        {/* ── FAQ knowledge-base grid (always expanded) ─ */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: 14,
+          }}
+        >
+          {filtered.map((faq, i) => (
+            <motion.article
+              key={faq.question}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.04, duration: 0.4 }}
+              style={{
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: 14,
+                padding: '24px 26px 22px',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                transition: 'all 0.25s ease',
+                cursor: 'default',
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement
+                el.style.borderColor = 'rgba(243,103,42,0.35)'
+                el.style.background = 'rgba(243,103,42,0.04)'
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement
+                el.style.borderColor = 'rgba(255,255,255,0.08)'
+                el.style.background = 'rgba(255,255,255,0.03)'
+              }}
+            >
+              {/* Top row — index + category */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: 14,
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 800,
+                    letterSpacing: 1.5,
+                    color: 'rgba(255,255,255,0.4)',
+                    fontFamily:
+                      'ui-monospace, "SF Mono", Menlo, monospace',
+                  }}
+                >
+                  / {String(i + 1).padStart(2, '0')}
+                </span>
+                <span
+                  style={{
+                    fontSize: 9,
+                    fontWeight: 800,
+                    letterSpacing: 1.2,
+                    textTransform: 'uppercase',
+                    color: '#F3672A',
+                    background: 'rgba(243,103,42,0.12)',
+                    border: '1px solid rgba(243,103,42,0.3)',
+                    borderRadius: 999,
+                    padding: '3px 9px',
+                    fontFamily:
+                      'ui-monospace, "SF Mono", Menlo, monospace',
+                  }}
+                >
+                  {faq.cat}
+                </span>
+              </div>
+
+              <h3
+                style={{
+                  fontSize: 16,
+                  fontWeight: 800,
+                  color: 'white',
+                  letterSpacing: '-0.2px',
+                  lineHeight: 1.3,
+                  margin: '0 0 12px',
+                }}
+              >
+                {faq.question}
+              </h3>
+
+              <p
+                style={{
+                  fontSize: 13,
+                  lineHeight: 1.65,
+                  color: 'rgba(255,255,255,0.65)',
+                  margin: 0,
+                }}
+              >
+                {faq.answer}
+              </p>
+            </motion.article>
+          ))}
+        </div>
+
+        {/* ── Footer call-to-action strip ──────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          style={{
+            marginTop: 40,
+            padding: '24px 28px',
+            background:
+              'linear-gradient(135deg, rgba(243,103,42,0.12) 0%, rgba(243,103,42,0.02) 100%)',
+            border: '1px solid rgba(243,103,42,0.28)',
+            borderRadius: 16,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 18,
+            flexWrap: 'wrap',
+          }}
+        >
+          <div>
+            <div
+              style={{
+                fontSize: 10,
+                fontWeight: 800,
+                letterSpacing: 2,
+                textTransform: 'uppercase',
+                color: '#F3672A',
+                marginBottom: 6,
+                fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+              }}
+            >
+              / Still curious?
+            </div>
+            <div
+              style={{
+                fontSize: 16,
+                fontWeight: 700,
+                color: 'white',
+                letterSpacing: '-0.2px',
+              }}
+            >
+              Call us — someone picks up in under 60 seconds.
+            </div>
+          </div>
+          <a
+            href="tel:7024560005"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 10,
+              background: '#F3672A',
+              color: 'white',
+              borderRadius: 8,
+              padding: '14px 26px',
+              fontSize: 13,
+              fontWeight: 800,
+              textDecoration: 'none',
+              textTransform: 'uppercase',
+              letterSpacing: 0.6,
+              boxShadow: '0 12px 32px rgba(243,103,42,0.32)',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLElement
+              el.style.background = '#d95a22'
+              el.style.transform = 'translateY(-2px)'
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLElement
+              el.style.background = '#F3672A'
+              el.style.transform = 'translateY(0)'
+            }}
+          >
+            (702) 456-0005
+          </a>
+        </motion.div>
       </div>
     </section>
   )

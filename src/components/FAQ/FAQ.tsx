@@ -2,46 +2,49 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, Phone } from 'lucide-react'
 
+// 8 homepage FAQs — exact text per Treysyde spec §9.
+// These match the FAQPage JSON-LD emitted by HomepageSchema and inject-schema.mjs
+// (Google penalizes schema/visible-content mismatches).
 const FAQS = [
   {
-    question: 'Do you accept Nevada Medicaid and CHIP?',
+    question: 'Is Boca Dental & Braces accepting new patients?',
     answer:
-      'Yes — every Boca Dental and Braces location accepts Nevada Medicaid and CHIP for qualifying patients, including full pediatric dental coverage at our Boca Kids offices. Bring your Medicaid card to your first visit and we will handle the rest.',
+      'Yes. All 9 Boca Dental & Braces locations in Las Vegas are currently accepting new patients. You can book an appointment online at any time or call your nearest location directly. Most new patient appointments can be scheduled within a few days.',
   },
   {
-    question: 'Which dental insurance plans do you take?',
+    question: 'Does Boca Dental & Braces accept dental insurance?',
     answer:
-      'We are in-network with most major dental plans including Delta Dental, MetLife, Cigna, Aetna, United Healthcare, Guardian, Humana, Anthem Blue Cross Blue Shield, and 25+ more. We verify your benefits before your first visit so you know exactly what is covered.',
+      'Boca Dental & Braces accepts most major PPO dental insurance plans, including Delta Dental, Aetna, Cigna, Guardian, MetLife, and many others. Our team will verify your benefits before your appointment and provide a clear breakdown of your estimated out-of-pocket costs. We also accept Medicaid for eligible patients at select locations.',
   },
   {
-    question: 'What if I do not have insurance — can I still afford care?',
+    question: 'What dental services does Boca Dental & Braces offer?',
     answer:
-      'Absolutely. We offer in-house payment plans starting at $0 down, plus financing through CareCredit, Sunbit, and Alphaeon. Many treatments can be split over 6 to 24 months with low or no interest. Cost should never be the reason you avoid the dentist.',
+      'Boca Dental & Braces offers a comprehensive range of dental services including general and preventive dentistry, cosmetic dentistry, restorative dentistry, dental implants, orthodontics (Invisalign and traditional braces), pediatric dentistry, oral surgery, periodontal care, and sedation dentistry. Not all services are available at every location — contact your nearest clinic or browse our services page to confirm availability.',
   },
   {
-    question: 'Are you accepting new patients right now?',
+    question: 'Do you offer same-day or emergency dental appointments?',
     answer:
-      'Yes — all 9 Boca locations are accepting new patients. Most offices can schedule new patient exams within the same week, and many offer same-day or next-day availability. Call (702) 456-0005 or book online at any location page.',
+      'Yes. Boca Dental & Braces offers same-day emergency dental appointments at multiple Las Vegas locations. If you are experiencing a dental emergency — severe toothache, broken tooth, lost crown, swelling, or dental trauma — call your nearest location immediately. We prioritize emergency cases and work to see patients as quickly as possible, often the same day.',
   },
   {
-    question: 'Do you handle dental emergencies on the same day?',
+    question: "Where are Boca Dental & Braces' Las Vegas locations?",
     answer:
-      'Yes — toothache, broken crown, knocked-out tooth, or sudden swelling? Most Boca locations offer same-day emergency appointments during business hours. Call your nearest office immediately and we will work you into the schedule.',
-  },
-  {
-    question: '¿Hay personal que habla español?',
-    answer:
-      'Sí — every Boca Dental and Braces location has Spanish-speaking team members at the front desk and in the operatories. Hablamos español en todas nuestras 9 oficinas en Las Vegas y Henderson para servirle mejor.',
-  },
-  {
-    question: 'How young can my child start coming to Boca Kids?',
-    answer:
-      'We recommend a child\'s first dental visit by age 1, or within 6 months of their first tooth appearing. Boca Kids is built specifically for pediatric care from the toddler years through the teenage years, including braces and orthodontics.',
+      'Boca Dental & Braces has 9 dental clinic locations across Las Vegas, Nevada: Bonanza & Eastern, Russell & Eastern, Sahara & Decatur, Charleston & Lamb, Flamingo & Torrey Pines, Cheyenne Commons, Beltway Marketplace, Jones & I-95, and our dedicated pediatric clinic Boca Kids Dentistry. Use our location finder to identify the clinic nearest to you.',
   },
   {
     question: 'What are your office hours?',
     answer:
-      'Most Boca locations are open Monday through Friday 9am to 7pm and Saturday 9am to 7pm — a few offices have shorter Saturday hours. Closed Sundays. Visit any location page for that office\'s exact schedule.',
+      'Hours vary by location. Most Boca Dental & Braces clinics are open Monday through Saturday with early morning, daytime, and evening appointment slots available. We designed our hours around Las Vegas families and working adults — so you will find options that fit your schedule without taking time off work.',
+  },
+  {
+    question: 'Do you offer payment plans for dental treatment?',
+    answer:
+      'Yes. Boca Dental & Braces offers flexible financing through CareCredit, allowing patients to spread treatment costs over 6, 12, 18, or 24 months. We also offer in-house payment plans at most locations. Additionally, FSA and HSA funds can be applied toward dental treatment. No patient should delay needed dental care because of cost — our team will work with you to find a plan that fits your budget.',
+  },
+  {
+    question: 'Is Boca Dental & Braces good for kids?',
+    answer:
+      'Absolutely. Boca Dental & Braces has a dedicated pediatric dentistry program and a fully kid-focused clinic — Boca Kids Dentistry — adjacent to our Russell & Eastern flagship. We see patients starting from their first tooth. Our team is experienced in creating a calm, friendly environment for children, and we offer preventive services like sealants and fluoride treatments specifically designed for young patients.',
   },
 ]
 
@@ -148,8 +151,9 @@ export function FAQ() {
 
   return (
     <section id="faq" style={{ background: '#ffffff', padding: '96px 32px' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <div
+          className="faq-two-col"
           style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1.4fr',
@@ -157,12 +161,19 @@ export function FAQ() {
             alignItems: 'flex-start',
           }}
         >
-          {/* Left — sticky panel */}
+          <style>{`
+            @media (max-width: 880px) {
+              .faq-two-col { grid-template-columns: 1fr !important; gap: 36px !important; }
+              .faq-sticky-panel { position: static !important; top: auto !important; }
+            }
+          `}</style>
+          {/* Left — sticky panel (desktop only; static stacked on mobile) */}
           <motion.div
             initial={{ opacity: 0, x: -32 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6, ease: [0.0, 0.0, 0.2, 1.0] }}
+            className="faq-sticky-panel"
             style={{
               position: 'sticky',
               top: 100,
@@ -182,7 +193,7 @@ export function FAQ() {
             </div>
             <h2
               style={{
-                fontSize: 'clamp(28px, 3.5vw, 44px)',
+                fontSize: 'clamp(28px, 4vw, 44px)',
                 fontWeight: 800,
                 textTransform: 'uppercase',
                 color: '#162E7A',

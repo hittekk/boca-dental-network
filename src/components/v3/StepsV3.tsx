@@ -36,21 +36,70 @@ export function StepsV3() {
     <section
       id="new-patients"
       style={{
-        background: '#F5F0EA',
+        background: '#0A0A0F',
         padding: '140px 32px',
         position: 'relative',
         overflow: 'hidden',
       }}
     >
+      {/* Background image — office at night, heavily faded for atmosphere */}
+      <img
+        aria-hidden
+        src="/boca-modern-office.webp"
+        alt=""
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          objectPosition: 'center',
+          opacity: 0.18,
+          pointerEvents: 'none',
+          userSelect: 'none',
+          filter: 'saturate(0.7) brightness(0.6)',
+        }}
+      />
+
+      {/* Dark gradient overlay — readability + cinematic mood */}
       <div
         aria-hidden
         style={{
           position: 'absolute',
-          top: 0,
+          inset: 0,
+          background:
+            'linear-gradient(180deg, rgba(10,10,15,0.85) 0%, rgba(10,10,15,0.6) 40%, rgba(10,10,15,0.85) 100%)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Grid pattern overlay */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage:
+            'linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px)',
+          backgroundSize: '64px 64px',
+          maskImage:
+            'radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 90%)',
+          WebkitMaskImage:
+            'radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 90%)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Giant 04 watermark */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          top: 20,
           right: 40,
           fontSize: 'clamp(180px, 22vw, 360px)',
           fontWeight: 800,
-          color: 'rgba(10,10,15,0.04)',
+          color: 'rgba(255,255,255,0.04)',
           lineHeight: 0.85,
           letterSpacing: '-12px',
           pointerEvents: 'none',
@@ -65,7 +114,7 @@ export function StepsV3() {
           maxWidth: 1280,
           margin: '0 auto',
           position: 'relative',
-          zIndex: 1,
+          zIndex: 2,
         }}
       >
         <motion.div
@@ -73,6 +122,7 @@ export function StepsV3() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
+          className="steps-v3-header"
           style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
@@ -81,6 +131,16 @@ export function StepsV3() {
             marginBottom: 64,
           }}
         >
+          <style>{`
+            @media (max-width: 900px) {
+              .steps-v3-header { grid-template-columns: 1fr !important; gap: 24px !important; align-items: flex-start !important; margin-bottom: 40px !important; }
+              .steps-v3-grid { grid-template-columns: repeat(2, 1fr) !important; }
+            }
+            @media (max-width: 560px) {
+              .steps-v3-grid { grid-template-columns: 1fr !important; }
+              .steps-v3-line { display: none !important; }
+            }
+          `}</style>
           <div>
             <div
               style={{
@@ -97,26 +157,25 @@ export function StepsV3() {
             </div>
             <h2
               style={{
-                fontSize: 'clamp(44px, 5.6vw, 76px)',
+                fontSize: 'clamp(28px, 4.6vw, 62px)',
                 fontWeight: 800,
-                lineHeight: 0.95,
-                letterSpacing: '-2.2px',
-                color: '#0A0A0F',
+                lineHeight: 1.0,
+                letterSpacing: '-1.2px',
+                color: 'white',
                 margin: 0,
                 textTransform: 'uppercase',
               }}
             >
-              Four steps from
+              Four steps from{' '}
+              <span style={{ color: '#F3672A' }}>"hello"</span>
               <br />
-              <span style={{ color: '#F3672A' }}>"hello"</span> to
-              <br />
-              healthier teeth.
+              to healthier teeth.
             </h2>
           </div>
           <p
             style={{
               fontSize: 17,
-              color: 'rgba(10,10,15,0.7)',
+              color: 'rgba(255,255,255,0.7)',
               lineHeight: 1.65,
               margin: 0,
               maxWidth: 460,
@@ -130,6 +189,7 @@ export function StepsV3() {
 
         {/* Step cards in a connected row with mono ETAs */}
         <div
+          className="steps-v3-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(4, 1fr)',
@@ -140,6 +200,7 @@ export function StepsV3() {
           {/* Connecting line */}
           <div
             aria-hidden
+            className="steps-v3-line"
             style={{
               position: 'absolute',
               top: 60,
@@ -147,7 +208,7 @@ export function StepsV3() {
               right: '12.5%',
               height: 1,
               background:
-                'linear-gradient(90deg, rgba(243,103,42,0.4) 0%, rgba(10,10,15,0.15) 100%)',
+                'linear-gradient(90deg, rgba(243,103,42,0.6) 0%, rgba(255,255,255,0.15) 100%)',
               zIndex: 0,
             }}
           />
@@ -160,8 +221,10 @@ export function StepsV3() {
               viewport={{ once: true, amount: 0.1 }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
               style={{
-                background: 'white',
-                border: '1px solid rgba(10,10,15,0.08)',
+                background: 'rgba(10,10,15,0.7)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
                 borderRadius: 16,
                 padding: '28px 24px 26px',
                 position: 'relative',
@@ -170,10 +233,10 @@ export function StepsV3() {
               }}
               whileHover={{
                 y: -6,
-                boxShadow: '0 16px 40px rgba(10,10,15,0.08)',
+                boxShadow: '0 24px 48px rgba(0,0,0,0.5)',
               }}
             >
-              {/* Number badge with eta below */}
+              {/* Number badge with eta */}
               <div
                 style={{
                   display: 'flex',
@@ -187,19 +250,22 @@ export function StepsV3() {
                     width: 44,
                     height: 44,
                     borderRadius: '50%',
-                    background: i === 0 ? '#F3672A' : 'white',
-                    border: i === 0 ? 'none' : '1.5px solid rgba(10,10,15,0.15)',
+                    background: i === 0 ? '#F3672A' : 'rgba(255,255,255,0.05)',
+                    border:
+                      i === 0
+                        ? 'none'
+                        : '1.5px solid rgba(255,255,255,0.18)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     fontSize: 13,
                     fontWeight: 800,
-                    color: i === 0 ? 'white' : '#0A0A0F',
+                    color: 'white',
                     fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
                     boxShadow:
                       i === 0
-                        ? '0 8px 20px rgba(243,103,42,0.32)'
-                        : '0 1px 3px rgba(10,10,15,0.06)',
+                        ? '0 8px 20px rgba(243,103,42,0.4)'
+                        : 'none',
                   }}
                 >
                   {step.num}
@@ -211,8 +277,8 @@ export function StepsV3() {
                     letterSpacing: 1,
                     textTransform: 'uppercase',
                     color: '#F3672A',
-                    background: 'rgba(243,103,42,0.08)',
-                    border: '1px solid rgba(243,103,42,0.2)',
+                    background: 'rgba(243,103,42,0.12)',
+                    border: '1px solid rgba(243,103,42,0.3)',
                     borderRadius: 999,
                     padding: '4px 10px',
                     fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
@@ -228,7 +294,7 @@ export function StepsV3() {
                   fontWeight: 800,
                   letterSpacing: 1.5,
                   textTransform: 'uppercase',
-                  color: 'rgba(10,10,15,0.4)',
+                  color: 'rgba(255,255,255,0.45)',
                   marginBottom: 10,
                   fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
                 }}
@@ -241,7 +307,7 @@ export function StepsV3() {
                   fontSize: 18,
                   fontWeight: 800,
                   textTransform: 'uppercase',
-                  color: '#0A0A0F',
+                  color: 'white',
                   letterSpacing: '-0.3px',
                   lineHeight: 1.15,
                   marginBottom: 12,
@@ -253,7 +319,7 @@ export function StepsV3() {
               <div
                 style={{
                   fontSize: 13,
-                  color: 'rgba(10,10,15,0.65)',
+                  color: 'rgba(255,255,255,0.6)',
                   lineHeight: 1.6,
                 }}
               >

@@ -1,46 +1,64 @@
 import { motion } from 'framer-motion'
-import { CheckCircle2, ArrowUpRight, Building2, CreditCard, Wallet, Sparkles } from 'lucide-react'
+import {
+  CheckCircle2,
+  ArrowUpRight,
+  Building2,
+  CreditCard,
+  Wallet,
+  Sparkles,
+  ShieldCheck,
+} from 'lucide-react'
 
 const PLANS = [
   {
     icon: Building2,
     name: 'Boca In-House',
     tag: 'Most flexible',
-    body: 'Direct monthly plans with $0 down on most treatments. No third-party application.',
+    down: '$0',
+    term: '6–24 mo',
+    credit: 'None',
+    body: 'Direct monthly plans through our office. No third-party application required.',
     highlight: true,
   },
   {
     icon: CreditCard,
     name: 'CareCredit',
     tag: 'Healthcare',
-    body: '6, 12, 18, or 24-month no-interest financing on purchases over $200 for qualified patients.',
+    down: '$0',
+    term: '6–24 mo',
+    credit: 'Required',
+    body: 'No-interest plans for qualified patients on purchases over $200.',
     highlight: false,
   },
   {
     icon: Wallet,
     name: 'Sunbit',
     tag: 'Quick approval',
-    body: 'Pay over time. No hard credit check to apply. Flexible monthly payments, no late fees.',
+    down: '$0',
+    term: 'Flexible',
+    credit: 'Soft pull',
+    body: 'Quick approval for nearly anyone. No hard credit check to apply.',
     highlight: false,
   },
   {
     icon: Sparkles,
     name: 'Alphaeon',
     tag: 'Big treatments',
-    body: 'Dedicated dental financing with longer terms — built for implants, Invisalign, full mouth.',
+    down: '$0',
+    term: 'Long-term',
+    credit: 'Required',
+    body: 'Dedicated dental financing — built for implants, Invisalign, full-mouth work.',
     highlight: false,
   },
 ]
 
-const INSURANCE_LEFT = [
+const INSURANCE = [
   'Delta Dental',
   'MetLife',
   'Cigna',
   'Aetna',
   'United Healthcare',
   'Guardian',
-]
-const INSURANCE_RIGHT = [
   'Humana',
   'Anthem BCBS',
   'Ameritas',
@@ -60,6 +78,7 @@ export function FinancingV3() {
         overflow: 'hidden',
       }}
     >
+      {/* Background glows */}
       <div
         aria-hidden
         style={{
@@ -69,8 +88,39 @@ export function FinancingV3() {
           width: 600,
           height: 600,
           background:
-            'radial-gradient(circle, rgba(22,46,122,0.5) 0%, transparent 60%)',
+            'radial-gradient(circle, rgba(22,46,122,0.4) 0%, transparent 60%)',
           filter: 'blur(60px)',
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          bottom: '0%',
+          right: '-10%',
+          width: 600,
+          height: 600,
+          background:
+            'radial-gradient(circle, rgba(243,103,42,0.12) 0%, transparent 60%)',
+          filter: 'blur(60px)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Grid pattern */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage:
+            'linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px)',
+          backgroundSize: '64px 64px',
+          maskImage:
+            'radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 90%)',
+          WebkitMaskImage:
+            'radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 90%)',
           pointerEvents: 'none',
         }}
       />
@@ -83,50 +133,62 @@ export function FinancingV3() {
           zIndex: 1,
         }}
       >
+        {/* ── Header ─────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          style={{ marginBottom: 64, maxWidth: 760 }}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: 56,
+            alignItems: 'flex-end',
+            marginBottom: 48,
+            paddingBottom: 22,
+            borderBottom: '1px solid rgba(255,255,255,0.1)',
+          }}
         >
-          <div
-            style={{
-              fontSize: 11,
-              fontWeight: 800,
-              letterSpacing: 2,
-              textTransform: 'uppercase',
-              color: '#F3672A',
-              marginBottom: 24,
-              fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
-            }}
-          >
-            [ 09 ] · How To Pay
+          <div>
+            <div
+              style={{
+                fontSize: 11,
+                fontWeight: 800,
+                letterSpacing: 2,
+                textTransform: 'uppercase',
+                color: '#F3672A',
+                marginBottom: 22,
+                fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+              }}
+            >
+              [ 09 ] · How To Pay
+            </div>
+            <h2
+              style={{
+                fontSize: 'clamp(40px, 4.6vw, 62px)',
+                fontWeight: 800,
+                lineHeight: 0.95,
+                letterSpacing: '-1.8px',
+                color: 'white',
+                margin: 0,
+                textTransform: 'uppercase',
+              }}
+            >
+              <span style={{ whiteSpace: 'nowrap' }}>Treatment that</span>
+              <br />
+              <span style={{ whiteSpace: 'nowrap' }}>
+                <span style={{ color: '#F3672A' }}>actually</span> fits
+                your paycheck.
+              </span>
+            </h2>
           </div>
-          <h2
-            style={{
-              fontSize: 'clamp(44px, 5.6vw, 76px)',
-              fontWeight: 800,
-              lineHeight: 0.95,
-              letterSpacing: '-2.2px',
-              color: 'white',
-              margin: '0 0 28px',
-              textTransform: 'uppercase',
-            }}
-          >
-            Treatment that
-            <br />
-            <span style={{ color: '#F3672A' }}>actually</span> fits your
-            <br />
-            paycheck.
-          </h2>
           <p
             style={{
-              fontSize: 17,
-              color: 'rgba(255,255,255,0.65)',
+              fontSize: 15,
+              color: 'rgba(255,255,255,0.6)',
               lineHeight: 1.65,
               margin: 0,
-              maxWidth: 600,
+              maxWidth: 460,
             }}
           >
             Cost should never be the reason you put off dental care. We accept
@@ -135,219 +197,378 @@ export function FinancingV3() {
           </p>
         </motion.div>
 
+        {/* ── Financing plans — 4-column pricing matrix ─── */}
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: '1.2fr 1fr',
-            gap: 32,
-            alignItems: 'flex-start',
+            marginBottom: 56,
           }}
         >
-          {/* LEFT — financing plan stack */}
-          <motion.div
-            initial={{ opacity: 0, x: -16 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ duration: 0.6 }}
-            style={{ display: 'flex', flexDirection: 'column', gap: 12 }}
+          <div
+            style={{
+              fontSize: 11,
+              fontWeight: 800,
+              letterSpacing: 2,
+              textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.4)',
+              marginBottom: 14,
+              fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+            }}
           >
-            <div
-              style={{
-                fontSize: 10,
-                fontWeight: 800,
-                letterSpacing: 2,
-                textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.4)',
-                marginBottom: 8,
-                fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
-              }}
-            >
-              / Financing options
-            </div>
+            / Four ways to finance · Pick what fits
+          </div>
 
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              gap: 0,
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: 16,
+              overflow: 'hidden',
+              background: 'rgba(255,255,255,0.02)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+            }}
+          >
             {PLANS.map((plan, i) => {
               const Icon = plan.icon
               return (
                 <motion.div
                   key={plan.name}
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.06, duration: 0.4 }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  transition={{ delay: i * 0.07, duration: 0.4 }}
                   style={{
                     background: plan.highlight
-                      ? 'linear-gradient(135deg, rgba(243,103,42,0.18) 0%, rgba(243,103,42,0.06) 100%)'
-                      : 'rgba(255,255,255,0.03)',
-                    border: plan.highlight
-                      ? '1px solid rgba(243,103,42,0.4)'
-                      : '1px solid rgba(255,255,255,0.08)',
-                    borderRadius: 16,
-                    padding: '24px 26px',
-                    display: 'grid',
-                    gridTemplateColumns: '52px 1fr auto',
-                    gap: 18,
-                    alignItems: 'center',
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
+                      ? 'linear-gradient(180deg, rgba(243,103,42,0.18) 0%, rgba(243,103,42,0.04) 100%)'
+                      : 'transparent',
+                    borderRight:
+                      i < PLANS.length - 1
+                        ? '1px solid rgba(255,255,255,0.06)'
+                        : 'none',
+                    padding: '32px 24px 28px',
+                    position: 'relative',
+                    display: 'flex',
+                    flexDirection: 'column',
                   }}
                 >
-                  <div
-                    style={{
-                      width: 52,
-                      height: 52,
-                      borderRadius: 12,
-                      background: plan.highlight
-                        ? '#F3672A'
-                        : 'rgba(243,103,42,0.12)',
-                      border: plan.highlight ? 'none' : '1px solid rgba(243,103,42,0.28)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Icon size={22} color="white" />
-                  </div>
-                  <div>
+                  {/* Highlighted ribbon */}
+                  {plan.highlight && (
                     <div
                       style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 10,
-                        marginBottom: 6,
+                        position: 'absolute',
+                        top: 14,
+                        right: 14,
+                        fontSize: 9,
+                        fontWeight: 800,
+                        letterSpacing: 1,
+                        textTransform: 'uppercase',
+                        color: '#F3672A',
+                        background: 'rgba(243,103,42,0.14)',
+                        border: '1px solid rgba(243,103,42,0.4)',
+                        borderRadius: 999,
+                        padding: '3px 8px',
+                        fontFamily:
+                          'ui-monospace, "SF Mono", Menlo, monospace',
                       }}
                     >
-                      <div
-                        style={{
-                          fontSize: 17,
-                          fontWeight: 800,
-                          color: 'white',
-                          textTransform: 'uppercase',
-                          letterSpacing: '-0.2px',
-                        }}
-                      >
-                        {plan.name}
-                      </div>
-                      <div
-                        style={{
-                          fontSize: 9,
-                          fontWeight: 700,
-                          letterSpacing: 1.2,
-                          textTransform: 'uppercase',
-                          color: '#F3672A',
-                          background: 'rgba(243,103,42,0.12)',
-                          border: '1px solid rgba(243,103,42,0.25)',
-                          borderRadius: 999,
-                          padding: '3px 8px',
-                          fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
-                        }}
-                      >
-                        {plan.tag}
-                      </div>
+                      Recommended
                     </div>
-                    <div
-                      style={{
-                        fontSize: 13,
-                        color: 'rgba(255,255,255,0.65)',
-                        lineHeight: 1.6,
-                      }}
-                    >
-                      {plan.body}
-                    </div>
-                  </div>
+                  )}
+
+                  {/* Plan index */}
                   <div
                     style={{
                       fontSize: 10,
                       fontWeight: 800,
                       letterSpacing: 1.5,
-                      color: 'rgba(255,255,255,0.5)',
-                      fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+                      color: 'rgba(255,255,255,0.35)',
+                      marginBottom: 22,
+                      fontFamily:
+                        'ui-monospace, "SF Mono", Menlo, monospace',
                     }}
                   >
-                    {String(i + 1).padStart(2, '0')}
+                    / 0{i + 1}
+                  </div>
+
+                  {/* Icon */}
+                  <div
+                    style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 12,
+                      background: plan.highlight
+                        ? '#F3672A'
+                        : 'rgba(243,103,42,0.12)',
+                      border: plan.highlight
+                        ? 'none'
+                        : '1px solid rgba(243,103,42,0.28)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginBottom: 22,
+                    }}
+                  >
+                    <Icon size={22} color={plan.highlight ? 'white' : '#F3672A'} />
+                  </div>
+
+                  {/* Name + tagline */}
+                  <div
+                    style={{
+                      fontSize: 18,
+                      fontWeight: 800,
+                      color: 'white',
+                      textTransform: 'uppercase',
+                      letterSpacing: '-0.3px',
+                      lineHeight: 1.1,
+                      marginBottom: 6,
+                    }}
+                  >
+                    {plan.name}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      letterSpacing: 1.5,
+                      textTransform: 'uppercase',
+                      color: '#F3672A',
+                      marginBottom: 18,
+                      fontFamily:
+                        'ui-monospace, "SF Mono", Menlo, monospace',
+                    }}
+                  >
+                    {plan.tag}
+                  </div>
+
+                  {/* Body */}
+                  <div
+                    style={{
+                      fontSize: 12,
+                      color: 'rgba(255,255,255,0.6)',
+                      lineHeight: 1.55,
+                      marginBottom: 22,
+                      minHeight: 60,
+                    }}
+                  >
+                    {plan.body}
+                  </div>
+
+                  {/* Spec rows — pricing-table style */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 10,
+                      paddingTop: 18,
+                      borderTop: '1px solid rgba(255,255,255,0.08)',
+                      marginTop: 'auto',
+                    }}
+                  >
+                    {[
+                      { label: 'Down', value: plan.down },
+                      { label: 'Term', value: plan.term },
+                      { label: 'Credit', value: plan.credit },
+                    ].map((spec) => (
+                      <div
+                        key={spec.label}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          gap: 8,
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontSize: 10,
+                            fontWeight: 700,
+                            letterSpacing: 1.5,
+                            textTransform: 'uppercase',
+                            color: 'rgba(255,255,255,0.4)',
+                            fontFamily:
+                              'ui-monospace, "SF Mono", Menlo, monospace',
+                          }}
+                        >
+                          / {spec.label}
+                        </span>
+                        <span
+                          style={{
+                            fontSize: 12,
+                            fontWeight: 800,
+                            color: 'white',
+                            letterSpacing: '-0.1px',
+                          }}
+                        >
+                          {spec.value}
+                        </span>
+                      </div>
+                    ))}
                   </div>
                 </motion.div>
               )
             })}
-          </motion.div>
+          </div>
+        </div>
 
-          {/* RIGHT — insurance + verify */}
-          <motion.div
-            initial={{ opacity: 0, x: 16 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ duration: 0.6 }}
+        {/* ── Insurance + verify — full-width strip ───── */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1.5fr 1fr',
+            gap: 24,
+            alignItems: 'stretch',
+          }}
+        >
+          {/* LEFT — insurance carriers wrapped */}
+          <div
+            style={{
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: 16,
+              padding: '28px 30px',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
           >
             <div
               style={{
-                fontSize: 10,
+                fontSize: 11,
                 fontWeight: 800,
                 letterSpacing: 2,
                 textTransform: 'uppercase',
                 color: 'rgba(255,255,255,0.4)',
-                marginBottom: 12,
+                marginBottom: 18,
                 fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
               }}
             >
-              / Insurance accepted
+              / Insurance accepted · 30+ plans
             </div>
 
             <div
               style={{
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: 16,
-                padding: '28px 30px',
-                marginBottom: 14,
-                backdropFilter: 'blur(12px)',
-                WebkitBackdropFilter: 'blur(12px)',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: '14px 18px',
+                marginBottom: 22,
+                flexGrow: 1,
               }}
             >
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: 12,
-                }}
-              >
-                {[INSURANCE_LEFT, INSURANCE_RIGHT].map((col, idx) => (
-                  <div
-                    key={idx}
-                    style={{ display: 'flex', flexDirection: 'column', gap: 12 }}
-                  >
-                    {col.map((p) => (
-                      <div
-                        key={p}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 10,
-                          fontSize: 13,
-                          color: 'rgba(255,255,255,0.85)',
-                          fontWeight: 500,
-                        }}
-                      >
-                        <CheckCircle2
-                          size={14}
-                          style={{ color: '#F3672A', flexShrink: 0 }}
-                        />
-                        {p}
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
+              {INSURANCE.map((carrier) => (
+                <div
+                  key={carrier}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    fontSize: 13,
+                    color: 'rgba(255,255,255,0.9)',
+                    fontWeight: 500,
+                  }}
+                >
+                  <CheckCircle2
+                    size={14}
+                    style={{ color: '#F3672A', flexShrink: 0 }}
+                  />
+                  {carrier}
+                </div>
+              ))}
+            </div>
 
-              <div
+            <div
+              style={{
+                paddingTop: 16,
+                borderTop: '1px solid rgba(255,255,255,0.08)',
+                fontSize: 12,
+                color: 'rgba(255,255,255,0.5)',
+                lineHeight: 1.55,
+              }}
+            >
+              Plus{' '}
+              <span style={{ color: '#F3672A', fontWeight: 800 }}>20+</span>{' '}
+              additional plans. Don't see yours? We probably take it.
+            </div>
+          </div>
+
+          {/* RIGHT — verify guarantee + CTA stack */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div
+              style={{
+                background:
+                  'linear-gradient(135deg, rgba(243,103,42,0.16) 0%, rgba(243,103,42,0.04) 100%)',
+                border: '1px solid rgba(243,103,42,0.3)',
+                borderRadius: 16,
+                padding: '20px 22px',
+                display: 'grid',
+                gridTemplateColumns: '52px 1fr',
+                gap: 16,
+                alignItems: 'center',
+                flexGrow: 1,
+              }}
+            >
+              <motion.div
+                animate={{
+                  scale: [1, 1.08, 1],
+                  boxShadow: [
+                    '0 0 0 0 rgba(243,103,42,0.4)',
+                    '0 0 0 8px rgba(243,103,42,0)',
+                    '0 0 0 0 rgba(243,103,42,0)',
+                  ],
+                }}
+                transition={{
+                  duration: 2.2,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
                 style={{
-                  marginTop: 20,
-                  paddingTop: 16,
-                  borderTop: '1px solid rgba(255,255,255,0.08)',
-                  fontSize: 12,
-                  color: 'rgba(255,255,255,0.45)',
-                  lineHeight: 1.6,
+                  width: 52,
+                  height: 52,
+                  borderRadius: 12,
+                  background: '#F3672A',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
-                Plus 20+ additional plans. Don't see yours? We probably take it.
+                <ShieldCheck size={26} color="white" />
+              </motion.div>
+              <div>
+                <div
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 800,
+                    letterSpacing: 2,
+                    textTransform: 'uppercase',
+                    color: '#F3672A',
+                    marginBottom: 4,
+                    fontFamily:
+                      'ui-monospace, "SF Mono", Menlo, monospace',
+                  }}
+                >
+                  / Pre-visit guarantee
+                </div>
+                <div
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: 'white',
+                    lineHeight: 1.35,
+                    letterSpacing: '-0.2px',
+                  }}
+                >
+                  Benefits verified. Costs estimated.
+                  <span
+                    style={{
+                      color: 'rgba(255,255,255,0.65)',
+                      display: 'block',
+                    }}
+                  >
+                    No surprises at checkout.
+                  </span>
+                </div>
               </div>
             </div>
 
@@ -361,7 +582,7 @@ export function FinancingV3() {
                 background: '#F3672A',
                 color: 'white',
                 borderRadius: 16,
-                padding: '22px 26px',
+                padding: '20px 24px',
                 fontSize: 14,
                 fontWeight: 800,
                 textDecoration: 'none',
@@ -371,18 +592,18 @@ export function FinancingV3() {
                 transition: 'all 0.2s ease',
               }}
               onMouseEnter={(e) => {
-                ;(e.currentTarget as HTMLElement).style.background = '#d95a22'
-                ;(e.currentTarget as HTMLElement).style.transform =
-                  'translateY(-2px)'
+                const el = e.currentTarget as HTMLElement
+                el.style.background = '#d95a22'
+                el.style.transform = 'translateY(-2px)'
               }}
               onMouseLeave={(e) => {
-                ;(e.currentTarget as HTMLElement).style.background = '#F3672A'
-                ;(e.currentTarget as HTMLElement).style.transform =
-                  'translateY(0)'
+                const el = e.currentTarget as HTMLElement
+                el.style.background = '#F3672A'
+                el.style.transform = 'translateY(0)'
               }}
             >
               <div>
-                <div style={{ fontSize: 16, marginBottom: 4 }}>
+                <div style={{ fontSize: 15, marginBottom: 3 }}>
                   Verify my insurance
                 </div>
                 <div
@@ -394,12 +615,12 @@ export function FinancingV3() {
                     textTransform: 'none',
                   }}
                 >
-                  We'll check your benefits before you visit.
+                  We check your benefits before you visit.
                 </div>
               </div>
               <ArrowUpRight size={20} />
             </a>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

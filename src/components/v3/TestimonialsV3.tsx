@@ -13,7 +13,7 @@ const REVIEWS = [
   {
     initials: 'JR',
     name: 'James R.',
-    location: 'Eastern & Russell',
+    location: 'Russell & Eastern',
     rating: 5,
     quote:
       'Got a same-day emergency slot when my crown popped off. Honest pricing, no upsell. I am a Boca patient for life now.',
@@ -29,7 +29,7 @@ const REVIEWS = [
   {
     initials: 'DT',
     name: 'David T.',
-    location: 'Jones & Alta',
+    location: 'Jones & I-95',
     rating: 5,
     quote:
       'Brought my whole family. Took our Aetna with no surprises at checkout. The hygienist was gentle and thorough.',
@@ -37,7 +37,7 @@ const REVIEWS = [
   {
     initials: 'AM',
     name: 'Ana M.',
-    location: 'Boca Kids — Eastern & Russell',
+    location: 'Boca Kids Dentistry',
     rating: 5,
     quote:
       'My 4-year-old was terrified. The Boca Kids team turned it into a fun visit — she now ASKS to go back. Forever grateful.',
@@ -45,7 +45,7 @@ const REVIEWS = [
   {
     initials: 'RK',
     name: 'Robert K.',
-    location: 'Eastern & Bonanza',
+    location: 'Bonanza & Eastern',
     rating: 5,
     quote:
       'Two implants quoted thousands less than the other place I checked. Dr. walked me through every step.',

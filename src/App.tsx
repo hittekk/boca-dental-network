@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
 
 // Variant A — Modern Clinic
 import { Header } from './components/Header/Header'
@@ -19,11 +20,24 @@ import { Footer } from './components/Footer/Footer'
 import { HeroV2 } from './components/v2/HeroV2'
 import { ServicesV2 } from './components/v2/ServicesV2'
 import { WhyBocaV2 } from './components/v2/WhyBocaV2'
+import { StepsV2 } from './components/v2/StepsV2'
+import { TestimonialsV2 } from './components/v2/TestimonialsV2'
+import { AudienceRoutingV2 } from './components/v2/AudienceRoutingV2'
+import { BocaKidsV2 } from './components/v2/BocaKidsV2'
+import { LocationsV2 } from './components/v2/LocationsV2'
+import { MeetTheTeamV2 } from './components/v2/MeetTheTeamV2'
+import { FinancingV2 } from './components/v2/FinancingV2'
+import { FAQV2 } from './components/v2/FAQV2'
+import { FooterV2 } from './components/v2/FooterV2'
 import { CTAv2 } from './components/v2/CTAv2'
 
 // Variant C — Super Modern
 import { HeaderV3 } from './components/v3/HeaderV3'
 import { HeroV3 } from './components/v3/HeroV3'
+import { TrustBarV3 } from './components/v3/TrustBarV3'
+import { AudienceRoutingV3 } from './components/v3/AudienceRoutingV3'
+import { MeetTheTeamV3 } from './components/v3/MeetTheTeamV3'
+import { LocationsMapV3 } from './components/v3/LocationsMapV3'
 import { ServicesV3 } from './components/v3/ServicesV3'
 import { WhyBocaV3 } from './components/v3/WhyBocaV3'
 import { StepsV3 } from './components/v3/StepsV3'
@@ -36,40 +50,132 @@ import { ConsultationFormV3 } from './components/v3/ConsultationFormV3'
 import { CTAv3 } from './components/v3/CTAv3'
 import { FooterV3 } from './components/v3/FooterV3'
 
-// Variant D — Futuristic Light
-import { HeaderV4 } from './components/v4/HeaderV4'
-import { HeroV4 } from './components/v4/HeroV4'
-import { ServicesV4 } from './components/v4/ServicesV4'
-import { WhyBocaV4 } from './components/v4/WhyBocaV4'
-import { StepsV4 } from './components/v4/StepsV4'
-import { BocaKidsV4 } from './components/v4/BocaKidsV4'
-import { TestimonialsV4 } from './components/v4/TestimonialsV4'
-import { FAQV4 } from './components/v4/FAQV4'
-import { FinancingV4 } from './components/v4/FinancingV4'
-import { LocationsV4 } from './components/v4/LocationsV4'
-import { ConsultationFormV4 } from './components/v4/ConsultationFormV4'
-import { CTAv4 } from './components/v4/CTAv4'
-import { FooterV4 } from './components/v4/FooterV4'
-
-// Shared (Treysyde spec sections — drop in across all variants)
+// Shared
 import { TrustBar } from './components/shared/TrustBar'
 import { AudienceRouting } from './components/shared/AudienceRouting'
 import { MeetTheTeam } from './components/shared/MeetTheTeam'
 import { LocationsMap } from './components/shared/LocationsMap'
 import { MobileStickyCTA } from './components/shared/MobileStickyCTA'
-// HomepageSchema is no longer JS-rendered — JSON-LD is now static in index.html
-// via scripts/inject-schema.mjs (runs as part of `npm run build`).
+import { SmileTransformations } from './components/shared/SmileTransformations'
 
+import { LocationPage } from './pages/LocationPage'
+import { ServicePage } from './pages/ServicePage'
+import { ServiceCategoryPage } from './pages/ServiceCategoryPage'
+import { DentistPage, DentistsHubPage } from './pages/DentistPage'
+import {
+  AboutUsPage,
+  ClinicsHubPage,
+  ServicesHubPage,
+  PatientResourcesHubPage,
+  NewPatientFormsPage,
+  InsurancePage,
+  FinancingPage,
+  ReviewsPage,
+  SpanishLandingPage,
+  ContactPage,
+  RequestConsultationPage,
+  CareersPage,
+  PrivacyPage,
+  HipaaPage,
+} from './pages/CorePages'
 import { VariantSwitcher, type Variant } from './components/VariantSwitcher'
 import { INITIAL_DATA } from './data/initialData'
+import { SERVICE_CATEGORIES } from './data/serviceCatalog'
 
 function readVariantFromUrl(): Variant {
   if (typeof window === 'undefined') return 'a'
   const v = new URLSearchParams(window.location.search).get('variant')
   if (v === 'b') return 'b'
   if (v === 'c') return 'c'
-  if (v === 'd') return 'd'
   return 'a'
+}
+
+function Homepage({ variant }: { variant: Variant }) {
+  return (
+    <div>
+      {/* ────────── VARIANT A — Modern Clinic ────────── */}
+      {variant === 'a' && (
+        <>
+          <Header
+            brand={INITIAL_DATA.brand}
+            announcement={INITIAL_DATA.announcement}
+          />
+          <Hero brand={INITIAL_DATA.brand} />
+          <TrustBar theme="light" />
+          <AudienceRouting theme="light" />
+          <Services />
+          <WhyBoca />
+          <Steps />
+          <Testimonials />
+          <BocaKids />
+          <Locations />
+          <SmileTransformations theme="light" />
+          <MeetTheTeam theme="light" />
+          <Financing />
+          <FAQ />
+          <ConsultationForm />
+          <LocationsMap theme="light" />
+          <CTA />
+          <Footer />
+        </>
+      )}
+
+      {/* ────────── VARIANT B — Warm Editorial ────────── */}
+      {variant === 'b' && (
+        <>
+          <Header
+            brand={INITIAL_DATA.brand}
+            announcement={INITIAL_DATA.announcement}
+            logoMode="dark"
+          />
+          <HeroV2 brand={INITIAL_DATA.brand} />
+          <TrustBar theme="cream" />
+          <AudienceRoutingV2 />
+          <ServicesV2 />
+          <WhyBocaV2 />
+          <StepsV2 />
+          <TestimonialsV2 />
+          <BocaKidsV2 />
+          <LocationsV2 />
+          <SmileTransformations theme="cream" />
+          <MeetTheTeamV2 />
+          <FinancingV2 />
+          <FAQV2 />
+          <ConsultationForm />
+          <LocationsMap theme="cream" />
+          <CTAv2 />
+          <FooterV2 />
+        </>
+      )}
+
+      {/* ────────── VARIANT C — Super Modern (Dark) ────────── */}
+      {variant === 'c' && (
+        <>
+          <HeaderV3
+            brand={INITIAL_DATA.brand}
+            announcement={INITIAL_DATA.announcement}
+          />
+          <HeroV3 brand={INITIAL_DATA.brand} />
+          <TrustBarV3 />
+          <AudienceRoutingV3 />
+          <ServicesV3 />
+          <WhyBocaV3 />
+          <StepsV3 />
+          <TestimonialsV3 />
+          <BocaKidsV3 />
+          <LocationsV3 />
+          <SmileTransformations theme="dark" />
+          <MeetTheTeamV3 />
+          <FinancingV3 />
+          <FAQV3 />
+          <ConsultationFormV3 />
+          <LocationsMapV3 />
+          <CTAv3 />
+          <FooterV3 />
+        </>
+      )}
+    </div>
+  )
 }
 
 function App() {
@@ -93,127 +199,79 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
   }
 
+  // Service-category slugs are registered explicitly so they don't collide with
+  // other top-level routes. Each renders ServiceCategoryPage at `/[category]/`
+  // and ServicePage at `/[category]/[service]/`.
+  const serviceCategoryRoutes = SERVICE_CATEGORIES.flatMap((cat) => [
+    <Route key={`${cat.slug}-hub`} path={`/${cat.slug}/`} element={<ServiceCategoryPage categorySlugProp={cat.slug} />} />,
+    <Route key={`${cat.slug}-hub-noslash`} path={`/${cat.slug}`} element={<ServiceCategoryPage categorySlugProp={cat.slug} />} />,
+    <Route key={`${cat.slug}-svc`} path={`/${cat.slug}/:service/`} element={<ServicePage categorySlugProp={cat.slug} />} />,
+    <Route key={`${cat.slug}-svc-noslash`} path={`/${cat.slug}/:service`} element={<ServicePage categorySlugProp={cat.slug} />} />,
+  ])
+
   return (
-    <div>
-      {/*
-        Homepage section order follows Treysyde 10-section spec:
-        Hero → TrustBar → S2 AudienceRouting → S3 Services → S4 WhyBoca →
-        S5 Testimonials → S6 Locations + GEO/Map → S8 MeetTheTeam → S9 FAQ → S10 CTA
-        + bonus sections (Steps, BocaKids, Financing, Form) tucked between
-        spec sections for richer demo. S7 Smile Transformations deferred to Phase 2.
-        JSON-LD schema graph is injected into index.html as static HTML by
-        scripts/inject-schema.mjs (runs before vite build) so the full schema
-        graph appears in raw view-source — Google + Rich Results Test see it
-        without executing JavaScript.
-      */}
+    <>
+      <Routes>
+        {/* Home */}
+        <Route path="/" element={<Homepage variant={variant} />} />
 
-      {/* ────────── VARIANT A — Modern Clinic ────────── */}
-      {variant === 'a' && (
-        <>
-          <Header
-            brand={INITIAL_DATA.brand}
-            announcement={INITIAL_DATA.announcement}
-          />
-          <Hero brand={INITIAL_DATA.brand} />
-          <TrustBar theme="light" />
-          <AudienceRouting theme="light" />
-          <Services />
-          <WhyBoca />
-          <Steps />
-          <Testimonials />
-          <BocaKids />
-          <Locations />
-          <LocationsMap theme="light" />
-          <MeetTheTeam theme="light" />
-          <Financing />
-          <FAQ />
-          <ConsultationForm />
-          <CTA />
-          <Footer />
-        </>
-      )}
+        {/* Location pages */}
+        <Route path="/clinics/" element={<ClinicsHubPage />} />
+        <Route path="/clinics" element={<ClinicsHubPage />} />
+        <Route path="/clinics/:slug" element={<LocationPage variant={variant} />} />
+        <Route path="/clinics/:slug/" element={<LocationPage variant={variant} />} />
 
-      {/* ────────── VARIANT B — Warm Editorial ────────── */}
-      {variant === 'b' && (
-        <>
-          <Header
-            brand={INITIAL_DATA.brand}
-            announcement={INITIAL_DATA.announcement}
-          />
-          <HeroV2 brand={INITIAL_DATA.brand} />
-          <TrustBar theme="cream" />
-          <AudienceRouting theme="cream" />
-          <ServicesV2 />
-          <WhyBocaV2 />
-          <Steps />
-          <Testimonials />
-          <BocaKids />
-          <Locations />
-          <LocationsMap theme="cream" />
-          <MeetTheTeam theme="cream" />
-          <Financing />
-          <FAQ />
-          <ConsultationForm />
-          <CTAv2 />
-          <Footer />
-        </>
-      )}
+        {/* Service hub + category hubs + service detail pages */}
+        <Route path="/services/" element={<ServicesHubPage />} />
+        <Route path="/services" element={<ServicesHubPage />} />
+        {serviceCategoryRoutes}
 
-      {/* ────────── VARIANT C — Super Modern (Dark) ────────── */}
-      {variant === 'c' && (
-        <>
-          <HeaderV3
-            brand={INITIAL_DATA.brand}
-            announcement={INITIAL_DATA.announcement}
-          />
-          <HeroV3 brand={INITIAL_DATA.brand} />
-          <TrustBar theme="dark" />
-          <AudienceRouting theme="dark" />
-          <ServicesV3 />
-          <WhyBocaV3 />
-          <StepsV3 />
-          <TestimonialsV3 />
-          <BocaKidsV3 />
-          <LocationsV3 />
-          <LocationsMap theme="dark" />
-          <MeetTheTeam theme="dark" />
-          <FinancingV3 />
-          <FAQV3 />
-          <ConsultationFormV3 />
-          <CTAv3 />
-          <FooterV3 />
-        </>
-      )}
+        {/* Dentist pages */}
+        <Route path="/about-us/dentists/" element={<DentistsHubPage />} />
+        <Route path="/about-us/dentists" element={<DentistsHubPage />} />
+        <Route path="/about-us/dentists/:slug" element={<DentistPage />} />
+        <Route path="/about-us/dentists/:slug/" element={<DentistPage />} />
 
-      {/* ────────── VARIANT D — Futuristic Light ────────── */}
-      {variant === 'd' && (
-        <>
-          <HeaderV4
-            brand={INITIAL_DATA.brand}
-            announcement={INITIAL_DATA.announcement}
-          />
-          <HeroV4 brand={INITIAL_DATA.brand} />
-          <TrustBar theme="light" />
-          <AudienceRouting theme="light" />
-          <ServicesV4 />
-          <WhyBocaV4 />
-          <StepsV4 />
-          <TestimonialsV4 />
-          <BocaKidsV4 />
-          <LocationsV4 />
-          <LocationsMap theme="light" />
-          <MeetTheTeam theme="light" />
-          <FinancingV4 />
-          <FAQV4 />
-          <ConsultationFormV4 />
-          <CTAv4 />
-          <FooterV4 />
-        </>
-      )}
+        {/* About */}
+        <Route path="/about-us/" element={<AboutUsPage />} />
+        <Route path="/about-us" element={<AboutUsPage />} />
 
+        {/* Patient Resources */}
+        <Route path="/patient-resources/" element={<PatientResourcesHubPage />} />
+        <Route path="/patient-resources" element={<PatientResourcesHubPage />} />
+        <Route path="/patient-resources/new-patient-forms/" element={<NewPatientFormsPage />} />
+        <Route path="/patient-resources/new-patient-forms" element={<NewPatientFormsPage />} />
+        <Route path="/patient-resources/insurance/" element={<InsurancePage />} />
+        <Route path="/patient-resources/insurance" element={<InsurancePage />} />
+        <Route path="/patient-resources/financing/" element={<FinancingPage />} />
+        <Route path="/patient-resources/financing" element={<FinancingPage />} />
+        <Route path="/patient-resources/reviews/" element={<ReviewsPage />} />
+        <Route path="/patient-resources/reviews" element={<ReviewsPage />} />
+
+        {/* Spanish landing */}
+        <Route path="/oficina-de-habla-hispana/" element={<SpanishLandingPage />} />
+        <Route path="/oficina-de-habla-hispana" element={<SpanishLandingPage />} />
+
+        {/* Contact + conversion */}
+        <Route path="/contact-us/" element={<ContactPage />} />
+        <Route path="/contact-us" element={<ContactPage />} />
+        <Route path="/request-consultation/" element={<RequestConsultationPage />} />
+        <Route path="/request-consultation" element={<RequestConsultationPage />} />
+
+        {/* Employment + legal */}
+        <Route path="/careers" element={<CareersPage />} />
+        <Route path="/careers/" element={<CareersPage />} />
+        <Route path="/privacy-policy/" element={<PrivacyPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPage />} />
+        <Route path="/hipaa-compliance/" element={<HipaaPage />} />
+        <Route path="/hipaa-compliance" element={<HipaaPage />} />
+
+        {/* Catch-all fallback to homepage (replace with 404 later) */}
+        <Route path="*" element={<Homepage variant={variant} />} />
+      </Routes>
       <MobileStickyCTA phone={INITIAL_DATA.brand.phone} />
       <VariantSwitcher current={variant} onChange={switchVariant} />
-    </div>
+    </>
   )
 }
 
