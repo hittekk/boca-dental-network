@@ -1,5 +1,10 @@
 [build]
-  command   = "npm run build"
+  # We build the full prerendered dist/ locally (npm run build → Puppeteer
+  # captures the rendered DOM and Prettier formats it into 16k clean lines
+  # of HTML for view-source). The deploy uploads the prebuilt dist/ as part
+  # of the source (allowed by .netlifyignore), and this build command is a
+  # no-op so Netlify doesn't overwrite it. Netlify then publishes dist/.
+  command   = "echo 'Using prebuilt dist/ from local build'"
   publish   = "dist"
 
 [build.environment]
