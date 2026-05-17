@@ -288,23 +288,21 @@ function Bar({ w = '100%', dark = false }: { w?: string; dark?: boolean }) {
 }
 
 function Header({ dark = false }: { dark?: boolean }) {
+  // Use the real Boca logo — white version on dark backgrounds, color version on light.
+  const logoSrc = dark ? '/boca-logo.png' : '/boca-logo-color.png';
   return (
     <div
-      className="px-4 py-2.5 flex items-center justify-between border-b"
+      className="px-4 py-2 flex items-center justify-between border-b"
       style={{
         background: dark ? 'rgba(0,0,0,0.2)' : 'white',
         borderColor: dark ? 'rgba(255,255,255,0.1)' : 'rgba(15,23,42,0.08)',
       }}
     >
-      <div className="flex items-center gap-1.5">
-        <div className="h-3 w-3 rounded" style={{ background: ORANGE }} />
-        <div
-          className="text-[8px] font-extrabold uppercase tracking-wider"
-          style={{ color: dark ? 'white' : DARK_NAVY }}
-        >
-          boca
-        </div>
-      </div>
+      <img
+        src={logoSrc}
+        alt="Boca Dental"
+        style={{ height: 14, width: 'auto', display: 'block' }}
+      />
       <div className="flex gap-2">
         {['Services', 'Locations', 'Book'].map((l) => (
           <div
