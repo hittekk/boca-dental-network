@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Sparkles, ChevronsLeftRight } from 'lucide-react'
+import { supabase, isSupabaseConfigured } from '../../lib/supabase'
 
 /**
  * SmileTransformations — Treysyde homepage spec §7
@@ -29,7 +30,9 @@ interface Pair {
   after?: string
 }
 
-const PAIRS: Pair[] = [
+// Fallback set when no transformations are in the database yet — keeps the
+// section looking populated even with empty admin state.
+const DEFAULT_PAIRS: Pair[] = [
   { service: 'Invisalign', caption: 'Invisalign', duration: '18 months' },
   { service: 'Veneers', caption: 'Veneers', duration: '6 teeth' },
   { service: 'Teeth whitening', caption: 'Whitening', duration: 'In-office' },
@@ -38,7 +41,71 @@ const PAIRS: Pair[] = [
   { service: 'Pediatric dentistry', caption: 'Pediatric', duration: 'Full preventive course' },
 ]
 
+const TREATMENT_LABELS: Record<string, { service: string; caption: string }> = {
+  invisalign:     { service: 'Invisalign',           caption: 'Invisalign' },
+  veneers:        { service: 'Veneers',              caption: 'Veneers' },
+  whitening:      { service: 'Teeth whitening',      caption: 'Whitening' },
+  implants:       { service: 'Dental implants',      caption: 'Implant' },
+  crowns:         { service: 'Crowns',               caption: 'Crown' },
+  general:        { service: 'General dentistry',    caption: 'Restoration' },
+  restorative:    { service: 'Restorative',          caption: 'Restorative' },
+  orthodontics:   { service: 'Orthodontics',         caption: 'Ortho' },
+}
+
+function useTransformations(): Pair[] {
+  const [pairs, setPairs] = useState<Pair[]>(DEFAULT_PAIRS)
+
+  useEffect(() => {
+    if (!isSupabaseConfigured) return
+    let cancelled = false
+
+    ;(async () => {
+      try {
+        const { data } = await supabase
+          .from('transformations')
+          .select('title, treatment_type, treatment_duration, before_image_url, after_image_url, is_featured, sort_order')
+          .eq('is_published', true)
+          .order('is_featured', { ascending: false })
+          .order('sort_order', { ascending: true })
+          .limit(6)
+
+        if (cancelled || !data || data.length === 0) return
+
+        const mapped: Pair[] = data.map((t) => {
+          const labels = TREATMENT_LABELS[t.treatment_type ?? 'general'] ?? {
+            service: t.title,
+            caption: t.title,
+          }
+          return {
+            service:  labels.service,
+            caption:  labels.caption,
+            duration: t.treatment_duration ?? '',
+            before:   t.before_image_url ?? undefined,
+            after:    t.after_image_url ?? undefined,
+          }
+        })
+
+        // Pad with defaults if fewer than 6 in DB, so the grid stays full
+        while (mapped.length < 6) {
+          mapped.push(DEFAULT_PAIRS[mapped.length])
+        }
+
+        setPairs(mapped)
+      } catch (err) {
+        console.warn('[SmileTransformations] fetch failed:', err)
+      }
+    })()
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  return pairs
+}
+
 export function SmileTransformations({ theme = 'light' }: { theme?: Theme }) {
+  const PAIRS = useTransformations()
   const palette = (() => {
     // H2 typography per theme — mirrors the H2 scale used by the variant's
     // other section headlines so this section visually belongs to the page.
