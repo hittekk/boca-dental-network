@@ -71,6 +71,7 @@ export default function AdminLayout({ session }: { session: Session }) {
           <SectionLabel>Engagement</SectionLabel>
           <NavItem to="/dental-admin/leads" icon={Inbox} label="Leads" />
           <SectionLabel>Site</SectionLabel>
+          <NavItem to="/dental-admin/team" icon={Users} label="Team" />
           <NavItem to="/dental-admin/settings" icon={Settings} label="Settings" />
         </nav>
 

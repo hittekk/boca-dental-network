@@ -11,6 +11,24 @@ const NAVY = '#162E7A';
 const DARK_NAVY = '#001D3D';
 
 export default function DashboardPage() {
+  const currentUser = useQuery({
+    queryKey: ['admin', 'current-user'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return { firstName: 'there', email: '' };
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('full_name')
+        .eq('id', user.id)
+        .maybeSingle();
+      const fullName = (profile?.full_name as string | undefined) || user.email?.split('@')[0] || 'there';
+      // Capitalize first character (handles "robert" from email local part)
+      const firstName = fullName.split(/[\s.]+/)[0] || 'there';
+      const cleaned = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+      return { firstName: cleaned, email: user.email ?? '' };
+    },
+  });
+
   const stats = useQuery({
     queryKey: ['admin', 'stats'],
     queryFn: async () => {
@@ -104,7 +122,7 @@ export default function DashboardPage() {
                 Live · Boca Dental Network
               </div>
               <h1 className="text-4xl font-extrabold tracking-tight text-white mb-2">
-                {greeting}, Frankie.
+                {greeting}, {currentUser.data?.firstName ?? 'there'}.
               </h1>
               <p className="text-white/60 max-w-xl text-base">
                 Your network is healthy. {leadsThisWeek.data ?? 0} new patient leads this week across {stats.data?.locations ?? 0} locations.

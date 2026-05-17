@@ -20,6 +20,7 @@ import TransformationsListPage from './pages/TransformationsListPage';
 import TransformationEditPage from './pages/TransformationEditPage';
 import ServiceEditPage from './pages/ServiceEditPage';
 import DoctorEditPage from './pages/DoctorEditPage';
+import UsersPage from './pages/UsersPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -84,6 +85,7 @@ export default function AdminApp() {
           <Route path="pages/:id" element={<PageEditPage />} />
           <Route path="transformations" element={<TransformationsListPage />} />
           <Route path="transformations/:id" element={<TransformationEditPage />} />
+          <Route path="team" element={<UsersPage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>
       </Routes>
