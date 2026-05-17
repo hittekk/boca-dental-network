@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { INITIAL_DATA } from '../data/initialData'
+import { useSiteData } from '../lib/site-data'
 import type { Variant } from '../components/VariantSwitcher'
 import { LocationPageV1 } from './LocationPageV1'
 import { LocationPageV2 } from './LocationPageV2'
@@ -67,7 +68,8 @@ export const COORDS_BY_LOCATION: Record<string, [number, number]> = {
 
 export function LocationPage({ variant }: { variant: Variant }) {
   const { slug } = useParams<{ slug: string }>()
-  const location = INITIAL_DATA.locations.find((l) => l.slug === slug)
+  const siteData = useSiteData()
+  const location = siteData.locations.find((l) => l.slug === slug)
 
   // Scroll to top when the slug changes (route transitions don't reset scroll)
   useEffect(() => {
