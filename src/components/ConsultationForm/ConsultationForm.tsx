@@ -1,7 +1,8 @@
 import { FormEvent, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Phone, Clock, Shield, CheckCircle2, Loader2, ArrowRight } from 'lucide-react'
-import { INITIAL_DATA } from '../../data/initialData'
+import { useSiteData } from '../../lib/site-data'
+import { supabase, isSupabaseConfigured } from '../../lib/supabase'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -60,6 +61,7 @@ function applyBlur(e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HT
 }
 
 export function ConsultationForm() {
+  const siteData = useSiteData()
   const [form, setForm] = useState<FormState>(INITIAL_FORM)
   const [status, setStatus] = useState<Status>('idle')
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({})
@@ -85,9 +87,48 @@ export function ConsultationForm() {
     event.preventDefault()
     if (!validate()) return
     setStatus('submitting')
-    // Stub — in production this POSTs to /wp-json/dentalpress/v1/leads
-    await new Promise((r) => setTimeout(r, 900))
-    setStatus('success')
+
+    if (!isSupabaseConfigured) {
+      // Dev fallback: simulate success when Supabase isn't configured
+      await new Promise((r) => setTimeout(r, 900))
+      setStatus('success')
+      return
+    }
+
+    try {
+      // Look up the chosen location's UUID so the lead links to a location row
+      let preferredLocationId: string | null = null
+      if (form.location) {
+        const { data: loc } = await supabase
+          .from('locations')
+          .select('id')
+          .eq('slug', form.location)
+          .maybeSingle()
+        preferredLocationId = loc?.id ?? null
+      }
+
+      const { error } = await supabase.from('leads').insert({
+        full_name: form.name,
+        email: form.email,
+        phone: form.phone,
+        preferred_location_id: preferredLocationId,
+        service_interest: form.service || null,
+        message: form.message || null,
+        source_page: typeof window !== 'undefined' ? window.location.pathname : null,
+        source_form: 'consultation',
+        status: 'new',
+      })
+
+      if (error) {
+        console.error('[ConsultationForm] Supabase insert failed:', error)
+        setStatus('error')
+        return
+      }
+      setStatus('success')
+    } catch (err) {
+      console.error('[ConsultationForm] submission error:', err)
+      setStatus('error')
+    }
   }
 
   return (
@@ -468,7 +509,7 @@ export function ConsultationForm() {
                         style={{ ...inputBase, cursor: 'pointer' }}
                       >
                         <option value="">No preference — closest to me</option>
-                        {INITIAL_DATA.locations.map((loc) => (
+                        {siteData.locations.map((loc) => (
                           <option key={loc.id} value={loc.slug}>
                             {loc.label}
                           </option>
@@ -484,7 +525,7 @@ export function ConsultationForm() {
                         style={{ ...inputBase, cursor: 'pointer' }}
                       >
                         <option value="">Not sure — recommend something</option>
-                        {INITIAL_DATA.services.map((svc) => (
+                        {siteData.services.map((svc) => (
                           <option key={svc.slug} value={svc.slug}>
                             {svc.label}
                           </option>

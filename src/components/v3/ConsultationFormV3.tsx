@@ -1,7 +1,8 @@
 import { FormEvent, useRef, useState } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { CheckCircle2, Loader2, ArrowUpRight } from 'lucide-react'
-import { INITIAL_DATA } from '../../data/initialData'
+import { useSiteData } from '../../lib/site-data'
+import { supabase, isSupabaseConfigured } from '../../lib/supabase'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -63,6 +64,7 @@ function focusOff(e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTM
 }
 
 export function ConsultationFormV3() {
+  const siteData = useSiteData()
   const [form, setForm] = useState<FormState>(INITIAL_FORM)
   const [status, setStatus] = useState<Status>('idle')
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({})
@@ -88,8 +90,46 @@ export function ConsultationFormV3() {
     event.preventDefault()
     if (!validate()) return
     setStatus('submitting')
-    await new Promise((r) => setTimeout(r, 900))
-    setStatus('success')
+
+    if (!isSupabaseConfigured) {
+      await new Promise((r) => setTimeout(r, 900))
+      setStatus('success')
+      return
+    }
+
+    try {
+      let preferredLocationId: string | null = null
+      if (form.location) {
+        const { data: loc } = await supabase
+          .from('locations')
+          .select('id')
+          .eq('slug', form.location)
+          .maybeSingle()
+        preferredLocationId = loc?.id ?? null
+      }
+
+      const { error } = await supabase.from('leads').insert({
+        full_name: form.name,
+        email: form.email,
+        phone: form.phone,
+        preferred_location_id: preferredLocationId,
+        service_interest: form.service || null,
+        message: form.message || null,
+        source_page: typeof window !== 'undefined' ? window.location.pathname : null,
+        source_form: 'consultation-v3',
+        status: 'new',
+      })
+
+      if (error) {
+        console.error('[ConsultationFormV3] Supabase insert failed:', error)
+        setStatus('error')
+        return
+      }
+      setStatus('success')
+    } catch (err) {
+      console.error('[ConsultationFormV3] submission error:', err)
+      setStatus('error')
+    }
   }
 
   // Parallax: as the section scrolls through the viewport, the bg image
@@ -400,7 +440,7 @@ export function ConsultationFormV3() {
                         <option value="" style={{ background: '#0A0A0F' }}>
                           Closest to me
                         </option>
-                        {INITIAL_DATA.locations.map((loc) => (
+                        {siteData.locations.map((loc) => (
                           <option
                             key={loc.id}
                             value={loc.slug}
@@ -422,7 +462,7 @@ export function ConsultationFormV3() {
                         <option value="" style={{ background: '#0A0A0F' }}>
                           Recommend something
                         </option>
-                        {INITIAL_DATA.services.map((svc) => (
+                        {siteData.services.map((svc) => (
                           <option
                             key={svc.slug}
                             value={svc.slug}

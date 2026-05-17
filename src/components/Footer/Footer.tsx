@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Phone, MapPin } from 'lucide-react'
-import { INITIAL_DATA } from '../../data/initialData'
+import { useSiteData } from '../../lib/site-data'
 
 const QUICK_LINKS = [
   { label: 'About Boca', href: '#about' },
@@ -26,6 +26,7 @@ const SERVICE_LINKS = [
 
 export function Footer() {
   const year = new Date().getFullYear()
+  const siteData = useSiteData()
 
   return (
     <footer
@@ -85,7 +86,7 @@ export function Footer() {
             </p>
 
             <a
-              href={`tel:${INITIAL_DATA.brand.phone.replace(/\D/g, '')}`}
+              href={`tel:${siteData.brand.phone.replace(/\D/g, '')}`}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -98,7 +99,7 @@ export function Footer() {
               }}
             >
               <Phone size={15} />
-              {INITIAL_DATA.brand.phone}
+              {siteData.brand.phone}
             </a>
           </div>
 
@@ -201,7 +202,7 @@ export function Footer() {
                 gap: '14px 16px',
               }}
             >
-              {INITIAL_DATA.locations.map((loc) => (
+              {siteData.locations.map((loc) => (
                 <a
                   key={loc.id}
                   href={`#location-${loc.slug}`}

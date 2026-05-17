@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Phone, ArrowUpRight, MapPin, Clock } from 'lucide-react'
-import { INITIAL_DATA } from '../../data/initialData'
+import { useSiteData } from '../../lib/site-data'
 
 const COLUMNS = [
   {
@@ -40,8 +40,9 @@ const COLUMNS = [
 
 export function FooterV3() {
   const year = new Date().getFullYear()
+  const siteData = useSiteData()
   // Locations grouped by neighborhood prefix for the compact directory
-  const directory = INITIAL_DATA.locations.map((loc) => ({
+  const directory = siteData.locations.map((loc) => ({
     slug: loc.slug,
     label: loc.label,
     phone: loc.phone,
@@ -134,7 +135,7 @@ export function FooterV3() {
               for new patients. Most insurance, Medicaid, and CHIP accepted.
             </p>
             <a
-              href={`tel:${INITIAL_DATA.brand.phone.replace(/\D/g, '')}`}
+              href={`tel:${siteData.brand.phone.replace(/\D/g, '')}`}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -154,7 +155,7 @@ export function FooterV3() {
               }
             >
               <Phone size={24} style={{ color: '#F3672A' }} />
-              {INITIAL_DATA.brand.phone}
+              {siteData.brand.phone}
             </a>
           </div>
 

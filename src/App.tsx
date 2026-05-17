@@ -82,7 +82,7 @@ import {
   HipaaPage,
 } from './pages/CorePages'
 import { VariantSwitcher, type Variant } from './components/VariantSwitcher'
-import { INITIAL_DATA } from './data/initialData'
+import { useSiteData } from './lib/site-data'
 import { SERVICE_CATEGORIES } from './data/serviceCatalog'
 
 function readVariantFromUrl(): Variant {
@@ -94,16 +94,17 @@ function readVariantFromUrl(): Variant {
 }
 
 function Homepage({ variant }: { variant: Variant }) {
+  const siteData = useSiteData()
   return (
     <div>
       {/* ────────── VARIANT A — Modern Clinic ────────── */}
       {variant === 'a' && (
         <>
           <Header
-            brand={INITIAL_DATA.brand}
-            announcement={INITIAL_DATA.announcement}
+            brand={siteData.brand}
+            announcement={siteData.announcement}
           />
-          <Hero brand={INITIAL_DATA.brand} />
+          <Hero brand={siteData.brand} />
           <TrustBar theme="light" />
           <AudienceRouting theme="light" />
           <Services />
@@ -127,11 +128,11 @@ function Homepage({ variant }: { variant: Variant }) {
       {variant === 'b' && (
         <>
           <Header
-            brand={INITIAL_DATA.brand}
-            announcement={INITIAL_DATA.announcement}
+            brand={siteData.brand}
+            announcement={siteData.announcement}
             logoMode="dark"
           />
-          <HeroV2 brand={INITIAL_DATA.brand} />
+          <HeroV2 brand={siteData.brand} />
           <TrustBar theme="cream" />
           <AudienceRoutingV2 />
           <ServicesV2 />
@@ -155,10 +156,10 @@ function Homepage({ variant }: { variant: Variant }) {
       {variant === 'c' && (
         <>
           <HeaderV3
-            brand={INITIAL_DATA.brand}
-            announcement={INITIAL_DATA.announcement}
+            brand={siteData.brand}
+            announcement={siteData.announcement}
           />
-          <HeroV3 brand={INITIAL_DATA.brand} />
+          <HeroV3 brand={siteData.brand} />
           <TrustBarV3 />
           <AudienceRoutingV3 />
           <ServicesV3 />
@@ -185,6 +186,7 @@ function App() {
   const [variant, setVariant] = useState<Variant>('a')
   const routerLocation = useLocation()
   const isAdminRoute = routerLocation.pathname.startsWith('/dental-admin')
+  const siteData = useSiteData()
 
   useEffect(() => {
     setVariant(readVariantFromUrl())
@@ -290,7 +292,7 @@ function App() {
         {/* Catch-all fallback to homepage (replace with 404 later) */}
         <Route path="*" element={<Homepage variant={variant} />} />
       </Routes>
-      <MobileStickyCTA phone={INITIAL_DATA.brand.phone} />
+      <MobileStickyCTA phone={siteData.brand.phone} />
       <VariantSwitcher current={variant} onChange={switchVariant} />
     </>
   )
