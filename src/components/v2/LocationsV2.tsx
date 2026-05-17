@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { MapPin, Phone, Clock, ArrowUpRight, Star } from 'lucide-react'
 import type { Location } from '../../types'
-import { INITIAL_DATA } from '../../data/initialData'
+import { useSiteData } from '../../lib/site-data'
 
 function LocationCard({
   location,
@@ -240,15 +240,16 @@ function LocationCard({
 }
 
 export function LocationsV2() {
-  const adults = INITIAL_DATA.locations.filter((l) => !l.kids)
-  const kids = INITIAL_DATA.locations.filter((l) => l.kids)
-  const totalReviews = INITIAL_DATA.locations.reduce(
+  const siteData = useSiteData()
+  const adults = siteData.locations.filter((l) => !l.kids)
+  const kids = siteData.locations.filter((l) => l.kids)
+  const totalReviews = siteData.locations.reduce(
     (sum, l) => sum + (l.review_count ?? 0),
     0
   )
   const avgRating =
-    INITIAL_DATA.locations.reduce((sum, l) => sum + (l.rating ?? 0), 0) /
-    Math.max(INITIAL_DATA.locations.length, 1)
+    siteData.locations.reduce((sum, l) => sum + (l.rating ?? 0), 0) /
+    Math.max(siteData.locations.length, 1)
 
   return (
     <section
@@ -416,7 +417,7 @@ export function LocationsV2() {
           }}
         >
           {[
-            { value: String(INITIAL_DATA.locations.length), label: 'Clinics' },
+            { value: String(siteData.locations.length), label: 'Clinics' },
             { value: String(adults.length), label: 'Dental & Braces' },
             { value: String(kids.length), label: 'Kids clinics' },
             { value: avgRating ? `${avgRating.toFixed(1)}★` : '—', label: 'Avg rating' },

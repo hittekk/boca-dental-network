@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MapPin, Phone, Clock, ArrowUpRight, Star } from 'lucide-react'
 import type { Location } from '../../types'
-import { INITIAL_DATA } from '../../data/initialData'
+import { useSiteData } from '../../lib/site-data'
 
 function LocationRow({
   location,
@@ -344,9 +344,11 @@ function LocationDetailCard({ location }: { location: Location }) {
 }
 
 export function LocationsV3() {
-  const [selected, setSelected] = useState(INITIAL_DATA.locations[0].id)
-  const active = INITIAL_DATA.locations.find((l) => l.id === selected)!
-  const totalCount = INITIAL_DATA.locations.length
+  const siteData = useSiteData()
+  const firstId = siteData.locations[0]?.id ?? 0
+  const [selected, setSelected] = useState(firstId)
+  const active = siteData.locations.find((l) => l.id === selected) ?? siteData.locations[0]
+  const totalCount = siteData.locations.length
 
   return (
     <section
@@ -522,7 +524,7 @@ export function LocationsV3() {
               </div>
             </div>
 
-            {INITIAL_DATA.locations.map((loc, i) => (
+            {siteData.locations.map((loc, i) => (
               <LocationRow
                 key={loc.id}
                 location={loc}

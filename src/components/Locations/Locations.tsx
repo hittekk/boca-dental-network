@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { MapPin, Phone, Clock, ChevronRight, Star } from 'lucide-react'
 import type { Location } from '../../types'
-import { INITIAL_DATA } from '../../data/initialData'
+import { useSiteData } from '../../lib/site-data'
 
 function LocationCard({
   location,
@@ -152,8 +152,9 @@ function LocationCard({
 }
 
 export function Locations() {
-  const adults = INITIAL_DATA.locations.filter((l) => !l.kids)
-  const kids = INITIAL_DATA.locations.filter((l) => l.kids)
+  const siteData = useSiteData()
+  const adults = siteData.locations.filter((l) => !l.kids)
+  const kids = siteData.locations.filter((l) => l.kids)
 
   return (
     <section
