@@ -4,6 +4,7 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { ArrowLeft, ArrowRight, Sparkles, Check } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { supabase, type DbPageTemplate } from '../../lib/supabase';
+import TemplatePreview from '../components/TemplatePreview';
 
 const ORANGE = '#F3672A';
 const NAVY = '#162E7A';
@@ -87,54 +88,61 @@ export default function PageNewPage() {
           {isLoading ? (
             <div className="text-center py-16 text-slate-400">Loading templates...</div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {templates?.map((tpl) => {
-                const Icon = (Icons as Record<string, React.ComponentType<{ className?: string }>>)[tpl.icon ?? 'FileText'] ?? Icons.FileText;
-                const isSelected = selectedTemplate?.id === tpl.id;
-                return (
-                  <button
-                    key={tpl.id}
-                    onClick={() => setSelectedTemplate(tpl)}
-                    className={`group text-left rounded-2xl border-2 p-5 transition-all hover:-translate-y-0.5 ${
-                      isSelected
-                        ? 'shadow-lg'
-                        : 'border-slate-200 bg-white hover:shadow-md'
-                    }`}
-                    style={isSelected ? { borderColor: ORANGE, background: `${ORANGE}05` } : undefined}
-                  >
-                    <div className="flex items-start justify-between mb-3">
-                      <div
-                        className="h-10 w-10 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110"
-                        style={{
-                          background: isSelected ? ORANGE : `${NAVY}15`,
-                          color: isSelected ? 'white' : NAVY,
-                        }}
-                      >
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      {isSelected && (
+            <div className="grid grid-cols-12 gap-6 items-start">
+              {/* Left: template cards (compact, scrollable) */}
+              <div className="col-span-7 grid grid-cols-1 md:grid-cols-2 gap-3">
+                {templates?.map((tpl) => {
+                  const Icon = (Icons as Record<string, React.ComponentType<{ className?: string }>>)[tpl.icon ?? 'FileText'] ?? Icons.FileText;
+                  const isSelected = selectedTemplate?.id === tpl.id;
+                  return (
+                    <button
+                      key={tpl.id}
+                      onClick={() => setSelectedTemplate(tpl)}
+                      className={`group text-left rounded-2xl border-2 p-4 transition-all hover:-translate-y-0.5 ${
+                        isSelected ? 'shadow-lg' : 'border-slate-200 bg-white hover:shadow-md'
+                      }`}
+                      style={isSelected ? { borderColor: ORANGE, background: `${ORANGE}05` } : undefined}
+                    >
+                      <div className="flex items-start justify-between mb-2">
                         <div
-                          className="h-6 w-6 rounded-full flex items-center justify-center"
-                          style={{ background: ORANGE }}
+                          className="h-9 w-9 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110"
+                          style={{
+                            background: isSelected ? ORANGE : `${NAVY}15`,
+                            color: isSelected ? 'white' : NAVY,
+                          }}
                         >
-                          <Check className="h-3.5 w-3.5 text-white" />
+                          <Icon className="h-4 w-4" />
                         </div>
-                      )}
-                    </div>
-                    <h3 className="font-bold text-base mb-1" style={{ color: DARK_NAVY }}>
-                      {tpl.name}
-                    </h3>
-                    <p className="text-xs text-slate-500 leading-relaxed mb-3">{tpl.description}</p>
-                    <div className="flex items-center gap-2 text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
-                      <span>{tpl.category}</span>
-                      <span>·</span>
-                      <span>
-                        {tpl.field_schema?.sections?.reduce((n, s) => n + s.fields.length, 0) ?? 0} fields
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
+                        {isSelected && (
+                          <div className="h-5 w-5 rounded-full flex items-center justify-center" style={{ background: ORANGE }}>
+                            <Check className="h-3 w-3 text-white" />
+                          </div>
+                        )}
+                      </div>
+                      <h3 className="font-bold text-sm mb-0.5" style={{ color: DARK_NAVY }}>
+                        {tpl.name}
+                      </h3>
+                      <p className="text-[11px] text-slate-500 leading-snug mb-2 line-clamp-2">{tpl.description}</p>
+                      <div className="flex items-center gap-2 text-[9px] text-slate-400 font-semibold uppercase tracking-wider">
+                        <span>{tpl.category}</span>
+                        <span>·</span>
+                        <span>
+                          {tpl.field_schema?.sections?.reduce((n, s) => n + s.fields.length, 0) ?? 0} fields
+                        </span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Right: live preview pane */}
+              <div className="col-span-5">
+                <div className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-3 flex items-center gap-2">
+                  <Sparkles className="h-3 w-3" style={{ color: ORANGE }} />
+                  {selectedTemplate ? `${selectedTemplate.name} preview` : 'Preview'}
+                </div>
+                <TemplatePreview templateSlug={selectedTemplate?.slug ?? ''} />
+              </div>
             </div>
           )}
 
