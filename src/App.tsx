@@ -1,5 +1,8 @@
-import { useEffect, useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { useEffect, useState, lazy, Suspense } from 'react'
+import { Routes, Route, useLocation } from 'react-router-dom'
+
+// Admin module — code-split so it doesn't bloat the public bundle
+const AdminApp = lazy(() => import('./admin/AdminApp'))
 
 // Variant A — Modern Clinic
 import { Header } from './components/Header/Header'
@@ -180,6 +183,8 @@ function Homepage({ variant }: { variant: Variant }) {
 
 function App() {
   const [variant, setVariant] = useState<Variant>('a')
+  const routerLocation = useLocation()
+  const isAdminRoute = routerLocation.pathname.startsWith('/dental-admin')
 
   useEffect(() => {
     setVariant(readVariantFromUrl())
@@ -187,6 +192,22 @@ function App() {
     window.addEventListener('popstate', onPop)
     return () => window.removeEventListener('popstate', onPop)
   }, [])
+
+  // Render admin in isolation — no public-site chrome
+  if (isAdminRoute) {
+    return (
+      <Suspense fallback={
+        <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#001D3D' }}>
+          <div style={{ width: 40, height: 40, borderRadius: '50%', border: '2px solid rgba(243,103,42,0.3)', borderTopColor: '#F3672A', animation: 'spin 1s linear infinite' }} />
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        </div>
+      }>
+        <Routes>
+          <Route path="/dental-admin/*" element={<AdminApp />} />
+        </Routes>
+      </Suspense>
+    )
+  }
 
   const switchVariant = (next: Variant) => {
     setVariant(next)
