@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Phone, Clock, Shield, CheckCircle2, Loader2, ArrowRight } from 'lucide-react'
 import { useSiteData } from '../../lib/site-data'
 import { supabase, isSupabaseConfigured } from '../../lib/supabase'
+import { useTrack } from '../../lib/analytics'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -62,6 +63,7 @@ function applyBlur(e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HT
 
 export function ConsultationForm() {
   const siteData = useSiteData()
+  const track = useTrack()
   const [form, setForm] = useState<FormState>(INITIAL_FORM)
   const [status, setStatus] = useState<Status>('idle')
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({})
@@ -124,6 +126,13 @@ export function ConsultationForm() {
         setStatus('error')
         return
       }
+      // Fire conversion event across all configured trackers (GA4, Pixel, Ads, first-party)
+      track('form_submit', {
+        form_id: 'consultation',
+        service_interest: form.service || null,
+        location: form.location || null,
+        patient_type: form.patient_type,
+      })
       setStatus('success')
     } catch (err) {
       console.error('[ConsultationForm] submission error:', err)

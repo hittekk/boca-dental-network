@@ -11,6 +11,7 @@ import {
   ExternalLink,
   FileText,
   Images,
+  BarChart3,
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
@@ -70,6 +71,7 @@ export default function AdminLayout({ session }: { session: Session }) {
           <NavItem to="/dental-admin/transformations" icon={Images} label="Transformations" />
           <SectionLabel>Engagement</SectionLabel>
           <NavItem to="/dental-admin/leads" icon={Inbox} label="Leads" />
+          <NavItem to="/dental-admin/analytics" icon={BarChart3} label="Analytics" />
           <SectionLabel>Site</SectionLabel>
           <NavItem to="/dental-admin/team" icon={Users} label="Team" />
           <NavItem to="/dental-admin/settings" icon={Settings} label="Settings" />

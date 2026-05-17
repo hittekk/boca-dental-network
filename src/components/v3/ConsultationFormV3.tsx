@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { CheckCircle2, Loader2, ArrowUpRight } from 'lucide-react'
 import { useSiteData } from '../../lib/site-data'
 import { supabase, isSupabaseConfigured } from '../../lib/supabase'
+import { useTrack } from '../../lib/analytics'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -65,6 +66,7 @@ function focusOff(e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTM
 
 export function ConsultationFormV3() {
   const siteData = useSiteData()
+  const track = useTrack()
   const [form, setForm] = useState<FormState>(INITIAL_FORM)
   const [status, setStatus] = useState<Status>('idle')
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({})
@@ -125,6 +127,12 @@ export function ConsultationFormV3() {
         setStatus('error')
         return
       }
+      track('form_submit', {
+        form_id: 'consultation-v3',
+        service_interest: form.service || null,
+        location: form.location || null,
+        patient_type: form.patient_type,
+      })
       setStatus('success')
     } catch (err) {
       console.error('[ConsultationFormV3] submission error:', err)

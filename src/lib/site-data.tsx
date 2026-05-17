@@ -13,11 +13,16 @@ import type { ReactNode } from 'react';
 import type { InitialData, Location, Service } from '../types';
 import { supabase, isSupabaseConfigured } from './supabase';
 import { INITIAL_DATA } from '../data/initialData';
+import type { AnalyticsConfig } from './analytics';
+
+type Extended = { data: InitialData; analytics: AnalyticsConfig };
 
 const SiteDataContext = createContext<InitialData>(INITIAL_DATA);
+const AnalyticsConfigContext = createContext<AnalyticsConfig>({});
 
 export function SiteDataProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<InitialData>(INITIAL_DATA);
+  const [analytics, setAnalytics] = useState<AnalyticsConfig>({});
 
   useEffect(() => {
     if (!isSupabaseConfigured) return;
@@ -54,6 +59,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
 
         const settingsMap = Object.fromEntries((settings.data ?? []).map((s) => [s.key, s.value]));
         const brandSettings = (settingsMap.brand ?? {}) as Partial<InitialData['brand']>;
+        const analyticsSettings = (settingsMap.analytics ?? {}) as AnalyticsConfig;
 
         const faqsByLocation = new Map<string, { question: string; answer: string }[]>();
         (faqs.data ?? []).forEach((f) => {
@@ -118,6 +124,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
         };
 
         setData(newData);
+        setAnalytics(analyticsSettings);
       } catch (err) {
         console.warn('[site-data] Supabase fetch failed, using static fallback:', err);
       }
@@ -128,9 +135,19 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  return <SiteDataContext.Provider value={data}>{children}</SiteDataContext.Provider>;
+  return (
+    <SiteDataContext.Provider value={data}>
+      <AnalyticsConfigContext.Provider value={analytics}>
+        {children}
+      </AnalyticsConfigContext.Provider>
+    </SiteDataContext.Provider>
+  );
 }
 
 export function useSiteData(): InitialData {
   return useContext(SiteDataContext);
+}
+
+export function useAnalyticsConfigFromSettings(): AnalyticsConfig {
+  return useContext(AnalyticsConfigContext);
 }
