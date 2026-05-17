@@ -18,6 +18,8 @@ import PageNewPage from './pages/PageNewPage';
 import PageEditPage from './pages/PageEditPage';
 import TransformationsListPage from './pages/TransformationsListPage';
 import TransformationEditPage from './pages/TransformationEditPage';
+import ServiceEditPage from './pages/ServiceEditPage';
+import DoctorEditPage from './pages/DoctorEditPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -73,7 +75,9 @@ export default function AdminApp() {
           <Route path="locations" element={<LocationsListPage />} />
           <Route path="locations/:id" element={<LocationEditPage />} />
           <Route path="services" element={<ServicesListPage />} />
+          <Route path="services/:id" element={<ServiceEditPage />} />
           <Route path="doctors" element={<DoctorsListPage />} />
+          <Route path="doctors/:id" element={<DoctorEditPage />} />
           <Route path="leads" element={<LeadsListPage />} />
           <Route path="pages" element={<PagesListPage />} />
           <Route path="pages/new" element={<PageNewPage />} />

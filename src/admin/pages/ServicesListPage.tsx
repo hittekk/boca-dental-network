@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { Link, useNavigate } from 'react-router-dom';
 import { Sparkles, Plus, Eye, EyeOff } from 'lucide-react';
 import { supabase, type DbService } from '../../lib/supabase';
 
@@ -7,6 +8,7 @@ const NAVY = '#162E7A';
 const DARK_NAVY = '#001D3D';
 
 export default function ServicesListPage() {
+  const navigate = useNavigate();
   const { data, isLoading } = useQuery({
     queryKey: ['admin', 'services'],
     queryFn: async () => {
@@ -31,6 +33,7 @@ export default function ServicesListPage() {
           </p>
         </div>
         <button
+          onClick={() => navigate('/dental-admin/services/new')}
           className="flex items-center gap-2 px-4 py-2.5 rounded-lg font-semibold text-sm text-white transition-all active:scale-[0.98]"
           style={{ background: ORANGE }}
         >
@@ -44,9 +47,10 @@ export default function ServicesListPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {data?.map((svc) => (
-            <div
+            <Link
+              to={`/dental-admin/services/${svc.id}`}
               key={svc.id}
-              className="bg-white rounded-2xl border border-slate-200 p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all"
+              className="bg-white rounded-2xl border border-slate-200 p-5 hover:shadow-lg hover:-translate-y-0.5 hover:border-orange-300 transition-all block"
             >
               <div className="flex items-start justify-between mb-3">
                 <div
@@ -76,7 +80,7 @@ export default function ServicesListPage() {
                 </span>
                 <span className="text-xs text-slate-400 font-mono">/{svc.slug}</span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}

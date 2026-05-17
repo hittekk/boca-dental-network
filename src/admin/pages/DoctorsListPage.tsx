@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { Link, useNavigate } from 'react-router-dom';
 import { Users, Plus, Eye, EyeOff } from 'lucide-react';
 import { supabase, type DbDoctor } from '../../lib/supabase';
 
@@ -7,6 +8,7 @@ const NAVY = '#162E7A';
 const DARK_NAVY = '#001D3D';
 
 export default function DoctorsListPage() {
+  const navigate = useNavigate();
   const { data, isLoading } = useQuery({
     queryKey: ['admin', 'doctors'],
     queryFn: async () => {
@@ -31,6 +33,7 @@ export default function DoctorsListPage() {
           </p>
         </div>
         <button
+          onClick={() => navigate('/dental-admin/doctors/new')}
           className="flex items-center gap-2 px-4 py-2.5 rounded-lg font-semibold text-sm text-white transition-all active:scale-[0.98]"
           style={{ background: ORANGE }}
         >
@@ -44,9 +47,10 @@ export default function DoctorsListPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {data?.map((doc) => (
-            <div
+            <Link
+              to={`/dental-admin/doctors/${doc.id}`}
               key={doc.id}
-              className="bg-white rounded-2xl border border-slate-200 p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-start gap-4"
+              className="bg-white rounded-2xl border border-slate-200 p-5 hover:shadow-lg hover:-translate-y-0.5 hover:border-orange-300 transition-all flex items-start gap-4"
             >
               <div
                 className="h-12 w-12 rounded-full flex items-center justify-center flex-shrink-0 font-bold"
@@ -71,7 +75,7 @@ export default function DoctorsListPage() {
                 )}
                 <div className="text-[10px] text-slate-400 mt-2 font-mono">/{doc.slug}</div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}
