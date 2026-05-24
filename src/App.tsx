@@ -112,13 +112,12 @@ function Homepage({ variant }: { variant: Variant }) {
           <Steps />
           <Testimonials />
           <BocaKids />
-          <Locations />
+          <LocationsMap theme="light" />
           <SmileTransformations theme="light" />
           <MeetTheTeam theme="light" />
           <Financing />
           <FAQ />
           <ConsultationForm />
-          <LocationsMap theme="light" />
           <CTA />
           <Footer />
         </>
