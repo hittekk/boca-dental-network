@@ -528,7 +528,7 @@ function LocationHero({
                 }}
               >
                 <a
-                  href={`/request-consultation?location=${location.slug}`}
+                  href="#book"
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',

@@ -412,7 +412,7 @@ function Hero({
 
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
               <a
-                href={`/request-consultation?location=${location.slug}`}
+                href="#book"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
