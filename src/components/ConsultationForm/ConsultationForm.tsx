@@ -1,6 +1,6 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Phone, Clock, Shield, CheckCircle2, Loader2, ArrowRight } from 'lucide-react'
+import { Phone, Clock, Shield, CheckCircle2, Loader2, ArrowRight, MapPin } from 'lucide-react'
 import { useSiteData } from '../../lib/site-data'
 import { supabase, isSupabaseConfigured } from '../../lib/supabase'
 import { useTrack } from '../../lib/analytics'
@@ -18,6 +18,12 @@ interface FormState {
   consent: boolean
 }
 
+/** Read ?location=slug from the current URL (works in browser only). */
+function readLocationParam(): string {
+  if (typeof window === 'undefined') return ''
+  return new URLSearchParams(window.location.search).get('location') ?? ''
+}
+
 const INITIAL_FORM: FormState = {
   name: '',
   email: '',
@@ -27,6 +33,16 @@ const INITIAL_FORM: FormState = {
   patient_type: 'new',
   message: '',
   consent: false,
+}
+
+export interface ConsultationFormProps {
+  /**
+   * When set the form pre-fills to this location slug, locks the dropdown,
+   * and shows that office's direct phone number. Pass the slug from the
+   * location page (e.g. 'sahara-decatur') or leave undefined on global pages
+   * so the user picks their own office.
+   */
+  preselectedLocation?: string
 }
 
 const labelStyle: React.CSSProperties = {
@@ -61,12 +77,28 @@ function applyBlur(e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HT
   e.currentTarget.style.boxShadow = 'none'
 }
 
-export function ConsultationForm() {
+export function ConsultationForm({ preselectedLocation }: ConsultationFormProps = {}) {
   const siteData = useSiteData()
   const track = useTrack()
-  const [form, setForm] = useState<FormState>(INITIAL_FORM)
+
+  // Resolve the active location slug: prop → URL param → empty (user picks)
+  const lockedSlug = preselectedLocation ?? readLocationParam()
+  const lockedLocation = lockedSlug
+    ? siteData.locations.find((l) => l.slug === lockedSlug) ?? null
+    : null
+
+  const [form, setForm] = useState<FormState>({
+    ...INITIAL_FORM,
+    location: lockedSlug,
+  })
   const [status, setStatus] = useState<Status>('idle')
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({})
+
+  // If the slug changes (e.g. navigating between location pages without unmount)
+  // re-sync the location field
+  useEffect(() => {
+    setForm((f) => ({ ...f, location: lockedSlug }))
+  }, [lockedSlug])
 
   const set = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((f) => ({ ...f, [key]: value }))
@@ -320,59 +352,80 @@ export function ConsultationForm() {
               }}
             />
 
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: 12,
-                marginBottom: 24,
-                paddingBottom: 18,
-                borderBottom: '1px solid rgba(0,29,61,0.08)',
-              }}
-            >
               <div
                 style={{
-                  display: 'inline-flex',
+                  display: 'flex',
                   alignItems: 'center',
-                  gap: 10,
+                  justifyContent: 'space-between',
+                  gap: 12,
+                  marginBottom: 24,
+                  paddingBottom: 18,
+                  borderBottom: '1px solid rgba(0,29,61,0.08)',
                 }}
               >
-                <span
+                <div
                   style={{
-                    width: 8,
-                    height: 8,
-                    borderRadius: '50%',
-                    background: '#F3672A',
-                    display: 'inline-block',
-                    boxShadow: '0 0 0 4px rgba(243,103,42,0.18)',
-                  }}
-                />
-                <span
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 800,
-                    letterSpacing: 1.5,
-                    textTransform: 'uppercase',
-                    color: '#001D3D',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 10,
                   }}
                 >
-                  Step 1 — Tell us about you
-                </span>
+                  <span
+                    style={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: '50%',
+                      background: '#F3672A',
+                      display: 'inline-block',
+                      boxShadow: '0 0 0 4px rgba(243,103,42,0.18)',
+                    }}
+                  />
+                  <span
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 800,
+                      letterSpacing: 1.5,
+                      textTransform: 'uppercase',
+                      color: '#001D3D',
+                    }}
+                  >
+                    {lockedLocation
+                      ? `Booking — ${lockedLocation.label}`
+                      : 'Step 1 — Tell us about you'}
+                  </span>
+                </div>
+                {lockedLocation ? (
+                  <a
+                    href={`tel:${lockedLocation.phone.replace(/\D/g, '')}`}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: '#F3672A',
+                      textDecoration: 'none',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    <Phone size={12} />
+                    {lockedLocation.phone}
+                  </a>
+                ) : (
+                  <span
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 800,
+                      letterSpacing: 1.5,
+                      textTransform: 'uppercase',
+                      color: 'rgba(0,29,61,0.4)',
+                      fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+                    }}
+                  >
+                    ~ 60 seconds
+                  </span>
+                )}
               </div>
-              <span
-                style={{
-                  fontSize: 10,
-                  fontWeight: 800,
-                  letterSpacing: 1.5,
-                  textTransform: 'uppercase',
-                  color: 'rgba(0,29,61,0.4)',
-                  fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
-                }}
-              >
-                ~ 60 seconds
-              </span>
-            </div>
 
             <AnimatePresence mode="wait">
               {status === 'success' ? (
@@ -510,20 +563,40 @@ export function ConsultationForm() {
                     }}
                   >
                     <Field label="Preferred office">
-                      <select
-                        value={form.location}
-                        onChange={(e) => set('location', e.target.value)}
-                        onFocus={applyFocus}
-                        onBlur={applyBlur}
-                        style={{ ...inputBase, cursor: 'pointer' }}
-                      >
-                        <option value="">No preference — closest to me</option>
-                        {siteData.locations.map((loc) => (
-                          <option key={loc.id} value={loc.slug}>
-                            {loc.label}
-                          </option>
-                        ))}
-                      </select>
+                      {lockedLocation ? (
+                        <div
+                          style={{
+                            ...inputBase,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 8,
+                            background: 'rgba(243,103,42,0.05)',
+                            border: '1.5px solid rgba(243,103,42,0.25)',
+                            color: '#001D3D',
+                            cursor: 'default',
+                          }}
+                        >
+                          <MapPin size={13} color="#F3672A" style={{ flexShrink: 0 }} />
+                          <span style={{ fontSize: 14, fontWeight: 600 }}>
+                            {lockedLocation.label}
+                          </span>
+                        </div>
+                      ) : (
+                        <select
+                          value={form.location}
+                          onChange={(e) => set('location', e.target.value)}
+                          onFocus={applyFocus}
+                          onBlur={applyBlur}
+                          style={{ ...inputBase, cursor: 'pointer' }}
+                        >
+                          <option value="">No preference — closest to me</option>
+                          {siteData.locations.map((loc) => (
+                            <option key={loc.id} value={loc.slug}>
+                              {loc.label}
+                            </option>
+                          ))}
+                        </select>
+                      )}
                     </Field>
                     <Field label="Service interest">
                       <select

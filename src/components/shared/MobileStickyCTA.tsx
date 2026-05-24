@@ -36,7 +36,7 @@ export function MobileStickyCTA({ phone = '(702) 456-0005' }: { phone?: string }
       }}
     >
       <a
-        href="#request-consultation"
+        href="/request-consultation"
         style={{
           flex: 1,
           display: 'inline-flex',

@@ -281,7 +281,7 @@ export function CTA() {
 
             {/* Primary — Book online */}
             <a
-              href="#request-consultation"
+              href="/request-consultation"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',

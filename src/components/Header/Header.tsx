@@ -339,7 +339,7 @@ function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: '
       </a>
 
       <a
-        href="#request-consultation"
+        href="/request-consultation"
         style={{
           display: 'inline-flex',
           alignItems: 'center',
@@ -495,7 +495,7 @@ function MobileMenu({
                 {phone}
               </a>
               <a
-                href="#request-consultation"
+                href="/request-consultation"
                 onClick={onClose}
                 style={{
                   display: 'flex',

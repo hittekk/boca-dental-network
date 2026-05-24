@@ -25,10 +25,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { ArrowRight, ArrowUpRight, MapPin, Phone, Clock, Star, Mail, Briefcase, FileText, ShieldCheck, CreditCard, MessageCircle, Globe } from 'lucide-react'
 import { Header } from '../components/Header/Header'
 import { Footer } from '../components/Footer/Footer'
+import { ConsultationForm } from '../components/ConsultationForm/ConsultationForm'
 import { INITIAL_DATA } from '../data/initialData'
 import { SERVICE_CATEGORIES, SERVICE_PAGES } from '../data/serviceCatalog'
 
@@ -591,26 +592,38 @@ function ContactRow({ icon: Icon, label, value, href }: { icon: typeof Phone; la
 }
 
 export function RequestConsultationPage() {
+  const [searchParams] = useSearchParams()
+  const locationSlug = searchParams.get('location') ?? undefined
+
+  // Resolve display name for the page title when a location is pre-set
+  const matchedLocation = locationSlug
+    ? INITIAL_DATA.locations.find((l) => l.slug === locationSlug)
+    : undefined
+
+  const pageTitle = matchedLocation
+    ? `Book at ${matchedLocation.label} | Boca Dental & Braces`
+    : 'Request a Free Consultation | Boca Dental & Braces Las Vegas'
+
   const breadcrumbSchema = usePageMeta({
-    title: 'Request a Free Consultation | Boca Dental & Braces Las Vegas',
+    title: pageTitle,
     description: 'Book a free dental consultation at any of our 9 Boca Dental & Braces Las Vegas locations. No commitment, no obligation.',
     url: `${DOMAIN}/request-consultation/`,
     breadcrumb: [{ name: 'Home', url: `${DOMAIN}/` }, { name: 'Request Consultation' }],
   })
+
   return (
     <Shell>
       <HeroBlock
         eyebrow="[ 01 ] · Free consultation"
-        h1="Request a Free Consultation"
-        intro="Free, no-obligation consultations at any of our 9 Las Vegas locations. Fill out the form and our team will reach out within one business day to schedule your visit."
+        h1={matchedLocation ? `Book at ${matchedLocation.label}` : 'Request a Free Consultation'}
+        intro={
+          matchedLocation
+            ? `You're booking with our ${matchedLocation.label} office at ${matchedLocation.address}. Fill out the form and someone from this location will reach out within one business hour.`
+            : 'Free, no-obligation consultations at any of our 9 Las Vegas locations. Fill out the form and our team will reach out within one business hour to schedule your visit.'
+        }
         breadcrumb={[{ name: 'Home', href: '/' }, { name: 'Request Consultation' }]}
       />
-      <PlaceholderBody>
-        <strong>[dev] — booking flow needed.</strong> Will integrate with Boca's booking provider (TBD: NexHealth /
-        Yapi / LocalMed / direct CMS) plus a fallback form that emails the lead to the central inbox.
-        Pre-populate clinic selector when the user came from a clinic page. Confirmation email + SMS on submit.
-      </PlaceholderBody>
-      <CTAStrip headline="Prefer to call? Reach our team directly." />
+      <ConsultationForm preselectedLocation={locationSlug} />
       {breadcrumbSchema}
     </Shell>
   )
