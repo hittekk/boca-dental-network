@@ -302,17 +302,26 @@ function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: '
         gap: 16,
       }}
     >
-      <span
+      <a
+        href="/oficina-de-habla-hispana/"
         style={{
           color: subtleColor,
           fontSize: 11,
           fontWeight: 600,
           textTransform: 'uppercase',
           letterSpacing: '0.05em',
+          textDecoration: 'none',
+          transition: 'color 0.2s ease',
         }}
+        onMouseEnter={(e) =>
+          ((e.currentTarget as HTMLElement).style.color = phoneHover)
+        }
+        onMouseLeave={(e) =>
+          ((e.currentTarget as HTMLElement).style.color = subtleColor)
+        }
       >
         Se Habla Español
-      </span>
+      </a>
 
       <a
         href={`tel:${phone.replace(/\D/g, '')}`}
@@ -521,7 +530,8 @@ function MobileMenu({
                 <Calendar size={14} />
                 Book Appointment
               </a>
-              <span
+              <a
+                href="/oficina-de-habla-hispana/"
                 style={{
                   textAlign: 'center',
                   color: 'rgba(255,255,255,0.5)',
@@ -530,10 +540,12 @@ function MobileMenu({
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
                   marginTop: 8,
+                  textDecoration: 'none',
+                  display: 'block',
                 }}
               >
                 Se Habla Español
-              </span>
+              </a>
             </div>
           </div>
         </motion.div>

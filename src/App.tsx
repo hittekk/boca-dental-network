@@ -93,106 +93,38 @@ function readVariantFromUrl(): Variant {
   return 'a'
 }
 
-function Homepage({ variant }: { variant: Variant }) {
+function Homepage() {
   const siteData = useSiteData()
   return (
     <div>
-      {/* ────────── VARIANT A — Modern Clinic ────────── */}
-      {variant === 'a' && (
-        <>
-          <Header
-            brand={siteData.brand}
-            announcement={siteData.announcement}
-          />
-          <Hero brand={siteData.brand} />
-          <TrustBar theme="light" />
-          <AudienceRouting theme="light" />
-          <Services />
-          <WhyBoca />
-          <Steps />
-          <Testimonials />
-          <BocaKids />
-          <LocationsMap theme="light" />
-          <SmileTransformations theme="light" />
-          <MeetTheTeam theme="light" />
-          <Financing />
-          <FAQ />
-          <ConsultationForm />
-          <CTA />
-          <Footer />
-        </>
-      )}
-
-      {/* ────────── VARIANT B — Warm Editorial ────────── */}
-      {variant === 'b' && (
-        <>
-          <Header
-            brand={siteData.brand}
-            announcement={siteData.announcement}
-            logoMode="dark"
-          />
-          <HeroV2 brand={siteData.brand} />
-          <TrustBar theme="cream" />
-          <AudienceRoutingV2 />
-          <ServicesV2 />
-          <WhyBocaV2 />
-          <StepsV2 />
-          <TestimonialsV2 />
-          <BocaKidsV2 />
-          <LocationsV2 />
-          <SmileTransformations theme="cream" />
-          <MeetTheTeamV2 />
-          <FinancingV2 />
-          <FAQV2 />
-          <ConsultationForm />
-          <LocationsMap theme="cream" />
-          <CTAv2 />
-          <FooterV2 />
-        </>
-      )}
-
-      {/* ────────── VARIANT C — Super Modern (Dark) ────────── */}
-      {variant === 'c' && (
-        <>
-          <HeaderV3
-            brand={siteData.brand}
-            announcement={siteData.announcement}
-          />
-          <HeroV3 brand={siteData.brand} />
-          <TrustBarV3 />
-          <AudienceRoutingV3 />
-          <ServicesV3 />
-          <WhyBocaV3 />
-          <StepsV3 />
-          <TestimonialsV3 />
-          <BocaKidsV3 />
-          <LocationsV3 />
-          <SmileTransformations theme="dark" />
-          <MeetTheTeamV3 />
-          <FinancingV3 />
-          <FAQV3 />
-          <ConsultationFormV3 />
-          <LocationsMapV3 />
-          <CTAv3 />
-          <FooterV3 />
-        </>
-      )}
+      <Header
+        brand={siteData.brand}
+        announcement={siteData.announcement}
+      />
+      <Hero brand={siteData.brand} />
+      <TrustBar theme="light" />
+      <AudienceRouting theme="light" />
+      <Services />
+      <WhyBoca />
+      <Steps />
+      <Testimonials />
+      <BocaKids />
+      <LocationsMap theme="light" />
+      {/* <SmileTransformations theme="light" /> — uncomment when Carlos delivers before/after photos */}
+      <MeetTheTeam theme="light" />
+      <Financing />
+      <FAQ />
+      <ConsultationForm />
+      <CTA />
+      <Footer />
     </div>
   )
 }
 
 function App() {
-  const [variant, setVariant] = useState<Variant>('a')
   const routerLocation = useLocation()
   const isAdminRoute = routerLocation.pathname.startsWith('/dental-admin')
   const siteData = useSiteData()
-
-  useEffect(() => {
-    setVariant(readVariantFromUrl())
-    const onPop = () => setVariant(readVariantFromUrl())
-    window.addEventListener('popstate', onPop)
-    return () => window.removeEventListener('popstate', onPop)
-  }, [])
 
   // Render admin in isolation — no public-site chrome
   if (isAdminRoute) {
@@ -210,20 +142,6 @@ function App() {
     )
   }
 
-  const switchVariant = (next: Variant) => {
-    setVariant(next)
-    const params = new URLSearchParams(window.location.search)
-    if (next === 'a') params.delete('variant')
-    else params.set('variant', next)
-    const qs = params.toString()
-    const url = window.location.pathname + (qs ? '?' + qs : '')
-    window.history.replaceState({}, '', url)
-    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
-  }
-
-  // Service-category slugs are registered explicitly so they don't collide with
-  // other top-level routes. Each renders ServiceCategoryPage at `/[category]/`
-  // and ServicePage at `/[category]/[service]/`.
   const serviceCategoryRoutes = SERVICE_CATEGORIES.flatMap((cat) => [
     <Route key={`${cat.slug}-hub`} path={`/${cat.slug}/`} element={<ServiceCategoryPage categorySlugProp={cat.slug} />} />,
     <Route key={`${cat.slug}-hub-noslash`} path={`/${cat.slug}`} element={<ServiceCategoryPage categorySlugProp={cat.slug} />} />,
@@ -235,13 +153,13 @@ function App() {
     <>
       <Routes>
         {/* Home */}
-        <Route path="/" element={<Homepage variant={variant} />} />
+        <Route path="/" element={<Homepage />} />
 
         {/* Location pages */}
         <Route path="/clinics/" element={<ClinicsHubPage />} />
         <Route path="/clinics" element={<ClinicsHubPage />} />
-        <Route path="/clinics/:slug" element={<LocationPage variant={variant} />} />
-        <Route path="/clinics/:slug/" element={<LocationPage variant={variant} />} />
+        <Route path="/clinics/:slug" element={<LocationPage />} />
+        <Route path="/clinics/:slug/" element={<LocationPage />} />
 
         {/* Service hub + category hubs + service detail pages */}
         <Route path="/services/" element={<ServicesHubPage />} />
@@ -288,11 +206,10 @@ function App() {
         <Route path="/hipaa-compliance/" element={<HipaaPage />} />
         <Route path="/hipaa-compliance" element={<HipaaPage />} />
 
-        {/* Catch-all fallback to homepage (replace with 404 later) */}
-        <Route path="*" element={<Homepage variant={variant} />} />
+        {/* Catch-all fallback to homepage */}
+        <Route path="*" element={<Homepage />} />
       </Routes>
       <MobileStickyCTA phone={siteData.brand.phone} />
-      <VariantSwitcher current={variant} onChange={switchVariant} />
     </>
   )
 }

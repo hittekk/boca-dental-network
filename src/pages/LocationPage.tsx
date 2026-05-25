@@ -66,7 +66,7 @@ export const COORDS_BY_LOCATION: Record<string, [number, number]> = {
   'beltway-marketplace': [-115.1198, 36.0227],
 }
 
-export function LocationPage({ variant }: { variant: Variant }) {
+export function LocationPage() {
   const { slug } = useParams<{ slug: string }>()
   const siteData = useSiteData()
   const location = siteData.locations.find((l) => l.slug === slug)
@@ -141,20 +141,11 @@ export function LocationPage({ variant }: { variant: Variant }) {
     )
   }
 
-  const variantNode =
-    variant === 'c' ? (
-      <LocationPageV3 location={location} />
-    ) : variant === 'b' ? (
-      <LocationPageV2 location={location} />
-    ) : (
-      <LocationPageV1 location={location} />
-    )
-
   return (
     <>
       <LocationPageMeta location={location} />
       <LocationPageSchema location={location} />
-      {variantNode}
+      <LocationPageV1 location={location} />
     </>
   )
 }
