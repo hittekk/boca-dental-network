@@ -224,6 +224,38 @@ export function AboutUsPage() {
   )
 }
 
+// ─── Ghost map for hero background (no interaction, fades into blue) ──────────
+function ClinicsHeroMap() {
+  const ref = useRef<HTMLDivElement>(null)
+  const mapRef = useRef<mapboxgl.Map | null>(null)
+
+  useEffect(() => {
+    if (!ref.current || mapRef.current || !mapboxgl.accessToken) return
+    const map = new mapboxgl.Map({
+      container: ref.current,
+      style: 'mapbox://styles/mapbox/dark-v11',
+      center: [-115.1729, 36.1420],
+      zoom: 10.5,
+      interactive: false,
+      attributionControl: false,
+    })
+    mapRef.current = map
+    map.on('load', () => {
+      INITIAL_DATA.locations.forEach(loc => {
+        const coords = COORDS_BY_LOCATION[loc.slug]
+        if (!coords) return
+        const el = document.createElement('div')
+        el.style.cssText = 'width:14px;height:14px;border-radius:50%;background:#F3672A;border:2px solid rgba(255,255,255,0.6);box-shadow:0 0 12px rgba(243,103,42,0.8)'
+        if (loc.kids) el.style.background = '#60a5fa'
+        new mapboxgl.Marker({ element: el }).setLngLat(coords).addTo(map)
+      })
+    })
+    return () => { map.remove(); mapRef.current = null }
+  }, [])
+
+  return <div ref={ref} style={{ position: 'absolute', inset: 0, opacity: 0.55 }} />
+}
+
 // ─── Mapbox multi-pin map for /clinics/ ──────────────────────────────────────
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN as string
 
@@ -331,33 +363,27 @@ export function ClinicsHubPage() {
       <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="light" />
 
       {/* ── Navy hero ── */}
-      <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '120px 32px 56px', position: 'relative', overflow: 'hidden' }}>
-        <div aria-hidden style={{ position: 'absolute', top: '-30%', right: '-5%', width: 500, height: 500, background: 'radial-gradient(circle, rgba(243,103,42,0.1) 0%, transparent 60%)', pointerEvents: 'none' }} />
-        <div aria-hidden style={{ position: 'absolute', bottom: '-20%', left: '-5%', width: 400, height: 400, background: 'radial-gradient(circle, rgba(22,46,122,0.6) 0%, transparent 60%)', pointerEvents: 'none' }} />
+      <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '120px 32px 56px', position: 'relative', overflow: 'hidden', minHeight: 440 }}>
+
+        {/* Ghost map — floats on the right, fades into the blue */}
+        <div style={{ position: 'absolute', top: 0, right: 0, width: '58%', height: '100%', zIndex: 0, pointerEvents: 'none' }}>
+          <ClinicsHeroMap />
+          <div aria-hidden style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #162E7A 0%, rgba(22,46,122,0.75) 25%, rgba(22,46,122,0.2) 60%, transparent 100%)' }} />
+          <div aria-hidden style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,29,61,0.7) 0%, transparent 20%, transparent 75%, rgba(0,29,61,0.8) 100%)' }} />
+        </div>
 
         <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          {/* Eyebrow */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: '#F3672A', marginBottom: 20, padding: '6px 14px', background: 'rgba(243,103,42,0.12)', borderRadius: 999 }}>
             <MapPin size={11} /> 9 Las Vegas Locations
           </div>
-
-          {/* Headline */}
           <h1 style={{ fontSize: 'clamp(48px, 7vw, 96px)', fontWeight: 800, letterSpacing: '-3px', color: 'white', margin: '0 0 20px', lineHeight: 0.9 }}>
             Find your<br /><span style={{ color: '#F3672A' }}>nearest Boca.</span>
           </h1>
-
           <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.6)', maxWidth: 520, lineHeight: 1.6, margin: '0 0 40px' }}>
             Nine clinics across greater Las Vegas — general, cosmetic, orthodontics, pediatric, and emergency care. Most insurance accepted.
           </p>
-
-          {/* Stats row */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 32, alignItems: 'center' }}>
-            {[
-              { val: '9', label: 'Locations' },
-              { val: '4.8★', label: 'Avg Rating' },
-              { val: '20k+', label: 'Patients Served' },
-              { val: '2006', label: 'Est. Las Vegas' },
-            ].map(s => (
+            {[{ val: '9', label: 'Locations' }, { val: '4.8★', label: 'Avg Rating' }, { val: '20k+', label: 'Patients Served' }, { val: '2006', label: 'Est. Las Vegas' }].map(s => (
               <div key={s.label}>
                 <div style={{ fontSize: 28, fontWeight: 800, color: 'white', letterSpacing: '-1px', lineHeight: 1 }}>{s.val}</div>
                 <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 4 }}>{s.label}</div>
