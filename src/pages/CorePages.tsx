@@ -32,6 +32,7 @@ import { Footer } from '../components/Footer/Footer'
 import { ConsultationForm } from '../components/ConsultationForm/ConsultationForm'
 import { INITIAL_DATA } from '../data/initialData'
 import { SERVICE_CATEGORIES, SERVICE_PAGES } from '../data/serviceCatalog'
+import { LOCATION_REVIEWS } from '../data/locationDetails'
 
 const ORANGE = '#F3672A'
 const NAVY = '#001D3D'
@@ -539,28 +540,177 @@ function FinCard({ title, body }: { title: string; body: string }) {
 }
 
 export function ReviewsPage() {
+  const [activeLocation, setActiveLocation] = React.useState<string>('all')
+
   const breadcrumbSchema = usePageMeta({
     title: 'Patient Reviews | Boca Dental & Braces Las Vegas',
-    description: 'Read 1,200+ verified Google reviews about Boca Dental & Braces across our 9 Las Vegas locations.',
+    description: 'Read 1,200+ verified Google reviews for Boca Dental & Braces across 9 Las Vegas locations. Rated 4.9 stars by patients across Southeast Las Vegas, Spring Valley, Downtown, and more.',
     url: `${DOMAIN}/patient-resources/reviews/`,
     breadcrumb: [{ name: 'Home', url: `${DOMAIN}/` }, { name: 'Patient Resources', url: `${DOMAIN}/patient-resources/` }, { name: 'Reviews' }],
   })
+
+  // Pull all reviews across every location
+  const allLocationReviews = INITIAL_DATA.locations.map(loc => ({
+    location: loc,
+    reviews: LOCATION_REVIEWS[loc.slug] ?? [],
+  }))
+
+  const displayed = activeLocation === 'all'
+    ? allLocationReviews
+    : allLocationReviews.filter(lr => lr.location.slug === activeLocation)
+
+  const totalReviews = INITIAL_DATA.locations.reduce((sum, l) => sum + l.review_count, 0)
+  const avgRating = (INITIAL_DATA.locations.reduce((sum, l) => sum + l.rating, 0) / INITIAL_DATA.locations.length).toFixed(1)
+
   return (
-    <Shell>
-      <HeroBlock
-        eyebrow="[ 02 ] · Reviews"
-        h1="What Las Vegas Patients Say About Boca Dental & Braces"
-        intro="★ 4.9 out of 5 across 1,200+ verified Google reviews at our 9 Las Vegas locations. Browse reviews by location or read the latest below."
-        breadcrumb={[{ name: 'Home', href: '/' }, { name: 'Patient Resources', href: '/patient-resources/' }, { name: 'Reviews' }]}
-      />
-      <PlaceholderBody>
-        <strong>[content needed]</strong> — Live Google reviews feed (or curated 12–16 review cards) sorted
-        by location. Will include filter by clinic, filter by service category, and direct link to the GBP
-        for each location.
-      </PlaceholderBody>
-      <CTAStrip />
+    <div style={{ background: '#fff', color: NAVY, fontFamily: 'inherit' }}>
+      <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="dark" />
+
+      {/* ── Hero ── */}
+      <section style={{ background: NAVY, padding: '140px 32px 80px', position: 'relative', overflow: 'hidden' }}>
+        <div aria-hidden style={{ position: 'absolute', top: '-20%', right: '-10%', width: 700, height: 700, background: 'radial-gradient(circle, rgba(243,103,42,0.12) 0%, transparent 60%)', pointerEvents: 'none' }} />
+        <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: ORANGE, marginBottom: 20, padding: '6px 14px', background: 'rgba(243,103,42,0.12)', borderRadius: 999 }}>
+            <Star size={11} fill={ORANGE} color={ORANGE} /> Verified Google Reviews
+          </div>
+          <h1 style={{ fontSize: 'clamp(36px, 5vw, 68px)', fontWeight: 800, letterSpacing: '-2px', color: 'white', margin: '0 0 20px', lineHeight: 0.95 }}>
+            What Las Vegas patients say<br />about <span style={{ color: ORANGE }}>Boca Dental.</span>
+          </h1>
+          <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.7)', maxWidth: 560, lineHeight: 1.65, margin: '0 0 40px' }}>
+            Real reviews from real patients across all 9 Las Vegas locations. We never pay for reviews — every star is earned.
+          </p>
+          {/* Aggregate stats */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 32 }}>
+            <div>
+              <div style={{ fontSize: 48, fontWeight: 800, color: 'white', letterSpacing: '-2px', lineHeight: 1 }}>{avgRating}<span style={{ color: ORANGE }}>★</span></div>
+              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 4 }}>Average rating</div>
+            </div>
+            <div>
+              <div style={{ fontSize: 48, fontWeight: 800, color: 'white', letterSpacing: '-2px', lineHeight: 1 }}>{totalReviews.toLocaleString()}+</div>
+              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 4 }}>Verified Google reviews</div>
+            </div>
+            <div>
+              <div style={{ fontSize: 48, fontWeight: 800, color: 'white', letterSpacing: '-2px', lineHeight: 1 }}>9</div>
+              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 4 }}>Las Vegas locations</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Location filter pills ── */}
+      <section style={{ background: '#F7F9FC', padding: '36px 32px' }}>
+        <div style={{ maxWidth: 1240, margin: '0 auto' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(0,29,61,0.45)', textTransform: 'uppercase', letterSpacing: 1.5, marginRight: 4 }}>Filter by location:</span>
+            <button onClick={() => setActiveLocation('all')} style={{ padding: '8px 18px', borderRadius: 999, fontSize: 13, fontWeight: 700, cursor: 'pointer', border: activeLocation === 'all' ? 'none' : '1.5px solid rgba(0,29,61,0.12)', background: activeLocation === 'all' ? ORANGE : 'white', color: activeLocation === 'all' ? 'white' : NAVY, transition: 'all 0.2s' }}>
+              All locations
+            </button>
+            {INITIAL_DATA.locations.map(loc => (
+              <button key={loc.slug} onClick={() => setActiveLocation(loc.slug)} style={{ padding: '8px 18px', borderRadius: 999, fontSize: 13, fontWeight: 700, cursor: 'pointer', border: activeLocation === loc.slug ? 'none' : '1.5px solid rgba(0,29,61,0.12)', background: activeLocation === loc.slug ? ORANGE : 'white', color: activeLocation === loc.slug ? 'white' : NAVY, transition: 'all 0.2s' }}>
+                {loc.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Reviews by location ── */}
+      <section style={{ background: 'white', padding: '64px 32px 96px' }}>
+        <div style={{ maxWidth: 1240, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 64 }}>
+          {displayed.map(({ location: loc, reviews }) => (
+            <div key={loc.slug}>
+              {/* Location header */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, marginBottom: 28, paddingBottom: 20, borderBottom: '2px solid rgba(0,29,61,0.06)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 12, background: loc.kids ? `${NAVY}22` : `${ORANGE}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <MapPin size={20} color={loc.kids ? NAVY : ORANGE} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 3 }}>{loc.neighborhood}</div>
+                    <div style={{ fontSize: 20, fontWeight: 800, color: NAVY, letterSpacing: '-0.4px' }}>{loc.label}</div>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      {[1,2,3,4,5].map(i => <Star key={i} size={14} fill={ORANGE} color={ORANGE} />)}
+                      <span style={{ fontSize: 18, fontWeight: 800, color: NAVY, marginLeft: 4 }}>{loc.rating.toFixed(1)}</span>
+                    </div>
+                    <div style={{ fontSize: 12, color: 'rgba(0,29,61,0.5)', fontWeight: 600, marginTop: 2 }}>{loc.review_count}+ Google reviews</div>
+                  </div>
+                  <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Boca Dental ${loc.label} Las Vegas`)}`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: NAVY, color: 'white', borderRadius: 8, padding: '10px 18px', fontSize: 12, fontWeight: 800, textDecoration: 'none', letterSpacing: 0.5, textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+                    <ArrowUpRight size={13} /> See on Google
+                  </a>
+                </div>
+              </div>
+
+              {/* Review cards */}
+              <div className="rev-cards-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+                <style>{`@media(max-width:900px){.rev-cards-grid{grid-template-columns:1fr !important;}}`}</style>
+                {reviews.map((review, i) => (
+                  <div key={i} style={{ background: '#F7F9FC', borderRadius: 16, padding: '24px 22px', border: '1px solid rgba(0,29,61,0.06)', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                    {/* Stars */}
+                    <div style={{ display: 'flex', gap: 3 }}>
+                      {Array.from({ length: review.rating }).map((_, s) => <Star key={s} size={14} fill={ORANGE} color={ORANGE} />)}
+                    </div>
+                    {/* Body */}
+                    <p style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(0,29,61,0.78)', margin: 0, fontStyle: 'italic', flex: 1 }}>
+                      "{review.body}"
+                    </p>
+                    {/* Author */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, paddingTop: 14, borderTop: '1px solid rgba(0,29,61,0.07)' }}>
+                      <div style={{ width: 36, height: 36, borderRadius: '50%', background: `linear-gradient(135deg, ${ORANGE}33, ${NAVY}22)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 800, color: NAVY, flexShrink: 0 }}>
+                        {review.author.charAt(0)}
+                      </div>
+                      <div>
+                        <div style={{ fontSize: 14, fontWeight: 800, color: NAVY }}>{review.author}</div>
+                        <div style={{ fontSize: 12, color: 'rgba(0,29,61,0.5)' }}>{review.authorArea}</div>
+                      </div>
+                      <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, fontWeight: 700, color: 'rgba(0,29,61,0.35)', textTransform: 'uppercase', letterSpacing: 1 }}>
+                        <svg width="12" height="12" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                        Google
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Book CTA per location */}
+              <div style={{ marginTop: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
+                <Link to={`/request-consultation?location=${loc.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: 'white', borderRadius: 8, padding: '11px 22px', fontSize: 13, fontWeight: 800, textDecoration: 'none', boxShadow: '0 8px 20px rgba(243,103,42,0.25)' }}>
+                  Book at {loc.label} <ArrowRight size={13} />
+                </Link>
+                <a href={`tel:${loc.phone.replace(/\D/g,'')}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'white', color: NAVY, borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 700, textDecoration: 'none', border: '1.5px solid rgba(0,29,61,0.12)' }}>
+                  <Phone size={13} color={ORANGE} /> {loc.phone}
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Leave a review CTA ── */}
+      <section style={{ background: NAVY, padding: '72px 32px', textAlign: 'center' }}>
+        <div style={{ maxWidth: 640, margin: '0 auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: 20 }}>
+            {[1,2,3,4,5].map(i => <Star key={i} size={24} fill={ORANGE} color={ORANGE} />)}
+          </div>
+          <h2 style={{ fontSize: 'clamp(26px, 3.5vw, 44px)', fontWeight: 800, letterSpacing: '-1px', color: 'white', margin: '0 0 14px' }}>Had a great experience?</h2>
+          <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.65)', margin: '0 0 32px', lineHeight: 1.6 }}>Your review helps other Las Vegas families find quality dental care. It takes 60 seconds on Google.</p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
+            <a href="https://www.google.com/maps/search/?api=1&query=Boca+Dental+and+Braces+Las+Vegas" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: 'white', borderRadius: 8, padding: '14px 28px', fontSize: 14, fontWeight: 800, textDecoration: 'none', boxShadow: '0 10px 28px rgba(243,103,42,0.35)' }}>
+              Leave a Google review <ArrowUpRight size={15} />
+            </a>
+            <Link to="/request-consultation" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.1)', color: 'white', borderRadius: 8, padding: '14px 28px', fontSize: 14, fontWeight: 800, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.2)' }}>
+              Book your next visit <ArrowRight size={15} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
       {breadcrumbSchema}
-    </Shell>
+    </div>
   )
 }
 
