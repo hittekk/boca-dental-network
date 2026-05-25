@@ -444,8 +444,17 @@ export function ClinicsHubPage() {
 
       {/* ── Mapbox interactive map ── */}
       <section style={{ background: '#F7F9FC', padding: '48px 32px 0' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto', borderRadius: 20, overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,29,61,0.1)' }}>
-          <ClinicsMap />
+        <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative' }}>
+          {/* Orange glow border */}
+          <div style={{
+            position: 'absolute', inset: -3, borderRadius: 23,
+            background: `linear-gradient(135deg, #F3672A 0%, #ff8c42 40%, #001D3D 100%)`,
+            zIndex: 0,
+            boxShadow: '0 0 40px rgba(243,103,42,0.35), 0 0 80px rgba(243,103,42,0.15)',
+          }} />
+          <div style={{ position: 'relative', zIndex: 1, borderRadius: 20, overflow: 'hidden', boxShadow: '0 12px 48px rgba(0,29,61,0.18)' }}>
+            <ClinicsMap />
+          </div>
         </div>
       </section>
 
