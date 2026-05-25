@@ -23,7 +23,8 @@ import {
 import type { LucideIcon } from 'lucide-react'
 import { GoogleG } from '../components/shared/icons/GoogleG'
 import mapboxgl from 'mapbox-gl'
-import 'mapbox-gl/dist/mapbox-gl.css'import { Header } from '../components/Header/Header'
+import 'mapbox-gl/dist/mapbox-gl.css'
+import { Header } from '../components/Header/Header'
 import { Footer } from '../components/Footer/Footer'
 import { CTA } from '../components/CTA/CTA'
 import {
