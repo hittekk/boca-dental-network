@@ -333,20 +333,27 @@ function ClinicsMap({ onSelectSlug }: { onSelectSlug: (slug: string) => void }) 
         el.style.cssText = [
           'width:48px','height:48px','cursor:pointer',
           'display:flex','align-items:center','justify-content:center',
+        ].join(';')
+
+        const inner = document.createElement('div')
+        inner.style.cssText = [
+          'width:48px','height:48px','border-radius:50%',
+          'display:flex','align-items:center','justify-content:center',
           `background:${pinColor}`,
           'border:3px solid white',
-          'border-radius:50%',
           `box-shadow:0 4px 16px rgba(0,0,0,0.25)`,
           'transition:transform 0.15s ease',
         ].join(';')
 
-        // SVG tooth icon — crown + two roots, matching the logo style
-        el.innerHTML = `<svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+        inner.innerHTML = `<svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 2C8.5 2 5 4 5 8C5 10.5 5.5 12.5 6 14.5C6.5 16.5 7 19 7 21C7 22.5 7.5 24 8.5 24C9.5 24 10 22.5 10.5 20C11 17.5 11.5 16 12 16C12.5 16 13 17.5 13.5 20C14 22.5 14.5 24 15.5 24C16.5 24 17 22.5 17 21C17 19 17.5 16.5 18 14.5C18.5 12.5 19 10.5 19 8C19 4 15.5 2 12 2Z" fill="white"/>
         </svg>`
 
-        el.addEventListener('mouseenter', () => { el.style.transform = 'scale(1.2)' })
-        el.addEventListener('mouseleave', () => { el.style.transform = 'scale(1)' })
+        el.appendChild(inner)
+
+        // Scale the INNER element only — never touch el.style.transform (Mapbox owns that)
+        el.addEventListener('mouseenter', () => { inner.style.transform = 'scale(1.2)' })
+        el.addEventListener('mouseleave', () => { inner.style.transform = 'scale(1)' })
         el.addEventListener('click', () => onSelectSlug(loc.slug))
 
         const popup = new mapboxgl.Popup({ offset: 24, closeButton: false, closeOnClick: false })
