@@ -253,7 +253,7 @@ function ClinicsHeroMap() {
     return () => { map.remove(); mapRef.current = null }
   }, [])
 
-  return <div ref={ref} style={{ position: 'absolute', inset: 0, opacity: 0.55 }} />
+  return <div ref={ref} style={{ position: 'absolute', inset: 0, opacity: 0.35 }} />
 }
 
 // ─── Mapbox multi-pin map for /clinics/ ──────────────────────────────────────
@@ -366,10 +366,12 @@ export function ClinicsHubPage() {
       <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '160px 32px 72px', position: 'relative', overflow: 'hidden', minHeight: 440 }}>
 
         {/* Ghost map — floats on the right, fades into the blue */}
-        <div style={{ position: 'absolute', top: 0, right: 0, width: '58%', height: '100%', zIndex: 0, pointerEvents: 'none' }}>
+        <div style={{ position: 'absolute', top: 0, right: 0, width: '52%', height: '100%', zIndex: 0, pointerEvents: 'none' }}>
           <ClinicsHeroMap />
-          <div aria-hidden style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #162E7A 0%, rgba(22,46,122,0.75) 25%, rgba(22,46,122,0.2) 60%, transparent 100%)' }} />
-          <div aria-hidden style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,29,61,0.7) 0%, transparent 20%, transparent 75%, rgba(0,29,61,0.8) 100%)' }} />
+          {/* Heavy left fade — eliminates the hard edge */}
+          <div aria-hidden style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #162E7A 0%, #162E7A 10%, rgba(22,46,122,0.95) 25%, rgba(22,46,122,0.6) 45%, rgba(22,46,122,0.1) 75%, transparent 100%)' }} />
+          {/* Top/bottom dissolve */}
+          <div aria-hidden style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,29,61,0.8) 0%, transparent 25%, transparent 70%, rgba(0,29,61,0.9) 100%)' }} />
         </div>
 
         <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative', zIndex: 1 }}>
