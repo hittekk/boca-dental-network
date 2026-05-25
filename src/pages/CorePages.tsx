@@ -352,17 +352,18 @@ function ClinicsMap({ onSelectSlug }: { onSelectSlug: (slug: string) => void }) 
         el.appendChild(inner)
 
         // Scale the INNER element only — never touch el.style.transform (Mapbox owns that)
+        // Scale inner only — Mapbox owns el.style.transform
         el.addEventListener('mouseenter', () => { inner.style.transform = 'scale(1.2)' })
         el.addEventListener('mouseleave', () => { inner.style.transform = 'scale(1)' })
-        el.addEventListener('click', () => onSelectSlug(loc.slug))
+        el.addEventListener('click', (e) => { e.stopPropagation(); onSelectSlug(loc.slug) })
 
         const popup = new mapboxgl.Popup({ offset: 24, closeButton: false, closeOnClick: false })
           .setHTML(`
-            <div style="font-family:inherit;padding:2px 0">
+            <div style="font-family:inherit;padding:2px 0;pointer-events:none">
               <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#F3672A;margin-bottom:4px">${loc.neighborhood}</div>
               <div style="font-size:14px;font-weight:800;color:#001D3D;margin-bottom:3px">${loc.label}</div>
               <div style="font-size:12px;color:rgba(0,29,61,0.55)">${loc.phone}</div>
-              <div style="font-size:11px;font-weight:700;color:#F3672A;margin-top:6px;letter-spacing:0.5px">Click to view clinic →</div>
+              <div style="font-size:11px;font-weight:700;color:#F3672A;margin-top:6px">Click to view clinic →</div>
             </div>
           `)
 
@@ -451,7 +452,7 @@ export function ClinicsHubPage() {
       {/* ── Mapbox interactive map ── */}
       <section style={{ background: '#F7F9FC', padding: '48px 32px 0' }}>
         <div style={{ maxWidth: 1240, margin: '0 auto', borderRadius: 20, overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,29,61,0.1)' }}>
-          <ClinicsMap onSelectSlug={(slug) => window.location.href = `/clinics/${slug}/`} />
+          <ClinicsMap onSelectSlug={(slug) => { window.location.assign(`/clinics/${slug}/`) }} />
         </div>
       </section>
 
