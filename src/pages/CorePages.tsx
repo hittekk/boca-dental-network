@@ -237,7 +237,7 @@ function ClinicsMap({ onSelectSlug }: { onSelectSlug: (slug: string) => void }) 
     const map = new mapboxgl.Map({
       container: containerRef.current,
       style: 'mapbox://styles/mapbox/light-v11',
-      center: [-115.1729, 36.1420], // Las Vegas center
+      center: [-115.1729, 36.1420],
       zoom: 11,
       pitch: 0,
       attributionControl: false,
@@ -249,36 +249,33 @@ function ClinicsMap({ onSelectSlug }: { onSelectSlug: (slug: string) => void }) 
         const coords = COORDS_BY_LOCATION[loc.slug]
         if (!coords) return
 
-        // Tooth-shaped SVG pin
+        const pinColor = loc.kids ? '#001D3D' : '#F3672A'
+
         const el = document.createElement('div')
         el.style.cssText = [
-          'width: 36px',
-          'height: 36px',
-          'cursor: pointer',
-          'display: flex',
-          'align-items: center',
-          'justify-content: center',
-          `background: ${loc.kids ? NAVY : ORANGE}`,
+          'width: 40px', 'height: 40px', 'cursor: pointer',
+          'display: flex', 'align-items: center', 'justify-content: center',
+          `background: ${pinColor}`,
           'border: 3px solid white',
           'border-radius: 50% 50% 50% 0',
           'transform: rotate(-45deg)',
-          `box-shadow: 0 4px 14px ${loc.kids ? 'rgba(0,29,61,0.5)' : 'rgba(243,103,42,0.5)'}`,
+          `box-shadow: 0 4px 16px rgba(0,0,0,0.25)`,
         ].join(';')
 
         const inner = document.createElement('div')
-        inner.style.cssText = 'transform: rotate(45deg); color: white; font-size: 14px; font-weight: 900; line-height: 1;'
+        inner.style.cssText = 'transform: rotate(45deg); color: white; font-size: 15px; line-height: 1;'
         inner.textContent = '🦷'
         el.appendChild(inner)
 
         el.addEventListener('click', () => onSelectSlug(loc.slug))
 
-        // Popup on hover
-        const popup = new mapboxgl.Popup({ offset: 20, closeButton: false, closeOnClick: false })
+        const popup = new mapboxgl.Popup({ offset: 24, closeButton: false, closeOnClick: false })
           .setHTML(`
-            <div style="font-family:inherit;padding:4px 2px">
-              <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:${ORANGE};margin-bottom:3px">${loc.neighborhood}</div>
-              <div style="font-size:14px;font-weight:800;color:${NAVY};margin-bottom:2px">${loc.label}</div>
-              <div style="font-size:12px;color:rgba(0,29,61,0.6)">${loc.phone}</div>
+            <div style="font-family:inherit;padding:2px 0">
+              <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#F3672A;margin-bottom:4px">${loc.neighborhood}</div>
+              <div style="font-size:14px;font-weight:800;color:#001D3D;margin-bottom:3px">${loc.label}</div>
+              <div style="font-size:12px;color:rgba(0,29,61,0.55)">${loc.phone}</div>
+              <div style="font-size:11px;font-weight:700;color:#F3672A;margin-top:6px;letter-spacing:0.5px">Click to view clinic →</div>
             </div>
           `)
 
@@ -296,14 +293,17 @@ function ClinicsMap({ onSelectSlug }: { onSelectSlug: (slug: string) => void }) 
   }, [onSelectSlug])
 
   return (
-    <div style={{ position: 'relative', height: 480, background: '#e8e0d5' }}>
+    <div style={{ position: 'relative', width: '100%', height: 520 }}>
       <div ref={containerRef} style={{ position: 'absolute', inset: 0 }} />
-      <div style={{ position: 'absolute', top: 16, left: 16, background: 'white', borderRadius: 10, padding: '10px 16px', boxShadow: '0 4px 16px rgba(0,29,61,0.12)', fontSize: 12, fontWeight: 700, color: NAVY, display: 'flex', gap: 16, zIndex: 2 }}>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ width: 12, height: 12, borderRadius: '50%', background: ORANGE, display: 'inline-block' }} /> Standard clinic
+      {/* Legend */}
+      <div style={{ position: 'absolute', top: 16, left: 16, background: 'white', borderRadius: 10, padding: '10px 18px', boxShadow: '0 4px 20px rgba(0,29,61,0.14)', fontSize: 12, fontWeight: 700, color: '#001D3D', display: 'flex', gap: 18, zIndex: 2, border: '1px solid rgba(0,29,61,0.06)' }}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+          <span style={{ width: 12, height: 12, borderRadius: '50%', background: '#F3672A', display: 'inline-block', flexShrink: 0 }} />
+          Standard clinic
         </span>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ width: 12, height: 12, borderRadius: '50%', background: NAVY, display: 'inline-block' }} /> Kids clinic
+        <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+          <span style={{ width: 12, height: 12, borderRadius: '50%', background: '#001D3D', display: 'inline-block', flexShrink: 0, border: '1.5px solid rgba(0,29,61,0.3)' }} />
+          Kids clinic
         </span>
       </div>
     </div>
