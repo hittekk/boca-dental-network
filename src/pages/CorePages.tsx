@@ -402,7 +402,7 @@ export function ClinicsHubPage() {
                 <MapPin size={11} /> 9 Las Vegas Locations
               </div>
               <h1 style={{ fontSize: 'clamp(40px, 5.5vw, 76px)', fontWeight: 800, letterSpacing: '-2.5px', color: 'white', margin: '0 0 20px', lineHeight: 0.93 }}>
-                Find your nearest<br /><span style={{ color: '#F3672A' }}>Boca.</span>
+                Find your<br /><span style={{ color: '#F3672A' }}>nearest Boca.</span>
               </h1>
               <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.65)', maxWidth: 480, lineHeight: 1.65, margin: '0 0 32px' }}>
                 Nine dental clinics across Las Vegas — general, cosmetic, orthodontics, pediatric, and emergency care. Most insurance accepted. Se Habla Español.
