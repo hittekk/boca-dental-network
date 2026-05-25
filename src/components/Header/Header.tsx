@@ -35,11 +35,11 @@ interface HeaderProps {
 // ── Constants ────────────────────────────────────────────────────────────────
 
 const NAV_LINKS: NavLink[] = [
-  { label: 'Services', href: '#services' },
-  { label: 'Locations', href: '#locations' },
-  { label: 'Boca Kids', href: '#boca-kids' },
-  { label: 'About', href: '#about' },
-  { label: 'Reviews', href: '#testimonials' },
+  { label: 'Services', href: '/services/' },
+  { label: 'Locations', href: '/clinics/' },
+  { label: 'Boca Kids', href: '/clinics/boca-kids-dentistry/' },
+  { label: 'About', href: '/about-us/' },
+  { label: 'Reviews', href: '/patient-resources/reviews/' },
 ]
 
 const SCROLL_THRESHOLD = 80

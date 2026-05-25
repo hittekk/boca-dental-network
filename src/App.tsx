@@ -110,11 +110,11 @@ function Homepage() {
       <Testimonials />
       <BocaKids />
       <LocationsMap theme="light" />
-      <SmileTransformations theme="light" />
+      {/* <SmileTransformations theme="light" /> */}
       <MeetTheTeam theme="light" />
       <Financing />
       <FAQ />
-      <ConsultationForm />
+      {/* <ConsultationForm /> */}
       <CTA />
       <Footer />
     </div>
