@@ -368,7 +368,11 @@ export function ClinicsHubPage() {
       </section>
 
       {/* ── Mapbox interactive map ── */}
-      <ClinicsMap onSelectSlug={(slug) => window.location.href = `/clinics/${slug}/`} />
+      <section style={{ background: '#F7F9FC', padding: '48px 32px 0' }}>
+        <div style={{ maxWidth: 1240, margin: '0 auto', borderRadius: 20, overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,29,61,0.1)' }}>
+          <ClinicsMap onSelectSlug={(slug) => window.location.href = `/clinics/${slug}/`} />
+        </div>
+      </section>
 
       {/* ── Filter pills + grid ── */}
       <section style={{ background: '#F7F9FC', padding: '64px 32px 80px' }}>
