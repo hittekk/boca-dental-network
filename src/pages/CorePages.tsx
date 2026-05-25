@@ -303,7 +303,7 @@ function ClinicsHeroMap() {
 // ─── Mapbox multi-pin map for /clinics/ ──────────────────────────────────────
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN as string
 
-function ClinicsMap({ onSelectSlug }: { onSelectSlug: (slug: string) => void }) {
+function ClinicsMap() {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<mapboxgl.Map | null>(null)
 
@@ -352,23 +352,16 @@ function ClinicsMap({ onSelectSlug }: { onSelectSlug: (slug: string) => void }) 
         el.appendChild(inner)
 
         // Scale the INNER element only — never touch el.style.transform (Mapbox owns that)
-        // Scale inner only — Mapbox owns el.style.transform
-        el.addEventListener('mouseenter', () => { inner.style.transform = 'scale(1.2)' })
-        el.addEventListener('mouseleave', () => { inner.style.transform = 'scale(1)' })
-        el.addEventListener('click', (e) => { e.stopPropagation(); onSelectSlug(loc.slug) })
-
-        const popup = new mapboxgl.Popup({ offset: 24, closeButton: false, closeOnClick: false })
+        // Click toggles popup — no hover behavior
+        const popup = new mapboxgl.Popup({ offset: 28, closeButton: true, closeOnClick: true })
           .setHTML(`
-            <div style="font-family:inherit;padding:2px 0;pointer-events:none">
+            <div style="font-family:inherit;padding:4px 2px">
               <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#F3672A;margin-bottom:4px">${loc.neighborhood}</div>
-              <div style="font-size:14px;font-weight:800;color:#001D3D;margin-bottom:3px">${loc.label}</div>
-              <div style="font-size:12px;color:rgba(0,29,61,0.55)">${loc.phone}</div>
-              <div style="font-size:11px;font-weight:700;color:#F3672A;margin-top:6px">Click to view clinic →</div>
+              <div style="font-size:15px;font-weight:800;color:#001D3D;margin-bottom:4px">${loc.label}</div>
+              <div style="font-size:12px;color:rgba(0,29,61,0.55);margin-bottom:10px">${loc.phone}</div>
+              <a href="/clinics/${loc.slug}/" style="display:inline-flex;align-items:center;gap:6px;background:#F3672A;color:white;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:800;text-decoration:none;letter-spacing:0.5px">View clinic →</a>
             </div>
           `)
-
-        el.addEventListener('mouseenter', () => popup.addTo(map))
-        el.addEventListener('mouseleave', () => popup.remove())
 
         new mapboxgl.Marker({ element: el, anchor: 'bottom' })
           .setLngLat(coords)
@@ -452,7 +445,7 @@ export function ClinicsHubPage() {
       {/* ── Mapbox interactive map ── */}
       <section style={{ background: '#F7F9FC', padding: '48px 32px 0' }}>
         <div style={{ maxWidth: 1240, margin: '0 auto', borderRadius: 20, overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,29,61,0.1)' }}>
-          <ClinicsMap onSelectSlug={(slug) => { window.location.assign(`/clinics/${slug}/`) }} />
+          <ClinicsMap />
         </div>
       </section>
 
