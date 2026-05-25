@@ -699,13 +699,13 @@ export function ReviewsPage() {
           </div>
 
           {/* Headline */}
-          <h1 style={{ fontSize: 'clamp(38px, 5.5vw, 76px)', fontWeight: 800, letterSpacing: '-2.5px', color: 'white', margin: '0 0 6px', lineHeight: 0.93 }}>
+          <h1 style={{ fontSize: 'clamp(34px, 4.6vw, 56px)', fontWeight: 800, letterSpacing: '-1.2px', color: 'white', margin: '0 0 4px', lineHeight: 1.0 }}>
             What Las Vegas patients
           </h1>
-          <h1 style={{ fontSize: 'clamp(38px, 5.5vw, 76px)', fontWeight: 800, letterSpacing: '-2.5px', color: ORANGE, margin: '0 0 28px', lineHeight: 0.93, fontStyle: 'italic' }}>
+          <h1 style={{ fontSize: 'clamp(34px, 4.6vw, 56px)', fontWeight: 800, letterSpacing: '-1.2px', color: ORANGE, margin: '0 0 20px', lineHeight: 1.0 }}>
             say about Boca.
           </h1>
-          <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.65)', maxWidth: 520, lineHeight: 1.7, margin: '0 0 56px' }}>
+          <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.65)', maxWidth: 520, lineHeight: 1.65, margin: '0 0 40px' }}>
             Real reviews from real patients. We never pay for reviews — every star is earned at one of our 9 Las Vegas clinics.
           </p>
 
@@ -720,7 +720,7 @@ export function ReviewsPage() {
               { value: '9', label: 'LV locations', accent: '#60a5fa' },
             ].map((stat, i) => (
               <div key={i} style={{ background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(10px)', borderRadius: i === 0 ? '16px 0 0 16px' : i === 2 ? '0 16px 16px 0' : '0', border: '1px solid rgba(255,255,255,0.1)', borderRight: i < 2 ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(255,255,255,0.1)', padding: '24px 36px', textAlign: 'center' }}>
-                <div style={{ fontSize: 42, fontWeight: 800, color: 'white', letterSpacing: '-1.5px', lineHeight: 1, marginBottom: 6 }}>
+                <div style={{ fontSize: 32, fontWeight: 800, color: 'white', letterSpacing: '-1px', lineHeight: 1, marginBottom: 6 }}>
                   <span style={{ color: stat.accent }}>{stat.value}</span>
                 </div>
                 <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5 }}>{stat.label}</div>
@@ -840,7 +840,7 @@ export function ReviewsPage() {
               <Star key={i} size={28} fill={ORANGE} color={ORANGE} />
             ))}
           </div>
-          <h2 style={{ fontSize: 'clamp(28px,4vw,52px)', fontWeight: 800, letterSpacing: '-1.5px', color: 'white', margin: '0 0 16px', lineHeight: 1 }}>
+          <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, letterSpacing: '-0.5px', color: 'white', margin: '0 0 16px' }}>
             Had a great experience?
           </h2>
           <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.6)', margin: '0 0 40px', lineHeight: 1.65, maxWidth: 480, marginLeft: 'auto', marginRight: 'auto' }}>
