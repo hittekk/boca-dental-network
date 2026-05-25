@@ -45,7 +45,9 @@ import {
   LOCATION_PARKING,
 } from '../data/locationDetails'
 
-mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN as string
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN as string | undefined
+const MAPBOX_READY = !!MAPBOX_TOKEN && MAPBOX_TOKEN !== 'undefined' && MAPBOX_TOKEN.startsWith('pk.')
+if (MAPBOX_READY) mapboxgl.accessToken = MAPBOX_TOKEN!
 
 
 
@@ -118,8 +120,8 @@ function Hero({
   const mapRef = useRef<mapboxgl.Map | null>(null)
 
   useEffect(() => {
-    if (!mapContainer.current || mapRef.current || !coords) return
-    if (!mapboxgl.accessToken) return
+    if (!MAPBOX_READY || !mapContainer.current || mapRef.current || !coords) return
+    try {
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/light-v11',
@@ -162,6 +164,9 @@ function Hero({
     return () => {
       map.remove()
       mapRef.current = null
+    }
+    } catch (err) {
+      console.warn('[LocationPage] Mapbox failed to initialize:', err)
     }
   }, [coords])
 
