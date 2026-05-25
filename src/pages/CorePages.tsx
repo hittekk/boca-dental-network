@@ -363,7 +363,7 @@ export function ClinicsHubPage() {
       <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="light" />
 
       {/* ── Navy hero ── */}
-      <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '120px 32px 56px', position: 'relative', overflow: 'hidden', minHeight: 440 }}>
+      <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '160px 32px 72px', position: 'relative', overflow: 'hidden', minHeight: 440 }}>
 
         {/* Ghost map — floats on the right, fades into the blue */}
         <div style={{ position: 'absolute', top: 0, right: 0, width: '58%', height: '100%', zIndex: 0, pointerEvents: 'none' }}>
