@@ -329,7 +329,7 @@ export function ClinicsHubPage() {
       <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="light" />
 
       {/* ── Navy hero ── */}
-      <section style={{ background: NAVY, padding: '140px 32px 72px', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '140px 32px 72px', position: 'relative', overflow: 'hidden' }}>
         <div aria-hidden style={{ position: 'absolute', top: '-20%', right: '-10%', width: 700, height: 700, background: 'radial-gradient(circle, rgba(243,103,42,0.12) 0%, transparent 60%)', pointerEvents: 'none' }} />
         <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative', zIndex: 1 }}>
           <div className="clinics-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 48, alignItems: 'center' }}>
