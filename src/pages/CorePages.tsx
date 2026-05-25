@@ -24,7 +24,7 @@
 // for what real content needs to come from Frankie before launch.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { ArrowRight, ArrowUpRight, MapPin, Phone, Clock, Star, Mail, Briefcase, FileText, ShieldCheck, CreditCard, MessageCircle, Globe } from 'lucide-react'
 import { Header } from '../components/Header/Header'
@@ -33,6 +33,9 @@ import { ConsultationForm } from '../components/ConsultationForm/ConsultationFor
 import { INITIAL_DATA } from '../data/initialData'
 import { SERVICE_CATEGORIES, SERVICE_PAGES } from '../data/serviceCatalog'
 import { LOCATION_REVIEWS } from '../data/locationDetails'
+import { COORDS_BY_LOCATION } from './LocationPage'
+import mapboxgl from 'mapbox-gl'
+import 'mapbox-gl/dist/mapbox-gl.css'
 
 const ORANGE = '#F3672A'
 const NAVY = '#001D3D'
@@ -220,6 +223,92 @@ export function AboutUsPage() {
   )
 }
 
+// ─── Mapbox multi-pin map for /clinics/ ──────────────────────────────────────
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN as string
+
+function ClinicsMap({ onSelectSlug }: { onSelectSlug: (slug: string) => void }) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const mapRef = useRef<mapboxgl.Map | null>(null)
+
+  useEffect(() => {
+    if (!containerRef.current || mapRef.current || !mapboxgl.accessToken) return
+
+    const map = new mapboxgl.Map({
+      container: containerRef.current,
+      style: 'mapbox://styles/mapbox/light-v11',
+      center: [-115.1729, 36.1420], // Las Vegas center
+      zoom: 11,
+      pitch: 0,
+      attributionControl: false,
+    })
+    mapRef.current = map
+
+    map.on('load', () => {
+      INITIAL_DATA.locations.forEach(loc => {
+        const coords = COORDS_BY_LOCATION[loc.slug]
+        if (!coords) return
+
+        // Tooth-shaped SVG pin
+        const el = document.createElement('div')
+        el.style.cssText = [
+          'width: 36px',
+          'height: 36px',
+          'cursor: pointer',
+          'display: flex',
+          'align-items: center',
+          'justify-content: center',
+          `background: ${loc.kids ? NAVY : ORANGE}`,
+          'border: 3px solid white',
+          'border-radius: 50% 50% 50% 0',
+          'transform: rotate(-45deg)',
+          `box-shadow: 0 4px 14px ${loc.kids ? 'rgba(0,29,61,0.5)' : 'rgba(243,103,42,0.5)'}`,
+        ].join(';')
+
+        const inner = document.createElement('div')
+        inner.style.cssText = 'transform: rotate(45deg); color: white; font-size: 14px; font-weight: 900; line-height: 1;'
+        inner.textContent = '🦷'
+        el.appendChild(inner)
+
+        el.addEventListener('click', () => onSelectSlug(loc.slug))
+
+        // Popup on hover
+        const popup = new mapboxgl.Popup({ offset: 20, closeButton: false, closeOnClick: false })
+          .setHTML(`
+            <div style="font-family:inherit;padding:4px 2px">
+              <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:${ORANGE};margin-bottom:3px">${loc.neighborhood}</div>
+              <div style="font-size:14px;font-weight:800;color:${NAVY};margin-bottom:2px">${loc.label}</div>
+              <div style="font-size:12px;color:rgba(0,29,61,0.6)">${loc.phone}</div>
+            </div>
+          `)
+
+        el.addEventListener('mouseenter', () => popup.addTo(map))
+        el.addEventListener('mouseleave', () => popup.remove())
+
+        new mapboxgl.Marker({ element: el, anchor: 'bottom' })
+          .setLngLat(coords)
+          .setPopup(popup)
+          .addTo(map)
+      })
+    })
+
+    return () => { map.remove(); mapRef.current = null }
+  }, [onSelectSlug])
+
+  return (
+    <div style={{ position: 'relative', height: 480, background: '#e8e0d5' }}>
+      <div ref={containerRef} style={{ position: 'absolute', inset: 0 }} />
+      <div style={{ position: 'absolute', top: 16, left: 16, background: 'white', borderRadius: 10, padding: '10px 16px', boxShadow: '0 4px 16px rgba(0,29,61,0.12)', fontSize: 12, fontWeight: 700, color: NAVY, display: 'flex', gap: 16, zIndex: 2 }}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span style={{ width: 12, height: 12, borderRadius: '50%', background: ORANGE, display: 'inline-block' }} /> Standard clinic
+        </span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span style={{ width: 12, height: 12, borderRadius: '50%', background: NAVY, display: 'inline-block' }} /> Kids clinic
+        </span>
+      </div>
+    </div>
+  )
+}
+
 export function ClinicsHubPage() {
   const [activeNeighborhood, setActiveNeighborhood] = React.useState<string>('All')
   const breadcrumbSchema = usePageMeta({
@@ -262,6 +351,9 @@ export function ClinicsHubPage() {
           </div>
         </div>
       </section>
+
+      {/* ── Mapbox interactive map ── */}
+      <ClinicsMap onSelectSlug={(slug) => window.location.href = `/clinics/${slug}/`} />
 
       {/* ── Filter pills + grid ── */}
       <section style={{ background: '#F7F9FC', padding: '64px 32px 80px' }}>
