@@ -110,7 +110,7 @@ function Homepage() {
       <Testimonials />
       <BocaKids />
       <LocationsMap theme="light" />
-      {/* <SmileTransformations theme="light" /> — uncomment when Carlos delivers before/after photos */}
+      <SmileTransformations theme="light" />
       <MeetTheTeam theme="light" />
       <Financing />
       <FAQ />
