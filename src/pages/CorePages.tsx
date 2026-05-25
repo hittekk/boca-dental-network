@@ -234,8 +234,8 @@ function ClinicsHeroMap() {
     const map = new mapboxgl.Map({
       container: ref.current,
       style: 'mapbox://styles/mapbox/dark-v11',
-      center: [-115.1729, 36.1420],
-      zoom: 10.5,
+      center: [-115.1900, 36.1300],
+      zoom: 9.2,
       interactive: false,
       attributionControl: false,
     })
@@ -269,12 +269,14 @@ function ClinicsMap({ onSelectSlug }: { onSelectSlug: (slug: string) => void }) 
     const map = new mapboxgl.Map({
       container: containerRef.current,
       style: 'mapbox://styles/mapbox/light-v11',
-      center: [-115.1729, 36.1420],
-      zoom: 11,
+      center: [-115.1900, 36.1300],
+      zoom: 10,
       pitch: 0,
       attributionControl: false,
+      cooperativeGestures: true,
     })
     mapRef.current = map
+    map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right')
 
     map.on('load', () => {
       INITIAL_DATA.locations.forEach(loc => {
