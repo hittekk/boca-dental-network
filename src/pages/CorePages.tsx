@@ -276,12 +276,6 @@ function ClinicsHeroMap() {
           <line key={`ns${i}`} x1={x} y1="0" x2={x} y2="480"
             stroke="rgba(255,255,255,0.18)" strokeWidth="1" strokeDasharray="6 4" />
         ))}
-        {/* ── I-15 diagonal ── */}
-        <line x1="80" y1="0" x2="400" y2="480"
-          stroke="rgba(255,255,255,0.28)" strokeWidth="2" />
-        {/* ── Las Vegas Blvd (Strip) ── */}
-        <line x1="340" y1="180" x2="480" y2="480"
-          stroke="rgba(255,255,255,0.22)" strokeWidth="1.5" />
 
         {/* ── Location pins ── */}
         {pins.map((p, i) => (
