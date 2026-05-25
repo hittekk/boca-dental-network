@@ -549,6 +549,205 @@ export function ReviewsPage() {
     breadcrumb: [{ name: 'Home', url: `${DOMAIN}/` }, { name: 'Patient Resources', url: `${DOMAIN}/patient-resources/` }, { name: 'Reviews' }],
   })
 
+  const allLocationReviews = INITIAL_DATA.locations.map(loc => ({
+    location: loc,
+    reviews: LOCATION_REVIEWS[loc.slug] ?? [],
+  }))
+
+  const displayed = activeLocation === 'all'
+    ? allLocationReviews
+    : allLocationReviews.filter(lr => lr.location.slug === activeLocation)
+
+  const totalReviews = INITIAL_DATA.locations.reduce((sum, l) => sum + l.review_count, 0)
+  const avgRating = (INITIAL_DATA.locations.reduce((sum, l) => sum + l.rating, 0) / INITIAL_DATA.locations.length).toFixed(1)
+
+  return (
+    <div style={{ background: '#fff', color: NAVY, fontFamily: 'inherit' }}>
+      <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="light" />
+
+      {/* ── HERO ── */}
+      <section style={{ background: NAVY, padding: '140px 32px 100px', position: 'relative', overflow: 'hidden' }}>
+        {/* Decorative radial glows */}
+        <div aria-hidden style={{ position: 'absolute', top: '-20%', right: '-8%', width: 800, height: 800, background: 'radial-gradient(circle, rgba(243,103,42,0.14) 0%, transparent 58%)', pointerEvents: 'none' }} />
+        <div aria-hidden style={{ position: 'absolute', bottom: '-30%', left: '-10%', width: 600, height: 600, background: 'radial-gradient(circle, rgba(22,46,122,0.5) 0%, transparent 60%)', pointerEvents: 'none' }} />
+        {/* Floating stars decoration */}
+        {[{top:'18%',left:'6%',size:18,op:0.18},{top:'62%',left:'3%',size:11,op:0.12},{top:'30%',right:'4%',size:14,op:0.15},{top:'75%',right:'7%',size:20,op:0.1}].map((s,i)=>(
+          <div key={i} aria-hidden style={{ position:'absolute', top:s.top, left:(s as any).left, right:(s as any).right, opacity:s.op, pointerEvents:'none' }}>
+            <Star size={s.size} fill={ORANGE} color={ORANGE} />
+          </div>
+        ))}
+
+        <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          {/* Eyebrow */}
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 24, padding: '7px 16px', background: 'rgba(243,103,42,0.12)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.2)' }}>
+            <Star size={11} fill={ORANGE} color={ORANGE} /> Verified Google Reviews
+          </div>
+
+          {/* Headline */}
+          <h1 style={{ fontSize: 'clamp(38px, 5.5vw, 76px)', fontWeight: 800, letterSpacing: '-2.5px', color: 'white', margin: '0 0 6px', lineHeight: 0.93 }}>
+            What Las Vegas patients
+          </h1>
+          <h1 style={{ fontSize: 'clamp(38px, 5.5vw, 76px)', fontWeight: 800, letterSpacing: '-2.5px', color: ORANGE, margin: '0 0 28px', lineHeight: 0.93, fontStyle: 'italic' }}>
+            say about Boca.
+          </h1>
+          <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.65)', maxWidth: 520, lineHeight: 1.7, margin: '0 0 56px' }}>
+            Real reviews from real patients. We never pay for reviews — every star is earned at one of our 9 Las Vegas clinics.
+          </p>
+
+          {/* Aggregate stat cards */}
+          <div className="rev-hero-stats" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, auto)', gap: 2, width: 'fit-content' }}>
+            <style>{`
+              @media(max-width:640px){ .rev-hero-stats{ grid-template-columns:1fr 1fr !important; } }
+            `}</style>
+            {[
+              { value: `${avgRating}★`, label: 'Average rating', accent: ORANGE },
+              { value: `${totalReviews.toLocaleString()}+`, label: 'Google reviews', accent: '#10b981' },
+              { value: '9', label: 'LV locations', accent: '#60a5fa' },
+            ].map((stat, i) => (
+              <div key={i} style={{ background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(10px)', borderRadius: i === 0 ? '16px 0 0 16px' : i === 2 ? '0 16px 16px 0' : '0', border: '1px solid rgba(255,255,255,0.1)', borderRight: i < 2 ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(255,255,255,0.1)', padding: '24px 36px', textAlign: 'center' }}>
+                <div style={{ fontSize: 42, fontWeight: 800, color: 'white', letterSpacing: '-1.5px', lineHeight: 1, marginBottom: 6 }}>
+                  <span style={{ color: stat.accent }}>{stat.value}</span>
+                </div>
+                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5 }}>{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FILTER BAR ── */}
+      <div style={{ background: 'white', borderBottom: '1px solid rgba(0,29,61,0.07)', padding: '20px 32px', position: 'sticky', top: 0, zIndex: 40, boxShadow: '0 4px 20px rgba(0,29,61,0.06)' }}>
+        <div style={{ maxWidth: 1240, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <span style={{ fontSize: 11, fontWeight: 800, color: 'rgba(0,29,61,0.4)', textTransform: 'uppercase', letterSpacing: 1.5, marginRight: 4, flexShrink: 0 }}>Filter:</span>
+          {[{ slug: 'all', label: 'All 9 locations' }, ...INITIAL_DATA.locations.map(l => ({ slug: l.slug, label: l.label }))].map(opt => (
+            <button key={opt.slug} onClick={() => setActiveLocation(opt.slug)} style={{ padding: '7px 16px', borderRadius: 999, fontSize: 12, fontWeight: 700, cursor: 'pointer', transition: 'all 0.18s ease', border: activeLocation === opt.slug ? 'none' : '1.5px solid rgba(0,29,61,0.1)', background: activeLocation === opt.slug ? ORANGE : 'transparent', color: activeLocation === opt.slug ? 'white' : 'rgba(0,29,61,0.6)', boxShadow: activeLocation === opt.slug ? '0 4px 12px rgba(243,103,42,0.3)' : 'none' }}>
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── REVIEW SECTIONS ── */}
+      <section style={{ background: '#F7F9FC', padding: '64px 32px 96px' }}>
+        <div style={{ maxWidth: 1240, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 56 }}>
+          {displayed.map(({ location: loc, reviews }, groupIdx) => (
+            <div key={loc.slug} style={{ background: 'white', borderRadius: 24, overflow: 'hidden', boxShadow: '0 8px 40px rgba(0,29,61,0.07), 0 1px 2px rgba(0,29,61,0.05)' }}>
+
+              {/* Location header bar */}
+              <div style={{ background: `linear-gradient(135deg, ${NAVY} 0%, #0d2654 100%)`, padding: '28px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 14, background: loc.kids ? 'rgba(96,165,250,0.2)' : 'rgba(243,103,42,0.2)', border: `1px solid ${loc.kids ? 'rgba(96,165,250,0.3)' : 'rgba(243,103,42,0.3)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <MapPin size={22} color={loc.kids ? '#60a5fa' : ORANGE} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: loc.kids ? '#60a5fa' : ORANGE, marginBottom: 4 }}>
+                      {loc.neighborhood}{loc.kids ? ' · Pediatric' : ''}
+                    </div>
+                    <div style={{ fontSize: 22, fontWeight: 800, color: 'white', letterSpacing: '-0.5px' }}>{loc.label}</div>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 5, justifyContent: 'flex-end' }}>
+                      {[1,2,3,4,5].map(i => <Star key={i} size={15} fill={ORANGE} color={ORANGE} />)}
+                      <span style={{ fontSize: 22, fontWeight: 800, color: 'white', marginLeft: 6 }}>{loc.rating.toFixed(1)}</span>
+                    </div>
+                    <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', marginTop: 3, fontWeight: 600 }}>{loc.review_count}+ verified reviews</div>
+                  </div>
+                  <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Boca Dental ${loc.label} Las Vegas`)}`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.1)', color: 'white', borderRadius: 10, padding: '10px 18px', fontSize: 12, fontWeight: 800, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.15)', whiteSpace: 'nowrap', transition: 'background 0.2s' }}>
+                    <ArrowUpRight size={13} /> Google Maps
+                  </a>
+                </div>
+              </div>
+
+              {/* Review cards */}
+              <div style={{ padding: '32px' }}>
+                <div className="rev-cards" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
+                  <style>{`
+                    @media(max-width:960px){.rev-cards{grid-template-columns:1fr 1fr !important;}}
+                    @media(max-width:580px){.rev-cards{grid-template-columns:1fr !important;}}
+                  `}</style>
+                  {reviews.map((review, i) => (
+                    <div key={i} style={{ background: '#F7F9FC', borderRadius: 18, padding: '26px 24px', border: '1px solid rgba(0,29,61,0.06)', display: 'flex', flexDirection: 'column', gap: 16, position: 'relative', overflow: 'hidden' }}>
+                      {/* Giant decorative quote mark */}
+                      <div aria-hidden style={{ position: 'absolute', top: -8, right: 18, fontSize: 100, lineHeight: 1, color: 'rgba(243,103,42,0.07)', fontFamily: 'Georgia, serif', fontWeight: 900, pointerEvents: 'none', userSelect: 'none' }}>"</div>
+                      {/* Stars */}
+                      <div style={{ display: 'flex', gap: 3, position: 'relative', zIndex: 1 }}>
+                        {Array.from({ length: review.rating }).map((_, s) => <Star key={s} size={14} fill={ORANGE} color={ORANGE} />)}
+                      </div>
+                      {/* Quote body */}
+                      <p style={{ fontSize: 14, lineHeight: 1.72, color: 'rgba(0,29,61,0.78)', margin: 0, flex: 1, position: 'relative', zIndex: 1, fontStyle: 'italic' }}>
+                        "{review.body}"
+                      </p>
+                      {/* Author row */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12, paddingTop: 16, borderTop: '1px solid rgba(0,29,61,0.07)', position: 'relative', zIndex: 1 }}>
+                        {/* Avatar */}
+                        <div style={{ width: 38, height: 38, borderRadius: '50%', background: `linear-gradient(135deg, ${ORANGE}40, ${NAVY}30)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, fontWeight: 800, color: NAVY, flexShrink: 0, border: '2px solid rgba(243,103,42,0.15)' }}>
+                          {review.author.charAt(0)}
+                        </div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: 14, fontWeight: 800, color: NAVY, marginBottom: 1 }}>{review.author}</div>
+                          <div style={{ fontSize: 11, color: 'rgba(0,29,61,0.45)', fontWeight: 600 }}>{review.authorArea}</div>
+                        </div>
+                        {/* Google G badge */}
+                        <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 5, background: 'white', borderRadius: 8, padding: '4px 8px', border: '1px solid rgba(0,29,61,0.08)', boxShadow: '0 1px 4px rgba(0,29,61,0.06)' }}>
+                          <svg width="13" height="13" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                          <span style={{ fontSize: 10, fontWeight: 800, color: '#4285F4' }}>Google</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Per-location CTA strip */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 24, paddingTop: 24, borderTop: '1px solid rgba(0,29,61,0.06)', flexWrap: 'wrap' }}>
+                  <Link to={`/request-consultation?location=${loc.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: 'white', borderRadius: 10, padding: '12px 24px', fontSize: 13, fontWeight: 800, textDecoration: 'none', boxShadow: '0 8px 22px rgba(243,103,42,0.28)', letterSpacing: 0.3 }}>
+                    Book at {loc.label} <ArrowRight size={14} />
+                  </Link>
+                  <a href={`tel:${loc.phone.replace(/\D/g,'')}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'white', color: NAVY, borderRadius: 10, padding: '11px 20px', fontSize: 13, fontWeight: 700, textDecoration: 'none', border: '1.5px solid rgba(0,29,61,0.1)' }}>
+                    <Phone size={13} color={ORANGE} /> {loc.phone}
+                  </a>
+                  <span style={{ marginLeft: 'auto', fontSize: 12, color: 'rgba(0,29,61,0.35)', fontWeight: 600 }}>{loc.review_count}+ reviews · {loc.rating.toFixed(1)} stars</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── LEAVE A REVIEW CTA ── */}
+      <section style={{ background: NAVY, padding: '96px 32px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div aria-hidden style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 100%, rgba(243,103,42,0.12) 0%, transparent 70%)', pointerEvents: 'none' }} />
+        <div style={{ maxWidth: 680, margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          {/* Star row */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginBottom: 24 }}>
+            {[1,2,3,4,5].map(i => (
+              <Star key={i} size={28} fill={ORANGE} color={ORANGE} />
+            ))}
+          </div>
+          <h2 style={{ fontSize: 'clamp(28px,4vw,52px)', fontWeight: 800, letterSpacing: '-1.5px', color: 'white', margin: '0 0 16px', lineHeight: 1 }}>
+            Had a great experience?
+          </h2>
+          <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.6)', margin: '0 0 40px', lineHeight: 1.65, maxWidth: 480, marginLeft: 'auto', marginRight: 'auto' }}>
+            Your review helps other Las Vegas families find quality dental care. It takes 60 seconds on Google and means the world to our team.
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center' }}>
+            <a href="https://www.google.com/maps/search/?api=1&query=Boca+Dental+and+Braces+Las+Vegas" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: ORANGE, color: 'white', borderRadius: 10, padding: '16px 32px', fontSize: 15, fontWeight: 800, textDecoration: 'none', boxShadow: '0 14px 36px rgba(243,103,42,0.4)', letterSpacing: 0.3 }}>
+              Leave a Google review <ArrowUpRight size={16} />
+            </a>
+            <Link to="/request-consultation" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: 'rgba(255,255,255,0.08)', color: 'white', borderRadius: 10, padding: '16px 32px', fontSize: 15, fontWeight: 800, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.15)' }}>
+              Book your next visit <ArrowRight size={16} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+      {breadcrumbSchema}
+    </div>
+  )
+}
+
   // Pull all reviews across every location
   const allLocationReviews = INITIAL_DATA.locations.map(loc => ({
     location: loc,
