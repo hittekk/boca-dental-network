@@ -93,7 +93,7 @@ function readVariantFromUrl(): Variant {
   return 'a'
 }
 
-function Homepage() {
+export function Homepage() {
   const siteData = useSiteData()
   return (
     <div>

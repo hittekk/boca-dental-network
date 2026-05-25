@@ -34,6 +34,7 @@ import { INITIAL_DATA } from '../data/initialData'
 import { SERVICE_CATEGORIES, SERVICE_PAGES } from '../data/serviceCatalog'
 import { LOCATION_REVIEWS } from '../data/locationDetails'
 import { COORDS_BY_LOCATION } from './LocationPage'
+import { Homepage } from '../App'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
@@ -328,26 +329,40 @@ export function ClinicsHubPage() {
       <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="light" />
 
       {/* ── Navy hero ── */}
-      <section style={{ background: NAVY, padding: '140px 32px 80px', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: NAVY, padding: '140px 32px 72px', position: 'relative', overflow: 'hidden' }}>
         <div aria-hidden style={{ position: 'absolute', top: '-20%', right: '-10%', width: 700, height: 700, background: 'radial-gradient(circle, rgba(243,103,42,0.12) 0%, transparent 60%)', pointerEvents: 'none' }} />
         <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: ORANGE, marginBottom: 20, padding: '6px 14px', background: 'rgba(243,103,42,0.12)', borderRadius: 999 }}>
-            <MapPin size={11} /> 9 Las Vegas Locations
-          </div>
-          <h1 style={{ fontSize: 'clamp(42px, 6vw, 80px)', fontWeight: 800, letterSpacing: '-2px', color: 'white', margin: '0 0 24px', lineHeight: 0.95 }}>
-            Find your nearest<br /><span style={{ color: ORANGE }}>Boca.</span>
-          </h1>
-          <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.7)', maxWidth: 560, lineHeight: 1.6, margin: '0 0 36px' }}>
-            Nine dental clinics across greater Las Vegas — general, cosmetic, orthodontics, pediatric, and emergency care. Most insurance accepted. Se Habla Español.
-          </p>
-          {/* Stats */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24 }}>
-            {[['9', 'Locations'], ['4.8★', 'Avg rating'], ['20k+', 'Patients served'], ['2006', 'Est. Las Vegas']].map(([val, label]) => (
-              <div key={label}>
-                <div style={{ fontSize: 28, fontWeight: 800, color: 'white', letterSpacing: '-1px' }}>{val}</div>
-                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1 }}>{label}</div>
+          <div className="clinics-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 48, alignItems: 'center' }}>
+            <style>{`@media(max-width:780px){.clinics-hero-grid{grid-template-columns:1fr !important;}}`}</style>
+            {/* Left — headline + copy */}
+            <div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: ORANGE, marginBottom: 20, padding: '6px 14px', background: 'rgba(243,103,42,0.12)', borderRadius: 999 }}>
+                <MapPin size={11} /> 9 Las Vegas Locations
               </div>
-            ))}
+              <h1 style={{ fontSize: 'clamp(42px, 6vw, 80px)', fontWeight: 800, letterSpacing: '-2px', color: 'white', margin: '0 0 20px', lineHeight: 0.93 }}>
+                Find your nearest<br /><span style={{ color: ORANGE }}>Boca.</span>
+              </h1>
+              <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.65)', maxWidth: 520, lineHeight: 1.65, margin: 0 }}>
+                Nine dental clinics across greater Las Vegas — general, cosmetic, orthodontics, pediatric, and emergency care. Most insurance accepted. Se Habla Español.
+              </p>
+            </div>
+            {/* Right — CTAs */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, minWidth: 220 }}>
+              <Link to="/request-consultation" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: ORANGE, color: 'white', borderRadius: 10, padding: '15px 28px', fontSize: 14, fontWeight: 800, textDecoration: 'none', boxShadow: '0 12px 28px rgba(243,103,42,0.35)', whiteSpace: 'nowrap' }}>
+                Book an Appointment <ArrowRight size={15} />
+              </Link>
+              <a href={`tel:${INITIAL_DATA.brand.phone.replace(/\D/g,'')}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: 'rgba(255,255,255,0.1)', color: 'white', borderRadius: 10, padding: '14px 28px', fontSize: 14, fontWeight: 700, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.18)' }}>
+                <Phone size={14} /> {INITIAL_DATA.brand.phone}
+              </a>
+              <div style={{ display: 'flex', gap: 20, paddingTop: 8 }}>
+                {[['9', 'Locations'], ['4.8★', 'Rating'], ['2006', 'Est.']].map(([v, l]) => (
+                  <div key={l} style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: 22, fontWeight: 800, color: 'white', letterSpacing: '-0.5px' }}>{v}</div>
+                    <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.45)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 }}>{l}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -841,188 +856,16 @@ export function ReviewsPage() {
 }
 
 export function SpanishLandingPage() {
-  const breadcrumbSchema = usePageMeta({
-    title: 'Dentista en Las Vegas que Habla Español | Boca Dental & Braces',
-    description: 'Boca Dental & Braces — 9 clínicas dentales en Las Vegas con personal bilingüe. Aceptamos Medicaid de Nevada y la mayoría de los seguros PPO. Citas el mismo día.',
-    url: `${DOMAIN}/oficina-de-habla-hispana/`,
-    breadcrumb: [{ name: 'Home', url: `${DOMAIN}/` }, { name: 'Oficina de Habla Hispana' }],
-  })
-  return (
-    <div style={{ background: '#fff', color: NAVY, fontFamily: 'inherit' }}>
-      <Header brand={INITIAL_DATA.brand} announcement={{ enabled: true, text: 'Aceptamos nuevos pacientes en las 9 ubicaciones de Las Vegas · Se Habla Español', link: '/request-consultation', linkLabel: 'Reservar Hoy' }} logoMode="light" />
-
-      {/* Hero */}
-      <section style={{ background: NAVY, padding: '140px 32px 96px', position: 'relative', overflow: 'hidden' }}>
-        <div aria-hidden style={{ position: 'absolute', top: '-20%', right: '-10%', width: 700, height: 700, background: 'radial-gradient(circle, rgba(243,103,42,0.12) 0%, transparent 60%)', pointerEvents: 'none' }} />
-        <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: ORANGE, marginBottom: 20, padding: '6px 14px', background: 'rgba(243,103,42,0.12)', borderRadius: 999 }}>
-            <MapPin size={11} /> Las Vegas, Nevada · 9 Ubicaciones
-          </div>
-          <h1 style={{ fontSize: 'clamp(38px, 5.5vw, 72px)', fontWeight: 800, letterSpacing: '-2px', color: 'white', margin: '0 0 8px', lineHeight: 0.95 }}>
-            Boca Dental & Braces
-          </h1>
-          <h2 style={{ fontSize: 'clamp(22px, 3vw, 40px)', fontWeight: 700, letterSpacing: '-1px', color: ORANGE, margin: '0 0 24px', lineHeight: 1.1 }}>
-            Su dentista en Las Vegas que habla español.
-          </h2>
-          <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.75)', maxWidth: 580, lineHeight: 1.65, margin: '0 0 40px' }}>
-            Personal bilingüe en cada oficina. Aceptamos Medicaid de Nevada, CHIP, y la mayoría de los planes PPO. Citas de emergencia el mismo día disponibles en las 9 ubicaciones.
-          </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-            <Link to="/request-consultation" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: ORANGE, color: 'white', borderRadius: 8, padding: '16px 28px', fontSize: 15, fontWeight: 800, textDecoration: 'none', boxShadow: '0 14px 32px rgba(243,103,42,0.35)' }}>
-              Reservar una cita <ArrowRight size={16} />
-            </Link>
-            <a href={`tel:${INITIAL_DATA.brand.phone.replace(/\D/g,'')}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.1)', color: 'white', borderRadius: 8, padding: '16px 28px', fontSize: 15, fontWeight: 800, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.2)' }}>
-              <Phone size={15} /> {INITIAL_DATA.brand.phone}
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Trust bar */}
-      <section style={{ background: '#F7F9FC', padding: '40px 32px' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: 28, justifyContent: 'center' }}>
-          {[
-            ['9', 'Ubicaciones en Las Vegas'],
-            ['4.8★', 'Calificación promedio'],
-            ['Personal bilingüe', 'En cada oficina'],
-            ['Medicaid & PPO', 'Aceptados'],
-            ['Emergencias', 'El mismo día'],
-          ].map(([val, label]) => (
-            <div key={label} style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 22, fontWeight: 800, color: NAVY, letterSpacing: '-0.5px' }}>{val}</div>
-              <div style={{ fontSize: 12, color: 'rgba(0,29,61,0.55)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1 }}>{label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ¿Por qué Boca? */}
-      <section style={{ background: 'white', padding: '88px 32px' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: ORANGE, marginBottom: 12 }}>¿Por qué elegirnos?</div>
-            <h2 style={{ fontSize: 'clamp(28px,4vw,48px)', fontWeight: 800, letterSpacing: '-1.2px', color: NAVY, margin: 0 }}>
-              Por qué Las Vegas confía en<br /><span style={{ color: ORANGE }}>Boca Dental & Braces.</span>
-            </h2>
-          </div>
-          <div className="esp-why-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20 }}>
-            <style>{`@media(max-width:800px){.esp-why-grid{grid-template-columns:1fr !important;}}`}</style>
-            {[
-              ['🗣️', 'Personal bilingüe', 'Hablamos español en cada turno — recepción, higienistas, y asistentes dentales.'],
-              ['💳', 'Todos los seguros', 'Aceptamos Delta Dental, Aetna, Cigna, MetLife, Guardian, Nevada Medicaid y CHIP.'],
-              ['🦷', 'Atención completa', 'Limpieza, brackets, implantes, emergencias, odontopediatría — todo en un solo lugar.'],
-              ['📅', 'Citas el mismo día', 'Emergencias dentales atendidas el mismo día en las 9 ubicaciones de Las Vegas.'],
-              ['🕗', 'Horarios flexibles', 'Abiertos de lunes a sábado. Horarios nocturnos disponibles en la mayoría de las oficinas.'],
-              ['📍', '9 Ubicaciones', 'Siempre hay una clínica Boca cerca de su trabajo, su casa, o la escuela de sus hijos.'],
-            ].map(([icon, title, desc]) => (
-              <div key={title as string} style={{ background: '#F7F9FC', borderRadius: 16, padding: '28px 24px', border: '1px solid rgba(0,29,61,0.06)' }}>
-                <div style={{ fontSize: 32, marginBottom: 14 }}>{icon}</div>
-                <div style={{ fontSize: 17, fontWeight: 800, color: NAVY, marginBottom: 8 }}>{title}</div>
-                <div style={{ fontSize: 14, color: 'rgba(0,29,61,0.65)', lineHeight: 1.6 }}>{desc}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Servicios */}
-      <section style={{ background: '#F7F9FC', padding: '88px 32px' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: ORANGE, marginBottom: 12 }}>Atención completa</div>
-            <h2 style={{ fontSize: 'clamp(28px,4vw,48px)', fontWeight: 800, letterSpacing: '-1.2px', color: NAVY, margin: 0 }}>Servicios dentales en Las Vegas.</h2>
-          </div>
-          <div className="esp-svc-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16 }}>
-            <style>{`@media(max-width:800px){.esp-svc-grid{grid-template-columns:repeat(2,1fr) !important;}} @media(max-width:500px){.esp-svc-grid{grid-template-columns:1fr !important;}}`}</style>
-            {[
-              ['Odontología general', 'Exámenes, limpiezas, radiografías y selladores.'],
-              ['Odontología cosmética', 'Blanqueamiento, carillas y diseño de sonrisa.'],
-              ['Implantes dentales', 'Diente único, arco completo y All-on-4.'],
-              ['Ortodoncia', 'Invisalign, brackets tradicionales y brackets para adolescentes.'],
-              ['Odontopediatría', 'Atención especializada para bebés, niños y adolescentes.'],
-              ['Sedación dental', 'Óxido nitroso, sedación oral e IV para mayor comodidad.'],
-              ['Cirugía oral', 'Extracciones, muelas del juicio e injertos óseos.'],
-              ['Periodoncia', 'Tratamiento de encías, limpieza profunda y mantenimiento.'],
-              ['Odontología restauradora', 'Coronas, puentes, dentaduras y reparación de dientes fracturados.'],
-            ].map(([name, desc]) => (
-              <div key={name as string} style={{ background: 'white', borderRadius: 14, padding: '22px 20px', border: '1px solid rgba(0,29,61,0.07)', boxShadow: '0 4px 14px rgba(0,29,61,0.04)' }}>
-                <div style={{ fontSize: 15, fontWeight: 800, color: NAVY, marginBottom: 6 }}>{name}</div>
-                <div style={{ fontSize: 13, color: 'rgba(0,29,61,0.6)', lineHeight: 1.5 }}>{desc}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonios */}
-      <section style={{ background: 'white', padding: '88px 32px' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: ORANGE, marginBottom: 12 }}>Reseñas de pacientes</div>
-            <h2 style={{ fontSize: 'clamp(28px,4vw,48px)', fontWeight: 800, letterSpacing: '-1.2px', color: NAVY, margin: 0 }}>Lo que dicen nuestros pacientes.</h2>
-          </div>
-          <div className="esp-rev-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20 }}>
-            <style>{`@media(max-width:800px){.esp-rev-grid{grid-template-columns:1fr !important;}}`}</style>
-            {[
-              ['María T.', 'Southeast Las Vegas', 'Llevo a toda mi familia aquí. El personal habla español perfectamente y siempre nos tratan con mucho respeto. El Dr. y los asistentes son increíbles.'],
-              ['Carlos R.', 'West Las Vegas', 'Tuve una emergencia el sábado y me atendieron ese mismo día. El equipo es muy amable y profesional. Altamente recomendado.'],
-              ['Sofía M.', 'East Las Vegas', 'Aceptan Medicaid para mis hijos y el servicio es excelente. La Dra. Fahim es muy buena con los niños. Ya no tengo que buscar otro dentista.'],
-            ].map(([name, area, text]) => (
-              <div key={name as string} style={{ background: '#F7F9FC', borderRadius: 16, padding: '28px 24px', border: '1px solid rgba(0,29,61,0.06)' }}>
-                <div style={{ display: 'flex', gap: 2, marginBottom: 16 }}>
-                  {[1,2,3,4,5].map(i => <Star key={i} size={14} fill={ORANGE} color={ORANGE} />)}
-                </div>
-                <p style={{ fontSize: 15, lineHeight: 1.65, color: 'rgba(0,29,61,0.8)', margin: '0 0 20px', fontStyle: 'italic' }}>"{text}"</p>
-                <div style={{ fontSize: 14, fontWeight: 800, color: NAVY }}>{name}</div>
-                <div style={{ fontSize: 12, color: 'rgba(0,29,61,0.5)' }}>{area}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Ubicaciones */}
-      <section style={{ background: '#F7F9FC', padding: '88px 32px' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: ORANGE, marginBottom: 12 }}>Encuéntrenos</div>
-            <h2 style={{ fontSize: 'clamp(28px,4vw,48px)', fontWeight: 800, letterSpacing: '-1.2px', color: NAVY, margin: 0 }}>9 ubicaciones en Las Vegas.</h2>
-          </div>
-          <div className="esp-loc-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }}>
-            <style>{`@media(max-width:800px){.esp-loc-grid{grid-template-columns:repeat(2,1fr) !important;}} @media(max-width:500px){.esp-loc-grid{grid-template-columns:1fr !important;}}`}</style>
-            {INITIAL_DATA.locations.map(loc => (
-              <Link key={loc.slug} to={`/clinics/${loc.slug}/`} style={{ background: 'white', borderRadius: 12, padding: '18px 20px', border: '1px solid rgba(0,29,61,0.07)', textDecoration: 'none', color: NAVY, display: 'flex', flexDirection: 'column', gap: 6, boxShadow: '0 2px 10px rgba(0,29,61,0.05)' }}>
-                <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.5, textTransform: 'uppercase', color: ORANGE }}>{loc.neighborhood}</div>
-                <div style={{ fontSize: 15, fontWeight: 800, color: NAVY }}>{loc.label}</div>
-                <div style={{ fontSize: 12, color: 'rgba(0,29,61,0.55)' }}>{loc.phone}</div>
-                <div style={{ fontSize: 11, fontWeight: 800, color: ORANGE, marginTop: 4 }}>Ver clínica →</div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section style={{ background: NAVY, padding: '88px 32px', textAlign: 'center' }}>
-        <div style={{ maxWidth: 680, margin: '0 auto' }}>
-          <h2 style={{ fontSize: 'clamp(28px,4vw,48px)', fontWeight: 800, letterSpacing: '-1.2px', color: 'white', margin: '0 0 16px' }}>¿Listo para reservar?</h2>
-          <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.7)', margin: '0 0 36px', lineHeight: 1.6 }}>Su nuevo dentista en Las Vegas le está esperando. Mismas citas, sin lista de espera larga. Personal bilingüe en todas las oficinas.</p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
-            <Link to="/request-consultation" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: ORANGE, color: 'white', borderRadius: 8, padding: '16px 32px', fontSize: 15, fontWeight: 800, textDecoration: 'none', boxShadow: '0 14px 32px rgba(243,103,42,0.35)' }}>
-              Reservar cita <ArrowRight size={16} />
-            </Link>
-            <a href={`tel:${INITIAL_DATA.brand.phone.replace(/\D/g,'')}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.1)', color: 'white', borderRadius: 8, padding: '16px 28px', fontSize: 15, fontWeight: 800, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.2)' }}>
-              <Phone size={15} /> Llamar ahora
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <Footer />
-      {breadcrumbSchema}
-    </div>
-  )
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
+    document.title = 'Dentista en Las Vegas que Habla Español | Boca Dental & Braces'
+    setMeta('description', 'Boca Dental & Braces — 9 clínicas dentales en Las Vegas con personal bilingüe. Aceptamos Medicaid de Nevada y la mayoría de los seguros PPO. Citas el mismo día.', 'name')
+    setMeta('og:title', 'Dentista en Las Vegas que Habla Español | Boca Dental & Braces', 'property')
+    setLink('canonical', 'https://bocadentalandbraces.com/oficina-de-habla-hispana/')
+  }, [])
+  return <Homepage />
 }
+
 
 export function ContactPage() {
   const breadcrumbSchema = usePageMeta({
