@@ -224,6 +224,62 @@ export function AboutUsPage() {
   )
 }
 
+// ─── Animated location ticker for hero right side ────────────────────────────
+function ClinicsHeroTicker() {
+  const [active, setActive] = React.useState(0)
+  const locations = INITIAL_DATA.locations
+
+  useEffect(() => {
+    const t = setInterval(() => setActive(i => (i + 1) % locations.length), 2000)
+    return () => clearInterval(t)
+  }, [locations.length])
+
+  return (
+    <div className="clinics-hero-right" style={{ position: 'relative' }}>
+      {/* Big stat */}
+      <div style={{ marginBottom: 28 }}>
+        <div style={{ fontSize: 96, fontWeight: 800, color: 'white', letterSpacing: '-4px', lineHeight: 1, opacity: 0.12, position: 'absolute', top: -16, left: -8, userSelect: 'none' }}>9</div>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, position: 'relative' }}>
+          <span style={{ fontSize: 64, fontWeight: 800, color: 'white', letterSpacing: '-2px', lineHeight: 1 }}>9</span>
+          <div>
+            <div style={{ fontSize: 15, fontWeight: 800, color: 'white' }}>Las Vegas</div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>locations</div>
+          </div>
+          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.08)', borderRadius: 10, padding: '8px 14px' }}>
+            <Star size={14} fill="#F3672A" color="#F3672A" />
+            <span style={{ fontSize: 18, fontWeight: 800, color: 'white' }}>4.8</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Cycling location names */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        {locations.map((loc, i) => (
+          <div key={loc.slug} style={{
+            display: 'flex', alignItems: 'center', gap: 12,
+            padding: '10px 16px', borderRadius: 12,
+            background: i === active ? 'rgba(243,103,42,0.15)' : 'rgba(255,255,255,0.04)',
+            border: `1px solid ${i === active ? 'rgba(243,103,42,0.4)' : 'rgba(255,255,255,0.06)'}`,
+            transition: 'all 0.4s ease',
+            opacity: i === active ? 1 : 0.45,
+          }}>
+            <div style={{ width: 8, height: 8, borderRadius: '50%', background: i === active ? '#F3672A' : 'rgba(255,255,255,0.3)', flexShrink: 0, transition: 'background 0.4s' }} />
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 13, fontWeight: 800, color: 'white', lineHeight: 1.2 }}>{loc.label}</div>
+              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', marginTop: 2 }}>{loc.neighborhood}</div>
+            </div>
+            {i === active && (
+              <div style={{ fontSize: 10, fontWeight: 800, color: '#F3672A', letterSpacing: 1, textTransform: 'uppercase' }}>
+                {loc.rating}★
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 // ─── Mapbox multi-pin map for /clinics/ ──────────────────────────────────────
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN as string
 
@@ -331,40 +387,33 @@ export function ClinicsHubPage() {
       <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="light" />
 
       {/* ── Navy hero ── */}
-      <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '140px 32px 72px', position: 'relative', overflow: 'hidden' }}>
-        <div aria-hidden style={{ position: 'absolute', top: '-20%', right: '-10%', width: 700, height: 700, background: 'radial-gradient(circle, rgba(243,103,42,0.12) 0%, transparent 60%)', pointerEvents: 'none' }} />
+      <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '130px 32px 64px', position: 'relative', overflow: 'hidden' }}>
+        <div aria-hidden style={{ position: 'absolute', top: '-20%', right: '-5%', width: 600, height: 600, background: 'radial-gradient(circle, rgba(243,103,42,0.1) 0%, transparent 60%)', pointerEvents: 'none' }} />
+
         <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <div className="clinics-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 48, alignItems: 'center' }}>
-            <style>{`@media(max-width:780px){.clinics-hero-grid{grid-template-columns:1fr !important;}}`}</style>
-            {/* Left — headline + copy */}
+          <div className="clinics-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+            <style>{`
+              @media(max-width:860px){.clinics-hero-grid{grid-template-columns:1fr !important;} .clinics-hero-right{display:none !important;}}
+            `}</style>
+
+            {/* Left — headline + copy + phone only */}
             <div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: ORANGE, marginBottom: 20, padding: '6px 14px', background: 'rgba(243,103,42,0.12)', borderRadius: 999 }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: '#F3672A', marginBottom: 20, padding: '6px 14px', background: 'rgba(243,103,42,0.12)', borderRadius: 999 }}>
                 <MapPin size={11} /> 9 Las Vegas Locations
               </div>
-              <h1 style={{ fontSize: 'clamp(42px, 6vw, 80px)', fontWeight: 800, letterSpacing: '-2px', color: 'white', margin: '0 0 20px', lineHeight: 0.93 }}>
-                Find your nearest<br /><span style={{ color: ORANGE }}>Boca.</span>
+              <h1 style={{ fontSize: 'clamp(40px, 5.5vw, 76px)', fontWeight: 800, letterSpacing: '-2.5px', color: 'white', margin: '0 0 20px', lineHeight: 0.93 }}>
+                Find your nearest<br /><span style={{ color: '#F3672A' }}>Boca.</span>
               </h1>
-              <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.65)', maxWidth: 520, lineHeight: 1.65, margin: 0 }}>
-                Nine dental clinics across greater Las Vegas — general, cosmetic, orthodontics, pediatric, and emergency care. Most insurance accepted. Se Habla Español.
+              <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.65)', maxWidth: 480, lineHeight: 1.65, margin: '0 0 32px' }}>
+                Nine dental clinics across Las Vegas — general, cosmetic, orthodontics, pediatric, and emergency care. Most insurance accepted. Se Habla Español.
               </p>
-            </div>
-            {/* Right — CTAs */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, minWidth: 220 }}>
-              <Link to="/request-consultation" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: ORANGE, color: 'white', borderRadius: 10, padding: '15px 28px', fontSize: 14, fontWeight: 800, textDecoration: 'none', boxShadow: '0 12px 28px rgba(243,103,42,0.35)', whiteSpace: 'nowrap' }}>
-                Book an Appointment <ArrowRight size={15} />
-              </Link>
-              <a href={`tel:${INITIAL_DATA.brand.phone.replace(/\D/g,'')}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: 'rgba(255,255,255,0.1)', color: 'white', borderRadius: 10, padding: '14px 28px', fontSize: 14, fontWeight: 700, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.18)' }}>
-                <Phone size={14} /> {INITIAL_DATA.brand.phone}
+              <a href={`tel:7024560005`} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, color: 'white', fontSize: 15, fontWeight: 700, textDecoration: 'none', opacity: 0.85 }}>
+                <Phone size={15} color="#F3672A" /> (702) 456-0005
               </a>
-              <div style={{ display: 'flex', gap: 20, paddingTop: 8 }}>
-                {[['9', 'Locations'], ['4.8★', 'Rating'], ['2006', 'Est.']].map(([v, l]) => (
-                  <div key={l} style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: 22, fontWeight: 800, color: 'white', letterSpacing: '-0.5px' }}>{v}</div>
-                    <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.45)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 }}>{l}</div>
-                  </div>
-                ))}
-              </div>
             </div>
+
+            {/* Right — animated location ticker */}
+            <ClinicsHeroTicker />
           </div>
         </div>
       </section>
