@@ -224,36 +224,86 @@ export function AboutUsPage() {
   )
 }
 
-// ─── Ghost map for hero background (no interaction, fades into blue) ──────────
+// ─── SVG illustrated city grid for hero ──────────────────────────────────────
 function ClinicsHeroMap() {
-  const ref = useRef<HTMLDivElement>(null)
-  const mapRef = useRef<mapboxgl.Map | null>(null)
+  // Approximate screen positions for all 9 LV locations within a 700×480 viewBox
+  const pins = [
+    { x: 505, y: 344, kids: false, label: 'Russell & Eastern' },
+    { x: 510, y: 352, kids: true,  label: 'Boca Kids' },
+    { x: 505, y: 135, kids: false, label: 'Bonanza & Eastern' },
+    { x: 254, y: 195, kids: false, label: 'Sahara & Decatur' },
+    { x: 214, y: 141, kids: false, label: 'Jones & I-95' },
+    { x: 577, y: 171, kids: false, label: 'Charleston & Lamb' },
+    { x: 104, y: 252, kids: false, label: 'Flamingo & Torrey' },
+    { x: 161, y:  62, kids: false, label: 'Cheyenne Commons' },
+    { x: 505, y: 419, kids: false, label: 'Beltway Marketplace' },
+  ]
 
-  useEffect(() => {
-    if (!ref.current || mapRef.current || !mapboxgl.accessToken) return
-    const map = new mapboxgl.Map({
-      container: ref.current,
-      style: 'mapbox://styles/mapbox/dark-v11',
-      center: [-115.1900, 36.1300],
-      zoom: 9.2,
-      interactive: false,
-      attributionControl: false,
-    })
-    mapRef.current = map
-    map.on('load', () => {
-      INITIAL_DATA.locations.forEach(loc => {
-        const coords = COORDS_BY_LOCATION[loc.slug]
-        if (!coords) return
-        const el = document.createElement('div')
-        el.style.cssText = 'width:14px;height:14px;border-radius:50%;background:#F3672A;border:2px solid rgba(255,255,255,0.6);box-shadow:0 0 12px rgba(243,103,42,0.8)'
-        if (loc.kids) el.style.background = '#60a5fa'
-        new mapboxgl.Marker({ element: el }).setLngLat(coords).addTo(map)
-      })
-    })
-    return () => { map.remove(); mapRef.current = null }
-  }, [])
+  return (
+    <svg
+      viewBox="0 0 700 480"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+      aria-hidden
+    >
+      <defs>
+        <radialGradient id="heroFade" cx="100%" cy="50%" r="100%">
+          <stop offset="0%" stopColor="white" stopOpacity="1" />
+          <stop offset="55%" stopColor="white" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="white" stopOpacity="0" />
+        </radialGradient>
+        <mask id="fadeMask">
+          <rect width="700" height="480" fill="url(#heroFade)" />
+        </mask>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+        <filter id="softglow">
+          <feGaussianBlur stdDeviation="6" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
 
-  return <div ref={ref} style={{ position: 'absolute', inset: 0, opacity: 0.35 }} />
+      <g mask="url(#fadeMask)" opacity="0.45">
+        {/* ── Road grid — major E/W streets ── */}
+        {[62, 141, 171, 195, 252, 344, 419].map((y, i) => (
+          <line key={`ew${i}`} x1="0" y1={y} x2="700" y2={y}
+            stroke="rgba(255,255,255,0.18)" strokeWidth="1" strokeDasharray="6 4" />
+        ))}
+        {/* ── Major N/S streets ── */}
+        {[104, 161, 214, 254, 380, 505, 577].map((x, i) => (
+          <line key={`ns${i}`} x1={x} y1="0" x2={x} y2="480"
+            stroke="rgba(255,255,255,0.18)" strokeWidth="1" strokeDasharray="6 4" />
+        ))}
+        {/* ── I-15 diagonal ── */}
+        <line x1="80" y1="0" x2="400" y2="480"
+          stroke="rgba(255,255,255,0.28)" strokeWidth="2" />
+        {/* ── Las Vegas Blvd (Strip) ── */}
+        <line x1="340" y1="180" x2="480" y2="480"
+          stroke="rgba(255,255,255,0.22)" strokeWidth="1.5" />
+
+        {/* ── Location pins ── */}
+        {pins.map((p, i) => (
+          <g key={i} filter="url(#softglow)">
+            {/* Outer pulse ring */}
+            <circle cx={p.x} cy={p.y} r="18"
+              fill="none"
+              stroke={p.kids ? 'rgba(96,165,250,0.3)' : 'rgba(243,103,42,0.3)'}
+              strokeWidth="1" />
+            {/* Mid ring */}
+            <circle cx={p.x} cy={p.y} r="10"
+              fill="none"
+              stroke={p.kids ? 'rgba(96,165,250,0.5)' : 'rgba(243,103,42,0.5)'}
+              strokeWidth="1" />
+            {/* Core dot */}
+            <circle cx={p.x} cy={p.y} r="5"
+              fill={p.kids ? '#60a5fa' : '#F3672A'} />
+          </g>
+        ))}
+      </g>
+    </svg>
+  )
 }
 
 // ─── Mapbox multi-pin map for /clinics/ ──────────────────────────────────────
@@ -367,13 +417,9 @@ export function ClinicsHubPage() {
       {/* ── Navy hero ── */}
       <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '160px 32px 72px', position: 'relative', overflow: 'hidden', minHeight: 440 }}>
 
-        {/* Ghost map — floats on the right, fades into the blue */}
-        <div style={{ position: 'absolute', top: 0, right: 0, width: '52%', height: '100%', zIndex: 0, pointerEvents: 'none' }}>
+        {/* SVG illustrated city grid — right side, fades into blue */}
+        <div style={{ position: 'absolute', top: 0, right: 0, width: '60%', height: '100%', zIndex: 0, pointerEvents: 'none' }}>
           <ClinicsHeroMap />
-          {/* Heavy left fade — eliminates the hard edge */}
-          <div aria-hidden style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #162E7A 0%, #162E7A 10%, rgba(22,46,122,0.95) 25%, rgba(22,46,122,0.6) 45%, rgba(22,46,122,0.1) 75%, transparent 100%)' }} />
-          {/* Top/bottom dissolve */}
-          <div aria-hidden style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,29,61,0.8) 0%, transparent 25%, transparent 70%, rgba(0,29,61,0.9) 100%)' }} />
         </div>
 
         <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative', zIndex: 1 }}>
