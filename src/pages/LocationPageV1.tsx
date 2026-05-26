@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import {
   Phone,
@@ -21,7 +22,8 @@ import {
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { GoogleG } from '../components/shared/icons/GoogleG'
-
+import mapboxgl from 'mapbox-gl'
+import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { Header } from '../components/Header/Header'
 import { Footer } from '../components/Footer/Footer'
@@ -37,13 +39,16 @@ import type { Location } from '../types'
 import {
   servicesForLocation,
   doctorsForLocation,
+  COORDS_BY_LOCATION,
 } from './LocationPage'
 import {
   LOCATION_LANGUAGES,
   LOCATION_PARKING,
 } from '../data/locationDetails'
 
-
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN as string | undefined
+const MAPBOX_READY = !!MAPBOX_TOKEN && MAPBOX_TOKEN !== 'undefined' && MAPBOX_TOKEN.startsWith('pk.')
+if (MAPBOX_READY) mapboxgl.accessToken = MAPBOX_TOKEN!
 
 const ORANGE = '#F3672A'
 const NAVY = '#001D3D'
@@ -68,6 +73,8 @@ export function LocationPageV1({ location }: { location: Location }) {
   const doctors = doctorsForLocation(location.slug)
     .map((slug) => INITIAL_DATA.doctors.find((d) => d.slug === slug))
     .filter((d): d is NonNullable<typeof d> => d != null)
+  const coords = COORDS_BY_LOCATION[location.slug]
+
   const otherLocations = INITIAL_DATA.locations
     .filter((l) => l.slug !== location.slug && !l.slug.includes('henderson'))
     .slice(0, 4)
@@ -86,7 +93,7 @@ export function LocationPageV1({ location }: { location: Location }) {
         logoMode="dark"
       />
 
-      <Hero location={location} />
+      <Hero location={location} coords={coords} />
       <TrustStrip location={location} />
       <ClinicInfoSection location={location} theme="light" officeNo={String(location.id).padStart(2, '0')} />
       <NeighborhoodNarrative location={location} />
@@ -104,9 +111,66 @@ export function LocationPageV1({ location }: { location: Location }) {
 
 function Hero({
   location,
+  coords,
 }: {
   location: Location
+  coords?: [number, number]
 }) {
+  const mapContainer = useRef<HTMLDivElement | null>(null)
+  const mapRef = useRef<mapboxgl.Map | null>(null)
+
+  useEffect(() => {
+    if (!MAPBOX_READY || !mapContainer.current || mapRef.current || !coords) return
+    try {
+    const map = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/light-v11',
+      center: coords,
+      zoom: 14.6,
+      pitch: 36,
+      bearing: -6,
+      attributionControl: false,
+      dragRotate: false,
+      pitchWithRotate: false,
+    })
+    mapRef.current = map
+    map.on('load', () => {
+      // Branded marker — orange ball with white inner dot + soft halo
+      const el = document.createElement('div')
+      el.style.cssText = [
+        'position: relative',
+        'width: 28px',
+        'height: 28px',
+        'border-radius: 50%',
+        'background: radial-gradient(circle at 30% 30%, #ff8a4a 0%, #F3672A 60%, #c44e1c 100%)',
+        'border: 3px solid #ffffff',
+        'box-shadow: 0 0 0 6px rgba(243,103,42,0.18), 0 8px 22px rgba(243,103,42,0.45)',
+      ].join(';')
+      const inner = document.createElement('div')
+      inner.style.cssText = [
+        'position: absolute',
+        'top: 50%',
+        'left: 50%',
+        'transform: translate(-50%, -50%)',
+        'width: 7px',
+        'height: 7px',
+        'border-radius: 50%',
+        'background: white',
+      ].join(';')
+      el.appendChild(inner)
+      new mapboxgl.Marker({ element: el, anchor: 'center' })
+        .setLngLat(coords)
+        .addTo(map)
+    })
+    return () => {
+      map.remove()
+      mapRef.current = null
+    }
+    } catch (err) {
+      console.warn('[LocationPage] Map init failed:', err)
+    }
+  }, [coords])
+
   return (
     <section
       style={{
@@ -339,7 +403,7 @@ function Hero({
             </div>
           </div>
 
-          {/* RIGHT — office interior photo with NAP overlay */}
+          {/* RIGHT — branded Mapbox map with NAP overlay */}
           <div
             className="loc-hero-image"
             style={{
@@ -352,17 +416,13 @@ function Hero({
                 '0 30px 60px rgba(0,29,61,0.16), 0 0 0 1px rgba(243,103,42,0.04)',
             }}
           >
-            {/* Office interior photo */}
-            <img
-              src="/boca-office-interior.webp"
-              alt="Boca Dental & Braces office interior"
+            {/* Mapbox container */}
+            <div
+              ref={mapContainer}
               style={{
                 position: 'absolute',
                 inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                objectPosition: 'center top',
+                background: '#F0E9DF',
               }}
             />
             {/* Soft orange glow tint over the map */}
@@ -845,7 +905,70 @@ function NeighborhoodNarrative({ location }: { location: Location }) {
             .neighborhood-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
           }
         `}</style>
-        <div
+        {/* Office interior photo — full width, above the narrative grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.55 }}
+          style={{ marginBottom: 48 }}
+        >
+          <div
+            style={{
+              borderRadius: 20,
+              overflow: 'hidden',
+              height: 420,
+              position: 'relative',
+              boxShadow:
+                '0 30px 60px rgba(0,29,61,0.14), 0 0 0 1px rgba(243,103,42,0.06)',
+            }}
+          >
+            <img
+              src="/boca-office-interior.webp"
+              alt={`Boca Dental & Braces ${location.neighborhood} office interior`}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center 30%',
+              }}
+            />
+            <div
+              aria-hidden
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background:
+                  'linear-gradient(180deg, transparent 60%, rgba(247,249,252,0.7) 100%)',
+                pointerEvents: 'none',
+              }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 20,
+                left: 20,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 7,
+                background: 'rgba(0,29,61,0.82)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                borderRadius: 999,
+                padding: '8px 16px',
+                fontSize: 12,
+                fontWeight: 700,
+                color: 'white',
+                letterSpacing: 0.3,
+              }}
+            >
+              <MapPin size={12} color={ORANGE} />
+              Boca Dental & Braces · {location.neighborhood}
+            </div>
+          </div>
+        </motion.div>
+
+                <div
           className="neighborhood-grid"
           style={{
             display: 'grid',
