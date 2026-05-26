@@ -939,82 +939,70 @@ export function ReviewsPage() {
       <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="light" />
 
       {/* ── HERO ── */}
-      <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '180px 32px 120px', position: 'relative', overflow: 'hidden' }}>
-        {/* Decorative radial glows */}
-        <div aria-hidden style={{ position: 'absolute', top: '-20%', right: '-8%', width: 800, height: 800, background: 'radial-gradient(circle, rgba(243,103,42,0.14) 0%, transparent 58%)', pointerEvents: 'none' }} />
-        <div aria-hidden style={{ position: 'absolute', bottom: '-30%', left: '-10%', width: 600, height: 600, background: 'radial-gradient(circle, rgba(22,46,122,0.5) 0%, transparent 60%)', pointerEvents: 'none' }} />
+      <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', minHeight: 580, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
 
         <style>{`
-          @keyframes rev-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
-          @keyframes rev-ring  { 0%,100%{opacity:.15;transform:scale(1)} 50%{opacity:.30;transform:scale(1.07)} }
-          @keyframes rev-star-a{ 0%,100%{transform:rotate(0deg) scale(1)} 50%{transform:rotate(15deg) scale(1.18)} }
-          @keyframes rev-star-b{ 0%,100%{transform:rotate(0deg) scale(1)} 50%{transform:rotate(-15deg) scale(1.18)} }
-          @media(max-width:860px){ .rev-hero-right{ display:none!important } .rev-hero-grid{ grid-template-columns:1fr!important } }
+          @keyframes rev-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+          @media(max-width:860px){ .rev-trophy-img{ display:none!important } }
         `}</style>
 
-        <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <div className="rev-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 48, alignItems: 'center' }}>
+        {/* Trophy image — full height right side, fades left into blue */}
+        <div className="rev-trophy-img" aria-hidden style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '48%', pointerEvents: 'none' }}>
+          <img
+            src="/boca-trophy.webp"
+            alt=""
+            style={{
+              position: 'absolute', top: 0, right: 0, width: '100%', height: '100%',
+              objectFit: 'cover', objectPosition: 'center top',
+              opacity: 0.42,
+              filter: 'brightness(1.1) saturate(0.5)',
+              mixBlendMode: 'luminosity',
+            }}
+          />
+          {/* Fade from blue on the left edge */}
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #162E7A 0%, rgba(22,46,122,0.75) 18%, rgba(22,46,122,0.15) 55%, transparent 100%)' }} />
+        </div>
 
-            {/* LEFT — existing copy */}
-            <div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 24, padding: '7px 16px', background: 'rgba(243,103,42,0.12)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.2)' }}>
-                <Star size={11} fill={ORANGE} color={ORANGE} /> Verified Google Reviews
-              </div>
-              <h1 style={{ fontSize: 'clamp(34px, 4.6vw, 56px)', fontWeight: 800, letterSpacing: '-1.2px', color: 'white', margin: '0 0 4px', lineHeight: 1.0 }}>
-                What Las Vegas patients
-              </h1>
-              <h1 style={{ fontSize: 'clamp(34px, 4.6vw, 56px)', fontWeight: 800, letterSpacing: '-1.2px', color: ORANGE, margin: '0 0 20px', lineHeight: 1.0 }}>
-                say about Boca.
-              </h1>
-              <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.65)', maxWidth: 520, lineHeight: 1.65, margin: '0 0 40px' }}>
-                Real reviews from real patients. We never pay for reviews — every star is earned at one of our 9 Las Vegas clinics.
-              </p>
-              <div className="rev-hero-stats" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, auto)', gap: 2, width: 'fit-content' }}>
-                <style>{`@media(max-width:640px){ .rev-hero-stats{ grid-template-columns:1fr 1fr !important; } }`}</style>
-                {[
-                  { value: `${avgRating}★`, label: 'Average rating', accent: ORANGE },
-                  { value: `${totalReviews.toLocaleString()}+`, label: 'Google reviews', accent: '#10b981' },
-                  { value: '9', label: 'LV locations', accent: '#60a5fa' },
-                ].map((stat, i) => (
-                  <div key={i} style={{ background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(10px)', borderRadius: i === 0 ? '16px 0 0 16px' : i === 2 ? '0 16px 16px 0' : '0', border: '1px solid rgba(255,255,255,0.1)', borderRight: i < 2 ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(255,255,255,0.1)', padding: '24px 36px', textAlign: 'center' }}>
-                    <div style={{ fontSize: 32, fontWeight: 800, color: stat.accent, letterSpacing: '-1px', lineHeight: 1, marginBottom: 6 }}>{stat.value}</div>
-                    <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5 }}>{stat.label}</div>
-                  </div>
-                ))}
-              </div>
+        {/* Floating rating badge */}
+        <div className="rev-trophy-img" style={{
+          position: 'absolute', bottom: 52, right: '7%',
+          background: ORANGE, borderRadius: 999,
+          padding: '12px 26px', fontSize: 18, fontWeight: 800,
+          color: 'white', boxShadow: '0 8px 32px rgba(243,103,42,0.6)',
+          whiteSpace: 'nowrap', zIndex: 2,
+          animation: 'rev-float 4s ease-in-out infinite',
+        }}>
+          {avgRating} ★
+        </div>
+
+        {/* Left — copy */}
+        <div style={{ maxWidth: 1240, margin: '0 auto', padding: '160px 32px 120px', position: 'relative', zIndex: 1, width: '100%' }}>
+          <div style={{ maxWidth: 620 }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 24, padding: '7px 16px', background: 'rgba(243,103,42,0.12)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.2)' }}>
+              <Star size={11} fill={ORANGE} color={ORANGE} /> Verified Google Reviews
             </div>
-
-            {/* RIGHT — trophy image, faint through gradient */}
-            <div className="rev-hero-right" style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <img
-                src="/boca-trophy.webp"
-                alt="Boca Dental 5-Star Excellence Trophy"
-                style={{
-                  width: '100%',
-                  maxWidth: 460,
-                  opacity: 0.28,
-                  filter: 'brightness(1.15) saturate(0.5) drop-shadow(0 0 60px rgba(243,103,42,0.3))',
-                  mixBlendMode: 'luminosity',
-                  maskImage: 'radial-gradient(ellipse 85% 90% at 52% 48%, black 25%, transparent 72%)',
-                  WebkitMaskImage: 'radial-gradient(ellipse 85% 90% at 52% 48%, black 25%, transparent 72%)',
-                  pointerEvents: 'none',
-                  userSelect: 'none',
-                  display: 'block',
-                }}
-              />
-              {/* Rating badge */}
-              <div style={{
-                position: 'absolute', bottom: '10%', right: '5%',
-                background: ORANGE, borderRadius: 999,
-                padding: '10px 22px', fontSize: 17, fontWeight: 800,
-                color: 'white', boxShadow: '0 8px 28px rgba(243,103,42,0.55)',
-                whiteSpace: 'nowrap', letterSpacing: '-0.3px',
-                animation: 'rev-float 4s ease-in-out infinite',
-              }}>
-                {avgRating} ★
-              </div>
+            <h1 style={{ fontSize: 'clamp(34px, 4.6vw, 58px)', fontWeight: 800, letterSpacing: '-1.5px', color: 'white', margin: '0 0 4px', lineHeight: 1.0 }}>
+              What Las Vegas patients
+            </h1>
+            <h1 style={{ fontSize: 'clamp(34px, 4.6vw, 58px)', fontWeight: 800, letterSpacing: '-1.5px', color: ORANGE, margin: '0 0 22px', lineHeight: 1.0 }}>
+              say about Boca.
+            </h1>
+            <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65, margin: '0 0 44px' }}>
+              Real reviews from real patients. We never pay for reviews — every star is earned at one of our 9 Las Vegas clinics.
+            </p>
+            <div className="rev-hero-stats" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, auto)', gap: 2, width: 'fit-content' }}>
+              <style>{`@media(max-width:640px){ .rev-hero-stats{ grid-template-columns:1fr 1fr !important; } }`}</style>
+              {[
+                { value: `${avgRating}\u2605`, label: 'Average rating', accent: ORANGE },
+                { value: `${totalReviews.toLocaleString()}+`, label: 'Google reviews', accent: '#10b981' },
+                { value: '9', label: 'LV locations', accent: '#60a5fa' },
+              ].map((stat, i) => (
+                <div key={i} style={{ background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(10px)', borderRadius: i === 0 ? '16px 0 0 16px' : i === 2 ? '0 16px 16px 0' : '0', border: '1px solid rgba(255,255,255,0.1)', borderRight: i < 2 ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(255,255,255,0.1)', padding: '24px 36px', textAlign: 'center' }}>
+                  <div style={{ fontSize: 32, fontWeight: 800, color: stat.accent, letterSpacing: '-1px', lineHeight: 1, marginBottom: 6 }}>{stat.value}</div>
+                  <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5 }}>{stat.label}</div>
+                </div>
+              ))}
             </div>
-
           </div>
         </div>
       </section>
