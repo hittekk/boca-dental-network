@@ -310,87 +310,212 @@ if (CLINICS_MAP_READY && !mapboxgl.accessToken) mapboxgl.accessToken = MAPBOX_TO
 function ClinicsMap() {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<mapboxgl.Map | null>(null)
+  const [active, setActive] = React.useState<null | {
+    slug: string; label: string; neighborhood: string; phone: string;
+    address: string; city: string; state: string; zip: string;
+    hours: string; rating: number; review_count: number; kids: boolean;
+  }>(null)
+  const markersRef = useRef<Record<string, HTMLDivElement>>({})
+
+  // Inject popup + pin animation styles once
+  useEffect(() => {
+    const id = 'clinics-map-styles'
+    if (document.getElementById(id)) return
+    const style = document.createElement('style')
+    style.id = id
+    style.textContent = `
+      .mapboxgl-ctrl-logo { display: none !important; }
+      .mapboxgl-ctrl-attrib { display: none !important; }
+      .boca-pin { transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1); }
+      .boca-pin:hover { transform: scale(1.18) translateY(-3px) !important; }
+      .boca-pin.active-pin { transform: scale(1.22) translateY(-4px) !important; }
+    `
+    document.head.appendChild(style)
+  }, [])
 
   useEffect(() => {
     if (!CLINICS_MAP_READY || !containerRef.current || mapRef.current) return
     try {
-    const map = new mapboxgl.Map({
-      container: containerRef.current,
-      style: 'mapbox://styles/mapbox/light-v11',
-      center: [-115.1900, 36.1300],
-      zoom: 10,
-      pitch: 0,
-      attributionControl: false,
-      cooperativeGestures: true,
-    })
-    mapRef.current = map
-    map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right')
-
-    map.on('load', () => {
-      INITIAL_DATA.locations.forEach(loc => {
-        const coords = COORDS_BY_LOCATION[loc.slug]
-        if (!coords) return
-
-        const pinColor = loc.kids ? '#001D3D' : '#F3672A'
-
-        const el = document.createElement('div')
-        el.style.cssText = [
-          'width:48px','height:48px','cursor:pointer',
-          'display:flex','align-items:center','justify-content:center',
-        ].join(';')
-
-        const inner = document.createElement('div')
-        inner.style.cssText = [
-          'width:48px','height:48px','border-radius:50%',
-          'display:flex','align-items:center','justify-content:center',
-          `background:${pinColor}`,
-          'border:3px solid white',
-          `box-shadow:0 4px 16px rgba(0,0,0,0.25)`,
-          'transition:transform 0.15s ease',
-        ].join(';')
-
-        inner.innerHTML = `<svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2C8.5 2 5 4 5 8C5 10.5 5.5 12.5 6 14.5C6.5 16.5 7 19 7 21C7 22.5 7.5 24 8.5 24C9.5 24 10 22.5 10.5 20C11 17.5 11.5 16 12 16C12.5 16 13 17.5 13.5 20C14 22.5 14.5 24 15.5 24C16.5 24 17 22.5 17 21C17 19 17.5 16.5 18 14.5C18.5 12.5 19 10.5 19 8C19 4 15.5 2 12 2Z" fill="white"/>
-        </svg>`
-
-        el.appendChild(inner)
-
-        const popup = new mapboxgl.Popup({ offset: 28, closeButton: true, closeOnClick: true })
-          .setHTML(`
-            <div style="font-family:inherit;padding:4px 2px">
-              <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#F3672A;margin-bottom:4px">${loc.neighborhood}</div>
-              <div style="font-size:15px;font-weight:800;color:#001D3D;margin-bottom:4px">${loc.label}</div>
-              <div style="font-size:12px;color:rgba(0,29,61,0.55);margin-bottom:10px">${loc.phone}</div>
-              <a href="/clinics/${loc.slug}/" style="display:inline-flex;align-items:center;gap:6px;background:#F3672A;color:white;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:800;text-decoration:none;letter-spacing:0.5px">View clinic →</a>
-            </div>
-          `)
-
-        new mapboxgl.Marker({ element: el, anchor: 'bottom' })
-          .setLngLat(coords)
-          .setPopup(popup)
-          .addTo(map)
+      const map = new mapboxgl.Map({
+        container: containerRef.current,
+        style: 'mapbox://styles/mapbox/light-v11',
+        center: [-115.1900, 36.1300],
+        zoom: 10.2,
+        pitch: 0,
+        attributionControl: false,
+        cooperativeGestures: true,
       })
-    })
+      mapRef.current = map
+      map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'bottom-right')
 
-    return () => { map.remove(); mapRef.current = null }
+      map.on('load', () => {
+        INITIAL_DATA.locations.forEach(loc => {
+          const coords = COORDS_BY_LOCATION[loc.slug]
+          if (!coords) return
+
+          const pinColor = loc.kids ? '#001D3D' : '#F3672A'
+
+          const el = document.createElement('div')
+          el.className = 'boca-pin'
+          el.style.cssText = [
+            'width:44px', 'height:44px', 'border-radius:50%', 'cursor:pointer',
+            'display:flex', 'align-items:center', 'justify-content:center',
+            `background:${pinColor}`,
+            'border:3px solid white',
+            'box-shadow:0 4px 20px rgba(0,0,0,0.22)',
+          ].join(';')
+
+          el.innerHTML = `<svg width="22" height="24" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C8.5 2 5 4 5 8C5 10.5 5.5 12.5 6 14.5C6.5 16.5 7 19 7 21C7 22.5 7.5 24 8.5 24C9.5 24 10 22.5 10.5 20C11 17.5 11.5 16 12 16C12.5 16 13 17.5 13.5 20C14 22.5 14.5 24 15.5 24C16.5 24 17 22.5 17 21C17 19 17.5 16.5 18 14.5C18.5 12.5 19 10.5 19 8C19 4 15.5 2 12 2Z" fill="white"/>
+          </svg>`
+
+          markersRef.current[loc.slug] = el
+
+          el.addEventListener('click', () => {
+            // Deactivate all pins
+            Object.values(markersRef.current).forEach(m => m.classList.remove('active-pin'))
+            el.classList.add('active-pin')
+            setActive({
+              slug: loc.slug, label: loc.label, neighborhood: loc.neighborhood,
+              phone: loc.phone, address: loc.address, city: loc.city,
+              state: loc.state, zip: loc.zip, hours: loc.hours,
+              rating: loc.rating, review_count: loc.review_count, kids: loc.kids,
+            })
+            // Smoothly pan to pin
+            map.easeTo({ center: [coords[0] + 0.02, coords[1]], zoom: 12.5, duration: 600, easing: t => t < 0.5 ? 2*t*t : -1+(4-2*t)*t })
+          })
+
+          new mapboxgl.Marker({ element: el, anchor: 'center' })
+            .setLngLat(coords)
+            .addTo(map)
+        })
+
+        // Click on map background dismisses panel
+        map.on('click', () => {
+          setActive(null)
+          Object.values(markersRef.current).forEach(m => m.classList.remove('active-pin'))
+        })
+      })
+
+      return () => { map.remove(); mapRef.current = null }
     } catch (err) {
       console.warn('[ClinicsMap] Mapbox failed to initialize:', err)
     }
   }, [])
 
+  const stars = (n: number) => Array.from({ length: 5 }).map((_, i) =>
+    `<span style="color:${i < Math.round(n) ? '#F3672A' : 'rgba(0,29,61,0.15)'}">★</span>`
+  ).join('')
+
   return (
-    <div style={{ position: 'relative', width: '100%', height: 520 }}>
+    <div style={{ position: 'relative', width: '100%', height: 560 }}>
       <div ref={containerRef} style={{ position: 'absolute', inset: 0 }} />
-      {/* Legend */}
-      <div style={{ position: 'absolute', top: 16, left: 16, background: 'white', borderRadius: 10, padding: '10px 18px', boxShadow: '0 4px 20px rgba(0,29,61,0.14)', fontSize: 12, fontWeight: 700, color: '#001D3D', display: 'flex', gap: 18, zIndex: 2, border: '1px solid rgba(0,29,61,0.06)' }}>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-          <span style={{ width: 12, height: 12, borderRadius: '50%', background: '#F3672A', display: 'inline-block', flexShrink: 0 }} />
-          Standard clinic
+
+      {/* Legend — bottom left */}
+      <div style={{ position: 'absolute', bottom: 16, left: 16, background: 'white', borderRadius: 10, padding: '9px 16px', fontSize: 11, fontWeight: 700, color: '#001D3D', display: 'flex', gap: 16, zIndex: 2, boxShadow: '0 2px 12px rgba(0,29,61,0.10)' }}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#F3672A', display: 'inline-block' }} />
+          General
         </span>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-          <span style={{ width: 12, height: 12, borderRadius: '50%', background: '#001D3D', display: 'inline-block', flexShrink: 0, border: '1.5px solid rgba(0,29,61,0.3)' }} />
-          Kids clinic
+        <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#001D3D', display: 'inline-block' }} />
+          Kids
         </span>
+      </div>
+
+      {/* Left-side location panel */}
+      <div style={{
+        position: 'absolute', top: 16, left: 16, bottom: 16,
+        width: 280,
+        background: 'white',
+        borderRadius: 16,
+        boxShadow: '0 8px 40px rgba(0,29,61,0.13)',
+        zIndex: 3,
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        opacity: active ? 1 : 0,
+        transform: active ? 'translateX(0)' : 'translateX(-16px)',
+        pointerEvents: active ? 'all' : 'none',
+        transition: 'opacity 0.28s cubic-bezier(0.4,0,0.2,1), transform 0.28s cubic-bezier(0.4,0,0.2,1)',
+      }}>
+        {active && (
+          <>
+            {/* Colored top bar */}
+            <div style={{ height: 4, background: active.kids ? '#001D3D' : '#F3672A', flexShrink: 0 }} />
+
+            {/* Header */}
+            <div style={{ padding: '18px 20px 14px', borderBottom: '1px solid rgba(0,29,61,0.06)', flexShrink: 0 }}>
+              <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: '#F3672A', marginBottom: 6 }}>
+                {active.kids ? '🦷 Kids Clinic · ' : ''}{active.neighborhood}
+              </div>
+              <div style={{ fontSize: 17, fontWeight: 800, color: '#001D3D', lineHeight: 1.2, letterSpacing: '-0.3px', marginBottom: 8 }}>
+                {active.label}
+              </div>
+              {active.rating > 0 && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span dangerouslySetInnerHTML={{ __html: stars(active.rating) }} style={{ fontSize: 12 }} />
+                  <span style={{ fontSize: 12, fontWeight: 700, color: '#001D3D' }}>{active.rating.toFixed(1)}</span>
+                  <span style={{ fontSize: 11, color: 'rgba(0,29,61,0.4)', fontWeight: 600 }}>({active.review_count}+)</span>
+                </div>
+              )}
+            </div>
+
+            {/* Details */}
+            <div style={{ padding: '14px 20px', flex: 1, display: 'flex', flexDirection: 'column', gap: 11 }}>
+              <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                <span style={{ fontSize: 14, lineHeight: 1, marginTop: 1 }}>📍</span>
+                <div style={{ fontSize: 13, color: 'rgba(0,29,61,0.7)', lineHeight: 1.4 }}>
+                  {active.address}<br />{active.city}, {active.state} {active.zip}
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                <span style={{ fontSize: 14 }}>📞</span>
+                <a href={`tel:${active.phone.replace(/\D/g,'')}`} style={{ fontSize: 13, color: '#F3672A', fontWeight: 700, textDecoration: 'none' }}>
+                  {active.phone}
+                </a>
+              </div>
+              <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                <span style={{ fontSize: 14, marginTop: 1 }}>🕐</span>
+                <div style={{ fontSize: 12, color: 'rgba(0,29,61,0.55)', lineHeight: 1.5 }}>
+                  {active.hours.split(' · ').map((h, i) => <div key={i}>{h}</div>)}
+                </div>
+              </div>
+            </div>
+
+            {/* CTAs */}
+            <div style={{ padding: '0 20px 20px', display: 'flex', flexDirection: 'column', gap: 8, flexShrink: 0 }}>
+              <a href={`/request-consultation?location=${active.slug}`} style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: '#F3672A', color: 'white', borderRadius: 10,
+                padding: '12px 16px', fontSize: 13, fontWeight: 800,
+                textDecoration: 'none', letterSpacing: 0.3, gap: 6,
+                transition: 'background 0.15s ease',
+              }}>
+                Book appointment →
+              </a>
+              <a href={`/clinics/${active.slug}/`} style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: 'transparent', color: '#001D3D', borderRadius: 10,
+                padding: '10px 16px', fontSize: 12, fontWeight: 700,
+                textDecoration: 'none', border: '1.5px solid rgba(0,29,61,0.12)',
+                transition: 'border-color 0.15s ease',
+              }}>
+                View clinic page
+              </a>
+            </div>
+
+            {/* Close button */}
+            <button onClick={() => { setActive(null); Object.values(markersRef.current).forEach(m => m.classList.remove('active-pin')) }} style={{
+              position: 'absolute', top: 12, right: 12,
+              width: 26, height: 26, borderRadius: '50%',
+              background: 'rgba(0,29,61,0.07)', border: 'none', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 14, color: 'rgba(0,29,61,0.5)', lineHeight: 1,
+              transition: 'background 0.15s',
+            }}>×</button>
+          </>
+        )}
       </div>
     </div>
   )
@@ -449,17 +574,8 @@ export function ClinicsHubPage() {
 
       {/* ── Mapbox interactive map ── */}
       <section style={{ background: '#F7F9FC', padding: '48px 32px 0' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative' }}>
-          {/* Orange glow border */}
-          <div style={{
-            position: 'absolute', inset: -3, borderRadius: 23,
-            background: `linear-gradient(135deg, #F3672A 0%, #ff8c42 40%, #001D3D 100%)`,
-            zIndex: 0,
-            boxShadow: '0 0 40px rgba(243,103,42,0.35), 0 0 80px rgba(243,103,42,0.15)',
-          }} />
-          <div style={{ position: 'relative', zIndex: 1, borderRadius: 20, overflow: 'hidden', boxShadow: '0 12px 48px rgba(0,29,61,0.18)' }}>
-            <ClinicsMap />
-          </div>
+        <div style={{ maxWidth: 1240, margin: '0 auto', borderRadius: 20, overflow: 'hidden' }}>
+          <ClinicsMap />
         </div>
       </section>
 
