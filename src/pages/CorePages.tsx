@@ -326,9 +326,17 @@ function ClinicsMap() {
     style.textContent = `
       .mapboxgl-ctrl-logo { display: none !important; }
       .mapboxgl-ctrl-attrib { display: none !important; }
-      .boca-pin { transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1); }
-      .boca-pin:hover { transform: scale(1.18) translateY(-3px) !important; }
-      .boca-pin.active-pin { transform: scale(1.22) translateY(-4px) !important; }
+      .boca-pin-inner {
+        transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease;
+      }
+      .boca-pin-wrap:hover .boca-pin-inner {
+        transform: scale(1.18) translateY(-3px);
+        box-shadow: 0 8px 28px rgba(0,0,0,0.30) !important;
+      }
+      .boca-pin-wrap.active-pin .boca-pin-inner {
+        transform: scale(1.22) translateY(-4px);
+        box-shadow: 0 10px 32px rgba(243,103,42,0.40) !important;
+      }
     `
     document.head.appendChild(style)
   }, [])
@@ -355,24 +363,31 @@ function ClinicsMap() {
 
           const pinColor = loc.kids ? '#001D3D' : '#F3672A'
 
+          // Outer: Mapbox positions this — never apply transform here
           const el = document.createElement('div')
-          el.className = 'boca-pin'
-          el.style.cssText = [
-            'width:44px', 'height:44px', 'border-radius:50%', 'cursor:pointer',
+          el.className = 'boca-pin-wrap'
+          el.style.cssText = 'width:44px;height:44px;cursor:pointer;'
+
+          // Inner: all visual effects go here
+          const inner = document.createElement('div')
+          inner.className = 'boca-pin-inner'
+          inner.style.cssText = [
+            'width:44px', 'height:44px', 'border-radius:50%',
             'display:flex', 'align-items:center', 'justify-content:center',
             `background:${pinColor}`,
             'border:3px solid white',
             'box-shadow:0 4px 20px rgba(0,0,0,0.22)',
           ].join(';')
 
-          el.innerHTML = `<svg width="22" height="24" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          inner.innerHTML = `<svg width="22" height="24" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2C8.5 2 5 4 5 8C5 10.5 5.5 12.5 6 14.5C6.5 16.5 7 19 7 21C7 22.5 7.5 24 8.5 24C9.5 24 10 22.5 10.5 20C11 17.5 11.5 16 12 16C12.5 16 13 17.5 13.5 20C14 22.5 14.5 24 15.5 24C16.5 24 17 22.5 17 21C17 19 17.5 16.5 18 14.5C18.5 12.5 19 10.5 19 8C19 4 15.5 2 12 2Z" fill="white"/>
           </svg>`
+          el.appendChild(inner)
 
           markersRef.current[loc.slug] = el
 
-          el.addEventListener('click', () => {
-            // Deactivate all pins
+          el.addEventListener('click', (e) => {
+            e.stopPropagation() // prevent map click from immediately dismissing
             Object.values(markersRef.current).forEach(m => m.classList.remove('active-pin'))
             el.classList.add('active-pin')
             setActive({
@@ -381,8 +396,7 @@ function ClinicsMap() {
               state: loc.state, zip: loc.zip, hours: loc.hours,
               rating: loc.rating, review_count: loc.review_count, kids: loc.kids,
             })
-            // Smoothly pan to pin
-            map.easeTo({ center: [coords[0] + 0.02, coords[1]], zoom: 12.5, duration: 600, easing: t => t < 0.5 ? 2*t*t : -1+(4-2*t)*t })
+            map.easeTo({ center: [coords[0] + 0.02, coords[1]], zoom: 12.5, duration: 600, easing: (t: number) => t < 0.5 ? 2*t*t : -1+(4-2*t)*t })
           })
 
           new mapboxgl.Marker({ element: el, anchor: 'center' })
