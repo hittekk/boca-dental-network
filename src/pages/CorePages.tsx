@@ -343,12 +343,20 @@ function ClinicsHeroMap() {
         <text x="315" y="273" fontSize="9" fontWeight="900" fill="white" textAnchor="middle" fontFamily="sans-serif">I-15</text>
       </g>
 
-      {/* ── US-95 ── */}
+      {/* ── US-95 shield label only — no path ── */}
       <g opacity="0.5">
-        <path d="M 0 120 Q 120 115 200 90 Q 280 65 380 0" stroke="rgba(243,103,42,0.4)" strokeWidth="2.5" strokeLinecap="round" />
-        <rect x="142" y="98" width="28" height="18" rx="4" fill="rgba(243,103,42,0.7)" />
+        <rect x="142" y="98" width="28" height="18" rx="4" fill="rgba(255,255,255,0.15)" />
         <text x="156" y="111" fontSize="8" fontWeight="900" fill="white" textAnchor="middle" fontFamily="sans-serif">US 95</text>
       </g>
+
+      {/* ── Left-edge gradient — blends map into the navy hero copy area ── */}
+      <defs>
+        <linearGradient id="mapFadeLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"  stopColor="#001D3D" stopOpacity="1" />
+          <stop offset="35%" stopColor="#001D3D" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="700" height="480" fill="url(#mapFadeLeft)" />
 
       {/* ── LAS VEGAS watermark text ── */}
       <text
