@@ -21,6 +21,7 @@ import type { LucideIcon } from 'lucide-react'
 
 import { Header } from '../components/Header/Header'
 import { Footer } from '../components/Footer/Footer'
+import { ConsultationForm } from '../components/ConsultationForm/ConsultationForm'
 import { INITIAL_DATA } from '../data/initialData'
 import {
   findCategory,
@@ -95,6 +96,7 @@ export function ServicePage({ categorySlugProp }: { categorySlugProp?: string } 
       <CostInsuranceSection page={pageEntry} content={content} />
       <RelatedServicesSection category={categoryEntry} page={pageEntry} content={content} />
       <FindLocationSection page={pageEntry} content={content} />
+      <BookingSection page={pageEntry} />
       <ClosingCTAStrip page={pageEntry} />
 
       <ServiceSchema category={categoryEntry} page={pageEntry} content={content} />
@@ -184,7 +186,8 @@ function Hero({
 
         <div className="srv-hero-ctas" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 56 }}>
           <Link
-            to="/request-consultation"
+            to="#request-consultation"
+            onClick={(e) => { e.preventDefault(); document.getElementById('request-consultation')?.scrollIntoView({ behavior: 'smooth' }) }}
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
               background: ORANGE, color: 'white', borderRadius: 8,
@@ -1322,6 +1325,33 @@ function FindLocationSection({
             </Link>
           ))}
         </div>
+      </div>
+    </section>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Booking section — embedded ConsultationForm anchored to #request-consultation
+// ─────────────────────────────────────────────────────────────────────────────
+function BookingSection({ page }: { page: { label: string } }) {
+  return (
+    <section
+      id="request-consultation"
+      style={{ background: '#F7F9FC', padding: '96px 32px' }}
+    >
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 48 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: '#F3672A', marginBottom: 16, padding: '6px 14px', background: 'rgba(243,103,42,0.08)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.2)' }}>
+            Free consultation
+          </div>
+          <h2 style={{ fontSize: 'clamp(26px, 3.2vw, 40px)', fontWeight: 800, letterSpacing: '-0.8px', color: '#001D3D', margin: '0 0 12px', textTransform: 'uppercase' }}>
+            Book Your {page.label} Appointment
+          </h2>
+          <p style={{ fontSize: 15, color: 'rgba(0,29,61,0.6)', lineHeight: 1.65, maxWidth: 520, margin: '0 auto' }}>
+            Choose your nearest Boca location and we'll confirm within one business hour.
+          </p>
+        </div>
+        <ConsultationForm />
       </div>
     </section>
   )
