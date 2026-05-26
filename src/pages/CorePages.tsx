@@ -1093,8 +1093,7 @@ export function ReviewsPage() {
             <g transform="translate(120, 130)">
               {/* Card background */}
               <rect width="330" height="200" rx="18" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.14)" strokeWidth="1.5" />
-              {/* Orange top accent */}
-              <rect width="330" height="3" rx="1.5" fill="#F3672A" fillOpacity="0.8" />
+              {/* Orange top accent removed */}
 
               {/* Google G logo */}
               <g transform="translate(24, 28)">
