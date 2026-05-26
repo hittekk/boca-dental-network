@@ -23,6 +23,7 @@ import { INITIAL_DATA } from '../../data/initialData'
 const ORANGE = '#F3672A'
 const NAVY = '#001D3D'
 const MONO = 'ui-monospace, "SF Mono", Menlo, monospace'
+const NAVY_GRADIENT = 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)'
 
 export type LocationTheme = 'light' | 'cream' | 'dark'
 
@@ -632,14 +633,16 @@ export function PatientReviewsSection({
   })
 
   return (
-    <section style={{ background: palette.bg2, padding: '96px 32px' }}>
-      <div style={{ maxWidth: 1180, margin: '0 auto' }}>
+    <section style={{ background: NAVY_GRADIENT, padding: '96px 32px', position: 'relative', overflow: 'hidden' }}>
+      {/* Subtle radial glow */}
+      <div aria-hidden style={{ position: 'absolute', top: '-20%', right: '-10%', width: 700, height: 700, background: 'radial-gradient(circle, rgba(243,103,42,0.12) 0%, transparent 60%)', pointerEvents: 'none' }} />
+      <div style={{ maxWidth: 1180, margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <SectionHead
           eyebrow={`[ 06 ] · Patient reviews`}
           title={
             <>
               What patients at our{' '}
-              <span style={{ color: ORANGE, fontStyle: palette.serif ? 'italic' : 'normal' }}>
+              <span style={{ color: ORANGE }}>
                 {location.label}
               </span>{' '}
               location are saying.
@@ -650,7 +653,7 @@ export function PatientReviewsSection({
               ? `Reviews from real patients who specifically mention this clinic, a provider here, or a nearby neighborhood. Aggregated from ${location.review_count}+ verified Google reviews.`
               : 'Pre-launch placeholders — real Google reviews will be selected before launch.'
           }
-          palette={palette}
+          palette={{ ...palette, text: 'white', textMuted: 'rgba(255,255,255,0.7)', textFaint: 'rgba(255,255,255,0.45)', serif: false, bg: NAVY_GRADIENT, bg2: NAVY_GRADIENT, cardBg: 'rgba(255,255,255,0.07)', cardBorder: 'rgba(255,255,255,0.12)', divider: 'rgba(255,255,255,0.12)', mono: MONO }}
         />
 
         <div
@@ -674,24 +677,19 @@ export function PatientReviewsSection({
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.45, delay: i * 0.07 }}
               style={{
-                background: palette.cardBg,
-                border: `1px solid ${palette.cardBorder}`,
+                background: 'rgba(255,255,255,0.07)',
+                border: '1px solid rgba(255,255,255,0.12)',
                 borderTop: `2px solid ${ORANGE}`,
-                borderRadius: 12,
+                borderRadius: 14,
                 padding: '24px 24px 22px',
                 display: 'flex',
                 flexDirection: 'column',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
               }}
             >
               {/* Stars */}
-              <div
-                style={{
-                  display: 'flex',
-                  gap: 2,
-                  marginBottom: 14,
-                  color: ORANGE,
-                }}
-              >
+              <div style={{ display: 'flex', gap: 2, marginBottom: 14 }}>
                 {Array.from({ length: 5 }).map((_, idx) => (
                   <Star key={idx} size={14} fill={ORANGE} color={ORANGE} />
                 ))}
@@ -700,21 +698,13 @@ export function PatientReviewsSection({
               <p
                 style={{
                   fontSize: 15,
-                  lineHeight: 1.6,
-                  color: palette.text,
+                  lineHeight: 1.65,
+                  color: 'rgba(255,255,255,0.88)',
                   margin: '0 0 18px',
                   position: 'relative',
-                  fontStyle: palette.serif ? 'italic' : 'normal',
-                  fontFamily: palette.serif
-                    ? 'Georgia, "Playfair Display", serif'
-                    : 'inherit',
                 }}
               >
-                <Quote
-                  size={20}
-                  color={ORANGE}
-                  style={{ opacity: 0.18, marginRight: 6, marginBottom: -2 }}
-                />
+                <Quote size={20} color={ORANGE} style={{ opacity: 0.3, marginRight: 6, marginBottom: -2 }} />
                 {r.body}
               </p>
               {/* Author */}
@@ -722,7 +712,7 @@ export function PatientReviewsSection({
                 style={{
                   marginTop: 'auto',
                   paddingTop: 14,
-                  borderTop: `1px solid ${palette.divider}`,
+                  borderTop: '1px solid rgba(255,255,255,0.1)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
@@ -730,40 +720,21 @@ export function PatientReviewsSection({
                 }}
               >
                 <div>
-                  <div
-                    style={{
-                      fontSize: 13,
-                      fontWeight: 800,
-                      color: palette.text,
-                      letterSpacing: '-0.1px',
-                    }}
-                  >
+                  <div style={{ fontSize: 13, fontWeight: 800, color: 'white', letterSpacing: '-0.1px' }}>
                     {r.author}
                   </div>
                   {r.authorArea && (
-                    <div
-                      style={{
-                        fontSize: 11,
-                        color: palette.textFaint,
-                        marginTop: 2,
-                      }}
-                    >
+                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', marginTop: 2 }}>
                       {r.authorArea}
                     </div>
                   )}
                 </div>
                 <div
                   style={{
-                    fontSize: 9,
-                    fontWeight: 800,
-                    letterSpacing: 1.5,
-                    textTransform: 'uppercase',
-                    color: ORANGE,
-                    fontFamily: MONO,
-                    background: 'rgba(243,103,42,0.1)',
-                    border: '1px solid rgba(243,103,42,0.22)',
-                    borderRadius: 999,
-                    padding: '3px 9px',
+                    fontSize: 9, fontWeight: 800, letterSpacing: 1.5, textTransform: 'uppercase',
+                    color: ORANGE, fontFamily: MONO,
+                    background: 'rgba(243,103,42,0.18)', border: '1px solid rgba(243,103,42,0.35)',
+                    borderRadius: 999, padding: '3px 9px',
                   }}
                 >
                   Verified
@@ -789,25 +760,26 @@ export function PatientReviewsSection({
               fontWeight: 800,
               letterSpacing: 0.5,
               textTransform: 'uppercase',
-              color: NAVY,
-              background: 'white',
+              color: 'white',
+              background: 'rgba(255,255,255,0.1)',
               textDecoration: 'none',
-              border: `2px solid ${NAVY}`,
+              border: '2px solid rgba(255,255,255,0.3)',
               borderRadius: 999,
               padding: '13px 28px',
               transition: 'all 0.2s ease',
+              backdropFilter: 'blur(8px)',
             }}
             onMouseEnter={(e) => {
               const el = e.currentTarget as HTMLElement
-              el.style.background = NAVY
-              el.style.color = 'white'
+              el.style.background = ORANGE
+              el.style.borderColor = ORANGE
               el.style.transform = 'translateY(-2px)'
-              el.style.boxShadow = '0 12px 24px rgba(0,29,61,0.18)'
+              el.style.boxShadow = '0 12px 24px rgba(243,103,42,0.35)'
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget as HTMLElement
-              el.style.background = 'white'
-              el.style.color = NAVY
+              el.style.background = 'rgba(255,255,255,0.1)'
+              el.style.borderColor = 'rgba(255,255,255,0.3)'
               el.style.transform = 'translateY(0)'
               el.style.boxShadow = 'none'
             }}
