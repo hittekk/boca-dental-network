@@ -226,17 +226,16 @@ export function AboutUsPage() {
 
 // ─── SVG illustrated city grid for hero ──────────────────────────────────────
 function ClinicsHeroMap() {
-  // Approximate screen positions for all 9 LV locations within a 700×480 viewBox
   const pins = [
     { x: 505, y: 344, kids: false, label: 'Russell & Eastern' },
-    { x: 510, y: 352, kids: true,  label: 'Boca Kids' },
-    { x: 505, y: 135, kids: false, label: 'Bonanza & Eastern' },
+    { x: 510, y: 355, kids: true,  label: 'Boca Kids' },
+    { x: 505, y: 130, kids: false, label: 'Bonanza & Eastern' },
     { x: 254, y: 195, kids: false, label: 'Sahara & Decatur' },
-    { x: 214, y: 141, kids: false, label: 'Jones & I-95' },
-    { x: 577, y: 171, kids: false, label: 'Charleston & Lamb' },
-    { x: 104, y: 252, kids: false, label: 'Flamingo & Torrey' },
-    { x: 161, y:  62, kids: false, label: 'Cheyenne Commons' },
-    { x: 505, y: 419, kids: false, label: 'Beltway Marketplace' },
+    { x: 204, y: 138, kids: false, label: 'Jones & I-95' },
+    { x: 577, y: 168, kids: false, label: 'Charleston & Lamb' },
+    { x: 100, y: 248, kids: false, label: 'Flamingo & Torrey' },
+    { x: 158, y:  58, kids: false, label: 'Cheyenne Commons' },
+    { x: 505, y: 422, kids: false, label: 'Beltway Marketplace' },
   ]
 
   return (
@@ -247,55 +246,165 @@ function ClinicsHeroMap() {
       aria-hidden
     >
       <defs>
-        <radialGradient id="heroFade" cx="100%" cy="50%" r="100%">
-          <stop offset="0%" stopColor="white" stopOpacity="1" />
-          <stop offset="55%" stopColor="white" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="white" stopOpacity="0" />
-        </radialGradient>
-        <mask id="fadeMask">
-          <rect width="700" height="480" fill="url(#heroFade)" />
-        </mask>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="3" result="blur" />
-          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        {/* Left-to-right fade so map dissolves into the navy hero copy area */}
+        <linearGradient id="mapFadeL" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"   stopColor="#001D3D" stopOpacity="1" />
+          <stop offset="28%"  stopColor="#001D3D" stopOpacity="0" />
+        </linearGradient>
+        {/* Top fade */}
+        <linearGradient id="mapFadeT" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%"  stopColor="#001D3D" stopOpacity="0.6" />
+          <stop offset="18%" stopColor="#001D3D" stopOpacity="0" />
+        </linearGradient>
+        {/* Bottom fade */}
+        <linearGradient id="mapFadeB" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="75%" stopColor="#001D3D" stopOpacity="0" />
+          <stop offset="100%" stopColor="#001D3D" stopOpacity="0.7" />
+        </linearGradient>
+        <filter id="pinGlow">
+          <feGaussianBlur stdDeviation="4" result="b" />
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
-        <filter id="softglow">
-          <feGaussianBlur stdDeviation="6" result="blur" />
-          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        <filter id="labelShadow">
+          <feDropShadow dx="0" dy="1" stdDeviation="2" floodColor="#001D3D" floodOpacity="0.5" />
         </filter>
       </defs>
 
-      <g mask="url(#fadeMask)" opacity="0.45">
-        {/* ── Road grid — major E/W streets ── */}
-        {[62, 141, 171, 195, 252, 344, 419].map((y, i) => (
-          <line key={`ew${i}`} x1="0" y1={y} x2="700" y2={y}
-            stroke="rgba(255,255,255,0.18)" strokeWidth="1" strokeDasharray="6 4" />
-        ))}
-        {/* ── Major N/S streets ── */}
-        {[104, 161, 214, 254, 380, 505, 577].map((x, i) => (
-          <line key={`ns${i}`} x1={x} y1="0" x2={x} y2="480"
-            stroke="rgba(255,255,255,0.18)" strokeWidth="1" strokeDasharray="6 4" />
-        ))}
-
-        {/* ── Location pins ── */}
-        {pins.map((p, i) => (
-          <g key={i} filter="url(#softglow)">
-            {/* Outer pulse ring */}
-            <circle cx={p.x} cy={p.y} r="18"
-              fill="none"
-              stroke={p.kids ? 'rgba(96,165,250,0.3)' : 'rgba(243,103,42,0.3)'}
-              strokeWidth="1" />
-            {/* Mid ring */}
-            <circle cx={p.x} cy={p.y} r="10"
-              fill="none"
-              stroke={p.kids ? 'rgba(96,165,250,0.5)' : 'rgba(243,103,42,0.5)'}
-              strokeWidth="1" />
-            {/* Core dot */}
-            <circle cx={p.x} cy={p.y} r="5"
-              fill={p.kids ? '#60a5fa' : '#F3672A'} />
-          </g>
+      {/* ── MAP BASE — block grid (city blocks) ── */}
+      <g opacity="0.22">
+        {/* City block fills — lighter squares */}
+        {[
+          [0,0,104,58],[104,0,57,58],[161,0,53,58],[214,0,40,58],[254,0,126,58],[380,0,125,58],[505,0,72,58],[577,0,123,58],
+          [0,58,104,80],[104,58,57,80],[161,58,53,80],[214,58,40,80],[254,58,126,80],[380,58,125,80],[505,58,72,80],[577,58,123,80],
+          [0,138,104,57],[104,138,57,57],[161,138,53,57],[214,138,40,57],[254,138,126,57],[380,138,125,57],[505,138,72,57],[577,138,123,57],
+        ].map(([x,y,w,h], i) => (
+          <rect key={i} x={x} y={y} width={w} height={h} fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" strokeWidth="0.5" />
         ))}
       </g>
+
+      {/* ── MAJOR ROADS — E/W arterials ── */}
+      <g opacity="0.55">
+        {/* Cheyenne Ave */}
+        <line x1="0" y1="58"  x2="700" y2="58"  stroke="rgba(255,255,255,0.35)" strokeWidth="2" />
+        <text x="8" y="54" fontSize="8" fontWeight="700" fill="rgba(255,255,255,0.45)" fontFamily="sans-serif" letterSpacing="0.5">CHEYENNE AVE</text>
+
+        {/* Craig Rd / Bonanza */}
+        <line x1="0" y1="130" x2="700" y2="130" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" />
+        <text x="8" y="126" fontSize="7.5" fontWeight="700" fill="rgba(255,255,255,0.38)" fontFamily="sans-serif" letterSpacing="0.5">BONANZA RD</text>
+
+        {/* Sahara Ave */}
+        <line x1="0" y1="195" x2="700" y2="195" stroke="rgba(255,255,255,0.35)" strokeWidth="2" />
+        <text x="8" y="191" fontSize="8" fontWeight="700" fill="rgba(255,255,255,0.45)" fontFamily="sans-serif" letterSpacing="0.5">SAHARA AVE</text>
+
+        {/* Charleston */}
+        <line x1="0" y1="168" x2="700" y2="168" stroke="rgba(255,255,255,0.22)" strokeWidth="1.5" />
+        <text x="386" y="164" fontSize="7.5" fontWeight="700" fill="rgba(255,255,255,0.38)" fontFamily="sans-serif" letterSpacing="0.5">CHARLESTON BLVD</text>
+
+        {/* Flamingo */}
+        <line x1="0" y1="248" x2="700" y2="248" stroke="rgba(255,255,255,0.35)" strokeWidth="2" />
+        <text x="8" y="244" fontSize="8" fontWeight="700" fill="rgba(255,255,255,0.45)" fontFamily="sans-serif" letterSpacing="0.5">FLAMINGO RD</text>
+
+        {/* Russell */}
+        <line x1="0" y1="344" x2="700" y2="344" stroke="rgba(255,255,255,0.28)" strokeWidth="1.5" />
+        <text x="8" y="340" fontSize="7.5" fontWeight="700" fill="rgba(255,255,255,0.38)" fontFamily="sans-serif" letterSpacing="0.5">RUSSELL RD</text>
+
+        {/* Beltway */}
+        <line x1="0" y1="422" x2="700" y2="422" stroke="rgba(255,255,255,0.28)" strokeWidth="1.5" />
+        <text x="8" y="418" fontSize="7.5" fontWeight="700" fill="rgba(255,255,255,0.38)" fontFamily="sans-serif" letterSpacing="0.5">BELTWAY / I-215</text>
+      </g>
+
+      {/* ── MAJOR ROADS — N/S arterials ── */}
+      <g opacity="0.55">
+        {/* Torrey Pines */}
+        <line x1="100" y1="0" x2="100" y2="480" stroke="rgba(255,255,255,0.22)" strokeWidth="1.5" />
+
+        {/* Decatur */}
+        <line x1="214" y1="0" x2="214" y2="480" stroke="rgba(255,255,255,0.28)" strokeWidth="1.5" />
+        <text x="207" y="476" fontSize="7.5" fontWeight="700" fill="rgba(255,255,255,0.38)" fontFamily="sans-serif" letterSpacing="0.5" transform="rotate(-90 214 460)">DECATUR BLVD</text>
+
+        {/* Eastern */}
+        <line x1="505" y1="0" x2="505" y2="480" stroke="rgba(255,255,255,0.35)" strokeWidth="2" />
+        <text x="508" y="80" fontSize="8" fontWeight="700" fill="rgba(255,255,255,0.45)" fontFamily="sans-serif" letterSpacing="0.5">EASTERN AVE</text>
+
+        {/* Lamb */}
+        <line x1="577" y1="0" x2="577" y2="480" stroke="rgba(255,255,255,0.22)" strokeWidth="1.5" />
+
+        {/* Rainbow */}
+        <line x1="158" y1="0" x2="158" y2="480" stroke="rgba(255,255,255,0.22)" strokeWidth="1.5" />
+        <text x="161" y="80" fontSize="7.5" fontWeight="700" fill="rgba(255,255,255,0.35)" fontFamily="sans-serif" letterSpacing="0.5">RAINBOW BLVD</text>
+      </g>
+
+      {/* ── HIGHWAY — I-15 diagonal ── */}
+      <g opacity="0.5">
+        <path d="M 320 0 L 290 480" stroke="rgba(243,103,42,0.5)" strokeWidth="3" strokeLinecap="round" />
+        <path d="M 320 0 L 290 480" stroke="rgba(255,255,255,0.15)" strokeWidth="1" strokeLinecap="round" />
+        {/* I-15 shield */}
+        <rect x="296" y="88" width="24" height="18" rx="4" fill="rgba(243,103,42,0.8)" />
+        <text x="308" y="101" fontSize="9" fontWeight="900" fill="white" textAnchor="middle" fontFamily="sans-serif">I-15</text>
+        <rect x="303" y="260" width="24" height="18" rx="4" fill="rgba(243,103,42,0.8)" />
+        <text x="315" y="273" fontSize="9" fontWeight="900" fill="white" textAnchor="middle" fontFamily="sans-serif">I-15</text>
+      </g>
+
+      {/* ── US-95 ── */}
+      <g opacity="0.5">
+        <path d="M 0 120 Q 120 115 200 90 Q 280 65 380 0" stroke="rgba(243,103,42,0.4)" strokeWidth="2.5" strokeLinecap="round" />
+        <rect x="142" y="98" width="28" height="18" rx="4" fill="rgba(243,103,42,0.7)" />
+        <text x="156" y="111" fontSize="8" fontWeight="900" fill="white" textAnchor="middle" fontFamily="sans-serif">US 95</text>
+      </g>
+
+      {/* ── LAS VEGAS watermark text ── */}
+      <text
+        x="350" y="310"
+        fontSize="52"
+        fontWeight="900"
+        fill="rgba(255,255,255,0.06)"
+        fontFamily="sans-serif"
+        textAnchor="middle"
+        letterSpacing="4"
+        style={{ userSelect: 'none' }}
+      >LAS VEGAS</text>
+
+      {/* ── Neighborhood labels ── */}
+      <g opacity="0.5" fontSize="8.5" fontFamily="sans-serif" fontWeight="600" fill="rgba(255,255,255,0.5)" letterSpacing="0.8">
+        <text x="130" y="30">NORTH LV</text>
+        <text x="420" y="30">NE LAS VEGAS</text>
+        <text x="50"  y="220">SUMMERLIN</text>
+        <text x="230" y="295">THE STRIP</text>
+        <text x="420" y="295">HENDERSON</text>
+        <text x="50"  y="390">SW LAS VEGAS</text>
+      </g>
+
+      {/* ── Location pins ── */}
+      {pins.map((p, i) => (
+        <g key={i} filter="url(#pinGlow)">
+          {/* Pulse ring */}
+          <circle cx={p.x} cy={p.y} r="16"
+            fill="none"
+            stroke={p.kids ? 'rgba(96,165,250,0.35)' : 'rgba(243,103,42,0.35)'}
+            strokeWidth="1.5" />
+          {/* Pin body */}
+          <circle cx={p.x} cy={p.y} r="7"
+            fill={p.kids ? '#60a5fa' : '#F3672A'}
+            stroke="rgba(255,255,255,0.9)"
+            strokeWidth="1.5" />
+          {/* Label */}
+          <text
+            x={p.x + (p.x > 400 ? -14 : 12)}
+            y={p.y + 4}
+            fontSize="8"
+            fontWeight="800"
+            fill="rgba(255,255,255,0.85)"
+            fontFamily="sans-serif"
+            textAnchor={p.x > 400 ? 'end' : 'start'}
+            filter="url(#labelShadow)"
+          >{p.label}</text>
+        </g>
+      ))}
+
+      {/* ── Edge fades ── */}
+      <rect x="0" y="0" width="700" height="480" fill="url(#mapFadeL)" />
+      <rect x="0" y="0" width="700" height="480" fill="url(#mapFadeT)" />
+      <rect x="0" y="0" width="700" height="480" fill="url(#mapFadeB)" />
     </svg>
   )
 }
