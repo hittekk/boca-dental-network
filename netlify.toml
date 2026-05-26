@@ -1,5 +1,5 @@
 [build]
-  command   = "npm run build"
+  command   = "node scripts/inject-schema.mjs && vite build"
   publish   = "dist"
 
 [build.environment]
