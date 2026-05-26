@@ -682,7 +682,7 @@ export function ClinicsHubPage() {
         <div style={{
           width: 400,
           flexShrink: 0,
-          background: 'linear-gradient(180deg, #001228 0%, #001D3D 45%, #162E7A 100%)',
+          background: 'linear-gradient(180deg, rgba(255,255,255,0.15) 0%, #001D3D 40%, #001228 100%)',
           padding: '40px 44px 40px',
           display: 'flex',
           flexDirection: 'column',
