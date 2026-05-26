@@ -111,7 +111,7 @@ function Hero({
     <section
       style={{
         background: '#FFFFFF',
-        padding: '160px 32px 88px',
+        padding: '200px 32px 120px',
         position: 'relative',
         overflow: 'hidden',
         borderBottom: '1px solid rgba(0,29,61,0.06)',

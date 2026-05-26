@@ -632,29 +632,78 @@ export function PatientReviewsSection({
     })),
   })
 
+  const STAR_ORANGE = '#F3672A'
   return (
-    <section style={{ background: NAVY_GRADIENT, padding: '96px 32px', position: 'relative', overflow: 'hidden' }}>
-      {/* Subtle radial glow */}
+    <section style={{ background: NAVY_GRADIENT, padding: '100px 32px', position: 'relative', overflow: 'hidden' }}>
       <div aria-hidden style={{ position: 'absolute', top: '-20%', right: '-10%', width: 700, height: 700, background: 'radial-gradient(circle, rgba(243,103,42,0.12) 0%, transparent 60%)', pointerEvents: 'none' }} />
+      <div aria-hidden style={{ position: 'absolute', bottom: '-20%', left: '-5%', width: 500, height: 500, background: 'radial-gradient(circle, rgba(22,46,122,0.6) 0%, transparent 60%)', pointerEvents: 'none' }} />
+      <style>{`
+        @keyframes trophy-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        @keyframes star-spin-a { 0%,100%{transform:rotate(0deg) scale(1)} 50%{transform:rotate(14deg) scale(1.15)} }
+        @keyframes star-spin-b { 0%,100%{transform:rotate(0deg) scale(1)} 50%{transform:rotate(-14deg) scale(1.15)} }
+        @keyframes ring-pulse { 0%,100%{opacity:.15;transform:scale(1)} 50%{opacity:.32;transform:scale(1.07)} }
+        @media(max-width:900px){ .reviews-trophy{display:none!important} .reviews-header-grid{grid-template-columns:1fr!important} }
+      `}</style>
+
       <div style={{ maxWidth: 1180, margin: '0 auto', position: 'relative', zIndex: 1 }}>
-        <SectionHead
-          eyebrow={`[ 06 ] · Patient reviews`}
-          title={
-            <>
-              What patients at our{' '}
-              <span style={{ color: ORANGE }}>
-                {location.label}
-              </span>{' '}
-              location are saying.
-            </>
-          }
-          intro={
-            location.review_count > 0
-              ? `Reviews from real patients who specifically mention this clinic, a provider here, or a nearby neighborhood. Aggregated from ${location.review_count}+ verified Google reviews.`
-              : 'Pre-launch placeholders — real Google reviews will be selected before launch.'
-          }
-          palette={{ ...palette, text: 'white', textMuted: 'rgba(255,255,255,0.7)', textFaint: 'rgba(255,255,255,0.45)', serif: false, bg: NAVY_GRADIENT, bg2: NAVY_GRADIENT, cardBg: 'rgba(255,255,255,0.07)', cardBorder: 'rgba(255,255,255,0.12)', divider: 'rgba(255,255,255,0.12)', mono: MONO }}
-        />
+
+        {/* Two-column header */}
+        <div className="reviews-header-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 48, alignItems: 'center', marginBottom: 56 }}>
+          <div>
+            <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 16, fontFamily: MONO }}>[ 06 ] · Patient reviews</div>
+            <h2 style={{ fontSize: 'clamp(28px,3.5vw,44px)', fontWeight: 800, color: 'white', letterSpacing: '-1.2px', lineHeight: 1.05, margin: '0 0 20px' }}>
+              What patients at our <span style={{ color: ORANGE }}>{location.label}</span> location are saying.
+            </h2>
+            <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, margin: 0, maxWidth: 520 }}>
+              {location.review_count > 0
+                ? `Aggregated from ${location.review_count}+ verified Google reviews from patients who specifically mention this clinic.`
+                : 'Pre-launch placeholders — real Google reviews will be selected before launch.'}
+            </p>
+          </div>
+
+          {/* Trophy animation */}
+          <div className="reviews-trophy" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ position: 'relative', width: 200, height: 200, animation: 'trophy-float 3.8s ease-in-out infinite' }}>
+              <div style={{ position: 'absolute', inset: -28, borderRadius: '50%', background: 'radial-gradient(circle, rgba(243,103,42,0.2) 0%, transparent 70%)', animation: 'ring-pulse 3.8s ease-in-out infinite' }} />
+              <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', border: '1.5px solid rgba(255,255,255,0.13)', backdropFilter: 'blur(14px)' }} />
+              <svg viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg" style={{ position: 'absolute', inset: 0 }}>
+                {/* Cup body */}
+                <path d="M72,55 Q68,82 75,105 Q84,128 100,134 Q116,128 125,105 Q132,82 128,55 Z" fill="#F3672A" opacity="0.92"/>
+                {/* Shine */}
+                <path d="M80,62 Q77,84 82,102 Q87,116 92,122" stroke="rgba(255,255,255,0.3)" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                {/* Left handle */}
+                <path d="M72,75 Q52,75 52,93 Q52,111 72,105" stroke="#F3672A" strokeWidth="7" fill="none" strokeLinecap="round" opacity="0.8"/>
+                {/* Right handle */}
+                <path d="M128,75 Q148,75 148,93 Q148,111 128,105" stroke="#F3672A" strokeWidth="7" fill="none" strokeLinecap="round" opacity="0.8"/>
+                {/* Stem */}
+                <rect x="95" y="134" width="10" height="20" fill="rgba(243,103,42,0.75)" rx="2"/>
+                {/* Base */}
+                <rect x="72" y="154" width="56" height="11" fill="#F3672A" rx="5" opacity="0.9"/>
+                {/* BOCA text */}
+                <text x="100" y="118" textAnchor="middle" fill="white" fontSize="13" fontWeight="800" letterSpacing="2.5" fontFamily="system-ui,sans-serif" opacity="0.95">BOCA</text>
+                {/* 5 stars */}
+                {[0,1,2,3,4].map((i) => {
+                  const angle = (-40 + i * 20) * Math.PI / 180
+                  const cx = 100 + 66 * Math.sin(angle)
+                  const cy = 100 - 66 * Math.cos(angle) - 10
+                  const pts = [0,1,2,3,4].map(j => {
+                    const a1 = (j * 72 - 90) * Math.PI / 180
+                    const a2 = (j * 72 + 36 - 90) * Math.PI / 180
+                    return `${cx+10*Math.cos(a1)},${cy+10*Math.sin(a1)} ${cx+4.5*Math.cos(a2)},${cy+4.5*Math.sin(a2)}`
+                  }).join(' ')
+                  return (
+                    <polygon key={i} points={pts} fill="#F3672A"
+                      style={{ animation: `${i%2===0?'star-spin-a':'star-spin-b'} ${1.9+i*0.22}s ease-in-out infinite`, transformOrigin: `${cx}px ${cy}px`, opacity: 0.95 }}
+                    />
+                  )
+                })}
+              </svg>
+              <div style={{ position: 'absolute', bottom: 8, right: -4, background: ORANGE, borderRadius: 999, padding: '5px 13px', fontSize: 13, fontWeight: 800, color: 'white', boxShadow: '0 6px 18px rgba(243,103,42,0.5)', whiteSpace: 'nowrap' }}>
+                {location.rating.toFixed(1)} ★
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div
           className="reviews-grid"
