@@ -672,13 +672,13 @@ export function Header({ brand, announcement, activeSection, logoMode = 'white' 
             background: scrolled ? GLASS_BG : 'rgba(0,0,0,0)',
             boxShadow: scrolled ? GLASS_SHADOW : 'none',
             borderBottom: `1px solid ${scrolled ? GLASS_BORDER : 'transparent'}`,
+            backdropFilter: scrolled ? GLASS_BLUR : 'none',
+            WebkitBackdropFilter: scrolled ? GLASS_BLUR : 'none',
           }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
           style={{
             position: 'relative',
             width: '100%',
-            backdropFilter: GLASS_BLUR,
-            WebkitBackdropFilter: GLASS_BLUR,
           }}
         >
           <motion.div
