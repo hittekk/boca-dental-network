@@ -303,13 +303,17 @@ function ClinicsHeroMap() {
 // ─── Mapbox multi-pin map for /clinics/ ──────────────────────────────────────
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN as string
 
+const MAPBOX_TOKEN_RAW = import.meta.env.VITE_MAPBOX_TOKEN as string | undefined
+const CLINICS_MAP_READY = !!MAPBOX_TOKEN_RAW && MAPBOX_TOKEN_RAW !== 'undefined' && MAPBOX_TOKEN_RAW.startsWith('pk.')
+if (CLINICS_MAP_READY && !mapboxgl.accessToken) mapboxgl.accessToken = MAPBOX_TOKEN_RAW!
+
 function ClinicsMap() {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<mapboxgl.Map | null>(null)
 
   useEffect(() => {
-    if (!containerRef.current || mapRef.current || !mapboxgl.accessToken) return
-
+    if (!CLINICS_MAP_READY || !containerRef.current || mapRef.current) return
+    try {
     const map = new mapboxgl.Map({
       container: containerRef.current,
       style: 'mapbox://styles/mapbox/light-v11',
@@ -351,8 +355,6 @@ function ClinicsMap() {
 
         el.appendChild(inner)
 
-        // Scale the INNER element only — never touch el.style.transform (Mapbox owns that)
-        // Click toggles popup — no hover behavior
         const popup = new mapboxgl.Popup({ offset: 28, closeButton: true, closeOnClick: true })
           .setHTML(`
             <div style="font-family:inherit;padding:4px 2px">
@@ -371,7 +373,10 @@ function ClinicsMap() {
     })
 
     return () => { map.remove(); mapRef.current = null }
-  }, [onSelectSlug])
+    } catch (err) {
+      console.warn('[ClinicsMap] Mapbox failed to initialize:', err)
+    }
+  }, [])
 
   return (
     <div style={{ position: 'relative', width: '100%', height: 520 }}>
