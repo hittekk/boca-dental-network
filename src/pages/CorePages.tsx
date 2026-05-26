@@ -960,7 +960,7 @@ export function ReviewsPage() {
             }}
           />
           {/* Fade from blue on the left edge */}
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #162E7A 0%, rgba(22,46,122,0.75) 18%, rgba(22,46,122,0.15) 55%, transparent 100%)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #162E7A 0%, #162E7A 28%, rgba(22,46,122,0.85) 42%, rgba(22,46,122,0.3) 62%, transparent 100%)' }} />
         </div>
 
         {/* Floating rating badge */}
