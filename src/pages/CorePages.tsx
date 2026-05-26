@@ -618,20 +618,49 @@ export function ClinicsHubPage() {
         </div>
       </section>
 
-      {/* ── Filter pills + grid ── */}
-      <section style={{ background: '#F7F9FC', padding: '64px 32px 80px' }}>
+      {/* ── Filter bar + grid ── */}
+      <section style={{ background: '#F7F9FC', padding: '0 0 80px' }}>
         <div style={{ maxWidth: 1240, margin: '0 auto' }}>
 
-          {/* Pills */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 36 }}>
-            {neighborhoods.map(n => (
-              <button key={n} onClick={() => setActiveNeighborhood(n)} style={{ padding: '8px 18px', borderRadius: 999, fontSize: 13, fontWeight: 700, cursor: 'pointer', border: activeNeighborhood === n ? 'none' : '1.5px solid rgba(0,29,61,0.12)', background: activeNeighborhood === n ? ORANGE : 'white', color: activeNeighborhood === n ? 'white' : NAVY, transition: 'all 0.2s ease' }}>
-                {n}
-              </button>
-            ))}
+          {/* ── Tab strip ── */}
+          <div style={{ position: 'relative', borderBottom: '2px solid rgba(0,29,61,0.08)', marginBottom: 48 }}>
+            {/* Left fade */}
+            <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 40, background: 'linear-gradient(to right, #F7F9FC, transparent)', zIndex: 2, pointerEvents: 'none' }} />
+            {/* Right fade */}
+            <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 40, background: 'linear-gradient(to left, #F7F9FC, transparent)', zIndex: 2, pointerEvents: 'none' }} />
+
+            <div style={{ overflowX: 'auto', display: 'flex', gap: 0, scrollbarWidth: 'none', msOverflowStyle: 'none', padding: '0 40px' }}>
+              <style>{`
+                .loc-tab-strip::-webkit-scrollbar { display: none; }
+                .loc-tab { position: relative; padding: 20px 22px 18px; font-size: 13px; font-weight: 700;
+                  white-space: nowrap; cursor: pointer; border: none; background: transparent;
+                  color: rgba(0,29,61,0.45); letter-spacing: 0.2px; transition: color 0.2s; flex-shrink: 0; }
+                .loc-tab:hover { color: #001D3D; }
+                .loc-tab.active { color: #F3672A; }
+                .loc-tab.active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
+                  height: 2px; background: #F3672A; border-radius: 2px 2px 0 0; }
+              `}</style>
+              {neighborhoods.map(n => {
+                const count = n === 'All' ? INITIAL_DATA.locations.length : INITIAL_DATA.locations.filter(l => l.neighborhood === n).length
+                const isActive = activeNeighborhood === n
+                return (
+                  <button
+                    key={n}
+                    className={`loc-tab${isActive ? ' active' : ''}`}
+                    onClick={() => setActiveNeighborhood(n)}
+                  >
+                    {n === 'All' ? 'All Locations' : n}
+                    {n === 'All' && (
+                      <span style={{ marginLeft: 7, fontSize: 11, fontWeight: 800, background: isActive ? '#F3672A' : 'rgba(0,29,61,0.1)', color: isActive ? 'white' : 'rgba(0,29,61,0.5)', borderRadius: 999, padding: '2px 7px', transition: 'all 0.2s' }}>9</span>
+                    )}
+                  </button>
+                )
+              })}
+            </div>
           </div>
 
           {/* Cards grid */}
+          <div style={{ padding: '0 32px' }}>
           <div className="clinics-hub-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
             <style>{`
               @media (max-width: 900px){ .clinics-hub-grid{ grid-template-columns: repeat(2,1fr) !important; } }
@@ -695,6 +724,7 @@ export function ClinicsHubPage() {
               </div>
             )
             })}
+          </div>
           </div>
         </div>
       </section>
