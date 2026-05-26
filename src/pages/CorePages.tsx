@@ -1243,38 +1243,161 @@ function ContactRow({ icon: Icon, label, value, href }: { icon: typeof Phone; la
 }
 
 export function RequestConsultationPage() {
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const locationSlug = searchParams.get('location') ?? undefined
+  const [selectedSlug, setSelectedSlug] = React.useState<string | undefined>(locationSlug)
 
-  // Resolve display name for the page title when a location is pre-set
-  const matchedLocation = locationSlug
-    ? INITIAL_DATA.locations.find((l) => l.slug === locationSlug)
+  const matchedLocation = selectedSlug
+    ? INITIAL_DATA.locations.find((l) => l.slug === selectedSlug)
     : undefined
 
-  const pageTitle = matchedLocation
-    ? `Book at ${matchedLocation.label} | Boca Dental & Braces`
-    : 'Request a Free Consultation | Boca Dental & Braces Las Vegas'
-
   const breadcrumbSchema = usePageMeta({
-    title: pageTitle,
-    description: 'Book a free dental consultation at any of our 9 Boca Dental & Braces Las Vegas locations. No commitment, no obligation.',
+    title: matchedLocation
+      ? `Book at ${matchedLocation.label} | Boca Dental & Braces`
+      : 'Book an Appointment | Boca Dental & Braces Las Vegas',
+    description: 'Book at any of our 9 Boca Dental & Braces Las Vegas locations. Select your office and fill out the form — we respond within one business hour.',
     url: `${DOMAIN}/request-consultation/`,
-    breadcrumb: [{ name: 'Home', url: `${DOMAIN}/` }, { name: 'Request Consultation' }],
+    breadcrumb: [{ name: 'Home', url: `${DOMAIN}/` }, { name: 'Book an Appointment' }],
   })
+
+  const handleSelect = (slug: string) => {
+    setSelectedSlug(slug)
+    setSearchParams({ location: slug })
+    // Scroll to form smoothly
+    setTimeout(() => {
+      document.getElementById('request-consultation')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 80)
+  }
+
+  const handleBack = () => {
+    setSelectedSlug(undefined)
+    setSearchParams({})
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   return (
     <Shell>
-      <HeroBlock
-        eyebrow="[ 01 ] · Free consultation"
-        h1={matchedLocation ? `Book at ${matchedLocation.label}` : 'Request a Free Consultation'}
-        intro={
-          matchedLocation
-            ? `You're booking with our ${matchedLocation.label} office at ${matchedLocation.address}. Fill out the form and someone from this location will reach out within one business hour.`
-            : 'Free, no-obligation consultations at any of our 9 Las Vegas locations. Fill out the form and our team will reach out within one business hour to schedule your visit.'
-        }
-        breadcrumb={[{ name: 'Home', href: '/' }, { name: 'Request Consultation' }]}
-      />
-      <ConsultationForm preselectedLocation={locationSlug} />
+      {/* ── HERO ── */}
+      <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '180px 32px 100px', position: 'relative', overflow: 'hidden' }}>
+        <div aria-hidden style={{ position: 'absolute', top: '-20%', right: '-8%', width: 700, height: 700, background: 'radial-gradient(circle, rgba(243,103,42,0.12) 0%, transparent 60%)', pointerEvents: 'none' }} />
+        <div style={{ maxWidth: 780, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 24, padding: '7px 16px', background: 'rgba(243,103,42,0.12)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.22)' }}>
+            <MapPin size={11} color={ORANGE} /> Free · No obligation
+          </div>
+          <h1 style={{ fontSize: 'clamp(36px, 5vw, 60px)', fontWeight: 800, letterSpacing: '-1.5px', color: 'white', margin: '0 0 16px', lineHeight: 1.0 }}>
+            {matchedLocation ? `Booking at ${matchedLocation.label}` : 'Book an Appointment'}
+          </h1>
+          <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65, margin: 0 }}>
+            {matchedLocation
+              ? `You're booking with our ${matchedLocation.neighborhood} office. Fill out the form below and someone from this location will reach out within one business hour.`
+              : "Select your preferred office below. We'll connect you with that location's team within one business hour."}
+          </p>
+        </div>
+      </section>
+
+      {/* ── STEP 1: Location picker (shown when no location selected) ── */}
+      {!selectedSlug && (
+        <section style={{ background: '#F7F9FC', padding: '72px 32px 96px' }}>
+          <div style={{ maxWidth: 1180, margin: '0 auto' }}>
+            <div style={{ textAlign: 'center', marginBottom: 48 }}>
+              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 12 }}>Step 1 of 2</div>
+              <h2 style={{ fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 800, color: NAVY, letterSpacing: '-0.8px', margin: '0 0 10px' }}>Choose your office</h2>
+              <p style={{ fontSize: 15, color: 'rgba(0,29,61,0.55)', margin: 0 }}>All 9 Las Vegas locations accept new patients and most insurance plans.</p>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
+              {INITIAL_DATA.locations.map((loc) => (
+                <button
+                  key={loc.slug}
+                  onClick={() => handleSelect(loc.slug)}
+                  style={{
+                    display: 'flex', flexDirection: 'column', alignItems: 'flex-start',
+                    background: 'white', border: '1.5px solid rgba(0,29,61,0.08)',
+                    borderRadius: 16, padding: '22px 24px', cursor: 'pointer',
+                    textAlign: 'left', transition: 'all 0.18s ease',
+                    boxShadow: '0 2px 12px rgba(0,29,61,0.05)',
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget
+                    el.style.borderColor = ORANGE
+                    el.style.boxShadow = '0 8px 28px rgba(243,103,42,0.15)'
+                    el.style.transform = 'translateY(-2px)'
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget
+                    el.style.borderColor = 'rgba(0,29,61,0.08)'
+                    el.style.boxShadow = '0 2px 12px rgba(0,29,61,0.05)'
+                    el.style.transform = 'translateY(0)'
+                  }}
+                >
+                  {/* Top row: neighborhood + kids badge */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginBottom: 10 }}>
+                    <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: ORANGE }}>{loc.neighborhood}</div>
+                    {loc.kids && <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase', background: 'rgba(0,29,61,0.07)', color: NAVY, borderRadius: 999, padding: '3px 9px' }}>Kids</div>}
+                  </div>
+                  {/* Clinic name */}
+                  <div style={{ fontSize: 17, fontWeight: 800, color: NAVY, letterSpacing: '-0.3px', marginBottom: 8 }}>{loc.label}</div>
+                  {/* Address */}
+                  <div style={{ fontSize: 12, color: 'rgba(0,29,61,0.5)', marginBottom: 12, display: 'flex', alignItems: 'flex-start', gap: 5 }}>
+                    <MapPin size={11} color={ORANGE} style={{ flexShrink: 0, marginTop: 1 }} />
+                    {loc.address}
+                  </div>
+                  {/* Rating + CTA row */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 'auto' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: 'rgba(0,29,61,0.5)', fontWeight: 600 }}>
+                      <Star size={12} fill={ORANGE} color={ORANGE} />
+                      {loc.rating.toFixed(1)} · {loc.review_count}+ reviews
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 12, fontWeight: 800, color: ORANGE }}>
+                      Select <ArrowRight size={13} />
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {/* No preference option */}
+            <div style={{ textAlign: 'center', marginTop: 32 }}>
+              <button
+                onClick={() => handleSelect('')}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 14, color: 'rgba(0,29,61,0.45)', textDecoration: 'underline', fontFamily: 'inherit', padding: 0 }}
+              >
+                No preference — just find me the nearest available
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── STEP 2: Form (shown after location selected) ── */}
+      {selectedSlug !== undefined && (
+        <>
+          {/* Selected location banner */}
+          <div style={{ background: 'white', borderBottom: '1px solid rgba(0,29,61,0.07)', padding: '14px 32px' }}>
+            <div style={{ maxWidth: 1180, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(243,103,42,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <MapPin size={14} color={ORANGE} />
+                </div>
+                <div>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', color: 'rgba(0,29,61,0.4)', marginBottom: 1 }}>Step 2 of 2 · Selected office</div>
+                  <div style={{ fontSize: 15, fontWeight: 800, color: NAVY }}>
+                    {matchedLocation ? matchedLocation.label : 'No preference — nearest available'}
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={handleBack}
+                style={{ background: 'none', border: '1.5px solid rgba(0,29,61,0.12)', borderRadius: 8, padding: '8px 16px', fontSize: 12, fontWeight: 700, color: 'rgba(0,29,61,0.5)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'inherit' }}
+              >
+                ← Change office
+              </button>
+            </div>
+          </div>
+          <ConsultationForm preselectedLocation={selectedSlug || undefined} />
+        </>
+      )}
+
       {breadcrumbSchema}
     </Shell>
   )
