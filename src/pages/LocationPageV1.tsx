@@ -1059,111 +1059,65 @@ function NeighborhoodNarrative({ location }: { location: Location }) {
             )}
           </motion.div>
 
-          {/* RIGHT — At-a-glance card */}
+          {/* RIGHT — Image gallery */}
           <motion.aside
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.55, delay: 0.16 }}
-            style={{
-              background: 'white',
-              border: '1px solid rgba(0,29,61,0.08)',
-              borderRadius: 20,
-              padding: '28px 26px',
-              boxShadow:
-                '0 1px 2px rgba(0,29,61,0.04), 0 20px 50px -28px rgba(0,29,61,0.18)',
-              position: 'sticky',
-              top: 100,
-            }}
+            style={{ position: 'sticky', top: 100 }}
           >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginBottom: 18,
-                paddingBottom: 14,
-                borderBottom: '1px solid rgba(0,29,61,0.08)',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 10,
-                  fontWeight: 800,
-                  letterSpacing: 2,
-                  textTransform: 'uppercase',
-                  color: NAVY,
-                }}
-              >
-                At a glance
-              </div>
-              <div
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 5,
-                  fontSize: 11,
-                  fontWeight: 800,
-                  color: NAVY,
-                }}
-              >
-                <Star size={11} fill={ORANGE} color={ORANGE} />
-                {location.rating.toFixed(1)} · {location.review_count} reviews
+            {/* Main image */}
+            <div style={{ borderRadius: 16, overflow: 'hidden', marginBottom: 10, position: 'relative', height: 260, boxShadow: '0 8px 32px rgba(0,29,61,0.12)' }}>
+              <img
+                src="/boca-office-interior.webp"
+                alt={`Boca Dental & Braces ${location.neighborhood} — reception`}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%' }}
+              />
+              <div style={{ position: 'absolute', bottom: 12, left: 12, background: 'rgba(0,29,61,0.78)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', borderRadius: 999, padding: '6px 14px', fontSize: 11, fontWeight: 700, color: 'white', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <MapPin size={10} color={ORANGE} /> {location.neighborhood}
               </div>
             </div>
 
-            <AtAGlanceRow
-              icon={MapPin}
-              label="Address"
-              value={`${location.address}, ${location.city}, ${location.state} ${location.zip}`}
-            />
-            <AtAGlanceRow icon={Clock} label="Hours" value={location.hours} />
-            <AtAGlanceRow
-              icon={Languages}
-              label="Languages"
-              value={languages.join(' · ')}
-            />
-            <AtAGlanceRow icon={Car} label="Parking" value={parking} />
-            <AtAGlanceRow
-              icon={BadgeCheck}
-              label="Accepting new patients"
-              value="Same-day emergencies welcome"
-            />
+            {/* Thumbnail row */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
+              {/* Thumb 1 — reuse hero image at different crop */}
+              <div style={{ borderRadius: 10, overflow: 'hidden', height: 90, position: 'relative', boxShadow: '0 2px 8px rgba(0,29,61,0.08)' }}>
+                <img src="/boca-office-interior.webp" alt="Office interior"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'right 20%' }} />
+              </div>
+              {/* Thumb 2 — placeholder: Treatment room */}
+              <div style={{ borderRadius: 10, overflow: 'hidden', height: 90, background: 'linear-gradient(135deg, rgba(0,29,61,0.06) 0%, rgba(243,103,42,0.06) 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, border: '1.5px dashed rgba(0,29,61,0.1)' }}>
+                <div style={{ fontSize: 18 }}>🦷</div>
+                <div style={{ fontSize: 9, fontWeight: 700, color: 'rgba(0,29,61,0.35)', textTransform: 'uppercase', letterSpacing: 1, textAlign: 'center', lineHeight: 1.3 }}>Treatment<br />Room</div>
+              </div>
+              {/* Thumb 3 — placeholder: Team */}
+              <div style={{ borderRadius: 10, overflow: 'hidden', height: 90, background: 'linear-gradient(135deg, rgba(243,103,42,0.06) 0%, rgba(0,29,61,0.06) 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, border: '1.5px dashed rgba(0,29,61,0.1)' }}>
+                <div style={{ fontSize: 18 }}>👩‍⚕️</div>
+                <div style={{ fontSize: 9, fontWeight: 700, color: 'rgba(0,29,61,0.35)', textTransform: 'uppercase', letterSpacing: 1, textAlign: 'center', lineHeight: 1.3 }}>Our<br />Team</div>
+              </div>
+            </div>
 
-            <a
-              href={`tel:${location.phone.replace(/\D/g, '')}`}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 8,
-                marginTop: 18,
-                background: ORANGE,
-                color: 'white',
-                borderRadius: 10,
-                padding: '12px 16px',
-                fontSize: 13,
-                fontWeight: 800,
-                textDecoration: 'none',
-                letterSpacing: 0.4,
-                textTransform: 'uppercase',
-                boxShadow: '0 10px 24px rgba(243,103,42,0.32)',
-                transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                ;(e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)'
-                ;(e.currentTarget as HTMLElement).style.boxShadow =
-                  '0 14px 28px rgba(243,103,42,0.42)'
-              }}
-              onMouseLeave={(e) => {
-                ;(e.currentTarget as HTMLElement).style.transform = 'translateY(0)'
-                ;(e.currentTarget as HTMLElement).style.boxShadow =
-                  '0 10px 24px rgba(243,103,42,0.32)'
-              }}
-            >
-              <Phone size={13} />
-              Call {location.phone}
-            </a>
+            {/* Rating + call CTA below gallery */}
+            <div style={{ marginTop: 14, background: 'white', borderRadius: 14, border: '1px solid rgba(0,29,61,0.08)', padding: '16px 18px', boxShadow: '0 2px 12px rgba(0,29,61,0.05)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  {[1,2,3,4,5].map(i => (
+                    <Star key={i} size={13} fill={i <= Math.round(location.rating) ? ORANGE : 'none'} color={ORANGE} />
+                  ))}
+                  <span style={{ fontSize: 13, fontWeight: 800, color: NAVY, marginLeft: 4 }}>{location.rating.toFixed(1)}</span>
+                </div>
+                <span style={{ fontSize: 12, color: 'rgba(0,29,61,0.4)', fontWeight: 600 }}>{location.review_count}+ reviews</span>
+              </div>
+              <a
+                href={`tel:${location.phone.replace(/\D/g, '')}`}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: ORANGE, color: 'white', borderRadius: 10, padding: '12px 16px', fontSize: 13, fontWeight: 800, textDecoration: 'none', letterSpacing: 0.4, textTransform: 'uppercase', boxShadow: '0 8px 20px rgba(243,103,42,0.3)' }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 12px 28px rgba(243,103,42,0.42)' }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 20px rgba(243,103,42,0.3)' }}
+              >
+                <Phone size={13} /> Call {location.phone}
+              </a>
+            </div>
           </motion.aside>
         </div>
       </div>
