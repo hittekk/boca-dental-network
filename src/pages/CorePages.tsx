@@ -427,7 +427,7 @@ function ClinicsMap({ onSelect, onDeselect }: {
   const activeCoordsRef = useRef<[number, number] | null>(null)
   const [popupPos, setPopupPos] = React.useState<{ top: number; left: number }>({ top: 16, left: 16 })
 
-  const POPUP_W = 284
+  const POPUP_W = 272
   const POPUP_H = 390
 
   function calcPopupPos(map: mapboxgl.Map, coords: [number, number], container: HTMLDivElement) {
@@ -565,7 +565,7 @@ function ClinicsMap({ onSelect, onDeselect }: {
 
       {/* Location panel — fixed to right side of map, always fully visible */}
       <div style={{
-        position: 'absolute', top: 16, right: 16,
+        position: 'absolute', top: 16, right: 20,
         width: POPUP_W,
         maxHeight: `calc(100% - 32px)`,
         background: 'white',
@@ -756,7 +756,7 @@ export function ClinicsHubPage() {
         </div>
 
         {/* Right: real Mapbox map — fills remaining viewport */}
-        <div style={{ flex: 1, position: 'relative' }}>
+        <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
           <ClinicsMap onSelect={handleMapSelect} onDeselect={handleMapDeselect} />
         </div>
       </section>
