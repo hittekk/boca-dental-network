@@ -563,11 +563,11 @@ function ClinicsMap({ onSelect, onDeselect }: {
     <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: 560 }}>
       <div ref={containerRef} style={{ position: 'absolute', inset: 0 }} />
 
-      {/* Location panel — fixed to right side of map, always fully visible */}
+      {/* Location panel — fixed to viewport right, always fully visible */}
       <div style={{
-        position: 'absolute', top: 16, right: 20,
+        position: 'fixed', top: 90, right: 20,
         width: POPUP_W,
-        maxHeight: `calc(100% - 32px)`,
+        maxHeight: `calc(100vh - 110px)`,
         background: 'white',
         borderRadius: 16,
         boxShadow: '0 8px 40px rgba(0,29,61,0.16)',
