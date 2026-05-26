@@ -675,7 +675,7 @@ export function Header({ brand, announcement, activeSection, logoMode = 'white' 
             backdropFilter: scrolled ? GLASS_BLUR : 'none',
             WebkitBackdropFilter: scrolled ? GLASS_BLUR : 'none',
           }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
+          transition={{ duration: scrolled ? 0.3 : 0 }}
           style={{ position: 'relative', width: '100%' }}
         >
           <motion.div
