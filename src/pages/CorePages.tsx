@@ -404,10 +404,11 @@ function ClinicsMap() {
             .addTo(map)
         })
 
-        // Click on map background dismisses panel
+        // Click on map background dismisses panel and resets view
         map.on('click', () => {
           setActive(null)
           Object.values(markersRef.current).forEach(m => m.classList.remove('active-pin'))
+          map.easeTo({ center: [-115.1900, 36.1300], zoom: 10.2, duration: 500, easing: (t: number) => t < 0.5 ? 2*t*t : -1+(4-2*t)*t })
         })
       })
 
@@ -520,7 +521,11 @@ function ClinicsMap() {
             </div>
 
             {/* Close button */}
-            <button onClick={() => { setActive(null); Object.values(markersRef.current).forEach(m => m.classList.remove('active-pin')) }} style={{
+            <button onClick={() => {
+              setActive(null)
+              Object.values(markersRef.current).forEach(m => m.classList.remove('active-pin'))
+              mapRef.current?.easeTo({ center: [-115.1900, 36.1300], zoom: 10.2, duration: 500, easing: (t: number) => t < 0.5 ? 2*t*t : -1+(4-2*t)*t })
+            }} style={{
               position: 'absolute', top: 12, right: 12,
               width: 26, height: 26, borderRadius: '50%',
               background: 'rgba(0,29,61,0.07)', border: 'none', cursor: 'pointer',
