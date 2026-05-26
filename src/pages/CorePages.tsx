@@ -533,7 +533,7 @@ function ClinicsMap({ onSelect, onDeselect }: {
   ).join('')
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: 560 }}>
+    <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: 560 }}>
       <div ref={containerRef} style={{ position: 'absolute', inset: 0 }} />
 
       {/* Legend — bottom left */}
@@ -679,42 +679,68 @@ export function ClinicsHubPage() {
     <div style={{ background: '#fff', color: NAVY, fontFamily: 'inherit' }}>
       <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="light" />
 
-      {/* ── Navy hero ── */}
-      <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '160px 32px 72px', position: 'relative', overflow: 'hidden', minHeight: 440 }}>
+      {/* ── Full-viewport hero — navy panel left, live Mapbox map right ── */}
+      <section style={{ display: 'flex', height: '100vh', paddingTop: 72, overflow: 'hidden', position: 'relative' }}>
 
-        {/* SVG illustrated city grid — right side, fades into blue */}
-        <div style={{ position: 'absolute', top: 0, right: 0, width: '60%', height: '100%', zIndex: 0, pointerEvents: 'none' }}>
-          <ClinicsHeroMap />
-        </div>
-
-        <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: '#F3672A', marginBottom: 20, padding: '6px 14px', background: 'rgba(243,103,42,0.12)', borderRadius: 999 }}>
-            <MapPin size={11} /> 9 Las Vegas Locations
+        {/* Left: navy copy panel */}
+        <div style={{
+          width: 400,
+          flexShrink: 0,
+          background: 'linear-gradient(180deg, #001228 0%, #001D3D 45%, #162E7A 100%)',
+          padding: '44px 40px 40px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          zIndex: 2,
+          boxShadow: '6px 0 48px rgba(0,0,0,0.32)',
+          overflowY: 'auto',
+        }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 10, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: '#F3672A', marginBottom: 22, padding: '5px 12px', background: 'rgba(243,103,42,0.12)', borderRadius: 999, width: 'fit-content' }}>
+            <MapPin size={10} /> 9 Las Vegas Locations
           </div>
-          <h1 style={{ fontSize: 'clamp(34px, 4.8vw, 58px)', fontWeight: 800, letterSpacing: '-1.5px', color: 'white', margin: '0 0 20px', lineHeight: 1.0 }}>
+
+          <h1 style={{ fontSize: 'clamp(30px, 2.8vw, 48px)', fontWeight: 800, letterSpacing: '-1.5px', color: 'white', margin: '0 0 16px', lineHeight: 1.05 }}>
             Find your<br /><span style={{ color: '#F3672A' }}>nearest Boca.</span>
           </h1>
-          <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.6)', maxWidth: 520, lineHeight: 1.6, margin: '0 0 40px' }}>
-            Nine clinics across greater Las Vegas — general, cosmetic, orthodontics, pediatric, and emergency care. Most insurance accepted.
+
+          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.55)', lineHeight: 1.65, margin: '0 0 32px' }}>
+            Nine clinics across greater Las Vegas — general, cosmetic, orthodontics, pediatric, and emergency care. Click any pin on the map.
           </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 32, alignItems: 'center' }}>
+
+          {/* Stats row */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px 20px', marginBottom: 36, paddingBottom: 32, borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
             {[{ val: '9', label: 'Locations' }, { val: '4.8★', label: 'Avg Rating' }, { val: '20k+', label: 'Patients Served' }, { val: '2006', label: 'Est. Las Vegas' }].map(s => (
               <div key={s.label}>
-                <div style={{ fontSize: 28, fontWeight: 800, color: 'white', letterSpacing: '-1px', lineHeight: 1 }}>{s.val}</div>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 4 }}>{s.label}</div>
+                <div style={{ fontSize: 22, fontWeight: 800, color: 'white', letterSpacing: '-0.5px', lineHeight: 1 }}>{s.val}</div>
+                <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 5 }}>{s.label}</div>
               </div>
             ))}
-            <div style={{ width: 1, height: 36, background: 'rgba(255,255,255,0.1)', margin: '0 8px' }} />
-            <a href="tel:7024560005" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.7)', fontSize: 14, fontWeight: 700, textDecoration: 'none' }}>
-              <Phone size={14} color="#F3672A" /> (702) 456-0005
-            </a>
+          </div>
+
+          {/* CTAs */}
+          <a href="/request-consultation" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: '#F3672A', color: 'white', borderRadius: 10, padding: '13px 20px', fontSize: 13, fontWeight: 800, textDecoration: 'none', letterSpacing: 0.4, marginBottom: 10, textTransform: 'uppercase' }}>
+            Book an Appointment →
+          </a>
+          <a href="tel:7024560005" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, color: 'rgba(255,255,255,0.45)', fontSize: 13, fontWeight: 700, textDecoration: 'none', padding: '10px 0' }}>
+            <Phone size={13} color="#F3672A" /> (702) 456-0005
+          </a>
+
+          {/* Legend */}
+          <div style={{ marginTop: 'auto', paddingTop: 28, display: 'flex', gap: 20, fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.45)' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#F3672A', display: 'inline-block', border: '1.5px solid rgba(255,255,255,0.3)' }} />
+              General
+            </span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#162E7A', display: 'inline-block', border: '1.5px solid rgba(255,255,255,0.3)' }} />
+              Kids
+            </span>
+            <span style={{ marginLeft: 'auto', opacity: 0.4, fontSize: 10 }}>Click a pin</span>
           </div>
         </div>
-      </section>
 
-      {/* ── Mapbox interactive map ── */}
-      <section style={{ background: '#F7F9FC', padding: '48px 32px 0' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto', borderRadius: 20, overflow: 'hidden' }}>
+        {/* Right: real Mapbox map — fills remaining viewport */}
+        <div style={{ flex: 1, position: 'relative' }}>
           <ClinicsMap onSelect={handleMapSelect} onDeselect={handleMapDeselect} />
         </div>
       </section>
