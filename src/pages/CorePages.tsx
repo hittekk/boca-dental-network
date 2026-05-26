@@ -1053,7 +1053,7 @@ export function ReviewsPage() {
             <div key={loc.slug} style={{ background: 'white', borderRadius: 24, overflow: 'hidden', boxShadow: '0 8px 40px rgba(0,29,61,0.07), 0 1px 2px rgba(0,29,61,0.05)' }}>
 
               {/* Location header bar */}
-              <div style={{ background: `linear-gradient(135deg, ${NAVY} 0%, #0d2654 100%)`, padding: '28px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+              <div style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '28px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                   <div style={{ width: 48, height: 48, borderRadius: 14, background: loc.kids ? 'rgba(96,165,250,0.2)' : 'rgba(243,103,42,0.2)', border: `1px solid ${loc.kids ? 'rgba(96,165,250,0.3)' : 'rgba(243,103,42,0.3)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <MapPin size={22} color={loc.kids ? '#60a5fa' : ORANGE} />
