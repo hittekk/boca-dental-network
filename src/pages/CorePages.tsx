@@ -563,13 +563,11 @@ function ClinicsMap({ onSelect, onDeselect }: {
     <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: 560 }}>
       <div ref={containerRef} style={{ position: 'absolute', inset: 0 }} />
 
-      {/* Left-side location panel — smart positioned near clicked pin */}
+      {/* Location panel — fixed to right side of map, always fully visible */}
       <div style={{
-        position: 'absolute',
-        top: popupPos.top,
-        left: popupPos.left,
+        position: 'absolute', top: 16, right: 16,
         width: POPUP_W,
-        maxHeight: POPUP_H,
+        maxHeight: `calc(100% - 32px)`,
         background: 'white',
         borderRadius: 16,
         boxShadow: '0 8px 40px rgba(0,29,61,0.16)',
@@ -578,9 +576,9 @@ function ClinicsMap({ onSelect, onDeselect }: {
         display: 'flex',
         flexDirection: 'column',
         opacity: active ? 1 : 0,
-        transform: active ? 'translateY(0) scale(1)' : 'translateY(8px) scale(0.97)',
+        transform: active ? 'translateX(0) scale(1)' : 'translateX(12px) scale(0.97)',
         pointerEvents: active ? 'all' : 'none',
-        transition: 'opacity 0.24s ease, transform 0.24s cubic-bezier(0.4,0,0.2,1), top 0.32s cubic-bezier(0.4,0,0.2,1), left 0.32s cubic-bezier(0.4,0,0.2,1)',
+        transition: 'opacity 0.24s ease, transform 0.24s cubic-bezier(0.4,0,0.2,1)',
       }}>
         {active && (
           <>
