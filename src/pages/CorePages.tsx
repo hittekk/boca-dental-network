@@ -1481,7 +1481,7 @@ export function RequestConsultationPage() {
                     ← Change
                   </button>
                 </div>
-                <ConsultationForm preselectedLocation={selectedSlug || undefined} />
+                <ConsultationForm preselectedLocation={selectedSlug || undefined} embedded />
               </>
             )}
           </div>

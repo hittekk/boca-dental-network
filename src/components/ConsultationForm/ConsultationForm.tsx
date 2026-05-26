@@ -43,6 +43,12 @@ export interface ConsultationFormProps {
    * so the user picks their own office.
    */
   preselectedLocation?: string
+  /**
+   * When true, renders only the form fields with padding — no section wrapper,
+   * no editorial backdrop, no radial glow. Used inside RequestConsultationPage
+   * Step 2 where the location header is already shown.
+   */
+  embedded?: boolean
 }
 
 const labelStyle: React.CSSProperties = {
@@ -77,7 +83,7 @@ function applyBlur(e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HT
   e.currentTarget.style.boxShadow = 'none'
 }
 
-export function ConsultationForm({ preselectedLocation }: ConsultationFormProps = {}) {
+export function ConsultationForm({ preselectedLocation, embedded = false }: ConsultationFormProps = {}) {
   const siteData = useSiteData()
   const track = useTrack()
 
@@ -170,6 +176,11 @@ export function ConsultationForm({ preselectedLocation }: ConsultationFormProps 
       console.error('[ConsultationForm] submission error:', err)
       setStatus('error')
     }
+  }
+
+  if (embedded) {
+    // Embedded: just the form fields, no section wrapper, no editorial chrome
+    return <EmbeddedForm form={form} errors={errors} status={status} lockedLocation={lockedLocation} set={set} handleSubmit={handleSubmit} siteData={siteData} />
   }
 
   return (
@@ -1134,6 +1145,133 @@ function Detail({
           {body}
         </div>
       </div>
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// EmbeddedForm — used inside RequestConsultationPage Step 2
+// Renders just the form fields with padding, no section wrapper, no editorial
+// chrome. The location header is already shown by RequestConsultationPage.
+// ─────────────────────────────────────────────────────────────────────────────
+function EmbeddedForm({
+  form, errors, status, lockedLocation, set, handleSubmit, siteData,
+}: {
+  form: FormState
+  errors: Partial<Record<keyof FormState, string>>
+  status: Status
+  lockedLocation: ReturnType<typeof Array.prototype.find> | null
+  set: <K extends keyof FormState>(key: K, value: FormState[K]) => void
+  handleSubmit: (e: FormEvent) => void
+  siteData: ReturnType<typeof useSiteData>
+}) {
+  return (
+    <div style={{ padding: '32px 40px 40px' }}>
+      {status === 'success' ? (
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          style={{ background: 'rgba(243,103,42,0.06)', border: '1px solid rgba(243,103,42,0.25)', borderRadius: 14, padding: '40px 28px', textAlign: 'center' }}
+        >
+          <CheckCircle2 size={44} style={{ color: '#F3672A', margin: '0 auto 16px' }} />
+          <div style={{ fontSize: 24, fontWeight: 800, color: '#001D3D', letterSpacing: '-0.5px', marginBottom: 10 }}>
+            Thanks, {form.name.split(' ')[0] || 'friend'}.
+          </div>
+          <div style={{ fontSize: 15, color: 'rgba(0,29,61,0.65)', lineHeight: 1.65 }}>
+            We sent a confirmation to <strong style={{ color: '#001D3D' }}>{form.email}</strong>.{' '}
+            {(lockedLocation as { label: string } | null)
+              ? `Our ${(lockedLocation as { label: string }).label} team will reach out within one business hour.`
+              : 'Our team will reach out within one business hour to confirm your appointment.'}
+          </div>
+        </motion.div>
+      ) : (
+        <motion.form
+          onSubmit={handleSubmit}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          noValidate
+        >
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 18 }}>
+            <Field label="Full name" error={errors.name}>
+              <input type="text" autoComplete="name" placeholder="Maria Garcia"
+                value={form.name} onChange={(e) => set('name', e.target.value)}
+                onFocus={applyFocus} onBlur={applyBlur} style={inputBase} />
+            </Field>
+            <Field label="Email" error={errors.email}>
+              <input type="email" autoComplete="email" placeholder="maria@email.com"
+                value={form.email} onChange={(e) => set('email', e.target.value)}
+                onFocus={applyFocus} onBlur={applyBlur} style={inputBase} />
+            </Field>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 18 }}>
+            <Field label="Phone" error={errors.phone}>
+              <input type="tel" autoComplete="tel" placeholder="(702) 555-0123"
+                value={form.phone} onChange={(e) => set('phone', e.target.value)}
+                onFocus={applyFocus} onBlur={applyBlur} style={inputBase} />
+            </Field>
+            <Field label="New or returning?">
+              <select value={form.patient_type}
+                onChange={(e) => set('patient_type', e.target.value as FormState['patient_type'])}
+                onFocus={applyFocus} onBlur={applyBlur}
+                style={{ ...inputBase, cursor: 'pointer' }}>
+                <option value="new">New patient</option>
+                <option value="returning">Returning patient</option>
+              </select>
+            </Field>
+          </div>
+
+          <div style={{ marginBottom: 18 }}>
+            <Field label="Service you're interested in">
+              <select value={form.service} onChange={(e) => set('service', e.target.value)}
+                onFocus={applyFocus} onBlur={applyBlur}
+                style={{ ...inputBase, cursor: 'pointer' }}>
+                <option value="">— Select a service (optional)</option>
+                {['General Checkup & Cleaning', 'Invisalign', 'Teeth Whitening', 'Dental Implants', 'Braces', 'Veneers', 'Root Canal', 'Crowns & Bridges', 'Emergency Care', 'Pediatric Dentistry', 'Other'].map(s => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+            </Field>
+          </div>
+
+          <div style={{ marginBottom: 24 }}>
+            <Field label="Message (optional)">
+              <textarea placeholder="Anything else we should know — preferred days, insurance, concerns..."
+                value={form.message} onChange={(e) => set('message', e.target.value)}
+                onFocus={applyFocus as unknown as React.FocusEventHandler<HTMLTextAreaElement>}
+                onBlur={applyBlur as unknown as React.FocusEventHandler<HTMLTextAreaElement>}
+                rows={3}
+                style={{ ...inputBase, resize: 'vertical', minHeight: 80 }} />
+            </Field>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 24 }}>
+            <input type="checkbox" id="emb-consent" checked={form.consent}
+              onChange={(e) => set('consent', e.target.checked)}
+              style={{ marginTop: 3, accentColor: '#F3672A', width: 16, height: 16, flexShrink: 0 }} />
+            <label htmlFor="emb-consent" style={{ fontSize: 13, color: 'rgba(0,29,61,0.6)', lineHeight: 1.55, cursor: 'pointer' }}>
+              I consent to being contacted by Boca Dental & Braces by phone, text, or email.
+              {errors.consent && <span style={{ display: 'block', color: '#EF4444', fontSize: 11, marginTop: 3, fontWeight: 700 }}>{errors.consent}</span>}
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            disabled={status === 'submitting'}
+            style={{ width: '100%', padding: '16px', background: status === 'submitting' ? 'rgba(243,103,42,0.6)' : '#F3672A', color: 'white', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 800, cursor: status === 'submitting' ? 'not-allowed' : 'pointer', letterSpacing: 0.5, textTransform: 'uppercase', boxShadow: '0 8px 24px rgba(243,103,42,0.32)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, fontFamily: 'inherit' }}
+          >
+            {status === 'submitting' ? (
+              <><Loader2 size={18} style={{ animation: 'spin 1s linear infinite' }} /> Sending...</>
+            ) : (
+              <><ArrowRight size={18} /> Request My Appointment</>
+            )}
+          </button>
+
+          <p style={{ fontSize: 12, color: 'rgba(0,29,61,0.4)', textAlign: 'center', marginTop: 16, lineHeight: 1.5 }}>
+            We respond within 1 business hour · No spam · HIPAA compliant
+          </p>
+        </motion.form>
+      )}
     </div>
   )
 }
