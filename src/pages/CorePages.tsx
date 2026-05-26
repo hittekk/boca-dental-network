@@ -307,7 +307,10 @@ const MAPBOX_TOKEN_RAW = import.meta.env.VITE_MAPBOX_TOKEN as string | undefined
 const CLINICS_MAP_READY = !!MAPBOX_TOKEN_RAW && MAPBOX_TOKEN_RAW !== 'undefined' && MAPBOX_TOKEN_RAW.startsWith('pk.')
 if (CLINICS_MAP_READY && !mapboxgl.accessToken) mapboxgl.accessToken = MAPBOX_TOKEN_RAW!
 
-function ClinicsMap() {
+function ClinicsMap({ onSelect, onDeselect }: {
+  onSelect: (slug: string) => void
+  onDeselect: () => void
+}) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<mapboxgl.Map | null>(null)
   const [active, setActive] = React.useState<null | {
@@ -396,6 +399,7 @@ function ClinicsMap() {
               state: loc.state, zip: loc.zip, hours: loc.hours,
               rating: loc.rating, review_count: loc.review_count, kids: loc.kids,
             })
+            onSelect(loc.slug)
             map.easeTo({ center: [coords[0] + 0.02, coords[1]], zoom: 12.5, duration: 600, easing: (t: number) => t < 0.5 ? 2*t*t : -1+(4-2*t)*t })
           })
 
@@ -408,6 +412,7 @@ function ClinicsMap() {
         map.on('click', () => {
           setActive(null)
           Object.values(markersRef.current).forEach(m => m.classList.remove('active-pin'))
+          onDeselect()
           map.easeTo({ center: [-115.1900, 36.1300], zoom: 10.2, duration: 500, easing: (t: number) => t < 0.5 ? 2*t*t : -1+(4-2*t)*t })
         })
       })
@@ -524,6 +529,7 @@ function ClinicsMap() {
             <button onClick={() => {
               setActive(null)
               Object.values(markersRef.current).forEach(m => m.classList.remove('active-pin'))
+              onDeselect()
               mapRef.current?.easeTo({ center: [-115.1900, 36.1300], zoom: 10.2, duration: 500, easing: (t: number) => t < 0.5 ? 2*t*t : -1+(4-2*t)*t })
             }} style={{
               position: 'absolute', top: 12, right: 12,
@@ -542,6 +548,20 @@ function ClinicsMap() {
 
 export function ClinicsHubPage() {
   const [activeNeighborhood, setActiveNeighborhood] = React.useState<string>('All')
+  const [activeSlug, setActiveSlug] = React.useState<string | null>(null)
+  const cardRefs = React.useRef<Record<string, HTMLDivElement | null>>({})
+
+  const handleMapSelect = (slug: string) => {
+    setActiveSlug(slug)
+    setActiveNeighborhood('All') // show all cards so the selected one is visible
+    // Scroll to the card after a short delay to let the DOM settle
+    setTimeout(() => {
+      const el = cardRefs.current[slug]
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, 120)
+  }
+
+  const handleMapDeselect = () => setActiveSlug(null)
   const breadcrumbSchema = usePageMeta({
     title: '9 Boca Dental & Braces Locations Across Las Vegas',
     description: 'Find your nearest Boca Dental & Braces — 9 dental clinic locations across Las Vegas, NV. Interactive map, hours, phone, and directions for every office.',
@@ -594,7 +614,7 @@ export function ClinicsHubPage() {
       {/* ── Mapbox interactive map ── */}
       <section style={{ background: '#F7F9FC', padding: '48px 32px 0' }}>
         <div style={{ maxWidth: 1240, margin: '0 auto', borderRadius: 20, overflow: 'hidden' }}>
-          <ClinicsMap />
+          <ClinicsMap onSelect={handleMapSelect} onDeselect={handleMapDeselect} />
         </div>
       </section>
 
@@ -617,8 +637,25 @@ export function ClinicsHubPage() {
               @media (max-width: 900px){ .clinics-hub-grid{ grid-template-columns: repeat(2,1fr) !important; } }
               @media (max-width: 540px){ .clinics-hub-grid{ grid-template-columns: 1fr !important; } }
             `}</style>
-            {filtered.map(loc => (
-              <div key={loc.slug} style={{ background: 'white', borderRadius: 16, border: '1px solid rgba(0,29,61,0.07)', overflow: 'hidden', boxShadow: '0 4px 16px rgba(0,29,61,0.06)', display: 'flex', flexDirection: 'column' }}>
+            {filtered.map(loc => {
+              const isActive = activeSlug === loc.slug
+              const isDimmed = activeSlug !== null && !isActive
+              return (
+              <div
+                key={loc.slug}
+                ref={el => { cardRefs.current[loc.slug] = el }}
+                style={{
+                  background: 'white',
+                  borderRadius: 16,
+                  border: isActive ? `2px solid ${ORANGE}` : '1px solid rgba(0,29,61,0.07)',
+                  overflow: 'hidden',
+                  boxShadow: isActive ? `0 0 0 4px rgba(243,103,42,0.12), 0 8px 32px rgba(243,103,42,0.18)` : '0 4px 16px rgba(0,29,61,0.06)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  opacity: isDimmed ? 0.38 : 1,
+                  transform: isActive ? 'scale(1.02)' : 'scale(1)',
+                  transition: 'opacity 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1)',
+                }}>
                 {/* Card top accent */}
                 <div style={{ height: 4, background: loc.kids ? NAVY : ORANGE }} />
                 <div style={{ padding: '20px 22px 22px', flex: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -656,7 +693,8 @@ export function ClinicsHubPage() {
                   </div>
                 </div>
               </div>
-            ))}
+            )
+            })}
           </div>
         </div>
       </section>
