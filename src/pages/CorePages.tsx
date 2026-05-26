@@ -984,49 +984,34 @@ export function ReviewsPage() {
               </div>
             </div>
 
-            {/* RIGHT — animated trophy */}
-            <div className="rev-hero-right" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <div style={{ position: 'relative', width: 240, height: 240, animation: 'rev-float 3.8s ease-in-out infinite' }}>
-                {/* Outer pulse ring */}
-                <div style={{ position: 'absolute', inset: -32, borderRadius: '50%', background: 'radial-gradient(circle, rgba(243,103,42,0.2) 0%, transparent 70%)', animation: 'rev-ring 3.8s ease-in-out infinite' }} />
-                {/* Glass circle */}
-                <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', border: '1.5px solid rgba(255,255,255,0.13)', backdropFilter: 'blur(14px)' }} />
-                <svg viewBox="0 0 240 240" width="240" height="240" xmlns="http://www.w3.org/2000/svg" style={{ position: 'absolute', inset: 0 }}>
-                  {/* Cup body */}
-                  <path d="M90,68 Q85,98 93,124 Q103,150 120,158 Q137,150 147,124 Q155,98 150,68 Z" fill="#F3672A" opacity="0.93"/>
-                  {/* Cup shine */}
-                  <path d="M100,76 Q96,100 102,120 Q108,136 114,144" stroke="rgba(255,255,255,0.28)" strokeWidth="3.5" fill="none" strokeLinecap="round"/>
-                  {/* Left handle */}
-                  <path d="M90,92 Q64,92 64,112 Q64,132 90,126" stroke="#F3672A" strokeWidth="8" fill="none" strokeLinecap="round" opacity="0.82"/>
-                  {/* Right handle */}
-                  <path d="M150,92 Q176,92 176,112 Q176,132 150,126" stroke="#F3672A" strokeWidth="8" fill="none" strokeLinecap="round" opacity="0.82"/>
-                  {/* Stem */}
-                  <rect x="114" y="158" width="12" height="24" fill="rgba(243,103,42,0.7)" rx="3"/>
-                  {/* Base */}
-                  <rect x="86" y="182" width="68" height="13" fill="#F3672A" rx="6" opacity="0.9"/>
-                  {/* BOCA label */}
-                  <text x="120" y="140" textAnchor="middle" fill="white" fontSize="14" fontWeight="800" letterSpacing="3" fontFamily="system-ui,sans-serif" opacity="0.95">BOCA</text>
-                  {/* 5 stars in arc */}
-                  {[0,1,2,3,4].map((i) => {
-                    const angle = (-40 + i * 20) * Math.PI / 180
-                    const cx = 120 + 78 * Math.sin(angle)
-                    const cy = 120 - 78 * Math.cos(angle) - 12
-                    const pts = [0,1,2,3,4].map(j => {
-                      const a1 = (j * 72 - 90) * Math.PI / 180
-                      const a2 = (j * 72 + 36 - 90) * Math.PI / 180
-                      return `${cx+12*Math.cos(a1)},${cy+12*Math.sin(a1)} ${cx+5*Math.cos(a2)},${cy+5*Math.sin(a2)}`
-                    }).join(' ')
-                    return (
-                      <polygon key={i} points={pts} fill="#F3672A" opacity="0.95"
-                        style={{ animation: `${i%2===0?'rev-star-a':'rev-star-b'} ${2+i*0.24}s ease-in-out infinite`, transformOrigin: `${cx}px ${cy}px` }}
-                      />
-                    )
-                  })}
-                </svg>
-                {/* Rating pill */}
-                <div style={{ position: 'absolute', bottom: 10, right: -8, background: ORANGE, borderRadius: 999, padding: '6px 16px', fontSize: 14, fontWeight: 800, color: 'white', boxShadow: '0 6px 20px rgba(243,103,42,0.5)', whiteSpace: 'nowrap' }}>
-                  {avgRating} ★
-                </div>
+            {/* RIGHT — trophy image, faint through gradient */}
+            <div className="rev-hero-right" style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <img
+                src="/boca-trophy.webp"
+                alt="Boca Dental 5-Star Excellence Trophy"
+                style={{
+                  width: '100%',
+                  maxWidth: 460,
+                  opacity: 0.28,
+                  filter: 'brightness(1.15) saturate(0.5) drop-shadow(0 0 60px rgba(243,103,42,0.3))',
+                  mixBlendMode: 'luminosity',
+                  maskImage: 'radial-gradient(ellipse 85% 90% at 52% 48%, black 25%, transparent 72%)',
+                  WebkitMaskImage: 'radial-gradient(ellipse 85% 90% at 52% 48%, black 25%, transparent 72%)',
+                  pointerEvents: 'none',
+                  userSelect: 'none',
+                  display: 'block',
+                }}
+              />
+              {/* Rating badge */}
+              <div style={{
+                position: 'absolute', bottom: '10%', right: '5%',
+                background: ORANGE, borderRadius: 999,
+                padding: '10px 22px', fontSize: 17, fontWeight: 800,
+                color: 'white', boxShadow: '0 8px 28px rgba(243,103,42,0.55)',
+                whiteSpace: 'nowrap', letterSpacing: '-0.3px',
+                animation: 'rev-float 4s ease-in-out infinite',
+              }}>
+                {avgRating} ★
               </div>
             </div>
 
