@@ -673,7 +673,7 @@ export function ClinicsHubPage() {
 
   return (
     <div style={{ background: '#fff', color: NAVY, fontFamily: 'inherit' }}>
-      <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="dark" />
+      <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="light" />
 
       {/* ── Full-viewport hero: navy panel left, real Mapbox map right ── */}
       <section style={{ display: 'flex', height: '100vh', paddingTop: 110, overflow: 'hidden', position: 'relative' }}>
