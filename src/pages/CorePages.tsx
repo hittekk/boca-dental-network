@@ -942,197 +942,138 @@ export function ReviewsPage() {
           @media(max-width:860px){ .rev-trophy-img{ display:none!important } }
         `}</style>
 
-        {/* SVG illustration — reviews hero right side */}
+        {/* Google Reviews illustration — right side */}
         <div className="rev-trophy-img" aria-hidden style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '52%', pointerEvents: 'none' }}>
           <svg viewBox="0 0 560 580" xmlns="http://www.w3.org/2000/svg"
             style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
             <defs>
-              <radialGradient id="rg-glow1" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#F3672A" stopOpacity="0.22" />
-                <stop offset="100%" stopColor="#F3672A" stopOpacity="0" />
-              </radialGradient>
-              <radialGradient id="rg-glow2" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#F3672A" stopOpacity="0.35" />
-                <stop offset="100%" stopColor="#F3672A" stopOpacity="0" />
-              </radialGradient>
-              <radialGradient id="rg-fade" cx="0%" cy="50%" r="100%">
+              <radialGradient id="gr-fade" cx="0%" cy="50%" r="100%">
                 <stop offset="0%" stopColor="#001D3D" stopOpacity="1" />
-                <stop offset="40%" stopColor="#001D3D" stopOpacity="0" />
+                <stop offset="45%" stopColor="#001D3D" stopOpacity="0" />
               </radialGradient>
-              <filter id="rg-blur">
-                <feGaussianBlur stdDeviation="18" />
-              </filter>
-              <filter id="rg-softglow">
-                <feGaussianBlur stdDeviation="4" result="b" />
+              <filter id="gr-glow">
+                <feGaussianBlur stdDeviation="5" result="b" />
                 <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
               </filter>
-              <filter id="rg-glow3">
-                <feGaussianBlur stdDeviation="8" result="b" />
-                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              <filter id="gr-glow-soft">
+                <feGaussianBlur stdDeviation="12" />
               </filter>
             </defs>
 
-            {/* Background ambient glow */}
-            <ellipse cx="300" cy="300" rx="260" ry="240" fill="url(#rg-glow1)" filter="url(#rg-blur)" />
+            {/* Ambient orange glow behind card */}
+            <ellipse cx="310" cy="260" rx="200" ry="160" fill="rgba(243,103,42,0.08)" filter="url(#gr-glow-soft)" />
 
-            {/* Subtle grid lines */}
-            {[80,160,240,320,400,480].map((y,i) => (
-              <line key={`h${i}`} x1="0" y1={y} x2="560" y2={y} stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
-            ))}
-            {[100,200,300,400,500].map((x,i) => (
-              <line key={`v${i}`} x1={x} y1="0" x2={x} y2="580" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
-            ))}
+            {/* ── Main Google Reviews card ── */}
+            <g transform="translate(120, 130)">
+              {/* Card background */}
+              <rect width="330" height="200" rx="18" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.14)" strokeWidth="1.5" />
+              {/* Orange top accent */}
+              <rect width="330" height="3" rx="1.5" fill="#F3672A" fillOpacity="0.8" />
 
-            {/* ── TROPHY CUP ── */}
-            {/* Base plate */}
-            <rect x="222" y="468" width="116" height="14" rx="7" fill="rgba(255,255,255,0.12)" stroke="#F3672A" strokeWidth="1.5" />
-            {/* Stem */}
-            <rect x="265" y="420" width="30" height="52" rx="4" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
-            {/* Stem highlight */}
-            <rect x="272" y="424" width="8" height="44" rx="3" fill="rgba(255,255,255,0.08)" />
+              {/* Google G logo */}
+              <g transform="translate(24, 28)">
+                {/* G shape using paths */}
+                <circle cx="18" cy="18" r="18" fill="rgba(255,255,255,0.06)" />
+                <text x="18" y="24" textAnchor="middle" fontSize="20" fontWeight="800" fontFamily="Arial, sans-serif" fill="white" fillOpacity="0.9">G</text>
+                {/* Color dots under G for Google colors */}
+                {[['#4285F4','#EA4335','#FBBC05','#34A853']].map((colors) =>
+                  colors.map((c, i) => (
+                    <circle key={i} cx={6 + i * 9} cy={40} r="3.5" fill={c} fillOpacity="0.85" />
+                  ))
+                )}
+              </g>
 
-            {/* Cup body */}
-            <path d="M190 220 Q185 340 210 380 Q240 420 280 422 Q320 420 350 380 Q375 340 370 220 Z"
-              fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5" />
-            {/* Cup body inner highlight */}
-            <path d="M210 230 Q207 330 226 368 Q250 404 280 406 Q246 370 242 310 Q238 260 240 230 Z"
-              fill="rgba(255,255,255,0.06)" />
+              {/* "Google Reviews" label */}
+              <text x="72" y="42" fontSize="15" fontWeight="800" fontFamily="sans-serif" fill="white" fillOpacity="0.95">Google Reviews</text>
+              <text x="72" y="58" fontSize="11" fontWeight="600" fontFamily="sans-serif" fill="rgba(255,255,255,0.45)">Boca Dental &amp; Braces · Las Vegas</text>
 
-            {/* Cup rim */}
-            <ellipse cx="280" cy="220" rx="92" ry="18" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.25)" strokeWidth="2" />
-            {/* Rim orange accent */}
-            <ellipse cx="280" cy="220" rx="92" ry="18" fill="none" stroke="#F3672A" strokeWidth="1" strokeOpacity="0.5" />
+              {/* Divider */}
+              <line x1="24" y1="75" x2="306" y2="75" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
 
-            {/* Left handle */}
-            <path d="M192 240 Q148 242 145 290 Q142 338 190 342"
-              fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="8" strokeLinecap="round" />
-            <path d="M192 240 Q148 242 145 290 Q142 338 190 342"
-              fill="none" stroke="#F3672A" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.6" />
+              {/* Rating number + stars */}
+              <text x="24" y="118" fontSize="52" fontWeight="900" fontFamily="sans-serif" fill="white">4.8</text>
+              {/* 5 stars */}
+              {[0,1,2,3,4].map(i => {
+                const cx = 110 + i * 36
+                const cy = 104
+                const r = 14
+                const pts = Array.from({length:5}, (_,k) => {
+                  const a = (k * 144 - 90) * Math.PI / 180
+                  const b = (k * 144 - 90 + 72) * Math.PI / 180
+                  return `${cx + r * Math.cos(a)},${cy + r * Math.sin(a)} ${cx + r*0.42 * Math.cos(b)},${cy + r*0.42 * Math.sin(b)}`
+                }).join(' ')
+                return <polygon key={i} points={pts} fill={i < 4 ? '#F3672A' : 'none'} stroke="#F3672A" strokeWidth="1.5" fillOpacity={i < 4 ? '1' : '0'} filter={i < 4 ? 'url(#gr-glow)' : undefined} />
+              })}
 
-            {/* Right handle */}
-            <path d="M368 240 Q412 242 415 290 Q418 338 370 342"
-              fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="8" strokeLinecap="round" />
-            <path d="M368 240 Q412 242 415 290 Q418 338 370 342"
-              fill="none" stroke="#F3672A" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.6" />
+              {/* Review count */}
+              <text x="24" y="145" fontSize="12" fontWeight="600" fontFamily="sans-serif" fill="rgba(255,255,255,0.45)">Based on 1,534+ verified reviews</text>
 
-            {/* ── TOOTH shape inside cup ── */}
-            <g filter="url(#rg-softglow)" transform="translate(253, 248) scale(0.52)">
-              <path d="M52 0 C30 0 10 16 10 38 C10 52 14 62 18 76 C22 90 24 110 28 124 C30 132 36 136 42 130 C46 126 48 116 52 116 C56 116 58 126 62 130 C68 136 74 132 76 124 C80 110 82 90 86 76 C90 62 94 52 94 38 C94 16 74 0 52 0 Z"
-                fill="none" stroke="#F3672A" strokeWidth="3" strokeOpacity="0.9" />
-              <path d="M52 0 C30 0 10 16 10 38 C10 52 14 62 18 76 C22 90 24 110 28 124 C30 132 36 136 42 130 C46 126 48 116 52 116 C56 116 58 126 62 130 C68 136 74 132 76 124 C80 110 82 90 86 76 C90 62 94 52 94 38 C94 16 74 0 52 0 Z"
-                fill="#F3672A" fillOpacity="0.1" />
-            </g>
-
-            {/* ── STAR RATING row ── */}
-            {[0,1,2,3,4].map((i) => {
-              const cx = 214 + i * 34
-              return (
-                <g key={`star${i}`} filter="url(#rg-softglow)">
-                  <polygon
-                    points={`${cx},148 ${cx+6},163 ${cx+22},163 ${cx+10},172 ${cx+14},188 ${cx},179 ${cx-14},188 ${cx-10},172 ${cx-22},163 ${cx-6},163`}
-                    fill={i < 4 ? '#F3672A' : 'none'}
-                    stroke="#F3672A"
-                    strokeWidth={i < 4 ? '0' : '2'}
-                    strokeOpacity="0.7"
-                    fillOpacity={i < 4 ? '0.9' : '0'}
-                    transform={`scale(0.72) translate(${cx * 0.39}, ${148 * 0.39})`}
-                    style={{ transformOrigin: `${cx}px 168px` }}
-                  />
+              {/* Mini bar chart */}
+              {[[5,'#F3672A',0.9,72],[4,'rgba(243,103,42,0.6)',0.6,48],[3,'rgba(243,103,42,0.3)',0.3,20]].map(([label, color, op, w], i) => (
+                <g key={i} transform={`translate(24, ${162 + i * 13})`}>
+                  <text x="0" y="9" fontSize="9" fontWeight="700" fontFamily="sans-serif" fill="rgba(255,255,255,0.4)">{label}★</text>
+                  <rect x="22" y="1" width={w as number} height="7" rx="3" fill={color as string} fillOpacity={op as number} />
                 </g>
-              )
-            })}
-            {/* Simpler star row */}
-            {[0,1,2,3,4].map((i) => {
-              const x = 196 + i * 34
-              const y = 156
-              const r = 11
-              const pts = Array.from({length:5}, (_,k) => {
-                const a = (k * 144 - 90) * Math.PI / 180
-                const b = (k * 144 - 90 + 72) * Math.PI / 180
-                return `${x + r * Math.cos(a)},${y + r * Math.sin(a)} ${x + r*0.4 * Math.cos(b)},${y + r*0.4 * Math.sin(b)}`
-              }).join(' ')
-              return (
-                <polygon key={`s${i}`}
-                  points={pts}
-                  fill={i < 4 ? '#F3672A' : 'none'}
-                  stroke="#F3672A" strokeWidth="1.5"
-                  fillOpacity={i < 4 ? '1' : '0'}
-                  filter={i < 4 ? 'url(#rg-softglow)' : undefined}
+              ))}
+            </g>
+
+            {/* ── Floating mini review cards ── */}
+            {/* Card top-right */}
+            <g transform="translate(368, 86)">
+              <rect width="150" height="70" rx="12" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
+              <rect width="150" height="2" rx="1" fill="#4285F4" fillOpacity="0.7" />
+              {[0,1,2,3,4].map(i => (
+                <polygon key={i}
+                  points={`${12+i*20},18 ${12+i*20+5},26 ${12+i*20+16},27 ${12+i*20+8},34 ${12+i*20+11},44 ${12+i*20+0},38 ${12+i*20-11},44 ${12+i*20-8},34 ${12+i*20-16},27 ${12+i*20-5},26`}
+                  transform={`translate(0,0) scale(0.55) translate(${(12+i*20)*0.82},${18*0.82})`}
+                  style={{ transformOrigin: `${12+i*20}px 30px` }}
+                  fill={i < 5 ? '#F3672A' : 'none'} fillOpacity="0.9"
                 />
-              )
-            })}
-
-            {/* Rating number */}
-            <text x="388" y="166" fontSize="22" fontWeight="800" fill="#F3672A" fontFamily="sans-serif" opacity="0.9">4.8</text>
-
-            {/* ── Floating review cards ── */}
-            {/* Card 1 */}
-            <g transform="translate(62, 98)">
-              <rect width="148" height="64" rx="10" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.14)" strokeWidth="1" />
-              <rect width="148" height="2" rx="1" fill="#F3672A" fillOpacity="0.6" />
-              {[0,1,2].map(i => (
-                <rect key={i} x="12" y={14 + i*14} width={i===0?80:i===1?110:60} height="6" rx="3" fill="rgba(255,255,255,0.12)" />
               ))}
-              {/* mini stars */}
+              {/* simple star row instead */}
               {[0,1,2,3,4].map(i => (
-                <circle key={i} cx={12 + i*10} cy={56} r="3" fill="#F3672A" fillOpacity="0.8" />
+                <circle key={i} cx={14 + i * 12} cy={22} r="4" fill="#F3672A" fillOpacity="0.85" />
               ))}
+              <rect x="12" y="34" width="90" height="5" rx="2.5" fill="rgba(255,255,255,0.12)" />
+              <rect x="12" y="44" width="115" height="5" rx="2.5" fill="rgba(255,255,255,0.08)" />
+              <rect x="12" y="54" width="70" height="5" rx="2.5" fill="rgba(255,255,255,0.08)" />
             </g>
 
-            {/* Card 2 */}
-            <g transform="translate(352, 140)">
-              <rect width="140" height="60" rx="10" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.14)" strokeWidth="1" />
-              <rect width="140" height="2" rx="1" fill="#F3672A" fillOpacity="0.6" />
-              {[0,1,2].map(i => (
-                <rect key={i} x="12" y={14 + i*13} width={i===0?90:i===1?70:100} height="5" rx="2.5" fill="rgba(255,255,255,0.12)" />
-              ))}
+            {/* Card bottom-left */}
+            <g transform="translate(98, 390)">
+              <rect width="160" height="72" rx="12" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
+              <rect width="160" height="2" rx="1" fill="#34A853" fillOpacity="0.7" />
               {[0,1,2,3,4].map(i => (
-                <circle key={i} cx={12 + i*10} cy={52} r="3" fill="#F3672A" fillOpacity="0.8" />
+                <circle key={i} cx={14 + i * 12} cy={22} r="4" fill="#F3672A" fillOpacity="0.85" />
               ))}
+              <rect x="12" y="36" width="100" height="5" rx="2.5" fill="rgba(255,255,255,0.12)" />
+              <rect x="12" y="47" width="128" height="5" rx="2.5" fill="rgba(255,255,255,0.08)" />
+              <rect x="12" y="58" width="80" height="5" rx="2.5" fill="rgba(255,255,255,0.08)" />
             </g>
 
-            {/* Card 3 */}
-            <g transform="translate(80, 460)">
-              <rect width="130" height="56" rx="10" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.14)" strokeWidth="1" />
-              <rect width="130" height="2" rx="1" fill="#F3672A" fillOpacity="0.6" />
-              {[0,1].map(i => (
-                <rect key={i} x="12" y={14 + i*14} width={i===0?70:95} height="6" rx="3" fill="rgba(255,255,255,0.12)" />
-              ))}
+            {/* Card bottom-right */}
+            <g transform="translate(370, 430)">
+              <rect width="148" height="68" rx="12" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
+              <rect width="148" height="2" rx="1" fill="#EA4335" fillOpacity="0.7" />
               {[0,1,2,3,4].map(i => (
-                <circle key={i} cx={12 + i*10} cy={48} r="3" fill="#F3672A" fillOpacity="0.8" />
+                <circle key={i} cx={14 + i * 12} cy={22} r="4" fill="#F3672A" fillOpacity="0.85" />
               ))}
+              <rect x="12" y="36" width="85" height="5" rx="2.5" fill="rgba(255,255,255,0.12)" />
+              <rect x="12" y="47" width="110" height="5" rx="2.5" fill="rgba(255,255,255,0.08)" />
+              <rect x="12" y="58" width="65" height="5" rx="2.5" fill="rgba(255,255,255,0.08)" />
             </g>
 
-            {/* Orange accent dots / sparkles */}
-            {[
-              {cx:460,cy:80,r:4},{cx:100,cy:400,r:3},{cx:490,cy:460,r:5},
-              {cx:140,cy:180,r:2.5},{cx:420,cy:380,r:3.5},{cx:60,cy:300,r:2},
-            ].map((d,i) => (
-              <circle key={i} cx={d.cx} cy={d.cy} r={d.r} fill="#F3672A" fillOpacity="0.5" filter="url(#rg-softglow)" />
+            {/* Accent dots */}
+            {[{cx:88,cy:120,r:4},{cx:500,cy:200,r:3},{cx:460,cy:520,r:4},{cx:95,cy:500,r:3}].map((d,i) => (
+              <circle key={i} cx={d.cx} cy={d.cy} r={d.r} fill="#F3672A" fillOpacity="0.4" filter="url(#gr-glow)" />
             ))}
 
-            {/* Connecting arc lines (subtle) */}
-            <path d="M210 157 Q168 128 148 148" fill="none" stroke="#F3672A" strokeWidth="1" strokeOpacity="0.25" strokeDasharray="4 4" />
-            <path d="M350 157 Q388 152 392 162" fill="none" stroke="#F3672A" strokeWidth="1" strokeOpacity="0.25" strokeDasharray="4 4" />
-
-            {/* Left edge fade to match section bg */}
-            <rect x="0" y="0" width="560" height="580" fill="url(#rg-fade)" />
+            {/* Left edge fade */}
+            <rect x="0" y="0" width="560" height="580" fill="url(#gr-fade)" />
           </svg>
         </div>
 
-        {/* Floating rating badge */}
-        <div className="rev-trophy-img" style={{
-          position: 'absolute', bottom: 52, right: '7%',
-          background: ORANGE, borderRadius: 999,
-          padding: '12px 26px', fontSize: 18, fontWeight: 800,
-          color: 'white', boxShadow: '0 8px 32px rgba(243,103,42,0.6)',
-          whiteSpace: 'nowrap', zIndex: 2,
-          animation: 'rev-float 4s ease-in-out infinite',
-        }}>
-          {avgRating} ★
-        </div>
-
-        {/* Left — copy */}
+        {/* Left — copy */}        {/* Left — copy */}
         <div style={{ maxWidth: 1240, margin: '0 auto', padding: '160px 32px 120px', position: 'relative', zIndex: 1, width: '100%' }}>
           <div style={{ maxWidth: 620 }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 24, padding: '7px 16px', background: 'rgba(243,103,42,0.12)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.2)' }}>
