@@ -42,7 +42,7 @@ const NAV_LINKS: NavLink[] = [
   { label: 'Reviews', href: '/patient-resources/reviews/' },
 ]
 
-const SCROLL_THRESHOLD = 80
+const SCROLL_THRESHOLD = 300
 
 // All media-query responsive bits live in this single <style> block.
 // Everything else is inline styles per project convention.
@@ -639,10 +639,7 @@ export function Header({ brand, announcement, activeSection, logoMode = 'white' 
   const { scrollY } = useScroll()
 
   useEffect(
-    () => scrollY.on('change', (v) => {
-      if (v > SCROLL_THRESHOLD) setScrolled(true)
-      if (v < 40) setScrolled(false)
-    }),
+    () => scrollY.on('change', (v) => setScrolled(v > SCROLL_THRESHOLD)),
     [scrollY],
   )
 
