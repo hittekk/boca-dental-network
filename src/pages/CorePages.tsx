@@ -1106,14 +1106,36 @@ export function ReviewsPage() {
       </section>
 
       {/* ── FILTER BAR ── */}
-      <div style={{ background: 'white', borderBottom: '1px solid rgba(0,29,61,0.07)', padding: '20px 32px', position: 'sticky', top: 0, zIndex: 40, boxShadow: '0 4px 20px rgba(0,29,61,0.06)' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-          <span style={{ fontSize: 11, fontWeight: 800, color: 'rgba(0,29,61,0.4)', textTransform: 'uppercase', letterSpacing: 1.5, marginRight: 4, flexShrink: 0 }}>Filter:</span>
-          {[{ slug: 'all', label: 'All 9 locations' }, ...INITIAL_DATA.locations.map(l => ({ slug: l.slug, label: l.label }))].map(opt => (
-            <button key={opt.slug} onClick={() => setActiveLocation(opt.slug)} style={{ padding: '7px 16px', borderRadius: 999, fontSize: 12, fontWeight: 700, cursor: 'pointer', transition: 'all 0.18s ease', border: activeLocation === opt.slug ? 'none' : '1.5px solid rgba(0,29,61,0.1)', background: activeLocation === opt.slug ? ORANGE : 'transparent', color: activeLocation === opt.slug ? 'white' : 'rgba(0,29,61,0.6)', boxShadow: activeLocation === opt.slug ? '0 4px 12px rgba(243,103,42,0.3)' : 'none' }}>
-              {opt.label}
-            </button>
-          ))}
+      <div style={{ background: 'white', borderBottom: '2px solid rgba(0,29,61,0.07)', position: 'sticky', top: 0, zIndex: 40, boxShadow: '0 4px 20px rgba(0,29,61,0.06)' }}>
+        <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative' }}>
+          {/* Left fade */}
+          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 48, background: 'linear-gradient(to right, white, transparent)', zIndex: 2, pointerEvents: 'none' }} />
+          {/* Right fade */}
+          <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 48, background: 'linear-gradient(to left, white, transparent)', zIndex: 2, pointerEvents: 'none' }} />
+          <div style={{ overflowX: 'auto', display: 'flex', scrollbarWidth: 'none' as const }}>
+            <style>{`
+              .rev-filter-strip::-webkit-scrollbar { display: none; }
+              .rev-tab { position: relative; padding: 18px 20px 16px; font-size: 13px; font-weight: 700;
+                white-space: nowrap; cursor: pointer; border: none; background: transparent;
+                color: rgba(0,29,61,0.4); transition: color 0.18s; flex-shrink: 0; }
+              .rev-tab:hover { color: #001D3D; }
+              .rev-tab.active { color: #F3672A; }
+              .rev-tab.active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
+                height: 2px; background: #F3672A; border-radius: 2px 2px 0 0; }
+            `}</style>
+            {[{ slug: 'all', label: 'All Locations' }, ...INITIAL_DATA.locations.map(l => ({ slug: l.slug, label: l.label }))].map(opt => (
+              <button
+                key={opt.slug}
+                className={`rev-tab${activeLocation === opt.slug ? ' active' : ''}`}
+                onClick={() => setActiveLocation(opt.slug)}
+              >
+                {opt.label}
+                {opt.slug === 'all' && (
+                  <span style={{ marginLeft: 6, fontSize: 10, fontWeight: 800, background: activeLocation === 'all' ? '#F3672A' : 'rgba(0,29,61,0.08)', color: activeLocation === 'all' ? 'white' : 'rgba(0,29,61,0.4)', borderRadius: 999, padding: '2px 6px', transition: 'all 0.18s' }}>9</span>
+                )}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
