@@ -639,7 +639,10 @@ export function Header({ brand, announcement, activeSection, logoMode = 'white' 
   const { scrollY } = useScroll()
 
   useEffect(
-    () => scrollY.on('change', (v) => setScrolled(v > SCROLL_THRESHOLD)),
+    () => scrollY.on('change', (v) => {
+      if (v > SCROLL_THRESHOLD) setScrolled(true)
+      if (v < 40) setScrolled(false)
+    }),
     [scrollY],
   )
 
