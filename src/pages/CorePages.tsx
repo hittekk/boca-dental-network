@@ -336,12 +336,10 @@ function ClinicsHeroMap() {
 
       {/* ── HIGHWAY — I-15 diagonal ── */}
       <g opacity="0.5">
-        <path d="M 320 0 L 290 480" stroke="rgba(243,103,42,0.5)" strokeWidth="3" strokeLinecap="round" />
-        <path d="M 320 0 L 290 480" stroke="rgba(255,255,255,0.15)" strokeWidth="1" strokeLinecap="round" />
-        {/* I-15 shield */}
-        <rect x="296" y="88" width="24" height="18" rx="4" fill="rgba(243,103,42,0.8)" />
+        {/* I-15 shield only — no line */}
+        <rect x="296" y="88" width="24" height="18" rx="4" fill="rgba(255,255,255,0.15)" />
         <text x="308" y="101" fontSize="9" fontWeight="900" fill="white" textAnchor="middle" fontFamily="sans-serif">I-15</text>
-        <rect x="303" y="260" width="24" height="18" rx="4" fill="rgba(243,103,42,0.8)" />
+        <rect x="303" y="260" width="24" height="18" rx="4" fill="rgba(255,255,255,0.15)" />
         <text x="315" y="273" fontSize="9" fontWeight="900" fill="white" textAnchor="middle" fontFamily="sans-serif">I-15</text>
       </g>
 
@@ -401,10 +399,6 @@ function ClinicsHeroMap() {
         </g>
       ))}
 
-      {/* ── Edge fades ── */}
-      <rect x="0" y="0" width="700" height="480" fill="url(#mapFadeL)" />
-      <rect x="0" y="0" width="700" height="480" fill="url(#mapFadeT)" />
-      <rect x="0" y="0" width="700" height="480" fill="url(#mapFadeB)" />
     </svg>
   )
 }
