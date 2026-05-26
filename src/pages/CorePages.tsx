@@ -418,10 +418,11 @@ type ActiveClinic = {
   hours: string; rating: number; review_count: number; kids: boolean
 }
 
-function ClinicsMap({ onSelect, onDeselect, activeSlug }: {
+function ClinicsMap({ onSelect, onDeselect, activeSlug, registerReset }: {
   onSelect: (loc: ActiveClinic) => void
   onDeselect: () => void
   activeSlug: string | null
+  registerReset: (fn: () => void) => void
 }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<mapboxgl.Map | null>(null)
@@ -467,6 +468,11 @@ function ClinicsMap({ onSelect, onDeselect, activeSlug }: {
       map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'bottom-right')
 
       map.on('load', () => {
+        const resetView = () => {
+          Object.values(markersRef.current).forEach(m => m.classList.remove('active-pin'))
+          map.easeTo({ center: [-115.1900, 36.1300], zoom: 10.2, duration: 500, easing: (t: number) => t < 0.5 ? 2*t*t : -1+(4-2*t)*t })
+        }
+        registerReset(resetView)
         INITIAL_DATA.locations.forEach(loc => {
           const coords = COORDS_BY_LOCATION[loc.slug]
           if (!coords) return
@@ -513,9 +519,8 @@ function ClinicsMap({ onSelect, onDeselect, activeSlug }: {
         })
 
         map.on('click', () => {
-          Object.values(markersRef.current).forEach(m => m.classList.remove('active-pin'))
+          resetView()
           onDeselect()
-          map.easeTo({ center: [-115.1900, 36.1300], zoom: 10.2, duration: 500, easing: (t: number) => t < 0.5 ? 2*t*t : -1+(4-2*t)*t })
         })
       })
 
@@ -641,6 +646,7 @@ function ClinicPopup({ clinic, onClose }: { clinic: ActiveClinic | null; onClose
 export function ClinicsHubPage() {
   const [activeNeighborhood, setActiveNeighborhood] = React.useState<string>('All')
   const [activeClinic, setActiveClinic] = React.useState<ActiveClinic | null>(null)
+  const mapResetRef = React.useRef<(() => void) | null>(null)
   const cardRefs = React.useRef<Record<string, HTMLDivElement | null>>({})
 
   const handleMapSelect = (loc: ActiveClinic) => {
@@ -648,7 +654,10 @@ export function ClinicsHubPage() {
     setActiveNeighborhood('All')
   }
 
-  const handleClose = () => setActiveClinic(null)
+  const handleClose = () => {
+    setActiveClinic(null)
+    mapResetRef.current?.()
+  }
 
   const breadcrumbSchema = usePageMeta({
     title: '9 Boca Dental & Braces Locations Across Las Vegas',
@@ -727,6 +736,7 @@ export function ClinicsHubPage() {
             onSelect={handleMapSelect}
             onDeselect={handleClose}
             activeSlug={activeClinic?.slug ?? null}
+            registerReset={(fn) => { mapResetRef.current = fn }}
           />
         </div>
       </section>
