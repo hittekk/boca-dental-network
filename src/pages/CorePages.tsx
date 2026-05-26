@@ -959,8 +959,8 @@ export function ReviewsPage() {
               mixBlendMode: 'luminosity',
             }}
           />
-          {/* Fade from blue on the left edge — solid well past the cut line */}
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #162E7A 0%, #162E7A 48%, rgba(22,46,122,0.92) 62%, rgba(22,46,122,0.55) 76%, transparent 100%)' }} />
+          {/* Fade from dark navy on the left edge — matches section bg */}
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #001D3D 0%, #001D3D 48%, rgba(0,29,61,0.92) 62%, rgba(0,29,61,0.55) 76%, transparent 100%)' }} />
         </div>
 
         {/* Floating rating badge */}
