@@ -32,7 +32,7 @@ export function Footer() {
     <footer
       id="footer"
       style={{
-        background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)',
+        background: '#001D3D',
         padding: '72px 32px 32px',
         color: 'rgba(255,255,255,0.65)',
       }}
