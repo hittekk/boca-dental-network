@@ -586,7 +586,7 @@ export function ClinicsHubPage() {
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: '#F3672A', marginBottom: 20, padding: '6px 14px', background: 'rgba(243,103,42,0.12)', borderRadius: 999 }}>
             <MapPin size={11} /> 9 Las Vegas Locations
           </div>
-          <h1 style={{ fontSize: 'clamp(48px, 7vw, 96px)', fontWeight: 800, letterSpacing: '-3px', color: 'white', margin: '0 0 20px', lineHeight: 0.9 }}>
+          <h1 style={{ fontSize: 'clamp(34px, 4.8vw, 58px)', fontWeight: 800, letterSpacing: '-1.5px', color: 'white', margin: '0 0 20px', lineHeight: 1.0 }}>
             Find your<br /><span style={{ color: '#F3672A' }}>nearest Boca.</span>
           </h1>
           <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.6)', maxWidth: 520, lineHeight: 1.6, margin: '0 0 40px' }}>
