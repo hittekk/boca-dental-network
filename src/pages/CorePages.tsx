@@ -724,7 +724,7 @@ export function ClinicsHubPage() {
               <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#F3672A', display: 'inline-block' }} /> General
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#162E7A', display: 'inline-block' }} /> Kids
+              <span style={{ width: 9, height: 9, borderRadius: '50%', background: 'white', border: '2px solid rgba(255,255,255,0.5)', display: 'inline-block' }} /> Kids
             </span>
             <span style={{ marginLeft: 'auto', opacity: 0.4, fontSize: 10 }}>Click a pin</span>
           </div>
