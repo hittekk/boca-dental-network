@@ -1144,26 +1144,6 @@ export function ReviewsPage() {
             </g>
 
             {/* ── Floating mini review cards ── */}
-            {/* Card top-right */}
-            <g transform="translate(368, 86)">
-              <rect width="150" height="70" rx="12" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
-              <rect width="150" height="2" rx="1" fill="#4285F4" fillOpacity="0.7" />
-              {[0,1,2,3,4].map(i => (
-                <polygon key={i}
-                  points={`${12+i*20},18 ${12+i*20+5},26 ${12+i*20+16},27 ${12+i*20+8},34 ${12+i*20+11},44 ${12+i*20+0},38 ${12+i*20-11},44 ${12+i*20-8},34 ${12+i*20-16},27 ${12+i*20-5},26`}
-                  transform={`translate(0,0) scale(0.55) translate(${(12+i*20)*0.82},${18*0.82})`}
-                  style={{ transformOrigin: `${12+i*20}px 30px` }}
-                  fill={i < 5 ? '#F3672A' : 'none'} fillOpacity="0.9"
-                />
-              ))}
-              {/* simple star row instead */}
-              {[0,1,2,3,4].map(i => (
-                <circle key={i} cx={14 + i * 12} cy={22} r="4" fill="#F3672A" fillOpacity="0.85" />
-              ))}
-              <rect x="12" y="34" width="90" height="5" rx="2.5" fill="rgba(255,255,255,0.12)" />
-              <rect x="12" y="44" width="115" height="5" rx="2.5" fill="rgba(255,255,255,0.08)" />
-              <rect x="12" y="54" width="70" height="5" rx="2.5" fill="rgba(255,255,255,0.08)" />
-            </g>
 
             {/* Card bottom-left */}
             <g transform="translate(98, 390)">
