@@ -1173,8 +1173,7 @@ export function ReviewsPage() {
               <circle key={i} cx={d.cx} cy={d.cy} r={d.r} fill="#F3672A" fillOpacity="0.4" filter="url(#gr-glow)" />
             ))}
 
-            {/* Left edge fade */}
-            <rect x="0" y="0" width="560" height="580" fill="url(#gr-fade)" />
+            {/* Left edge fade removed */}
           </svg>
         </div>
 
