@@ -30,8 +30,6 @@ interface HeaderProps {
   activeSection?: string
   /** 'white' = light logo for dark heroes (Variant A); 'dark' = navy logo for cream/light heroes (Variant B) */
   logoMode?: 'white' | 'dark'
-  /** true = dark navy glass always on (clinics map page); false (default) = transparent until scroll */
-  solidBg?: boolean
 }
 
 // ── Constants ────────────────────────────────────────────────────────────────
@@ -634,7 +632,7 @@ function HamburgerBtn({
  * @example
  *   <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} />
  */
-export function Header({ brand, announcement, activeSection, logoMode = 'white', solidBg = false }: HeaderProps) {
+export function Header({ brand, announcement, activeSection, logoMode = 'white' }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -671,9 +669,9 @@ export function Header({ brand, announcement, activeSection, logoMode = 'white',
 
         <motion.div
           animate={{
-            background: (solidBg || scrolled) ? GLASS_BG : 'rgba(0,0,0,0)',
-            boxShadow: (solidBg || scrolled) ? GLASS_SHADOW : 'none',
-            borderBottom: `1px solid ${(solidBg || scrolled) ? GLASS_BORDER : 'transparent'}`,
+            background: scrolled ? GLASS_BG : 'rgba(0,0,0,0)',
+            boxShadow: scrolled ? GLASS_SHADOW : 'none',
+            borderBottom: `1px solid ${scrolled ? GLASS_BORDER : 'transparent'}`,
           }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
           style={{
