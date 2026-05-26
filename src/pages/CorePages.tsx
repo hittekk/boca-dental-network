@@ -424,6 +424,26 @@ function ClinicsMap({ onSelect, onDeselect }: {
     hours: string; rating: number; review_count: number; kids: boolean;
   }>(null)
   const markersRef = useRef<Record<string, HTMLDivElement>>({})
+  const activeCoordsRef = useRef<[number, number] | null>(null)
+  const [popupPos, setPopupPos] = React.useState<{ top: number; left: number }>({ top: 16, left: 16 })
+
+  const POPUP_W = 284
+  const POPUP_H = 390
+
+  function calcPopupPos(map: mapboxgl.Map, coords: [number, number], container: HTMLDivElement) {
+    const point = map.project(coords as mapboxgl.LngLatLike)
+    const { width, height } = container.getBoundingClientRect()
+    const pad = 14
+    // Prefer left of pin; fallback right
+    let left = point.x - POPUP_W - 24
+    if (left < pad) left = point.x + 30
+    // Hard-clamp so popup never exits map bounds
+    left = Math.max(pad, Math.min(width - POPUP_W - pad, left))
+    // Center vertically on pin; clamp top/bottom
+    let top = point.y - POPUP_H / 2
+    top = Math.max(pad, Math.min(height - POPUP_H - pad, top))
+    return { top, left }
+  }
 
   // Inject popup + pin animation styles once
   useEffect(() => {
@@ -505,7 +525,14 @@ function ClinicsMap({ onSelect, onDeselect }: {
               rating: loc.rating, review_count: loc.review_count, kids: loc.kids,
             })
             onSelect(loc.slug)
+            activeCoordsRef.current = coords
             map.easeTo({ center: [coords[0] + 0.02, coords[1]], zoom: 12.5, duration: 600, easing: (t: number) => t < 0.5 ? 2*t*t : -1+(4-2*t)*t })
+            // After pan settles, project pin to screen and position popup so it never overflows
+            map.once('moveend', () => {
+              if (activeCoordsRef.current && containerRef.current && mapRef.current) {
+                setPopupPos(calcPopupPos(mapRef.current, activeCoordsRef.current, containerRef.current))
+              }
+            })
           })
 
           new mapboxgl.Marker({ element: el, anchor: 'center' })
@@ -536,33 +563,24 @@ function ClinicsMap({ onSelect, onDeselect }: {
     <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: 560 }}>
       <div ref={containerRef} style={{ position: 'absolute', inset: 0 }} />
 
-      {/* Legend — bottom left */}
-      <div style={{ position: 'absolute', bottom: 16, left: 16, background: 'white', borderRadius: 10, padding: '9px 16px', fontSize: 11, fontWeight: 700, color: '#001D3D', display: 'flex', gap: 16, zIndex: 2, boxShadow: '0 2px 12px rgba(0,29,61,0.10)' }}>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#F3672A', display: 'inline-block' }} />
-          General
-        </span>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#001D3D', display: 'inline-block' }} />
-          Kids
-        </span>
-      </div>
-
-      {/* Left-side location panel */}
+      {/* Left-side location panel — smart positioned near clicked pin */}
       <div style={{
-        position: 'absolute', top: 16, left: 16, bottom: 16,
-        width: 280,
+        position: 'absolute',
+        top: popupPos.top,
+        left: popupPos.left,
+        width: POPUP_W,
+        maxHeight: POPUP_H,
         background: 'white',
         borderRadius: 16,
-        boxShadow: '0 8px 40px rgba(0,29,61,0.13)',
+        boxShadow: '0 8px 40px rgba(0,29,61,0.16)',
         zIndex: 3,
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         opacity: active ? 1 : 0,
-        transform: active ? 'translateX(0)' : 'translateX(-16px)',
+        transform: active ? 'translateY(0) scale(1)' : 'translateY(8px) scale(0.97)',
         pointerEvents: active ? 'all' : 'none',
-        transition: 'opacity 0.28s cubic-bezier(0.4,0,0.2,1), transform 0.28s cubic-bezier(0.4,0,0.2,1)',
+        transition: 'opacity 0.24s ease, transform 0.24s cubic-bezier(0.4,0,0.2,1), top 0.32s cubic-bezier(0.4,0,0.2,1), left 0.32s cubic-bezier(0.4,0,0.2,1)',
       }}>
         {active && (
           <>
@@ -687,7 +705,7 @@ export function ClinicsHubPage() {
           width: 400,
           flexShrink: 0,
           background: 'linear-gradient(180deg, #001228 0%, #001D3D 45%, #162E7A 100%)',
-          padding: '44px 40px 40px',
+          padding: '52px 44px 48px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -695,30 +713,30 @@ export function ClinicsHubPage() {
           boxShadow: '6px 0 48px rgba(0,0,0,0.32)',
           overflowY: 'auto',
         }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 10, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: '#F3672A', marginBottom: 22, padding: '5px 12px', background: 'rgba(243,103,42,0.12)', borderRadius: 999, width: 'fit-content' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 10, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: '#F3672A', marginBottom: 26, padding: '5px 12px', background: 'rgba(243,103,42,0.12)', borderRadius: 999, width: 'fit-content' }}>
             <MapPin size={10} /> 9 Las Vegas Locations
           </div>
 
-          <h1 style={{ fontSize: 'clamp(30px, 2.8vw, 48px)', fontWeight: 800, letterSpacing: '-1.5px', color: 'white', margin: '0 0 16px', lineHeight: 1.05 }}>
+          <h1 style={{ fontSize: 'clamp(30px, 2.8vw, 48px)', fontWeight: 800, letterSpacing: '-1.5px', color: 'white', margin: '0 0 20px', lineHeight: 1.05 }}>
             Find your<br /><span style={{ color: '#F3672A' }}>nearest Boca.</span>
           </h1>
 
-          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.55)', lineHeight: 1.65, margin: '0 0 32px' }}>
+          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7, margin: '0 0 36px' }}>
             Nine clinics across greater Las Vegas — general, cosmetic, orthodontics, pediatric, and emergency care. Click any pin on the map.
           </p>
 
           {/* Stats row */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px 20px', marginBottom: 36, paddingBottom: 32, borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px 24px', marginBottom: 40, paddingBottom: 36, borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
             {[{ val: '9', label: 'Locations' }, { val: '4.8★', label: 'Avg Rating' }, { val: '20k+', label: 'Patients Served' }, { val: '2006', label: 'Est. Las Vegas' }].map(s => (
               <div key={s.label}>
                 <div style={{ fontSize: 22, fontWeight: 800, color: 'white', letterSpacing: '-0.5px', lineHeight: 1 }}>{s.val}</div>
-                <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 5 }}>{s.label}</div>
+                <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 6 }}>{s.label}</div>
               </div>
             ))}
           </div>
 
           {/* CTAs */}
-          <a href="/request-consultation" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: '#F3672A', color: 'white', borderRadius: 10, padding: '13px 20px', fontSize: 13, fontWeight: 800, textDecoration: 'none', letterSpacing: 0.4, marginBottom: 10, textTransform: 'uppercase' }}>
+          <a href="/request-consultation" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: '#F3672A', color: 'white', borderRadius: 10, padding: '15px 20px', fontSize: 13, fontWeight: 800, textDecoration: 'none', letterSpacing: 0.4, marginBottom: 12, textTransform: 'uppercase' }}>
             Book an Appointment →
           </a>
           <a href="tel:7024560005" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, color: 'rgba(255,255,255,0.45)', fontSize: 13, fontWeight: 700, textDecoration: 'none', padding: '10px 0' }}>
@@ -726,7 +744,7 @@ export function ClinicsHubPage() {
           </a>
 
           {/* Legend */}
-          <div style={{ marginTop: 'auto', paddingTop: 28, display: 'flex', gap: 20, fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.45)' }}>
+          <div style={{ marginTop: 'auto', paddingTop: 32, display: 'flex', gap: 20, fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.45)' }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#F3672A', display: 'inline-block', border: '1.5px solid rgba(255,255,255,0.3)' }} />
               General
