@@ -554,11 +554,7 @@ export function ClinicsHubPage() {
   const handleMapSelect = (slug: string) => {
     setActiveSlug(slug)
     setActiveNeighborhood('All') // show all cards so the selected one is visible
-    // Scroll to the card after a short delay to let the DOM settle
-    setTimeout(() => {
-      const el = cardRefs.current[slug]
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    }, 120)
+    // highlight only — no scroll
   }
 
   const handleMapDeselect = () => setActiveSlug(null)
@@ -584,6 +580,10 @@ export function ClinicsHubPage() {
         {/* SVG illustrated city grid — right side, fades into blue */}
         <div style={{ position: 'absolute', top: 0, right: 0, width: '60%', height: '100%', zIndex: 0, pointerEvents: 'none' }}>
           <ClinicsHeroMap />
+          {/* Hard left-edge cover — blends SVG into hero background */}
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '38%', height: '100%', background: 'linear-gradient(to right, #001D3D 0%, #001D3D 30%, rgba(0,29,61,0.85) 60%, transparent 100%)', pointerEvents: 'none' }} />
+          {/* Bottom fade */}
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to top, #001D3D 0%, transparent 100%)', pointerEvents: 'none' }} />
         </div>
 
         <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative', zIndex: 1 }}>
