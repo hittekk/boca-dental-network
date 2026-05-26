@@ -1200,18 +1200,18 @@ export function ReviewsPage() {
         </div>
 
         {/* Left — copy */}        {/* Left — copy */}
-        <div style={{ maxWidth: 1240, margin: '0 auto', padding: '160px 32px 120px', position: 'relative', zIndex: 1, width: '100%' }}>
+        <div style={{ maxWidth: 1240, margin: '0 auto', padding: '200px 32px 140px', position: 'relative', zIndex: 1, width: '100%' }}>
           <div style={{ maxWidth: 620 }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 24, padding: '7px 16px', background: 'rgba(243,103,42,0.12)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.2)' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 32, padding: '7px 16px', background: 'rgba(243,103,42,0.12)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.2)' }}>
               <Star size={11} fill={ORANGE} color={ORANGE} /> Verified Google Reviews
             </div>
             <h1 style={{ fontSize: 'clamp(34px, 4.6vw, 58px)', fontWeight: 800, letterSpacing: '-1.5px', color: 'white', margin: '0 0 4px', lineHeight: 1.0 }}>
               What Las Vegas patients
             </h1>
-            <h1 style={{ fontSize: 'clamp(34px, 4.6vw, 58px)', fontWeight: 800, letterSpacing: '-1.5px', color: ORANGE, margin: '0 0 22px', lineHeight: 1.0 }}>
+            <h1 style={{ fontSize: 'clamp(34px, 4.6vw, 58px)', fontWeight: 800, letterSpacing: '-1.5px', color: ORANGE, margin: '0 0 28px', lineHeight: 1.0 }}>
               say about Boca.
             </h1>
-            <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65, margin: '0 0 44px' }}>
+            <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65, margin: '0 0 52px' }}>
               Real reviews from real patients. We never pay for reviews — every star is earned at one of our 9 Las Vegas clinics.
             </p>
             <div className="rev-hero-stats" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, auto)', gap: 2, width: 'fit-content' }}>
