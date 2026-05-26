@@ -1144,28 +1144,40 @@ export function ReviewsPage() {
 
             {/* ── Floating mini review cards ── */}
 
-            {/* Card bottom-left */}
-            <g transform="translate(98, 390)">
-              <rect width="160" height="72" rx="12" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
-              <rect width="160" height="2" rx="1" fill="#34A853" fillOpacity="0.7" />
-              {[0,1,2,3,4].map(i => (
-                <circle key={i} cx={14 + i * 12} cy={22} r="4" fill="#F3672A" fillOpacity="0.85" />
-              ))}
-              <rect x="12" y="36" width="100" height="5" rx="2.5" fill="rgba(255,255,255,0.12)" />
-              <rect x="12" y="47" width="128" height="5" rx="2.5" fill="rgba(255,255,255,0.08)" />
-              <rect x="12" y="58" width="80" height="5" rx="2.5" fill="rgba(255,255,255,0.08)" />
+            {/* Review card — bottom left */}
+            <g transform="translate(60, 370)">
+              <rect width="210" height="110" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.13)" strokeWidth="1" />
+              {/* Avatar circle */}
+              <circle cx="24" cy="24" r="14" fill="rgba(243,103,42,0.25)" />
+              <text x="24" y="29" textAnchor="middle" fontSize="12" fontWeight="800" fontFamily="sans-serif" fill="#F3672A">M</text>
+              {/* Name */}
+              <text x="44" y="20" fontSize="11" fontWeight="700" fontFamily="sans-serif" fill="rgba(255,255,255,0.9)">Maria G.</text>
+              {/* Stars */}
+              <text x="44" y="33" fontSize="10" fontFamily="sans-serif" fill="#F3672A">★★★★★</text>
+              {/* Divider */}
+              <line x1="14" y1="46" x2="196" y2="46" stroke="rgba(255,255,255,0.07)" strokeWidth="1" />
+              {/* Review text lines */}
+              <text x="14" y="64" fontSize="9.5" fontFamily="sans-serif" fill="rgba(255,255,255,0.65)">"Best dental experience I've had</text>
+              <text x="14" y="79" fontSize="9.5" fontFamily="sans-serif" fill="rgba(255,255,255,0.65)">in Las Vegas. Staff was amazing</text>
+              <text x="14" y="94" fontSize="9.5" fontFamily="sans-serif" fill="rgba(255,255,255,0.45)">and they accept my insurance!"</text>
             </g>
 
-            {/* Card bottom-right */}
-            <g transform="translate(370, 430)">
-              <rect width="148" height="68" rx="12" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
-              <rect width="148" height="2" rx="1" fill="#EA4335" fillOpacity="0.7" />
-              {[0,1,2,3,4].map(i => (
-                <circle key={i} cx={14 + i * 12} cy={22} r="4" fill="#F3672A" fillOpacity="0.85" />
-              ))}
-              <rect x="12" y="36" width="85" height="5" rx="2.5" fill="rgba(255,255,255,0.12)" />
-              <rect x="12" y="47" width="110" height="5" rx="2.5" fill="rgba(255,255,255,0.08)" />
-              <rect x="12" y="58" width="65" height="5" rx="2.5" fill="rgba(255,255,255,0.08)" />
+            {/* Review card — bottom right */}
+            <g transform="translate(305, 400)">
+              <rect width="210" height="110" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.13)" strokeWidth="1" />
+              {/* Avatar circle */}
+              <circle cx="24" cy="24" r="14" fill="rgba(96,165,250,0.2)" />
+              <text x="24" y="29" textAnchor="middle" fontSize="12" fontWeight="800" fontFamily="sans-serif" fill="#60a5fa">J</text>
+              {/* Name */}
+              <text x="44" y="20" fontSize="11" fontWeight="700" fontFamily="sans-serif" fill="rgba(255,255,255,0.9)">James T.</text>
+              {/* Stars */}
+              <text x="44" y="33" fontSize="10" fontFamily="sans-serif" fill="#F3672A">★★★★★</text>
+              {/* Divider */}
+              <line x1="14" y1="46" x2="196" y2="46" stroke="rgba(255,255,255,0.07)" strokeWidth="1" />
+              {/* Review text lines */}
+              <text x="14" y="64" fontSize="9.5" fontFamily="sans-serif" fill="rgba(255,255,255,0.65)">"Got my Invisalign here. Dr. L is</text>
+              <text x="14" y="79" fontSize="9.5" fontFamily="sans-serif" fill="rgba(255,255,255,0.65)">incredible — results in 6 months.</text>
+              <text x="14" y="94" fontSize="9.5" fontFamily="sans-serif" fill="rgba(255,255,255,0.45)">Highly recommend Boca!"</text>
             </g>
 
             {/* Accent dots */}
