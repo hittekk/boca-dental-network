@@ -669,18 +669,16 @@ export function Header({ brand, announcement, activeSection, logoMode = 'white' 
 
         <motion.div
           animate={{
-            background: scrolled ? GLASS_BG : 'rgba(16, 29, 74, 0)',
-            boxShadow: scrolled ? GLASS_SHADOW : '0 0 0 rgba(0,0,0,0)',
-            borderBottom: scrolled
-              ? `1px solid ${GLASS_BORDER}`
-              : '1px solid rgba(255,255,255,0)',
+            background: GLASS_BG,
+            boxShadow: GLASS_SHADOW,
+            borderBottom: `1px solid ${GLASS_BORDER}`,
           }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
           style={{
             position: 'relative',
             width: '100%',
-            backdropFilter: scrolled ? GLASS_BLUR : 'none',
-            WebkitBackdropFilter: scrolled ? GLASS_BLUR : 'none',
+            backdropFilter: GLASS_BLUR,
+            WebkitBackdropFilter: GLASS_BLUR,
           }}
         >
           <motion.div

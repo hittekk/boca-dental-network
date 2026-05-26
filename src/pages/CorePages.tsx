@@ -349,14 +349,8 @@ function ClinicsHeroMap() {
         <text x="156" y="111" fontSize="8" fontWeight="900" fill="white" textAnchor="middle" fontFamily="sans-serif">US 95</text>
       </g>
 
-      {/* ── Left-edge gradient — blends map into the navy hero copy area ── */}
-      <defs>
-        <linearGradient id="mapFadeLeft" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%"  stopColor="#001D3D" stopOpacity="1" />
-          <stop offset="35%" stopColor="#001D3D" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <rect x="0" y="0" width="700" height="480" fill="url(#mapFadeLeft)" />
+      {/* ── Left-edge gradient fade ── */}
+      <rect x="0" y="0" width="700" height="480" fill="url(#mapFadeL)" />
 
       {/* ── LAS VEGAS watermark text ── */}
       <text
