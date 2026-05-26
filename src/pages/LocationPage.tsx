@@ -2,49 +2,33 @@ import { useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { INITIAL_DATA } from '../data/initialData'
 import { useSiteData } from '../lib/site-data'
-import type { Variant } from '../components/VariantSwitcher'
 import { LocationPageV1 } from './LocationPageV1'
-import { LocationPageV2 } from './LocationPageV2'
-import { LocationPageV3 } from './LocationPageV3'
 import { LocationPageMeta } from '../components/shared/LocationPageMeta'
 import { LocationPageSchema } from '../components/shared/LocationPageSchema'
 
 // Service slugs available at each location. Kids offices = pediatric only.
-// Real CMS will manage this; for the design phase we derive from `kids` flag.
 export function servicesForLocation(slug: string): string[] {
   const loc = INITIAL_DATA.locations.find((l) => l.slug === slug)
   if (!loc) return []
   if (loc.kids) {
-    return [
-      'pediatric-dentistry',
-      'general-dentistry',
-      'orthodontics',
-      'sedation-dentistry',
-    ]
+    return ['pediatric-dentistry', 'general-dentistry', 'orthodontics', 'sedation-dentistry']
   }
   return [
-    'general-dentistry',
-    'cosmetic-dentistry',
-    'restorative-dentistry',
-    'dental-implants',
-    'orthodontics',
-    'periodontal',
-    'oral-surgery',
-    'sedation-dentistry',
+    'general-dentistry', 'cosmetic-dentistry', 'restorative-dentistry',
+    'dental-implants', 'orthodontics', 'periodontal', 'oral-surgery', 'sedation-dentistry',
   ]
 }
 
-// Doctors assigned per location. Deterministic mock — replaced by CMS later.
-// 2-3 doctors per office to keep the strip readable.
+// Doctors assigned per location.
 const DOCTORS_BY_LOCATION: Record<string, string[]> = {
-  'russell-eastern': ['dr-wyatt-dannels', 'dr-harrison-luu', 'dr-sana-fahim'],
+  'russell-eastern':     ['dr-wyatt-dannels', 'dr-harrison-luu', 'dr-sana-fahim'],
   'boca-kids-dentistry': ['dr-kelcey-loveland', 'minh-nguyen'],
-  'bonanza-eastern': ['dr-justin-wall', 'dr-johnson-fong'],
-  'sahara-decatur': ['dr-michael-st-laurent', 'dr-bredan-marlin'],
-  'jones-i95': ['dr-charles-calder', 'dr-james-yun'],
-  'charleston-lamb': ['dr-harrison-luu', 'dr-sana-fahim'],
-  'flamingo-torrey': ['dr-justin-wall', 'dr-kelcey-loveland'],
-  'cheyenne-commons': ['dr-johnson-fong', 'minh-nguyen'],
+  'bonanza-eastern':     ['dr-justin-wall', 'dr-johnson-fong'],
+  'sahara-decatur':      ['dr-michael-st-laurent', 'dr-bredan-marlin'],
+  'jones-i95':           ['dr-charles-calder', 'dr-james-yun'],
+  'charleston-lamb':     ['dr-harrison-luu', 'dr-sana-fahim'],
+  'flamingo-torrey':     ['dr-justin-wall', 'dr-kelcey-loveland'],
+  'cheyenne-commons':    ['dr-johnson-fong', 'minh-nguyen'],
   'beltway-marketplace': ['dr-wyatt-dannels', 'dr-bredan-marlin'],
 }
 
@@ -53,25 +37,28 @@ export function doctorsForLocation(slug: string): string[] {
 }
 
 // Approximate lat/lng per location for the embedded single-pin map.
-// Real values come from GBP Place ID via the admin dashboard.
 export const COORDS_BY_LOCATION: Record<string, [number, number]> = {
-  'russell-eastern': [-115.1198, 36.0641],
+  'russell-eastern':     [-115.1198, 36.0641],
   'boca-kids-dentistry': [-115.1186, 36.0631],
-  'bonanza-eastern': [-115.1198, 36.1762],
-  'sahara-decatur': [-115.2095, 36.1442],
-  'jones-i95': [-115.2236, 36.1731],
-  'charleston-lamb': [-115.0942, 36.1577],
-  'flamingo-torrey': [-115.2628, 36.1147],
-  'cheyenne-commons': [-115.2425, 36.2167],
+  'bonanza-eastern':     [-115.1198, 36.1762],
+  'sahara-decatur':      [-115.2095, 36.1442],
+  'jones-i95':           [-115.2236, 36.1731],
+  'charleston-lamb':     [-115.0942, 36.1577],
+  'flamingo-torrey':     [-115.2628, 36.1147],
+  'cheyenne-commons':    [-115.2425, 36.2167],
   'beltway-marketplace': [-115.1198, 36.0227],
 }
 
 export function LocationPage() {
   const { slug } = useParams<{ slug: string }>()
   const siteData = useSiteData()
-  const location = siteData.locations.find((l) => l.slug === slug)
 
-  // Scroll to top when the slug changes (route transitions don't reset scroll)
+  // Try live Supabase data first, always fall back to static INITIAL_DATA.
+  // This prevents a Supabase slug mismatch from ever blocking a known location.
+  const location =
+    siteData.locations.find((l) => l.slug === slug) ??
+    INITIAL_DATA.locations.find((l) => l.slug === slug)
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
   }, [slug])
@@ -87,8 +74,8 @@ export function LocationPage() {
           justifyContent: 'center',
           padding: '0 32px',
           textAlign: 'center',
-          background: variant === 'c' ? '#0A0A0F' : '#ffffff',
-          color: variant === 'c' ? 'white' : '#001D3D',
+          background: '#ffffff',
+          color: '#001D3D',
           fontFamily: 'inherit',
         }}
       >
@@ -104,22 +91,14 @@ export function LocationPage() {
         >
           404 · Location not found
         </div>
-        <h1
-          style={{
-            fontSize: 36,
-            fontWeight: 800,
-            letterSpacing: '-1px',
-            margin: '0 0 16px',
-          }}
-        >
+        <h1 style={{ fontSize: 36, fontWeight: 800, letterSpacing: '-1px', margin: '0 0 16px' }}>
           We couldn't find that office.
         </h1>
         <p style={{ fontSize: 16, opacity: 0.7, marginBottom: 24 }}>
-          The clinic slug "{slug}" doesn't match any of our 9 Las Vegas
-          offices.
+          The URL <strong>/clinics/{slug}/</strong> doesn't match any of our 9 Las Vegas offices.
         </p>
         <a
-          href="/"
+          href="/clinics/"
           style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -135,7 +114,7 @@ export function LocationPage() {
             letterSpacing: 0.5,
           }}
         >
-          Back to home →
+          View all locations →
         </a>
       </div>
     )
