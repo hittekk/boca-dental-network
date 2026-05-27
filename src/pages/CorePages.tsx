@@ -1167,48 +1167,226 @@ export function ClinicsHubPage() {
 export function ServicesHubPage() {
   const breadcrumbSchema = usePageMeta({
     title: 'All Dental Services in Las Vegas | Boca Dental & Braces',
-    description: 'Complete list of dental services at Boca Dental & Braces Las Vegas: general dentistry, cosmetic dentistry, restorative, dental implants, orthodontics, pediatric, sedation, oral surgery, periodontal, endodontics, prosthodontics, and preventive care.',
+    description: 'Complete dental services at 9 Las Vegas locations — general dentistry, cosmetic, implants, orthodontics, oral surgery, pediatric, sedation, periodontal, and more. Every specialty in-house. No referrals needed.',
     url: `${DOMAIN}/services/`,
-    breadcrumb: [
-      { name: 'Home', url: `${DOMAIN}/` },
-      { name: 'Services' },
-    ],
+    breadcrumb: [{ name: 'Home', url: `${DOMAIN}/` }, { name: 'Services' }],
   })
+
+  const PRIMARY_CATS = SERVICE_CATEGORIES.slice(0, 9)
+  const EXTRA_CATS   = SERVICE_CATEGORIES.slice(9)
+
+  const CAT_ICONS: Record<string, React.ReactNode> = {
+    'general-dentistry': (
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 4C12 4 9 6.5 9 10c0 2 .5 3.5 1 5s1 3.5 1 5c0 1.5.5 3 1.5 3s2-1.5 2.5-4c.5-2.5 1-4 1-4s.5 1.5 1 4c.5 2.5 1.5 4 2.5 4s1.5-1.5 1.5-3c0-1.5.5-3.5 1-5s1-3 1-5c0-3.5-3-6-7-6z" stroke="#F3672A" strokeWidth="1.8" strokeLinejoin="round"/><path d="M12 10h8" stroke="#F3672A" strokeWidth="1.5" strokeLinecap="round"/></svg>
+    ),
+    'cosmetic-dentistry': (
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 6l2.5 5 5.5.8-4 3.9.9 5.5L16 18.7l-4.9 2.5.9-5.5-4-3.9 5.5-.8L16 6z" stroke="#F3672A" strokeWidth="1.8" strokeLinejoin="round"/><path d="M10 26h12M13 28.5h6" stroke="#F3672A" strokeWidth="1.8" strokeLinecap="round"/></svg>
+    ),
+    'restorative-dentistry': (
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="8" y="10" width="16" height="14" rx="3" stroke="#F3672A" strokeWidth="1.8"/><path d="M12 10V8a4 4 0 0 1 8 0v2" stroke="#F3672A" strokeWidth="1.8" strokeLinecap="round"/><path d="M16 14v6M13 17h6" stroke="#F3672A" strokeWidth="1.8" strokeLinecap="round"/></svg>
+    ),
+    'dental-implants': (
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 4v16M13 4h6v4h-6z" stroke="#F3672A" strokeWidth="1.8" strokeLinejoin="round"/><path d="M12 8l-2 12h12L20 8" stroke="#F3672A" strokeWidth="1.8" strokeLinejoin="round"/><path d="M10 28h12" stroke="#F3672A" strokeWidth="1.8" strokeLinecap="round"/><ellipse cx="16" cy="26" rx="6" ry="2.5" stroke="#F3672A" strokeWidth="1.5"/></svg>
+    ),
+    'orthodontics': (
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="6" y="13" width="20" height="6" rx="3" stroke="#F3672A" strokeWidth="1.8"/><circle cx="11" cy="16" r="1.5" fill="#F3672A"/><circle cx="16" cy="16" r="1.5" fill="#F3672A"/><circle cx="21" cy="16" r="1.5" fill="#F3672A"/><path d="M6 16h3M13 16h3M19 16h3M25 16h1" stroke="#F3672A" strokeWidth="1" strokeLinecap="round"/><path d="M9 10c0 0 3-3 7-3s7 3 7 3M9 22c0 0 3 3 7 3s7-3 7-3" stroke="#F3672A" strokeWidth="1.5" strokeLinecap="round"/></svg>
+    ),
+    'pediatric-dentistry': (
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="11" r="6" stroke="#F3672A" strokeWidth="1.8"/><path d="M10 11c0 0 2 3 6 3s6-3 6-3" stroke="#F3672A" strokeWidth="1.5" strokeLinecap="round"/><circle cx="13.5" cy="10" r="1" fill="#F3672A"/><circle cx="18.5" cy="10" r="1" fill="#F3672A"/><path d="M9 22c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#F3672A" strokeWidth="1.8" strokeLinecap="round"/><path d="M13 28h6" stroke="#F3672A" strokeWidth="1.8" strokeLinecap="round"/></svg>
+    ),
+    'sedation-dentistry': (
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M20 8c0 0 4 4 4 9s-4 9-4 9" stroke="#F3672A" strokeWidth="1.8" strokeLinecap="round"/><path d="M8 17a8 8 0 1 0 16 0 8 8 0 0 0-16 0z" stroke="#F3672A" strokeWidth="1.8"/><path d="M12 14h8M12 17h5M12 20h7" stroke="#F3672A" strokeWidth="1.5" strokeLinecap="round"/></svg>
+    ),
+    'oral-surgery': (
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M10 22l12-12" stroke="#F3672A" strokeWidth="1.8" strokeLinecap="round"/><path d="M20 10l2-2 2 2-2 2-2-2z" stroke="#F3672A" strokeWidth="1.5" strokeLinejoin="round"/><circle cx="12" cy="20" r="3" stroke="#F3672A" strokeWidth="1.8"/><path d="M7 26l3-3" stroke="#F3672A" strokeWidth="1.8" strokeLinecap="round"/><path d="M16 8h8v8" stroke="#F3672A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+    ),
+    'periodontal': (
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 6C10 6 6 11 6 16s4 10 10 10 10-5 10-10S22 6 16 6z" stroke="#F3672A" strokeWidth="1.8"/><path d="M16 6v4M16 22v4M6 16h4M22 16h4" stroke="#F3672A" strokeWidth="1.5" strokeLinecap="round"/><path d="M11 11l3 3M18 18l3 3M21 11l-3 3M14 18l-3 3" stroke="#F3672A" strokeWidth="1.2" strokeLinecap="round"/></svg>
+    ),
+  }
+
+  const TRUST_ITEMS = [
+    'Every Specialist In-House',
+    'No Outside Referrals',
+    '9 Las Vegas Locations',
+    'Nevada Medicaid Accepted',
+    'Same-Day Emergencies',
+    'Se Habla Español',
+  ]
+
   return (
-    <Shell>
-      <HeroBlock
-        eyebrow="[ 01 ] · All services"
-        h1="Comprehensive Dental Services in Las Vegas"
-        intro="From routine cleanings to full-mouth restorations, orthodontics to pediatric care — Boca Dental & Braces provides a complete range of dental services at 9 Las Vegas locations. Browse by category below or use the location finder to see which services are offered at the clinic closest to you."
-        breadcrumb={[{ name: 'Home', href: '/' }, { name: 'Services' }]}
-      />
-      <section style={{ background: 'white', padding: '32px 32px 96px' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto' }}>
-          <div className="services-hub-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+    <div style={{ background: 'white', fontFamily: 'inherit' }}>
+      <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="light" />
+
+      {/* ── HERO ── */}
+      <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', minHeight: '70vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '160px 32px 80px', position: 'relative', overflow: 'hidden', textAlign: 'center' }}>
+        {/* Grid texture */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px)', backgroundSize: '36px 36px', pointerEvents: 'none' }} />
+        {/* Glow */}
+        <div style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translate(-50%,-50%)', width: 800, height: 500, background: 'radial-gradient(ellipse, rgba(243,103,42,0.07) 0%, transparent 65%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
+        {/* Watermark */}
+        <div style={{ position: 'absolute', bottom: -20, right: -20, fontSize: 'clamp(120px, 18vw, 240px)', fontWeight: 900, color: 'rgba(255,255,255,0.025)', letterSpacing: '-8px', lineHeight: 1, pointerEvents: 'none', userSelect: 'none' }}>50+</div>
+
+        <motion.div initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} style={{ position: 'relative', zIndex: 1, maxWidth: 860 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 10, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 28, padding: '6px 18px', background: 'rgba(243,103,42,0.1)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.2)' }}>
+            <span style={{ width: 5, height: 5, borderRadius: '50%', background: ORANGE, display: 'inline-block' }} />
+            9 Locations · 12 Specialties · 50+ Services
+          </div>
+          <h1 style={{ fontSize: 'clamp(38px, 5.5vw, 76px)', fontWeight: 800, letterSpacing: '-3px', color: 'white', margin: '0 0 12px', lineHeight: 0.95 }}>
+            Every Specialty.
+          </h1>
+          <h1 style={{ fontSize: 'clamp(38px, 5.5vw, 76px)', fontWeight: 800, letterSpacing: '-3px', color: ORANGE, margin: '0 0 32px', lineHeight: 0.95 }}>
+            One Practice.
+          </h1>
+          <p style={{ fontSize: 'clamp(16px, 1.8vw, 20px)', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, maxWidth: 600, margin: '0 auto 52px' }}>
+            From your child's first cleaning to full-mouth reconstruction — Boca Dental & Braces keeps every specialist in-house at 9 Las Vegas locations. No referrals. No runaround.
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
+            <a href="/request-consultation" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: 'white', padding: '14px 32px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', letterSpacing: 0.4, textTransform: 'uppercase', boxShadow: '0 8px 18px rgba(243,103,42,0.3)' }}>
+              Book an Appointment →
+            </a>
+            <a href="tel:7024560005" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.85)', padding: '14px 28px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.15)', letterSpacing: 0.4, textTransform: 'uppercase' }}>
+              (702) 456-0005
+            </a>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ── TRUST BAR ── */}
+      <section style={{ background: '#001D3D', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px', display: 'flex', overflowX: 'auto', gap: 0 }}>
+          {TRUST_ITEMS.map((item, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '20px 28px', borderRight: i < TRUST_ITEMS.length - 1 ? '1px solid rgba(255,255,255,0.07)' : 'none', whiteSpace: 'nowrap', flexShrink: 0 }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: ORANGE, flexShrink: 0 }} />
+              <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.65)', letterSpacing: 0.3 }}>{item}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── PRIMARY 9 CATEGORIES ── */}
+      <section style={{ background: '#F7F9FC', padding: '96px 32px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} style={{ marginBottom: 52 }}>
+            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 14 }}>Core Services</div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 16 }}>
+              <h2 style={{ fontSize: 'clamp(26px, 3vw, 44px)', fontWeight: 800, letterSpacing: '-1.5px', color: NAVY, margin: 0 }}>
+                What We Do Best.
+              </h2>
+              <p style={{ fontSize: 15, color: 'rgba(0,29,61,0.55)', maxWidth: 440, margin: 0, lineHeight: 1.65 }}>
+                Nine primary service categories, all available in-house. Select a category to see every treatment and service we offer.
+              </p>
+            </div>
+          </motion.div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
             <style>{`
-              @media (max-width: 880px){ .services-hub-grid{ grid-template-columns: repeat(2, 1fr) !important; } }
-              @media (max-width: 520px){ .services-hub-grid{ grid-template-columns: 1fr !important; } }
+              @media(max-width:900px){ .svc-grid{ grid-template-columns:repeat(2,1fr) !important; } }
+              @media(max-width:540px){ .svc-grid{ grid-template-columns:1fr !important; } }
+              .svc-card:hover { transform: translateY(-4px); box-shadow: 0 20px 48px rgba(0,29,61,0.18), 0 0 0 1px rgba(243,103,42,0.25) !important; }
+              .svc-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
             `}</style>
-            {SERVICE_CATEGORIES.map((cat) => {
-              const subCount = SERVICE_PAGES.filter((s) => s.categorySlug === cat.slug).length
+            {PRIMARY_CATS.map((cat, i) => {
+              const subCount = SERVICE_PAGES.filter(s => s.categorySlug === cat.slug).length
               return (
-                <Link key={cat.slug} to={`/${cat.slug}/`} style={{ background: 'white', border: '1px solid rgba(0,29,61,0.08)', borderTop: `2px solid ${ORANGE}`, borderRadius: 12, padding: '20px 22px', textDecoration: 'none', color: NAVY }}>
-                  <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.5, textTransform: 'uppercase', color: ORANGE, fontFamily: MONO, marginBottom: 8 }}>
-                    {subCount > 0 ? `${subCount} sub-services` : 'Category'}
-                  </div>
-                  <div style={{ fontSize: 18, fontWeight: 800, color: NAVY, marginBottom: 8, letterSpacing: '-0.3px' }}>{cat.label}</div>
-                  <p style={{ fontSize: 13, color: 'rgba(0,29,61,0.65)', margin: '0 0 12px', lineHeight: 1.5 }}>{cat.desc}</p>
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11, fontWeight: 800, color: ORANGE, letterSpacing: 1.2, textTransform: 'uppercase', fontFamily: MONO }}>
-                    View {cat.label.toLowerCase()} <ArrowRight size={12} />
-                  </span>
-                </Link>
+                <motion.div key={cat.slug} className="svc-grid" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: (i % 3) * 0.08 }}>
+                  <Link to={`/${cat.slug}/`} className="svc-card" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', background: 'linear-gradient(160deg, #001D3D 0%, #0a2855 100%)', borderRadius: 18, overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,29,61,0.12)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                    {/* Orange top bar */}
+                    <div style={{ height: 3, background: `linear-gradient(90deg, ${ORANGE}, rgba(243,103,42,0.3))` }} />
+                    <div style={{ padding: '32px 28px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                      {/* Icon + count row */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
+                        <div style={{ width: 52, height: 52, borderRadius: 14, background: 'rgba(243,103,42,0.1)', border: '1px solid rgba(243,103,42,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          {CAT_ICONS[cat.slug] ?? <ArrowRight size={24} color={ORANGE} />}
+                        </div>
+                        {subCount > 0 && (
+                          <span style={{ fontSize: 10, fontWeight: 800, color: ORANGE, background: 'rgba(243,103,42,0.12)', border: '1px solid rgba(243,103,42,0.2)', borderRadius: 999, padding: '4px 10px', letterSpacing: 1, textTransform: 'uppercase' }}>
+                            {subCount} Services
+                          </span>
+                        )}
+                      </div>
+                      {/* Name */}
+                      <div style={{ fontSize: 'clamp(16px, 1.4vw, 20px)', fontWeight: 800, color: 'white', letterSpacing: '-0.4px', marginBottom: 10, lineHeight: 1.2 }}>{cat.label}</div>
+                      {/* Long desc */}
+                      <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.48)', lineHeight: 1.7, margin: '0 0 24px', flex: 1 }}>{cat.longDesc ?? cat.desc}</p>
+                      {/* CTA */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, fontWeight: 800, color: ORANGE, letterSpacing: 1.2, textTransform: 'uppercase' }}>
+                        View {cat.label} <ArrowRight size={12} />
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
               )
             })}
           </div>
         </div>
       </section>
+
+      {/* ── ADDITIONAL SPECIALTIES ── */}
+      <section style={{ background: 'white', padding: '72px 32px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ marginBottom: 36 }}>
+            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 12 }}>Additional Specialties</div>
+            <h2 style={{ fontSize: 'clamp(22px, 2.5vw, 36px)', fontWeight: 800, letterSpacing: '-1px', color: NAVY, margin: 0 }}>More Ways We Can Help.</h2>
+          </motion.div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+            <style>{`@media(max-width:720px){ .svc-extra-grid{ grid-template-columns:1fr !important; } }`}</style>
+            {EXTRA_CATS.map((cat, i) => {
+              const subCount = SERVICE_PAGES.filter(s => s.categorySlug === cat.slug).length
+              return (
+                <motion.div key={cat.slug} className="svc-extra-grid" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+                  <Link to={`/${cat.slug}/`} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', background: '#F7F9FC', borderRadius: 16, padding: '28px 26px', border: '1px solid rgba(0,29,61,0.07)', borderTop: `3px solid ${ORANGE}` }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
+                      <div style={{ fontSize: 17, fontWeight: 800, color: NAVY, letterSpacing: '-0.3px', lineHeight: 1.2 }}>{cat.label}</div>
+                      {subCount > 0 && <span style={{ fontSize: 10, fontWeight: 800, color: ORANGE, letterSpacing: 1, background: 'rgba(243,103,42,0.08)', borderRadius: 999, padding: '3px 9px', whiteSpace: 'nowrap', flexShrink: 0, marginLeft: 8 }}>{subCount}</span>}
+                    </div>
+                    <p style={{ fontSize: 13, color: 'rgba(0,29,61,0.6)', lineHeight: 1.65, margin: '0 0 16px', flex: 1 }}>{cat.longDesc ?? cat.desc}</p>
+                    <span style={{ fontSize: 11, fontWeight: 800, color: ORANGE, textTransform: 'uppercase', letterSpacing: 1.2, display: 'flex', alignItems: 'center', gap: 6 }}>
+                      View Services <ArrowRight size={11} />
+                    </span>
+                  </Link>
+                </motion.div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHY IN-HOUSE ── */}
+      <section style={{ background: '#001D3D', padding: '96px 32px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '120px 100%', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', top: '50%', right: 0, transform: 'translateY(-50%)', width: 500, height: 500, background: 'radial-gradient(circle, rgba(243,103,42,0.07) 0%, transparent 65%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
+        <div style={{ maxWidth: 1280, margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: 'center', marginBottom: 64 }}>
+            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 16 }}>The Boca Difference</div>
+            <h2 style={{ fontSize: 'clamp(26px, 3.5vw, 48px)', fontWeight: 800, letterSpacing: '-1.5px', color: 'white', margin: '0 0 16px' }}>Everything In-House.<br />Nothing Outsourced.</h2>
+            <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.5)', maxWidth: 540, margin: '0 auto', lineHeight: 1.7 }}>Most dental offices refer out for surgery, orthodontics, or implants. Every one of Boca's specialists is on staff — so your full treatment happens in one place.</p>
+          </motion.div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 2 }}>
+            <style>{`@media(max-width:860px){ .why-boca-grid{ grid-template-columns:repeat(2,1fr) !important; } }`}</style>
+            {[
+              { num: '01', title: 'No Referral Delays', body: 'Surgery, implants, ortho — all done in-house by credentialed specialists. Weeks of referral lag eliminated.' },
+              { num: '02', title: 'One Patient Record', body: 'Your full dental history in one chart, shared across every Boca location. No repeating yourself at every visit.' },
+              { num: '03', title: 'Medicaid & Most PPOs', body: 'Nevada Medicaid and CHIP accepted. Most major PPO plans welcomed at all 9 locations — no surprise bills.' },
+              { num: '04', title: '9 Locations, One Standard', body: 'The same clinical protocols and quality standards at every clinic. Drive to whichever Boca is closest.' },
+            ].map((item, i) => (
+              <motion.div key={i} className="why-boca-grid" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} style={{ position: 'relative', overflow: 'hidden', padding: '40px 32px', background: i % 2 === 0 ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.045)', borderTop: '1px solid rgba(255,255,255,0.06)', borderLeft: i % 2 === 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, width: 40, height: 3, background: ORANGE, borderRadius: '0 0 2px 0' }} />
+                <div style={{ position: 'absolute', top: -10, right: 16, fontSize: 100, fontWeight: 900, color: 'rgba(255,255,255,0.025)', lineHeight: 1, userSelect: 'none' }}>{item.num}</div>
+                <div style={{ fontSize: 10, fontWeight: 800, color: ORANGE, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 14 }}>{item.num}</div>
+                <div style={{ fontSize: 18, fontWeight: 800, color: 'white', letterSpacing: '-0.4px', marginBottom: 12, lineHeight: 1.2 }}>{item.title}</div>
+                <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.48)', lineHeight: 1.75, margin: 0 }}>{item.body}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <CTA />
+      <Footer />
       {breadcrumbSchema}
-    </Shell>
+    </div>
   )
 }
 
