@@ -315,7 +315,7 @@ export function AboutUsPage() {
               Est. 2006 · Las Vegas, Nevada
             </div>
             <h1 style={{ fontSize: 'clamp(34px, 4.5vw, 62px)', fontWeight: 800, letterSpacing: '-2px', color: 'white', margin: '0 0 8px', lineHeight: 1.0 }}>
-              Las Vegas' Dental Home
+              Las Vegas'<br />Dental Home
             </h1>
             <h1 style={{ fontSize: 'clamp(34px, 4.5vw, 62px)', fontWeight: 800, letterSpacing: '-2px', color: ORANGE, margin: '0 0 28px', lineHeight: 1.0 }}>
               For The Whole Family.
