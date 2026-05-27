@@ -671,8 +671,23 @@ export function ClinicsHubPage() {
     ? INITIAL_DATA.locations
     : INITIAL_DATA.locations.filter(l => l.neighborhood === activeNeighborhood)
 
+  // Force dark nav glass on this page only
+  React.useEffect(() => {
+    document.body.classList.add('page-clinics')
+    return () => document.body.classList.remove('page-clinics')
+  }, [])
+
   return (
     <div style={{ background: '#fff', color: NAVY, fontFamily: 'inherit' }}>
+      <style>{`
+        body.page-clinics .boca-nav-bg {
+          background: rgba(16,29,74,0.92) !important;
+          backdrop-filter: blur(20px) saturate(180%) !important;
+          -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+          box-shadow: 0 4px 30px rgba(0,0,0,0.30) !important;
+          border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+        }
+      `}</style>
       <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="light" />
 
       {/* ── Full-viewport hero: navy panel left, real Mapbox map right ── */}

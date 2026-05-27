@@ -668,6 +668,7 @@ export function Header({ brand, announcement, activeSection, logoMode = 'white' 
         <AnnouncementBar data={announcement} />
 
         <motion.div
+          className="boca-nav-bg"
           animate={{
             background: scrolled ? GLASS_BG : 'rgba(0,0,0,0)',
             boxShadow: scrolled ? GLASS_SHADOW : 'none',
