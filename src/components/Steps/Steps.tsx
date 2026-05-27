@@ -18,7 +18,7 @@ interface Step {
   duration: string
 }
 
-const STEPS: Step[] = [
+function getSteps(lang: import('../../lib/lang').Lang): Step[] { return [
   {
     number: '01',
     title: t(lang, 'Book Your Appointment', 'Reserva Tu Cita'),
@@ -47,7 +47,7 @@ const STEPS: Step[] = [
     icon: ClipboardCheck,
     duration: t(lang, 'Same visit', 'Misma visita'),
   },
-]
+]}
 
 const ORANGE = '#F3672A'
 const NAVY = '#162E7A'
@@ -55,6 +55,7 @@ const NAVY_DEEP = '#001D3D'
 
 export function Steps() {
   const lang = useLang()
+  const STEPS = getSteps(lang)
   return (
     <section
       id="new-patients"

@@ -49,7 +49,6 @@ function getFAQS(lang: import('../../lib/lang').Lang) { return [
   },
 ]}
 
-export function getFAQS_dummy() {}
 
 function FaqItem({
   faq,

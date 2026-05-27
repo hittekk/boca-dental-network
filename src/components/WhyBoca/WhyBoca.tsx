@@ -23,7 +23,7 @@ interface Reason {
 
 // Treysyde Homepage §4 differentiator cards (2×3) — each now anchored with a
 // concrete stat callout to give the eye something to grab onto.
-const REASONS: Reason[] = [
+function getReasons(lang: import('../../lib/lang').Lang): Reason[] { return [
   {
     icon: MapPin,
     stat: '9',
@@ -66,10 +66,11 @@ const REASONS: Reason[] = [
     title: t(lang, 'Bilingual Staff', 'Personal Bilingüe'),
     body: t(lang, "We serve Las Vegas' full community. Spanish-speaking staff are available at multiple locations to ensure every patient feels understood and at ease.", 'Servimos a toda la comunidad de Las Vegas. Personal de habla española disponible en todas las clínicas para que cada paciente se sienta comprendido.'),
   },
-]
+]}
 
 export function WhyBoca() {
   const lang = useLang()
+  const REASONS = getReasons(lang)
   return (
     <section
       id="why-boca"
