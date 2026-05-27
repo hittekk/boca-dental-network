@@ -90,10 +90,14 @@ export function LocationPageV1({ location }: { location: Location }) {
       <Header
         brand={INITIAL_DATA.brand}
         announcement={INITIAL_DATA.announcement}
-        logoMode="dark"
+        logoMode={location.slug === 'boca-kids-dentistry' ? 'light' : 'dark'}
       />
 
-      <Hero location={location} coords={coords} />
+      {location.slug === 'boca-kids-dentistry' ? (
+        <BocaKidsHero />
+      ) : (
+        <Hero location={location} coords={coords} />
+      )}
       <TrustStrip location={location} />
       <ClinicInfoSection location={location} theme="light" officeNo={String(location.id).padStart(2, '0')} />
       <NeighborhoodNarrative location={location} />
@@ -106,6 +110,68 @@ export function LocationPageV1({ location }: { location: Location }) {
       <CTA />
       <Footer />
     </div>
+  )
+}
+
+// ─── Boca Kids — special cinematic hero (same editorial style as About page) ──
+function BocaKidsHero() {
+  const ORANGE = '#F3672A'
+  const NAVY   = '#162E7A'
+
+  return (
+    <section style={{
+      background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)',
+      minHeight: '85vh', display: 'flex', flexDirection: 'column',
+      alignItems: 'center', justifyContent: 'center',
+      padding: '180px 32px 96px', position: 'relative',
+      overflow: 'hidden', textAlign: 'center',
+    }}>
+      {/* Tooth watermark */}
+      <div style={{ position: 'absolute', bottom: -30, right: -20, fontSize: 'clamp(160px, 22vw, 320px)', fontWeight: 900, color: 'rgba(255,255,255,0.025)', lineHeight: 1, pointerEvents: 'none', userSelect: 'none' }}>🦷</div>
+      {/* Orange glow */}
+      <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%,-50%)', width: 700, height: 500, background: 'radial-gradient(ellipse, rgba(243,103,42,0.08) 0%, transparent 65%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
+      {/* Dot grid */}
+      <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px)', backgroundSize: '36px 36px', pointerEvents: 'none' }} />
+
+      <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} style={{ position: 'relative', zIndex: 1, maxWidth: 860 }}>
+        {/* Eyebrow */}
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 10, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 32, padding: '6px 18px', background: 'rgba(243,103,42,0.1)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.2)' }}>
+          <span style={{ width: 5, height: 5, borderRadius: '50%', background: ORANGE, display: 'inline-block' }} />
+          Pediatric Dentistry · Southeast Las Vegas
+        </div>
+
+        <h1 style={{ fontSize: 'clamp(40px, 6vw, 80px)', fontWeight: 800, letterSpacing: '-3px', color: 'white', margin: '0 0 12px', lineHeight: 0.95 }}>
+          Where Kids Actually
+        </h1>
+        <h1 style={{ fontSize: 'clamp(40px, 6vw, 80px)', fontWeight: 800, letterSpacing: '-3px', color: ORANGE, margin: '0 0 36px', lineHeight: 0.95 }}>
+          Love the Dentist.
+        </h1>
+
+        <p style={{ fontSize: 'clamp(16px, 1.8vw, 20px)', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, maxWidth: 600, margin: '0 auto 52px' }}>
+          Las Vegas's dedicated pediatric dental clinic — built from the ground up for kids and teens. Gentle care, sensory-friendly rooms, bilingual staff, and Nevada Medicaid accepted.
+        </p>
+
+        {/* Stats strip */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 0, flexWrap: 'wrap', borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '24px 0', margin: '0 auto 44px', maxWidth: 640 }}>
+          {[['Infant+', 'First Visit Age'], ['Medicaid', 'CHIP & Nevada'], ['Bilingual', 'Staff On Every Shift'], ['Same-Day', 'Emergency Pedo']].map(([val, label], i, arr) => (
+            <div key={i} style={{ padding: '0 28px', borderRight: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none', textAlign: 'center' }}>
+              <div style={{ fontSize: 'clamp(14px, 1.8vw, 20px)', fontWeight: 800, color: 'white', letterSpacing: '-0.5px', lineHeight: 1 }}>{val}</div>
+              <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 6 }}>{label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTAs */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
+          <a href="/request-consultation?location=boca-kids-dentistry" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: 'white', padding: '14px 28px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', letterSpacing: 0.4, textTransform: 'uppercase', boxShadow: '0 8px 18px rgba(243,103,42,0.32)' }}>
+            Book for My Child →
+          </a>
+          <a href="tel:7024560005" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.85)', padding: '14px 28px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.15)', letterSpacing: 0.4, textTransform: 'uppercase' }}>
+            (702) 456-0005
+          </a>
+        </div>
+      </motion.div>
+    </section>
   )
 }
 
