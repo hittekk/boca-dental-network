@@ -32,6 +32,7 @@ import { Header } from '../components/Header/Header'
 import { Footer } from '../components/Footer/Footer'
 import { Services } from '../components/Services/Services'
 import { CTA } from '../components/CTA/CTA'
+import { HomepageES } from './HomepageES'
 import { ConsultationForm } from '../components/ConsultationForm/ConsultationForm'
 import { INITIAL_DATA } from '../data/initialData'
 import { SERVICE_CATEGORIES, SERVICE_PAGES } from '../data/serviceCatalog'
@@ -1702,11 +1703,11 @@ export function SpanishLandingPage() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
     document.title = 'Dentista en Las Vegas que Habla Español | Boca Dental & Braces'
-    setMeta('description', 'Boca Dental & Braces — 9 clínicas dentales en Las Vegas con personal bilingüe. Aceptamos Medicaid de Nevada y la mayoría de los seguros PPO. Citas el mismo día.', 'name')
+    setMeta('description', 'Boca Dental & Braces — 9 clínicas dentales en Las Vegas con personal bilingüe. Aceptamos Medicaid de Nevada y la mayoría de los seguros PPO. Citas el mismo día disponibles.', 'name')
     setMeta('og:title', 'Dentista en Las Vegas que Habla Español | Boca Dental & Braces', 'property')
     setLink('canonical', 'https://bocadentalandbraces.com/oficina-de-habla-hispana/')
   }, [])
-  return <Homepage />
+  return <HomepageES />
 }
 
 
