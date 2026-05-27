@@ -5,17 +5,18 @@ import { useLang, t } from '../../lib/lang'
 
 type Theme = 'light' | 'dark' | 'cream'
 
-const ITEMS = [
+function getItems(lang: import('../../lib/lang').Lang) { return [
   { icon: <GoogleG size={14} />, text: t(lang, '4.9 — 1,200+ Google Reviews', '4.9 — Más de 1,200 Reseñas en Google'), bold: true },
   { icon: <MapPin size={13} />, text: t(lang, '9 Las Vegas Locations', '9 Clínicas en Las Vegas') },
   { icon: <CreditCard size={13} />, text: t(lang, 'Most Insurance Accepted', 'Aceptamos la Mayoría de Seguros') },
   { icon: <Clock size={13} />, text: t(lang, 'Evening & Weekend Hours', 'Horario de Noche y Fin de Semana') },
   { icon: <UserPlus size={13} />, text: t(lang, 'Accepting New Patients', 'Aceptamos Nuevos Pacientes') },
   { icon: <Languages size={13} />, text: t(lang, 'Se Habla Español', 'Se Habla Español') },
-]
+]}
 
 export function TrustBar({ theme = 'light' }: { theme?: Theme }) {
   const lang = useLang()
+  const ITEMS = getItems(lang)
   const isDark = theme === 'dark'
   const bg = isDark ? '#0F0F15' : theme === 'cream' ? '#FFF4ED' : 'white'
   const border = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(10,10,15,0.06)'

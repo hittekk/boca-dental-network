@@ -7,24 +7,26 @@ const ORANGE = '#F3672A'
 const NAVY = '#162E7A'
 const NAVY_DEEP = '#001D3D'
 
-const KIDS_FEATURES = [
-  'Pediatric dental care from age 1',
-  'Kid-friendly offices built for comfort',
+function getKidsFeatures(lang: import('../../lib/lang').Lang) { return [
+  t(lang,'Pediatric dental care from age 1','Atención pediátrica desde los 12 meses'),
+  t(lang,'Kid-friendly offices built for comfort','Clínicas diseñadas para la comodidad de los niños'),
   t(lang,'Medicaid and CHIP accepted','Medicaid y CHIP aceptados'),
-  'Bilingual staff — hablamos español',
-  'Preventive care, fillings, and extractions',
-  'Orthodontics and braces for kids and teens',
-]
+  t(lang,'Bilingual staff — hablamos español','Personal bilingüe — hablamos español'),
+  t(lang,'Preventive care, fillings, and extractions','Cuidado preventivo, empastes y extracciones'),
+  t(lang,'Orthodontics and braces for kids and teens','Ortodoncia y frenos para niños y adolescentes'),
+]}
 
-const STATS = [
-  { value: t(lang,'Age 1+','Edad 1+'),  label: t(lang,'First-visit age','Primera visita') },
-  { value: '1,500+',  label: 'Happy kids served' },
-  { value: '★ 4.9',   label: 'Parent rating' },
-  { value: 'EN · ES', label: 'Bilingual care' },
-]
+function getStats(lang: import('../../lib/lang').Lang) { return [
+  { value: t(lang,'Age 1+','Edad 1+'), label: t(lang,'First-visit age','Primera visita') },
+  { value: '1,500+', label: t(lang,'Happy kids served','Niños felices atendidos') },
+  { value: '★ 4.9',  label: t(lang,'Parent rating','Calificación de padres') },
+  { value: 'EN · ES', label: t(lang,'Bilingual care','Atención bilingüe') },
+]}
 
 export function BocaKids() {
   const lang = useLang()
+  const KIDS_FEATURES = getKidsFeatures(lang)
+  const STATS = getStats(lang)
   return (
     <section
       id="boca-kids"
