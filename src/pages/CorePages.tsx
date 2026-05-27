@@ -326,22 +326,50 @@ export function AboutUsPage() {
                 One location became two. Two became nine. Today, Boca Dental & Braces operates 9 clinics across the Las Vegas Valley, staffed by 14 licensed providers spanning general dentistry, orthodontics, oral surgery, periodontics, sedation, implants, and pediatric care. The practice serves tens of thousands of Las Vegas families each year. The mission has not changed in 20 years.
               </p>
 
-              {/* Timeline */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                <style>{`@media(max-width:600px){ .about-timeline-grid{ grid-template-columns:1fr !important; } }`}</style>
-                {[
-                  { year: '2006', label: 'Russell & Eastern opens — the original Boca location. Nevada Medicaid accepted from day one.' },
-                  { year: '2009', label: 'Second location opens Downtown at Bonanza & Eastern. Bilingual staff added network-wide.' },
-                  { year: '2013', label: 'Dr. Loveland joins. Orthodontics and Invisalign become available at every location.' },
-                  { year: '2016', label: 'Boca Kids opens as the first dedicated pediatric clinic in Southeast Las Vegas.' },
-                  { year: '2019', label: 'Dr. Calder joins. IV sedation and full oral surgery brought in-house — no referrals needed.' },
-                  { year: '2024', label: 'Beltway Marketplace opens as the ninth Las Vegas clinic. 14 providers. Still growing.' },
-                ].map((item, i) => (
-                  <div key={i} className="about-timeline-grid" style={{ background: '#F7F9FC', borderRadius: 12, padding: '20px 20px', borderTop: `3px solid ${ORANGE}` }}>
-                    <div style={{ fontSize: 22, fontWeight: 800, color: ORANGE, letterSpacing: '-0.5px', marginBottom: 8, lineHeight: 1 }}>{item.year}</div>
-                    <p style={{ fontSize: 13, color: 'rgba(0,29,61,0.65)', lineHeight: 1.6, margin: 0 }}>{item.label}</p>
-                  </div>
-                ))}
+              {/* Connected vertical timeline */}
+              <div style={{ position: 'relative', marginTop: 48 }}>
+                {/* Center line */}
+                <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: 2, background: 'linear-gradient(180deg, rgba(243,103,42,0.15) 0%, rgba(243,103,42,0.5) 40%, rgba(243,103,42,0.15) 100%)', transform: 'translateX(-50%)' }} />
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+                  {[
+                    { year: '2006', label: 'The Original', body: 'Russell & Eastern opens in Southeast Las Vegas. Nevada Medicaid accepted from day one — when most practices wouldn\'t.' },
+                    { year: '2009', label: 'Growing the Community', body: 'Second location opens Downtown at Bonanza & Eastern. Bilingual staff added network-wide to serve all of Las Vegas.' },
+                    { year: '2013', label: 'Orthodontics In-House', body: 'Dr. Loveland joins. Invisalign and traditional braces available at every location — no referrals, no extra trips.' },
+                    { year: '2016', label: 'Boca Kids Opens', body: 'The first dedicated pediatric clinic in Southeast Las Vegas. A full kids-only experience for the families who needed it.' },
+                    { year: '2019', label: 'Surgery In-House', body: 'Dr. Calder joins with IV sedation credentials. Full oral surgery — wisdom teeth, implants, bone grafts — now done at Boca.' },
+                    { year: '2024', label: 'Nine Strong', body: 'Beltway Marketplace opens as the ninth Las Vegas location. 14 providers. 20,000+ patients. The mission unchanged.' },
+                  ].map((item, i) => {
+                    const isLeft = i % 2 === 0
+                    return (
+                      <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 48px 1fr', alignItems: 'center', marginBottom: 16 }}>
+                        {/* Left side */}
+                        {isLeft ? (
+                          <div style={{ background: '#F7F9FC', borderRadius: 14, padding: '24px 28px', marginRight: 24, border: '1px solid rgba(0,29,61,0.07)', boxShadow: '0 2px 12px rgba(0,29,61,0.05)', textAlign: 'right' }}>
+                            <div style={{ fontSize: 13, fontWeight: 800, color: ORANGE, letterSpacing: 0.5, marginBottom: 6 }}>{item.label}</div>
+                            <p style={{ fontSize: 14, color: 'rgba(0,29,61,0.65)', lineHeight: 1.65, margin: 0 }}>{item.body}</p>
+                          </div>
+                        ) : <div />}
+
+                        {/* Center dot + year */}
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 2 }}>
+                          <div style={{ width: 48, height: 48, borderRadius: '50%', background: i === 5 ? ORANGE : 'white', border: `2px solid ${ORANGE}`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 0 0 6px ${i === 5 ? 'rgba(243,103,42,0.12)' : 'rgba(243,103,42,0.06)'}` }}>
+                            <span style={{ fontSize: 10, fontWeight: 900, color: i === 5 ? 'white' : ORANGE, letterSpacing: '-0.5px' }}>{item.year.slice(2)}</span>
+                          </div>
+                          <div style={{ fontSize: 11, fontWeight: 800, color: 'rgba(0,29,61,0.3)', letterSpacing: 0.5, marginTop: 4 }}>{item.year}</div>
+                        </div>
+
+                        {/* Right side */}
+                        {!isLeft ? (
+                          <div style={{ background: '#F7F9FC', borderRadius: 14, padding: '24px 28px', marginLeft: 24, border: '1px solid rgba(0,29,61,0.07)', boxShadow: '0 2px 12px rgba(0,29,61,0.05)' }}>
+                            <div style={{ fontSize: 13, fontWeight: 800, color: ORANGE, letterSpacing: 0.5, marginBottom: 6 }}>{item.label}</div>
+                            <p style={{ fontSize: 14, color: 'rgba(0,29,61,0.65)', lineHeight: 1.65, margin: 0 }}>{item.body}</p>
+                          </div>
+                        ) : <div />}
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
             </motion.div>
           </div>
