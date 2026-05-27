@@ -93,10 +93,10 @@ function setLink(rel: string, href: string) {
   el.setAttribute('href', href)
 }
 
-function Shell({ children }: { children: React.ReactNode }) {
+function Shell({ children, logoMode = 'dark' }: { children: React.ReactNode, logoMode?: 'white' | 'dark' }) {
   return (
     <div style={{ background: 'white', color: NAVY, fontFamily: 'inherit' }}>
-      <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="dark" />
+      <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode={logoMode} />
       {children}
       <Footer />
     </div>
@@ -1503,7 +1503,7 @@ export function RequestConsultationPage() {
   }
 
   return (
-    <Shell>
+    <Shell logoMode="light">
       {/* ── HERO ── */}
       <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '170px 32px 80px', position: 'relative', overflow: 'hidden' }}>
         <div aria-hidden style={{ position: 'absolute', top: '-20%', right: '-8%', width: 700, height: 700, background: 'radial-gradient(circle, rgba(243,103,42,0.12) 0%, transparent 60%)', pointerEvents: 'none' }} />
