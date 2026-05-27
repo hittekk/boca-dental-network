@@ -30,6 +30,7 @@ import { ArrowRight, ArrowUpRight, MapPin, Phone, Clock, Star, Mail, Briefcase, 
 import { Header } from '../components/Header/Header'
 import { Footer } from '../components/Footer/Footer'
 import { Services } from '../components/Services/Services'
+import { CTA } from '../components/CTA/CTA'
 import { ConsultationForm } from '../components/ConsultationForm/ConsultationForm'
 import { INITIAL_DATA } from '../data/initialData'
 import { SERVICE_CATEGORIES, SERVICE_PAGES } from '../data/serviceCatalog'
@@ -193,7 +194,7 @@ function CTAStrip({ headline = 'Ready to book? Your new Las Vegas dentist is wai
 export function AboutUsPage() {
   const breadcrumbSchema = usePageMeta({
     title: 'About Boca Dental & Braces | Founded 2006 · Las Vegas, NV',
-    description: 'Founded in 2006 by Dr. Wyatt Dannels, Boca Dental & Braces has grown to 9 Las Vegas locations with 14 licensed providers — general, cosmetic, orthodontic, oral surgery, and pediatric care under one roof.',
+    description: 'Founded in 2006 by Dr. Wyatt Dannels, Boca Dental & Braces has grown to 9 Las Vegas locations with 14 licensed providers across every dental specialty.',
     url: `${DOMAIN}/about-us/`,
     breadcrumb: [{ name: 'Home', url: `${DOMAIN}/` }, { name: 'About' }],
   })
@@ -202,7 +203,7 @@ export function AboutUsPage() {
     { val: '9',      label: 'Clinics Across Las Vegas' },
     { val: '14',     label: 'Licensed Providers' },
     { val: '20k+',   label: 'Patients Served' },
-    { val: '4.8★',   label: 'Average Google Rating' },
+    { val: '4.8★',   label: 'Avg Google Rating' },
     { val: '1,534+', label: 'Verified Reviews' },
     { val: '2006',   label: 'Year Founded' },
   ]
@@ -210,7 +211,7 @@ export function AboutUsPage() {
   const PILLARS = [
     {
       icon: (
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
           <path d="M16 3C9.373 3 4 8.373 4 15c0 4.418 2.239 8.307 5.636 10.6L11 28h10l1.364-2.4C25.761 23.307 28 19.418 28 15c0-6.627-5.373-12-12-12z" stroke="#F3672A" strokeWidth="2" strokeLinejoin="round"/>
           <path d="M12 15h8M16 11v8" stroke="#F3672A" strokeWidth="2" strokeLinecap="round"/>
           <path d="M11 28v2h10v-2" stroke="#F3672A" strokeWidth="2" strokeLinejoin="round"/>
@@ -221,7 +222,7 @@ export function AboutUsPage() {
     },
     {
       icon: (
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
           <circle cx="16" cy="16" r="13" stroke="#F3672A" strokeWidth="2"/>
           <path d="M10 16c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="#F3672A" strokeWidth="2" strokeLinecap="round"/>
           <path d="M8 20c1.5 1.5 4 3 8 3s6.5-1.5 8-3" stroke="#F3672A" strokeWidth="2" strokeLinecap="round"/>
@@ -229,40 +230,37 @@ export function AboutUsPage() {
         </svg>
       ),
       title: 'Se Habla Español',
-      body: 'Spanish-speaking staff at every one of our 9 Las Vegas locations. We serve the full Las Vegas community — hablamos español en todas nuestras oficinas.',
+      body: 'Spanish-speaking staff at every one of our 9 Las Vegas locations — hablamos español en todas nuestras oficinas.',
     },
     {
       icon: (
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
           <path d="M16 4C12 4 9 6.5 9 10c0 2 .5 3.5 1 5s1 3.5 1 5c0 1.5.5 3 1.5 3s2-1.5 2.5-4c.5-2.5 1-4 1-4s.5 1.5 1 4c.5 2.5 1.5 4 2.5 4s1.5-1.5 1.5-3c0-1.5.5-3.5 1-5s1-3 1-5c0-3.5-3-6-7-6z" stroke="#F3672A" strokeWidth="2" strokeLinejoin="round"/>
           <path d="M12 10h8" stroke="#F3672A" strokeWidth="1.5" strokeLinecap="round"/>
         </svg>
       ),
-      title: 'Comprehensive Under One Roof',
-      body: 'General dentistry, orthodontics, oral surgery, periodontics, pediatric care, sedation, implants, and cosmetics — no referrals, no runaround.',
+      title: 'Every Specialty In-House',
+      body: 'General, cosmetic, ortho, oral surgery, periodontics, pediatrics, sedation, and implants — no referrals, no runaround.',
     },
     {
       icon: (
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
           <path d="M16 3l2.5 7.5H27l-6.5 4.5 2.5 7.5L16 18l-7 4.5 2.5-7.5L5 10.5h8.5L16 3z" stroke="#F3672A" strokeWidth="2" strokeLinejoin="round"/>
           <path d="M16 22v7M12 28h8" stroke="#F3672A" strokeWidth="2" strokeLinecap="round"/>
         </svg>
       ),
       title: 'Rooted in Las Vegas',
-      body: "We've called Las Vegas home since 2006. Every Boca clinic is staffed by team members who live, work, and raise families in the same neighborhoods as our patients.",
+      body: "Las Vegas is home. Every Boca clinic is staffed by team members who live and raise families in the same neighborhoods as our patients.",
     },
   ]
 
-  const SERVICES = [
-    { label: 'General Dentistry',     desc: 'Exams, cleanings, X-rays, fillings, emergency care',        href: '/general-dentistry/' },
-    { label: 'Cosmetic Dentistry',    desc: 'Teeth whitening, veneers, bonding, smile makeovers',         href: '/cosmetic-dentistry/' },
-    { label: 'Restorative Dentistry', desc: 'Crowns, bridges, dentures, fillings, cracked tooth repair',  href: '/restorative-dentistry/' },
-    { label: 'Dental Implants',       desc: 'Single tooth, full arch, All-on-4, implant dentures',        href: '/dental-implants/' },
-    { label: 'Orthodontics',          desc: 'Invisalign, traditional braces, teen & adult ortho',         href: '/orthodontics/' },
-    { label: 'Pediatric Dentistry',   desc: 'Kids exams, infant care, sealants, emergency pedo',          href: '/pediatric-dentistry/' },
-    { label: 'Sedation Dentistry',    desc: 'Nitrous oxide, oral sedation, IV sedation',                  href: '/sedation-dentistry/' },
-    { label: 'Oral Surgery',          desc: 'Extractions, wisdom teeth, bone grafting',                   href: '/oral-surgery/' },
-    { label: 'Periodontal Care',      desc: 'Gum disease treatment, deep cleaning, maintenance',          href: '/periodontal/' },
+  const TIMELINE = [
+    { year: '2006', title: 'Russell & Eastern', body: 'Dr. Wyatt Dannels opens the original Boca Dental & Braces in Southeast Las Vegas. Nevada Medicaid accepted from day one.' },
+    { year: '2009', title: 'Bonanza & Eastern', body: 'Second location opens Downtown Las Vegas. Bilingual staff added to serve the growing Spanish-speaking community.' },
+    { year: '2013', title: 'Orthodontics Added', body: 'Dr. Loveland joins. Invisalign and traditional braces become available network-wide — no referrals required.' },
+    { year: '2016', title: 'Boca Kids Opens', body: 'A dedicated pediatric clinic — the first kids-only Boca location — opens in Southeast Las Vegas.' },
+    { year: '2019', title: 'Oral Surgery In-House', body: 'Dr. Charles Calder joins, bringing IV sedation and full oral surgery. No more outside referrals.' },
+    { year: '2024', title: '9 Clinics Strong', body: 'Beltway Marketplace opens as the ninth Las Vegas location. 14 providers. 20,000+ patients. Still growing.' },
   ]
 
   const FEATURED_DOCTORS = [
@@ -272,35 +270,41 @@ export function AboutUsPage() {
       title: 'Founder & Lead Dentist',
       school: 'UNLV School of Dental Medicine',
       years: 19,
-      bio: "Dr. Dannels founded Boca Dental & Braces in 2006 at our Russell & Eastern location with a single goal: give every Las Vegas family access to consistent, high-quality dental care regardless of ZIP code or budget. Today he oversees clinical standards across all 9 locations and personally sees patients at Russell & Eastern and our newest Beltway Marketplace clinic. He is a member of the American Dental Association and the Nevada Dental Association, and serves on the advisory board for Nevada Health Centers' free pediatric dental program.",
+      bio: 'Dr. Dannels founded Boca Dental & Braces in 2006 at Russell & Eastern with one goal: give every Las Vegas family access to consistent, high-quality dental care regardless of ZIP code or budget. He oversees clinical standards across all 9 locations and personally sees patients at Russell & Eastern and Beltway Marketplace.',
       langs: ['English', 'Spanish'],
+      initial: 'W',
+      gradient: 'linear-gradient(135deg, #001D3D, #162E7A)',
     },
     {
       slug: 'dr-kelcey-loveland',
       name: 'Dr. Kelcey Loveland, DDS',
       title: 'Orthodontist · Board-Eligible',
-      school: 'University of the Pacific, Arthur A. Dugoni School of Dentistry',
+      school: 'University of the Pacific, Arthur A. Dugoni',
       years: 8,
-      bio: 'Dr. Loveland personally reviews and approves every Invisalign treatment plan across the Boca Dental & Braces network. A Diamond+ Invisalign provider, she completed her specialty residency focused on digital workflow and clear aligner therapy, and runs Invisalign Teen programs across the practice. She serves on the orthodontic faculty advisory committee at the Nevada State Dental Association.',
+      bio: 'Dr. Loveland personally reviews and approves every Invisalign treatment plan across the Boca network. A Diamond+ Invisalign provider, she completed her specialty residency focused on digital workflow and clear aligner therapy, and runs Invisalign Teen programs across the practice.',
       langs: ['English', 'Spanish'],
+      initial: 'K',
+      gradient: 'linear-gradient(135deg, #162E7A, #1a3a8f)',
     },
     {
       slug: 'dr-charles-calder',
       name: 'Dr. Charles Calder, DDS',
       title: 'Oral & Maxillofacial Surgeon',
-      school: 'UCLA School of Dentistry · UCSF Medical Center Residency',
+      school: 'UCLA School of Dentistry · UCSF Residency',
       years: 14,
-      bio: 'Dr. Calder completed a four-year oral and maxillofacial surgery residency at UCSF Medical Center and is licensed in IV sedation. He performs all surgical procedures at Boca — wisdom teeth, implant placement, bone grafting, frenectomy, and management of facial trauma — and serves as a clinical mentor for general dentists across the network. He has lectured nationally on minimally invasive implant placement.',
+      bio: 'Dr. Calder completed a four-year OMS residency at UCSF Medical Center and is licensed in IV sedation. He performs all surgical procedures at Boca — wisdom teeth, implant placement, bone grafting, and frenectomy — and mentors general dentists across the network.',
       langs: ['English'],
+      initial: 'C',
+      gradient: 'linear-gradient(135deg, #001228, #001D3D)',
     },
   ]
 
   const ALL_DOCTORS = [
-    'Dr. Wyatt Dannels, DDS', 'Dr. Harrison Luu, DDS', 'Dr. Sana Fahim, DDS',
-    'Dr. Justin Wall, DDS', 'Dr. Kelcey Loveland, DDS', 'Minh Nguyen, DDS',
-    'Dr. Johnson Fong, DDS', 'Dr. Michael St Laurent, DDS', 'Dr. Bredan Marlin, DDS',
-    'Dr. Charles Calder, DDS', 'Dr. James Yun, DDS', 'Dr. Kathy Gonzalez, DDS',
-    'Dr. Cole Thompson, DDS', 'Dr. Farhan Hossain, DDS',
+    'Dr. Wyatt Dannels', 'Dr. Harrison Luu', 'Dr. Sana Fahim',
+    'Dr. Justin Wall', 'Dr. Kelcey Loveland', 'Minh Nguyen',
+    'Dr. Johnson Fong', 'Dr. Michael St Laurent', 'Dr. Bredan Marlin',
+    'Dr. Charles Calder', 'Dr. James Yun', 'Dr. Kathy Gonzalez',
+    'Dr. Cole Thompson', 'Dr. Farhan Hossain',
   ]
 
   const LOCATIONS = [
@@ -319,84 +323,90 @@ export function AboutUsPage() {
     <div style={{ background: 'white', color: NAVY, fontFamily: 'inherit' }}>
       <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="light" />
 
-      {/* ── HERO ── */}
-      <section style={{
-        background: 'linear-gradient(135deg, #001228 0%, #001D3D 50%, #162E7A 100%)',
-        minHeight: 620, display: 'flex', alignItems: 'center',
-        position: 'relative', overflow: 'hidden', padding: '160px 32px 100px',
-      }}>
-        {/* Subtle grid texture */}
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize: '32px 32px', pointerEvents: 'none' }} />
-        {/* Orange glow */}
-        <div style={{ position: 'absolute', top: '-10%', right: '-5%', width: 600, height: 600, background: 'radial-gradient(circle, rgba(243,103,42,0.12) 0%, transparent 65%)', pointerEvents: 'none' }} />
+      {/* ── HERO — matches homepage exactly ── */}
+      <section
+        className="relative overflow-hidden"
+        style={{
+          paddingTop: 180,
+          paddingBottom: 96,
+          background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)',
+        }}
+      >
+        {/* Decorative rings */}
+        <div className="absolute pointer-events-none" style={{ top: '-10%', right: '-5%', width: 500, height: 500, borderRadius: '50%', border: '1.5px solid rgba(243,103,42,0.12)' }} />
+        <div className="absolute pointer-events-none" style={{ bottom: '-15%', left: '-8%', width: 600, height: 600, borderRadius: '50%', border: '1.5px solid rgba(255,255,255,0.04)' }} />
+        <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 70% 50%, rgba(243,103,42,0.06) 0%, transparent 60%)' }} />
 
-        <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative', zIndex: 1, width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
-          <style>{`@media(max-width:860px){ .about-hero-grid{ grid-template-columns:1fr !important; } .about-hero-img{ display:none !important; } }`}</style>
+        <style>{`
+          @media(max-width:860px) {
+            .about-hero-grid { grid-template-columns: 1fr !important; }
+            .about-hero-img { min-height: 320px !important; order: -1 !important; }
+          }
+        `}</style>
+
+        <div className="about-hero-grid" style={{ position: 'relative', zIndex: 10, maxWidth: 1280, margin: '0 auto', padding: '0 32px', display: 'grid', gridTemplateColumns: '1.15fr 0.85fr', gap: 56, alignItems: 'stretch' }}>
 
           {/* Left — copy */}
-          <div className="about-hero-grid">
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 28, padding: '6px 16px', background: 'rgba(243,103,42,0.12)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.22)' }}>
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0, 0, 0.2, 1] }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 24, padding: '7px 16px', background: 'rgba(243,103,42,0.12)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.32)' }}>
               Est. 2006 · Las Vegas, Nevada
             </div>
-            <h1 style={{ fontSize: 'clamp(34px, 4.5vw, 62px)', fontWeight: 800, letterSpacing: '-2px', color: 'white', margin: '0 0 8px', lineHeight: 1.0 }}>
+            <h1 style={{ fontSize: 'clamp(36px, 5vw, 68px)', fontWeight: 800, letterSpacing: '-2px', color: 'white', margin: '0 0 8px', lineHeight: 1.0 }}>
               Las Vegas'<br />Dental Home
             </h1>
-            <h1 style={{ fontSize: 'clamp(34px, 4.5vw, 62px)', fontWeight: 800, letterSpacing: '-2px', color: ORANGE, margin: '0 0 28px', lineHeight: 1.0 }}>
+            <h1 style={{ fontSize: 'clamp(36px, 5vw, 68px)', fontWeight: 800, letterSpacing: '-2px', color: ORANGE, margin: '0 0 28px', lineHeight: 1.0 }}>
               For The Whole Family.
             </h1>
-            <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, maxWidth: 480, margin: '0 0 44px' }}>
-              Founded in 2006 by Dr. Wyatt Dannels at one clinic on Russell & Eastern — grown to 9 locations, 14 providers, and tens of thousands of Las Vegas families who call Boca their dental home.
+            <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, maxWidth: 520, margin: '0 0 48px' }}>
+              Founded in 2006 by Dr. Wyatt Dannels at one clinic on Russell & Eastern. Grown to 9 locations, 14 providers, and tens of thousands of Las Vegas families who call Boca their dental home.
             </p>
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-              <a href="/request-consultation" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: 'white', padding: '14px 28px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', letterSpacing: 0.4, textTransform: 'uppercase' }}>
+              <a href="/request-consultation" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: ORANGE, color: 'white', padding: '14px 28px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', letterSpacing: 0.4, textTransform: 'uppercase', boxShadow: '0 8px 18px rgba(243,103,42,0.32)' }}>
                 Book an Appointment →
               </a>
-              <a href="/clinics/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.08)', color: 'white', padding: '14px 28px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.15)', letterSpacing: 0.4, textTransform: 'uppercase' }}>
+              <a href="/clinics/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.85)', padding: '14px 28px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.15)', letterSpacing: 0.4, textTransform: 'uppercase' }}>
                 Find a Location
               </a>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Right — photo placeholder */}
-          <div className="about-hero-img" style={{ position: 'relative' }}>
-            {/* Main photo card */}
-            <div style={{ borderRadius: 20, overflow: 'hidden', aspectRatio: '4/5', background: 'linear-gradient(160deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16, position: 'relative' }}>
-              {/* Placeholder content */}
-              <div style={{ fontSize: 56, opacity: 0.3 }}>🦷</div>
-              <div style={{ textAlign: 'center', padding: '0 32px' }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.35)', marginBottom: 8 }}>TEAM PHOTO</div>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', lineHeight: 1.6 }}>Real Boca Dental team photo<br />coming from Carlos</div>
+          {/* Right — photo card matching homepage */}
+          <motion.div
+            className="about-hero-img"
+            initial={{ opacity: 0, x: 32 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5, duration: 0.7, ease: [0, 0, 0.2, 1] }}
+            style={{ position: 'relative', borderRadius: 20, overflow: 'hidden', boxShadow: '0 24px 64px rgba(0,0,0,0.32), 0 8px 16px rgba(0,0,0,0.18)', border: '1px solid rgba(255,255,255,0.06)', minHeight: 520 }}
+          >
+            <img
+              src="/hero-1.png"
+              alt="A family at Boca Dental and Braces Las Vegas"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 35%', display: 'block' }}
+            />
+            {/* Bottom gradient */}
+            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 110, background: 'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.55) 100%)', pointerEvents: 'none' }} />
+            {/* Bottom badges */}
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0, duration: 0.5 }} style={{ position: 'absolute', bottom: 18, left: 18, right: 18, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+              <div style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', borderRadius: 999, padding: '8px 16px', fontSize: 11, fontWeight: 800, letterSpacing: 1.5, textTransform: 'uppercase', color: '#162E7A', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#10b981' }} />
+                Est. 2006
               </div>
-              {/* Corner accent */}
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: ORANGE, opacity: 0.7 }} />
-            </div>
-
-            {/* Floating stat badge — bottom left */}
-            <div style={{ position: 'absolute', bottom: -16, left: -16, background: ORANGE, borderRadius: 14, padding: '16px 22px', boxShadow: '0 8px 32px rgba(243,103,42,0.35)' }}>
-              <div style={{ fontSize: 26, fontWeight: 800, color: 'white', letterSpacing: '-1px', lineHeight: 1 }}>20+</div>
-              <div style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.8)', textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 4 }}>Years Serving<br />Las Vegas</div>
-            </div>
-
-            {/* Floating badge — top right */}
-            <div style={{ position: 'absolute', top: -16, right: -16, background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, padding: '14px 20px' }}>
-              <div style={{ fontSize: 22, fontWeight: 800, color: 'white', letterSpacing: '-0.5px', lineHeight: 1 }}>4.8 ★</div>
-              <div style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 4 }}>1,534+ Reviews</div>
-            </div>
-          </div>
+              <div style={{ background: '#F3672A', color: 'white', borderRadius: 999, padding: '8px 16px', fontSize: 11, fontWeight: 800, letterSpacing: 1.5, textTransform: 'uppercase', boxShadow: '0 6px 14px rgba(243,103,42,0.45)' }}>
+                Se Habla Español
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* ── STATS STRIP ── */}
-      <section style={{ background: NAVY, padding: '0' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)' }}>
-          <style>{`
-            @media(max-width:900px){ .about-stats{ grid-template-columns: repeat(3,1fr) !important; } }
-            @media(max-width:540px){ .about-stats{ grid-template-columns: repeat(2,1fr) !important; } }
-          `}</style>
+      <section style={{ background: '#001D3D' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', padding: '0 32px' }}>
+          <style>{`@media(max-width:900px){ .about-stats{ grid-template-columns:repeat(3,1fr) !important; } } @media(max-width:540px){ .about-stats{ grid-template-columns:repeat(2,1fr) !important; } }`}</style>
           {STATS.map((s, i) => (
-            <div key={i} className="about-stats" style={{ padding: '36px 24px', textAlign: 'center', borderRight: i < 5 ? '1px solid rgba(255,255,255,0.07)' : 'none' }}>
-              <div style={{ fontSize: 'clamp(26px, 2.5vw, 38px)', fontWeight: 800, color: ORANGE, letterSpacing: '-1px', lineHeight: 1 }}>{s.val}</div>
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 8 }}>{s.label}</div>
+            <div key={i} className="about-stats" style={{ padding: '36px 20px', textAlign: 'center', borderRight: i < 5 ? '1px solid rgba(255,255,255,0.07)' : 'none' }}>
+              <div style={{ fontSize: 'clamp(24px, 2.2vw, 34px)', fontWeight: 800, color: ORANGE, letterSpacing: '-1px', lineHeight: 1 }}>{s.val}</div>
+              <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 8 }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -404,204 +414,162 @@ export function AboutUsPage() {
 
       {/* ── ORIGIN STORY ── */}
       <section style={{ background: 'white', padding: '96px 32px' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
           <style>{`@media(max-width:860px){ .about-story{ grid-template-columns:1fr !important; } }`}</style>
-          <div className="about-story">
-            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 20 }}>Our Story</div>
+          <motion.div className="about-story" initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 18 }}>Our Story</div>
             <h2 style={{ fontSize: 'clamp(28px, 3.2vw, 46px)', fontWeight: 800, letterSpacing: '-1.5px', color: NAVY, margin: '0 0 28px', lineHeight: 1.1 }}>
-              One Clinic.<br />One Idea.<br /><span style={{ color: ORANGE }}>Nine Locations Later.</span>
+              One Clinic. One Idea.<br /><span style={{ color: ORANGE }}>Nine Locations Later.</span>
             </h2>
             <p style={{ fontSize: 16, lineHeight: 1.8, color: 'rgba(0,29,61,0.72)', marginBottom: 20 }}>
-              In 2006, Dr. Wyatt Dannels — a UNLV School of Dental Medicine graduate — opened the doors of the original Boca Dental & Braces at Russell & Eastern in Southeast Las Vegas. The idea was straightforward: build a dental practice that delivered specialist-level care at accessible prices, accepted Nevada Medicaid, and treated every patient like a neighbor — because they were.
+              In 2006, Dr. Wyatt Dannels — a UNLV School of Dental Medicine graduate — opened the doors of the original Boca Dental & Braces at Russell & Eastern in Southeast Las Vegas. The idea was simple: build a dental practice that delivered specialist-level care at accessible prices, accepted Nevada Medicaid, and treated every patient like a neighbor — because they were.
             </p>
             <p style={{ fontSize: 16, lineHeight: 1.8, color: 'rgba(0,29,61,0.72)', marginBottom: 20 }}>
               What started as a single office grew one location at a time as Las Vegas families kept coming back — and kept referring their neighbors. Today, Boca Dental & Braces operates 9 clinics across the Las Vegas Valley, staffed by 14 licensed providers spanning general dentistry, orthodontics, oral surgery, periodontics, sedation, and pediatric care.
             </p>
             <p style={{ fontSize: 16, lineHeight: 1.8, color: 'rgba(0,29,61,0.72)' }}>
-              The mission hasn't changed in 20 years: every Las Vegas family deserves consistent, high-quality dental care — regardless of ZIP code, schedule, or budget.
+              The mission has not changed in 20 years: every Las Vegas family deserves consistent, high-quality dental care — regardless of ZIP code, schedule, or budget.
             </p>
-          </div>
+          </motion.div>
 
           {/* Timeline */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-            {[
-              { year: '2006', title: 'Russell & Eastern', body: 'Dr. Wyatt Dannels opens the original Boca Dental & Braces in Southeast Las Vegas. Nevada Medicaid accepted from day one.' },
-              { year: '2009', title: 'Bonanza & Eastern', body: 'Second location opens Downtown Las Vegas. Bilingual staff added to serve the growing Spanish-speaking community.' },
-              { year: '2013', title: 'Orthodontics Added', body: 'Dr. Loveland joins. Invisalign and traditional braces become available network-wide — no referrals required.' },
-              { year: '2016', title: 'Pediatric Expansion', body: 'Boca Kids Dentistry opens as a dedicated pediatric clinic — the first kids-only Boca location.' },
-              { year: '2019', title: 'Oral Surgery In-House', body: 'Dr. Charles Calder joins, bringing IV sedation and full oral surgery capabilities. No more outside referrals.' },
-              { year: '2024', title: '9 Clinics Strong', body: 'Beltway Marketplace opens as the ninth Las Vegas location. 14 providers. 20,000+ patients. Still growing.' },
-            ].map((item, i, arr) => (
-              <div key={i} style={{ display: 'flex', gap: 24, paddingBottom: i < arr.length - 1 ? 32 : 0 }}>
-                {/* Line + dot */}
+          <motion.div initial={{ opacity: 0, x: 32 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.15 }} style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+            {TIMELINE.map((item, i) => (
+              <div key={i} style={{ display: 'flex', gap: 20, paddingBottom: i < TIMELINE.length - 1 ? 28 : 0 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: '50%', background: i === arr.length - 1 ? ORANGE : 'rgba(243,103,42,0.1)', border: `2px solid ${i === arr.length - 1 ? ORANGE : 'rgba(243,103,42,0.3)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: i === arr.length - 1 ? 'white' : ORANGE, flexShrink: 0 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: '50%', background: i === TIMELINE.length - 1 ? ORANGE : 'rgba(243,103,42,0.08)', border: `2px solid ${i === TIMELINE.length - 1 ? ORANGE : 'rgba(243,103,42,0.25)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 800, color: i === TIMELINE.length - 1 ? 'white' : ORANGE }}>
                     {item.year.slice(2)}
                   </div>
-                  {i < arr.length - 1 && <div style={{ width: 2, flex: 1, background: 'rgba(243,103,42,0.15)', marginTop: 8, minHeight: 24 }} />}
+                  {i < TIMELINE.length - 1 && <div style={{ width: 2, flex: 1, background: 'rgba(243,103,42,0.12)', marginTop: 6, minHeight: 20 }} />}
                 </div>
-                <div style={{ paddingTop: 10 }}>
-                  <div style={{ fontSize: 11, fontWeight: 800, color: ORANGE, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 4 }}>{item.year}</div>
-                  <div style={{ fontSize: 16, fontWeight: 800, color: NAVY, marginBottom: 6, letterSpacing: '-0.3px' }}>{item.title}</div>
-                  <p style={{ fontSize: 14, color: 'rgba(0,29,61,0.6)', lineHeight: 1.6, margin: 0 }}>{item.body}</p>
+                <div style={{ paddingTop: 8 }}>
+                  <div style={{ fontSize: 10, fontWeight: 800, color: ORANGE, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 4 }}>{item.year}</div>
+                  <div style={{ fontSize: 15, fontWeight: 800, color: NAVY, marginBottom: 4, letterSpacing: '-0.2px' }}>{item.title}</div>
+                  <p style={{ fontSize: 13, color: 'rgba(0,29,61,0.55)', lineHeight: 1.6, margin: 0 }}>{item.body}</p>
                 </div>
               </div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* ── MISSION STATEMENT ── */}
-      <section style={{ background: 'linear-gradient(135deg, #001228 0%, #001D3D 60%, #162E7A 100%)', padding: '96px 32px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px)', backgroundSize: '40px 40px', pointerEvents: 'none' }} />
-        <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
-          <div style={{ width: 48, height: 3, background: ORANGE, margin: '0 auto 32px', borderRadius: 2 }} />
-          <blockquote style={{ fontSize: 'clamp(22px, 3vw, 38px)', fontWeight: 800, color: 'white', letterSpacing: '-1px', lineHeight: 1.35, margin: '0 0 28px', fontStyle: 'normal' }}>
+      {/* ── MISSION — matches WhyBoca dark section ── */}
+      <section style={{ background: '#001D3D', padding: '96px 32px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '120px 100%', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 600, height: 400, background: 'radial-gradient(circle, rgba(243,103,42,0.08) 0%, transparent 65%)', filter: 'blur(80px)', pointerEvents: 'none' }} />
+        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ maxWidth: 860, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+          <div style={{ width: 40, height: 3, background: ORANGE, margin: '0 auto 28px', borderRadius: 2 }} />
+          <blockquote style={{ fontSize: 'clamp(20px, 2.8vw, 36px)', fontWeight: 800, color: 'white', letterSpacing: '-1px', lineHeight: 1.4, margin: '0 0 24px', fontStyle: 'normal' }}>
             "Every Las Vegas family deserves consistent, high-quality dental care close to home — regardless of ZIP code, schedule, or budget."
           </blockquote>
-          <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.45)', fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase' }}>
+          <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase' }}>
             Dr. Wyatt Dannels · Founder · Boca Dental & Braces · 2006
           </div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* ── PILLARS ── */}
+      {/* ── PILLARS — matches WhyBoca card style ── */}
       <section style={{ background: '#F7F9FC', padding: '96px 32px' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 60 }}>
-            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 16 }}>Why Las Vegas Chooses Boca</div>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} style={{ textAlign: 'center', marginBottom: 56 }}>
+            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 14 }}>Why Las Vegas Chooses Boca</div>
             <h2 style={{ fontSize: 'clamp(26px, 3vw, 42px)', fontWeight: 800, letterSpacing: '-1.5px', color: NAVY, margin: 0 }}>Built Different From Day One.</h2>
-          </div>
-          <div className="about-pillars" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
-            <style>{`@media(max-width:900px){ .about-pillars{ grid-template-columns:repeat(2,1fr) !important; } } @media(max-width:540px){ .about-pillars{ grid-template-columns:1fr !important; } }`}</style>
+          </motion.div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
+            <style>{`@media(max-width:900px){ .about-pillars-grid{ grid-template-columns:repeat(2,1fr) !important; } } @media(max-width:540px){ .about-pillars-grid{ grid-template-columns:1fr !important; } }`}</style>
             {PILLARS.map((p, i) => (
-              <div key={i} style={{ background: 'white', borderRadius: 16, padding: '36px 28px', border: '1px solid rgba(0,29,61,0.07)', boxShadow: '0 4px 20px rgba(0,29,61,0.05)' }}>
-                <div style={{ width: 56, height: 56, borderRadius: 14, background: 'rgba(243,103,42,0.08)', border: '1px solid rgba(243,103,42,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>{p.icon}</div>
-                <div style={{ fontSize: 17, fontWeight: 800, color: NAVY, marginBottom: 12, letterSpacing: '-0.3px' }}>{p.title}</div>
-                <p style={{ fontSize: 14, color: 'rgba(0,29,61,0.65)', lineHeight: 1.7, margin: 0 }}>{p.body}</p>
-              </div>
+              <motion.div key={i} className="about-pillars-grid" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }} style={{ background: 'white', borderRadius: 16, padding: '32px 26px', border: '1px solid rgba(0,29,61,0.07)', boxShadow: '0 4px 20px rgba(0,29,61,0.05)' }}>
+                <div style={{ width: 52, height: 52, borderRadius: 14, background: 'rgba(243,103,42,0.08)', border: '1px solid rgba(243,103,42,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>{p.icon}</div>
+                <div style={{ fontSize: 16, fontWeight: 800, color: NAVY, marginBottom: 10, letterSpacing: '-0.2px' }}>{p.title}</div>
+                <p style={{ fontSize: 14, color: 'rgba(0,29,61,0.62)', lineHeight: 1.7, margin: 0 }}>{p.body}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── SERVICES — same component as homepage ── */}
+      {/* ── SERVICES — same as homepage ── */}
       <Services />
 
       {/* ── FEATURED DOCTORS ── */}
       <section style={{ background: '#F7F9FC', padding: '96px 32px' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 60 }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} style={{ textAlign: 'center', marginBottom: 56 }}>
             <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 14 }}>Our Providers</div>
-            <h2 style={{ fontSize: 'clamp(26px, 3vw, 42px)', fontWeight: 800, letterSpacing: '-1.5px', color: NAVY, margin: '0 0 16px' }}>Meet the Doctors.</h2>
-            <p style={{ fontSize: 16, color: 'rgba(0,29,61,0.6)', maxWidth: 540, margin: '0 auto', lineHeight: 1.65 }}>14 licensed providers across 9 Las Vegas locations. No outside referrals — every specialist is in-house.</p>
-          </div>
+            <h2 style={{ fontSize: 'clamp(26px, 3vw, 42px)', fontWeight: 800, letterSpacing: '-1.5px', color: NAVY, margin: '0 0 14px' }}>Meet the Doctors.</h2>
+            <p style={{ fontSize: 16, color: 'rgba(0,29,61,0.6)', maxWidth: 520, margin: '0 auto', lineHeight: 1.65 }}>14 licensed providers across 9 Las Vegas locations. Every specialist in-house — no outside referrals.</p>
+          </motion.div>
 
-          {/* Featured 3 */}
-          <div className="about-doctors" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginBottom: 48 }}>
-            <style>{`@media(max-width:860px){ .about-doctors{ grid-template-columns:1fr !important; } }`}</style>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginBottom: 40 }}>
+            <style>{`@media(max-width:860px){ .about-docs{ grid-template-columns:1fr !important; } }`}</style>
             {FEATURED_DOCTORS.map((doc, i) => (
-              <div key={i} style={{ background: 'white', borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(0,29,61,0.07)', boxShadow: '0 4px 24px rgba(0,29,61,0.06)' }}>
-                {/* Color header */}
-                <div style={{ height: 120, background: i === 0 ? 'linear-gradient(135deg, #001D3D, #162E7A)' : i === 1 ? 'linear-gradient(135deg, #162E7A, #1a3a8f)' : 'linear-gradient(135deg, #001228, #001D3D)', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  {/* Avatar placeholder */}
-                  <div style={{ width: 72, height: 72, borderRadius: '50%', background: 'rgba(243,103,42,0.2)', border: '3px solid rgba(243,103,42,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, fontWeight: 800, color: ORANGE }}>
-                    {doc.name.split(' ')[1]?.[0] ?? '?'}
-                  </div>
+              <motion.div key={i} className="about-docs" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }} style={{ background: 'white', borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(0,29,61,0.07)', boxShadow: '0 4px 24px rgba(0,29,61,0.06)' }}>
+                <div style={{ height: 112, background: doc.gradient, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ width: 68, height: 68, borderRadius: '50%', background: 'rgba(243,103,42,0.2)', border: '3px solid rgba(243,103,42,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, fontWeight: 800, color: ORANGE }}>{doc.initial}</div>
                   <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 3, background: ORANGE }} />
                 </div>
-                <div style={{ padding: '24px 24px 28px' }}>
-                  <div style={{ fontSize: 18, fontWeight: 800, color: NAVY, marginBottom: 4, letterSpacing: '-0.3px' }}>{doc.name}</div>
-                  <div style={{ fontSize: 12, fontWeight: 800, color: ORANGE, textTransform: 'uppercase', letterSpacing: 1.2, marginBottom: 16 }}>{doc.title}</div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 16, paddingBottom: 16, borderBottom: '1px solid rgba(0,29,61,0.06)' }}>
-                    <div style={{ fontSize: 12, color: 'rgba(0,29,61,0.5)', display: 'flex', gap: 6 }}>
-                      <span style={{ fontWeight: 700, color: 'rgba(0,29,61,0.35)' }}>🎓</span>
-                      <span>{doc.school}</span>
-                    </div>
-                    <div style={{ fontSize: 12, color: 'rgba(0,29,61,0.5)', display: 'flex', gap: 6 }}>
-                      <span style={{ fontWeight: 700, color: 'rgba(0,29,61,0.35)' }}>⏱</span>
-                      <span>{doc.years} years in practice</span>
-                    </div>
-                    <div style={{ fontSize: 12, color: 'rgba(0,29,61,0.5)', display: 'flex', gap: 6 }}>
-                      <span>🗣️</span>
-                      <span>{doc.langs.join(' · ')}</span>
-                    </div>
+                <div style={{ padding: '22px 24px 26px' }}>
+                  <div style={{ fontSize: 17, fontWeight: 800, color: NAVY, marginBottom: 3, letterSpacing: '-0.3px' }}>{doc.name}</div>
+                  <div style={{ fontSize: 11, fontWeight: 800, color: ORANGE, textTransform: 'uppercase', letterSpacing: 1.2, marginBottom: 14 }}>{doc.title}</div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 5, marginBottom: 14, paddingBottom: 14, borderBottom: '1px solid rgba(0,29,61,0.06)' }}>
+                    <div style={{ fontSize: 12, color: 'rgba(0,29,61,0.5)' }}>🎓 {doc.school}</div>
+                    <div style={{ fontSize: 12, color: 'rgba(0,29,61,0.5)' }}>⏱ {doc.years} years in practice</div>
+                    <div style={{ fontSize: 12, color: 'rgba(0,29,61,0.5)' }}>🗣️ {doc.langs.join(' · ')}</div>
                   </div>
-                  <p style={{ fontSize: 13, color: 'rgba(0,29,61,0.65)', lineHeight: 1.65, margin: '0 0 20px' }}>{doc.bio}</p>
+                  <p style={{ fontSize: 13, color: 'rgba(0,29,61,0.65)', lineHeight: 1.65, margin: '0 0 18px' }}>{doc.bio}</p>
                   <a href={`/about-us/dentists/${doc.slug}/`} style={{ fontSize: 12, fontWeight: 800, color: ORANGE, textDecoration: 'none', letterSpacing: 1, textTransform: 'uppercase' }}>Full profile →</a>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 
-          {/* All 14 providers grid */}
-          <div style={{ background: 'white', borderRadius: 16, padding: '32px 32px', border: '1px solid rgba(0,29,61,0.07)' }}>
-            <div style={{ fontSize: 13, fontWeight: 800, color: 'rgba(0,29,61,0.4)', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 20 }}>All 14 Licensed Providers</div>
-            <div className="about-all-docs" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
-              <style>{`@media(max-width:700px){ .about-all-docs{ grid-template-columns:repeat(2,1fr) !important; } }`}</style>
+          {/* All 14 grid */}
+          <div style={{ background: 'white', borderRadius: 16, padding: '28px 32px', border: '1px solid rgba(0,29,61,0.07)' }}>
+            <div style={{ fontSize: 11, fontWeight: 800, color: 'rgba(0,29,61,0.35)', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 18 }}>All 14 Licensed Providers</div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
+              <style>{`@media(max-width:700px){ .about-all-grid{ grid-template-columns:repeat(2,1fr) !important; } }`}</style>
               {ALL_DOCTORS.map((name, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 0', borderBottom: '1px solid rgba(0,29,61,0.05)' }}>
-                  <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(243,103,42,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color: ORANGE, flexShrink: 0 }}>
-                    {name.split(' ')[1]?.[0] ?? name[0]}
-                  </div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: NAVY, lineHeight: 1.2 }}>{name}</div>
+                <div key={i} className="about-all-grid" style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 0', borderBottom: '1px solid rgba(0,29,61,0.04)' }}>
+                  <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'rgba(243,103,42,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: ORANGE, flexShrink: 0 }}>{name.split(' ')[1]?.[0] ?? name[0]}</div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: NAVY, lineHeight: 1.2 }}>{name}</div>
                 </div>
               ))}
             </div>
-            <div style={{ marginTop: 24, textAlign: 'center' }}>
-              <a href="/about-us/dentists/" style={{ fontSize: 13, fontWeight: 800, color: ORANGE, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 1 }}>Meet All Our Dentists →</a>
+            <div style={{ marginTop: 20, textAlign: 'center' }}>
+              <a href="/about-us/dentists/" style={{ fontSize: 12, fontWeight: 800, color: ORANGE, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 1 }}>Meet All Our Dentists →</a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── LOCATIONS ── */}
-      <section style={{ background: NAVY, padding: '96px 32px' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 52, flexWrap: 'wrap', gap: 16 }}>
+      {/* ── LOCATIONS — dark section matching homepage LocationsMap ── */}
+      <section style={{ background: '#001D3D', padding: '96px 32px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '120px 100%', pointerEvents: 'none' }} />
+        <div style={{ maxWidth: 1280, margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 48, flexWrap: 'wrap', gap: 16 }}>
             <div>
               <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 14 }}>9 Las Vegas Locations</div>
               <h2 style={{ fontSize: 'clamp(26px, 3vw, 42px)', fontWeight: 800, letterSpacing: '-1.5px', color: 'white', margin: 0 }}>Always Close to Home.</h2>
             </div>
-            <a href="/clinics/" style={{ fontSize: 13, fontWeight: 800, color: 'rgba(255,255,255,0.6)', textDecoration: 'none', letterSpacing: 0.5, textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap' }}>
-              View All Locations →
-            </a>
+            <a href="/clinics/" style={{ fontSize: 13, fontWeight: 800, color: 'rgba(255,255,255,0.5)', textDecoration: 'none', letterSpacing: 0.5, textTransform: 'uppercase', whiteSpace: 'nowrap' }}>View All Locations →</a>
           </div>
-          <div className="about-locs" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
             <style>{`@media(max-width:860px){ .about-locs{ grid-template-columns:repeat(2,1fr) !important; } } @media(max-width:520px){ .about-locs{ grid-template-columns:1fr !important; } }`}</style>
             {LOCATIONS.map((loc, i) => (
-              <a key={i} href={`/clinics/${loc.slug}/`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '18px 20px', transition: 'background 0.2s' }}>
+              <a key={i} className="about-locs" href={`/clinics/${loc.slug}/`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '16px 20px' }}>
                 <div>
-                  <div style={{ fontSize: 15, fontWeight: 800, color: 'white', marginBottom: 4 }}>{loc.label}</div>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: 1 }}>{loc.note}</div>
+                  <div style={{ fontSize: 14, fontWeight: 800, color: 'white', marginBottom: 3 }}>{loc.label}</div>
+                  <div style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: 1 }}>{loc.note}</div>
                 </div>
-                <span style={{ color: ORANGE, fontSize: 18, flexShrink: 0 }}>→</span>
+                <span style={{ color: ORANGE, fontSize: 16, flexShrink: 0 }}>→</span>
               </a>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── CTA ── */}
-      <section style={{ background: 'white', padding: '96px 32px' }}>
-        <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center' }}>
-          <div style={{ width: 48, height: 3, background: ORANGE, margin: '0 auto 32px', borderRadius: 2 }} />
-          <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 48px)', fontWeight: 800, letterSpacing: '-1.5px', color: NAVY, margin: '0 0 20px', lineHeight: 1.1 }}>
-            Ready to Join<br />the Boca Family?
-          </h2>
-          <p style={{ fontSize: 17, color: 'rgba(0,29,61,0.6)', lineHeight: 1.7, margin: '0 0 44px' }}>
-            Same-day appointments available. Most insurance accepted. Nevada Medicaid welcome. Spanish-speaking staff at every location.
-          </p>
-          <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="/request-consultation" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: 'white', padding: '16px 36px', borderRadius: 8, fontSize: 15, fontWeight: 800, textDecoration: 'none', letterSpacing: 0.4, textTransform: 'uppercase', boxShadow: '0 8px 24px rgba(243,103,42,0.3)' }}>
-              Book an Appointment →
-            </a>
-            <a href="tel:7024560005" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'white', color: NAVY, padding: '16px 32px', borderRadius: 8, fontSize: 15, fontWeight: 800, textDecoration: 'none', border: '2px solid rgba(0,29,61,0.12)', letterSpacing: 0.4, textTransform: 'uppercase' }}>
-              (702) 456-0005
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* ── CTA — matches homepage CTA style ── */}
+      <CTA />
 
       <Footer />
       {breadcrumbSchema}
