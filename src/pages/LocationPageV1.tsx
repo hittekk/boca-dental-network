@@ -121,94 +121,77 @@ function BocaKidsHero() {
   return (
     <section style={{
       background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)',
-      minHeight: '85vh', display: 'flex', flexDirection: 'column',
-      alignItems: 'center', justifyContent: 'center',
-      padding: '180px 32px 96px', position: 'relative',
-      overflow: 'hidden', textAlign: 'center',
+      minHeight: '85vh', display: 'flex', alignItems: 'center',
+      padding: '140px 32px 80px', position: 'relative',
+      overflow: 'hidden',
     }}>
-      {/* Kid peeking from bottom-right */}
-      <div style={{ position: 'absolute', bottom: 0, right: '8%', width: 'clamp(160px, 18vw, 260px)', pointerEvents: 'none', userSelect: 'none', zIndex: 0 }}>
-        <svg viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', opacity: 0.18 }}>
-          {/* Hair */}
-          <ellipse cx="100" cy="100" rx="62" ry="68" fill="#F3672A"/>
-          <rect x="38" y="100" width="124" height="40" fill="#F3672A"/>
-          {/* Face */}
-          <ellipse cx="100" cy="115" rx="52" ry="58" fill="#FDDCB5"/>
-          {/* Eyes peeking — wide open, curious */}
-          <ellipse cx="76" cy="108" rx="12" ry="14" fill="white"/>
-          <ellipse cx="124" cy="108" rx="12" ry="14" fill="white"/>
-          <circle cx="79" cy="110" r="7" fill="#162E7A"/>
-          <circle cx="127" cy="110" r="7" fill="#162E7A"/>
-          <circle cx="81" cy="107" r="2.5" fill="white"/>
-          <circle cx="129" cy="107" r="2.5" fill="white"/>
-          {/* Eyebrows — raised, surprised/excited */}
-          <path d="M64 90 Q76 82 88 88" stroke="#c47a3a" strokeWidth="4" strokeLinecap="round"/>
-          <path d="M112 88 Q124 82 136 90" stroke="#c47a3a" strokeWidth="4" strokeLinecap="round"/>
-          {/* Nose */}
-          <ellipse cx="100" cy="126" rx="6" ry="4" fill="#e8b98a"/>
-          {/* Big smile showing teeth */}
-          <path d="M78 142 Q100 162 122 142" stroke="#c47a3a" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
-          <path d="M82 148 Q100 163 118 148 Q118 155 100 157 Q82 155 82 148Z" fill="white"/>
-          {/* Ears */}
-          <ellipse cx="48" cy="118" rx="10" ry="14" fill="#FDDCB5"/>
-          <ellipse cx="152" cy="118" rx="10" ry="14" fill="#FDDCB5"/>
-          {/* Hands gripping bottom edge */}
-          <rect x="55" y="195" width="36" height="25" rx="8" fill="#FDDCB5"/>
-          <rect x="109" y="195" width="36" height="25" rx="8" fill="#FDDCB5"/>
-          {/* Finger lines */}
-          <line x1="67" y1="196" x2="67" y2="218" stroke="#e8b98a" strokeWidth="2" strokeLinecap="round"/>
-          <line x1="78" y1="196" x2="78" y2="219" stroke="#e8b98a" strokeWidth="2" strokeLinecap="round"/>
-          <line x1="121" y1="196" x2="121" y2="219" stroke="#e8b98a" strokeWidth="2" strokeLinecap="round"/>
-          <line x1="132" y1="196" x2="132" y2="218" stroke="#e8b98a" strokeWidth="2" strokeLinecap="round"/>
-          {/* Shoulders/shirt — just the top peeking */}
-          <path d="M48 185 Q100 175 152 185 L152 220 L48 220Z" fill="#F3672A" opacity="0.6"/>
-          {/* Tooth on shirt */}
-          <path d="M88 198 Q100 193 112 198 L114 210 Q110 215 105 213 L100 218 L95 213 Q90 215 86 210Z" fill="white" opacity="0.8"/>
-        </svg>
-      </div>
-      {/* Orange glow */}
-      <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%,-50%)', width: 700, height: 500, background: 'radial-gradient(ellipse, rgba(243,103,42,0.08) 0%, transparent 65%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
-      {/* Dot grid */}
+      {/* Grid texture */}
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px)', backgroundSize: '36px 36px', pointerEvents: 'none' }} />
+      {/* Orange glow */}
+      <div style={{ position: 'absolute', top: '30%', left: '30%', transform: 'translate(-50%,-50%)', width: 700, height: 500, background: 'radial-gradient(ellipse, rgba(243,103,42,0.08) 0%, transparent 65%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
 
-      <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} style={{ position: 'relative', zIndex: 1, maxWidth: 860 }}>
-        {/* Eyebrow */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 10, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 32, padding: '6px 18px', background: 'rgba(243,103,42,0.1)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.2)' }}>
-          <span style={{ width: 5, height: 5, borderRadius: '50%', background: ORANGE, display: 'inline-block' }} />
-          Pediatric Dentistry · Southeast Las Vegas
-        </div>
+      <div style={{ maxWidth: 1280, margin: '0 auto', width: '100%', display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: 56, alignItems: 'center', position: 'relative', zIndex: 1 }}>
+        <style>{`@media(max-width:860px){ .bk-hero-grid{ grid-template-columns:1fr !important; } .bk-hero-img{ display:none !important; } }`}</style>
 
-        <h1 style={{ fontSize: 'clamp(40px, 6vw, 80px)', fontWeight: 800, letterSpacing: '-3px', color: 'white', margin: '0 0 12px', lineHeight: 0.95 }}>
-          Where Kids Actually
-        </h1>
-        <h1 style={{ fontSize: 'clamp(40px, 6vw, 80px)', fontWeight: 800, letterSpacing: '-3px', color: ORANGE, margin: '0 0 36px', lineHeight: 0.95 }}>
-          Love the Dentist.
-        </h1>
+        {/* Left — copy */}
+        <motion.div className="bk-hero-grid" initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 10, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 28, padding: '6px 18px', background: 'rgba(243,103,42,0.1)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.2)' }}>
+            <span style={{ width: 5, height: 5, borderRadius: '50%', background: ORANGE, display: 'inline-block' }} />
+            Pediatric Dentistry · Southeast Las Vegas
+          </div>
+          <h1 style={{ fontSize: 'clamp(36px, 5vw, 68px)', fontWeight: 800, letterSpacing: '-3px', color: 'white', margin: '0 0 12px', lineHeight: 0.95 }}>
+            Where Kids Actually
+          </h1>
+          <h1 style={{ fontSize: 'clamp(36px, 5vw, 68px)', fontWeight: 800, letterSpacing: '-3px', color: ORANGE, margin: '0 0 28px', lineHeight: 0.95 }}>
+            Love the Dentist.
+          </h1>
+          <p style={{ fontSize: 'clamp(15px, 1.6vw, 18px)', color: 'rgba(255,255,255,0.6)', lineHeight: 1.75, maxWidth: 500, margin: '0 0 40px' }}>
+            Las Vegas's dedicated pediatric dental clinic — built from the ground up for kids and teens. Gentle care, sensory-friendly rooms, bilingual staff, and Nevada Medicaid accepted.
+          </p>
 
-        <p style={{ fontSize: 'clamp(16px, 1.8vw, 20px)', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, maxWidth: 600, margin: '0 auto 52px' }}>
-          Las Vegas's dedicated pediatric dental clinic — built from the ground up for kids and teens. Gentle care, sensory-friendly rooms, bilingual staff, and Nevada Medicaid accepted.
-        </p>
+          {/* Stats strip */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '20px 0', margin: '0 0 36px' }}>
+            {[['Infant+', 'First Visit Age'], ['Medicaid', 'CHIP & Nevada'], ['Bilingual', 'Staff On-Site'], ['Same-Day', 'Emergencies']].map(([val, label], i, arr) => (
+              <div key={i} style={{ padding: '0 12px', borderRight: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none', textAlign: 'center' }}>
+                <div style={{ fontSize: 'clamp(12px, 1.4vw, 16px)', fontWeight: 800, color: 'white', letterSpacing: '-0.3px', lineHeight: 1, whiteSpace: 'nowrap' }}>{val}</div>
+                <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.2, marginTop: 5, whiteSpace: 'nowrap' }}>{label}</div>
+              </div>
+            ))}
+          </div>
 
-        {/* Stats strip */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '24px 0', margin: '0 auto 44px', maxWidth: 640, width: '100%' }}>
-          {[['Infant+', 'First Visit Age'], ['Medicaid', 'CHIP & Nevada'], ['Bilingual', 'Staff On-Site'], ['Same-Day', 'Emergencies']].map(([val, label], i, arr) => (
-            <div key={i} style={{ padding: '0 16px', borderRight: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none', textAlign: 'center' }}>
-              <div style={{ fontSize: 'clamp(13px, 1.6vw, 18px)', fontWeight: 800, color: 'white', letterSpacing: '-0.3px', lineHeight: 1, whiteSpace: 'nowrap' }}>{val}</div>
-              <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.2, marginTop: 6, whiteSpace: 'nowrap' }}>{label}</div>
+          {/* CTAs */}
+          <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+            <a href="/request-consultation?location=boca-kids-dentistry" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: 'white', padding: '14px 28px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', letterSpacing: 0.4, textTransform: 'uppercase', boxShadow: '0 8px 18px rgba(243,103,42,0.32)' }}>
+              Book for My Child →
+            </a>
+            <a href="tel:7024560005" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.85)', padding: '14px 24px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.15)', letterSpacing: 0.4, textTransform: 'uppercase' }}>
+              (702) 456-0005
+            </a>
+          </div>
+        </motion.div>
+
+        {/* Right — photo */}
+        <motion.div className="bk-hero-img" initial={{ opacity: 0, x: 32 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4, duration: 0.7 }}
+          style={{ position: 'relative', borderRadius: 20, overflow: 'hidden', boxShadow: '0 24px 64px rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.08)', minHeight: 520 }}>
+          <img
+            src="/boca-kids-hero.jpg"
+            alt="Happy child at Boca Kids Dentistry Las Vegas"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', display: 'block', position: 'absolute', inset: 0 }}
+          />
+          {/* Bottom gradient */}
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 120, background: 'linear-gradient(0deg, rgba(0,29,61,0.65) 0%, transparent 100%)', pointerEvents: 'none' }} />
+          {/* Badges */}
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ position: 'absolute', bottom: 18, left: 18, right: 18, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
+            <div style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(12px)', borderRadius: 999, padding: '7px 16px', fontSize: 11, fontWeight: 800, letterSpacing: 1.5, textTransform: 'uppercase', color: '#162E7A', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#10b981' }} />
+              Kids Welcome
             </div>
-          ))}
-        </div>
-
-        {/* CTAs */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
-          <a href="/request-consultation?location=boca-kids-dentistry" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: 'white', padding: '14px 28px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', letterSpacing: 0.4, textTransform: 'uppercase', boxShadow: '0 8px 18px rgba(243,103,42,0.32)' }}>
-            Book for My Child →
-          </a>
-          <a href="tel:7024560005" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.85)', padding: '14px 28px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.15)', letterSpacing: 0.4, textTransform: 'uppercase' }}>
-            (702) 456-0005
-          </a>
-        </div>
-      </motion.div>
+            <div style={{ background: '#F3672A', color: 'white', borderRadius: 999, padding: '7px 16px', fontSize: 11, fontWeight: 800, letterSpacing: 1.5, textTransform: 'uppercase', boxShadow: '0 6px 14px rgba(243,103,42,0.45)' }}>
+              Se Habla Español
+            </div>
+          </motion.div>
+        </motion.div>
+      </div>
     </section>
   )
 }
