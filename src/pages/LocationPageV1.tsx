@@ -126,8 +126,46 @@ function BocaKidsHero() {
       padding: '180px 32px 96px', position: 'relative',
       overflow: 'hidden', textAlign: 'center',
     }}>
-      {/* Tooth watermark */}
-      <div style={{ position: 'absolute', bottom: -30, right: -20, fontSize: 'clamp(160px, 22vw, 320px)', fontWeight: 900, color: 'rgba(255,255,255,0.025)', lineHeight: 1, pointerEvents: 'none', userSelect: 'none' }}>🦷</div>
+      {/* Kid peeking from bottom-right */}
+      <div style={{ position: 'absolute', bottom: 0, right: '8%', width: 'clamp(160px, 18vw, 260px)', pointerEvents: 'none', userSelect: 'none', zIndex: 0 }}>
+        <svg viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', opacity: 0.18 }}>
+          {/* Hair */}
+          <ellipse cx="100" cy="100" rx="62" ry="68" fill="#F3672A"/>
+          <rect x="38" y="100" width="124" height="40" fill="#F3672A"/>
+          {/* Face */}
+          <ellipse cx="100" cy="115" rx="52" ry="58" fill="#FDDCB5"/>
+          {/* Eyes peeking — wide open, curious */}
+          <ellipse cx="76" cy="108" rx="12" ry="14" fill="white"/>
+          <ellipse cx="124" cy="108" rx="12" ry="14" fill="white"/>
+          <circle cx="79" cy="110" r="7" fill="#162E7A"/>
+          <circle cx="127" cy="110" r="7" fill="#162E7A"/>
+          <circle cx="81" cy="107" r="2.5" fill="white"/>
+          <circle cx="129" cy="107" r="2.5" fill="white"/>
+          {/* Eyebrows — raised, surprised/excited */}
+          <path d="M64 90 Q76 82 88 88" stroke="#c47a3a" strokeWidth="4" strokeLinecap="round"/>
+          <path d="M112 88 Q124 82 136 90" stroke="#c47a3a" strokeWidth="4" strokeLinecap="round"/>
+          {/* Nose */}
+          <ellipse cx="100" cy="126" rx="6" ry="4" fill="#e8b98a"/>
+          {/* Big smile showing teeth */}
+          <path d="M78 142 Q100 162 122 142" stroke="#c47a3a" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
+          <path d="M82 148 Q100 163 118 148 Q118 155 100 157 Q82 155 82 148Z" fill="white"/>
+          {/* Ears */}
+          <ellipse cx="48" cy="118" rx="10" ry="14" fill="#FDDCB5"/>
+          <ellipse cx="152" cy="118" rx="10" ry="14" fill="#FDDCB5"/>
+          {/* Hands gripping bottom edge */}
+          <rect x="55" y="195" width="36" height="25" rx="8" fill="#FDDCB5"/>
+          <rect x="109" y="195" width="36" height="25" rx="8" fill="#FDDCB5"/>
+          {/* Finger lines */}
+          <line x1="67" y1="196" x2="67" y2="218" stroke="#e8b98a" strokeWidth="2" strokeLinecap="round"/>
+          <line x1="78" y1="196" x2="78" y2="219" stroke="#e8b98a" strokeWidth="2" strokeLinecap="round"/>
+          <line x1="121" y1="196" x2="121" y2="219" stroke="#e8b98a" strokeWidth="2" strokeLinecap="round"/>
+          <line x1="132" y1="196" x2="132" y2="218" stroke="#e8b98a" strokeWidth="2" strokeLinecap="round"/>
+          {/* Shoulders/shirt — just the top peeking */}
+          <path d="M48 185 Q100 175 152 185 L152 220 L48 220Z" fill="#F3672A" opacity="0.6"/>
+          {/* Tooth on shirt */}
+          <path d="M88 198 Q100 193 112 198 L114 210 Q110 215 105 213 L100 218 L95 213 Q90 215 86 210Z" fill="white" opacity="0.8"/>
+        </svg>
+      </div>
       {/* Orange glow */}
       <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%,-50%)', width: 700, height: 500, background: 'radial-gradient(ellipse, rgba(243,103,42,0.08) 0%, transparent 65%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
       {/* Dot grid */}
