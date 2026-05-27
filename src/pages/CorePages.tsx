@@ -673,7 +673,7 @@ export function ClinicsHubPage() {
 
   return (
     <div style={{ background: '#fff', color: NAVY, fontFamily: 'inherit' }}>
-      <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="dark" />
+      <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="light" />
 
       {/* ── Full-viewport hero: navy panel left, real Mapbox map right ── */}
       <section style={{ display: 'flex', height: '100vh', paddingTop: 110, overflow: 'hidden', position: 'relative' }}>
@@ -682,7 +682,7 @@ export function ClinicsHubPage() {
         <div style={{
           width: 400,
           flexShrink: 0,
-          background: 'linear-gradient(180deg, #001228 0%, #001D3D 45%, #162E7A 100%)',
+          background: 'linear-gradient(180deg, #162E7A 0%, #001D3D 55%, #001228 100%)',
           padding: '40px 44px 40px',
           display: 'flex',
           flexDirection: 'column',
