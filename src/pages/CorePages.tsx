@@ -386,13 +386,21 @@ export function AboutUsPage() {
             </h2>
           </motion.div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+            <style>{`@media(max-width:720px){ .about-val-grid{ grid-template-columns:1fr !important; } }`}</style>
             {VALUES.map((v, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.08 }} style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr', gap: '0 48px', alignItems: 'start', padding: '40px 0', borderBottom: i < VALUES.length - 1 ? '1px solid rgba(255,255,255,0.07)' : 'none' }}>
-                <style>{`@media(max-width:780px){ .about-val{ grid-template-columns:1fr !important; } }`}</style>
-                <div className="about-val" style={{ fontSize: 'clamp(48px, 5vw, 72px)', fontWeight: 900, color: 'rgba(255,255,255,0.06)', letterSpacing: '-3px', lineHeight: 1 }}>{v.num}</div>
-                <div className="about-val" style={{ fontSize: 'clamp(18px, 1.8vw, 24px)', fontWeight: 800, color: 'white', letterSpacing: '-0.5px', lineHeight: 1.2, paddingTop: 8 }}>{v.title}</div>
-                <p className="about-val" style={{ fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.75, margin: 0, paddingTop: 8 }}>{v.body}</p>
+              <motion.div key={i} className="about-val-grid" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}
+                style={{ position: 'relative', overflow: 'hidden', background: i % 2 === 0 ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.045)', padding: '52px 48px', borderTop: `1px solid rgba(255,255,255,0.06)`, borderLeft: i % 2 === 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
+                {/* Ghost number watermark */}
+                <div style={{ position: 'absolute', top: -10, right: 24, fontSize: 140, fontWeight: 900, color: 'rgba(255,255,255,0.03)', letterSpacing: '-6px', lineHeight: 1, userSelect: 'none', pointerEvents: 'none' }}>{v.num}</div>
+                {/* Orange top bar */}
+                <div style={{ position: 'absolute', top: 0, left: 0, width: 48, height: 3, background: ORANGE, borderRadius: '0 0 2px 0' }} />
+                {/* Content */}
+                <div style={{ position: 'relative', zIndex: 1 }}>
+                  <div style={{ fontSize: 11, fontWeight: 800, color: ORANGE, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 16 }}>{v.num}</div>
+                  <h3 style={{ fontSize: 'clamp(18px, 1.8vw, 24px)', fontWeight: 800, color: 'white', letterSpacing: '-0.5px', lineHeight: 1.2, margin: '0 0 16px' }}>{v.title}</h3>
+                  <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.5)', lineHeight: 1.8, margin: 0 }}>{v.body}</p>
+                </div>
               </motion.div>
             ))}
           </div>
