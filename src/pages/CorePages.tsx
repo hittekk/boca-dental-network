@@ -29,6 +29,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { ArrowRight, ArrowUpRight, MapPin, Phone, Clock, Star, Mail, Briefcase, FileText, ShieldCheck, CreditCard, MessageCircle, Globe } from 'lucide-react'
 import { Header } from '../components/Header/Header'
 import { Footer } from '../components/Footer/Footer'
+import { Services } from '../components/Services/Services'
 import { ConsultationForm } from '../components/ConsultationForm/ConsultationForm'
 import { INITIAL_DATA } from '../data/initialData'
 import { SERVICE_CATEGORIES, SERVICE_PAGES } from '../data/serviceCatalog'
@@ -484,30 +485,8 @@ export function AboutUsPage() {
         </div>
       </section>
 
-      {/* ── SERVICES ── */}
-      <section style={{ background: 'white', padding: '96px 32px' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 52, flexWrap: 'wrap', gap: 16 }}>
-            <div>
-              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 14 }}>Comprehensive Care</div>
-              <h2 style={{ fontSize: 'clamp(26px, 3vw, 42px)', fontWeight: 800, letterSpacing: '-1.5px', color: NAVY, margin: 0 }}>Every Specialty.<br />One Practice.</h2>
-            </div>
-            <a href="/services/" style={{ fontSize: 13, fontWeight: 800, color: ORANGE, textDecoration: 'none', letterSpacing: 0.5, textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap' }}>
-              View All Services →
-            </a>
-          </div>
-          <div className="about-services" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
-            <style>{`@media(max-width:860px){ .about-services{ grid-template-columns:repeat(2,1fr) !important; } } @media(max-width:520px){ .about-services{ grid-template-columns:1fr !important; } }`}</style>
-            {SERVICES.map((s, i) => (
-              <a key={i} href={s.href} style={{ textDecoration: 'none', display: 'block', background: '#F7F9FC', borderRadius: 14, padding: '26px 24px', border: '1px solid rgba(0,29,61,0.07)', transition: 'box-shadow 0.2s ease', position: 'relative', borderTop: `3px solid ${ORANGE}` }}>
-                <div style={{ fontSize: 16, fontWeight: 800, color: NAVY, marginBottom: 8, letterSpacing: '-0.2px' }}>{s.label}</div>
-                <p style={{ fontSize: 13, color: 'rgba(0,29,61,0.6)', margin: '0 0 14px', lineHeight: 1.55 }}>{s.desc}</p>
-                <span style={{ fontSize: 11, fontWeight: 800, color: ORANGE, letterSpacing: 1.2, textTransform: 'uppercase' }}>Learn more →</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ── SERVICES — same component as homepage ── */}
+      <Services />
 
       {/* ── FEATURED DOCTORS ── */}
       <section style={{ background: '#F7F9FC', padding: '96px 32px' }}>
