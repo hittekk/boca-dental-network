@@ -25,6 +25,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import React, { useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
 import { Link, useSearchParams } from 'react-router-dom'
 import { ArrowRight, ArrowUpRight, MapPin, Phone, Clock, Star, Mail, Briefcase, FileText, ShieldCheck, CreditCard, MessageCircle, Globe } from 'lucide-react'
 import { Header } from '../components/Header/Header'
