@@ -421,29 +421,55 @@ export function AboutUsPage() {
             <a href="/about-us/dentists/" style={{ fontSize: 13, fontWeight: 800, color: ORANGE, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 1 }}>Meet All Providers →</a>
           </motion.div>
 
-          {/* Featured 3 — horizontal editorial cards */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 2, marginBottom: 48 }}>
+          {/* Featured 3 — premium credential cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginBottom: 48 }}>
+            <style>{`@media(max-width:960px){ .about-doc-grid{ grid-template-columns:1fr !important; } }`}</style>
             {FEATURED_DOCTORS.map((doc, i) => (
-              <motion.div key={i} initial={{ opacity: 0, x: i % 2 === 0 ? -24 : 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.55, delay: i * 0.1 }} style={{ display: 'grid', gridTemplateColumns: '280px 1fr', background: 'white', borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(0,29,61,0.07)', boxShadow: '0 2px 16px rgba(0,29,61,0.05)' }}>
-                <style>{`@media(max-width:780px){ .about-doc-card{ grid-template-columns:1fr !important; } }`}</style>
-                {/* Left color band */}
-                <div className="about-doc-card" style={{ background: 'linear-gradient(160deg, #001D3D 0%, #162E7A 100%)', padding: '40px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <div>
-                    <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(243,103,42,0.2)', border: '2px solid rgba(243,103,42,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, fontWeight: 800, color: ORANGE, marginBottom: 20 }}>{doc.initial}</div>
-                    <div style={{ fontSize: 18, fontWeight: 800, color: 'white', marginBottom: 6, letterSpacing: '-0.3px' }}>{doc.name}</div>
-                    <div style={{ fontSize: 11, fontWeight: 800, color: ORANGE, textTransform: 'uppercase', letterSpacing: 1.5 }}>{doc.title}</div>
+              <motion.div key={i} className="about-doc-grid" initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55, delay: i * 0.12 }}
+                style={{ background: 'linear-gradient(160deg, #001D3D 0%, #0a2a55 100%)', borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)', position: 'relative' }}>
+
+                {/* Orange top accent */}
+                <div style={{ height: 4, background: `linear-gradient(90deg, ${ORANGE} 0%, rgba(243,103,42,0.3) 100%)` }} />
+
+                {/* Header */}
+                <div style={{ padding: '36px 32px 24px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                  {/* Monogram */}
+                  <div style={{ width: 72, height: 72, borderRadius: '50%', background: 'rgba(243,103,42,0.12)', border: '2px solid rgba(243,103,42,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
+                    <span style={{ fontSize: 28, fontWeight: 900, color: ORANGE }}>{doc.initial}</span>
                   </div>
-                  <div style={{ marginTop: 24 }}>
-                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginBottom: 4 }}>🎓 {doc.school}</div>
-                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginBottom: 4 }}>⏱ {doc.years} years in practice</div>
-                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>🗣️ {doc.langs.join(' · ')}</div>
+                  <div style={{ fontSize: 'clamp(16px, 1.5vw, 20px)', fontWeight: 800, color: 'white', letterSpacing: '-0.4px', lineHeight: 1.2, marginBottom: 10 }}>{doc.name}</div>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', padding: '5px 12px', background: 'rgba(243,103,42,0.15)', border: '1px solid rgba(243,103,42,0.25)', borderRadius: 999, fontSize: 10, fontWeight: 800, color: ORANGE, letterSpacing: 1.5, textTransform: 'uppercase' }}>
+                    {doc.title}
                   </div>
                 </div>
-                {/* Right — bio */}
-                <div className="about-doc-card" style={{ padding: '40px 40px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <p style={{ fontSize: 15, color: 'rgba(0,29,61,0.7)', lineHeight: 1.8, margin: '0 0 24px', flex: 1 }}>{doc.bio}</p>
-                  <a href={`/about-us/dentists/${doc.slug}/`} style={{ fontSize: 12, fontWeight: 800, color: ORANGE, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 1, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                    Full profile →
+
+                {/* Stats row */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ padding: '18px 24px', borderRight: '1px solid rgba(255,255,255,0.06)' }}>
+                    <div style={{ fontSize: 28, fontWeight: 900, color: 'white', letterSpacing: '-1px', lineHeight: 1 }}>{doc.years}</div>
+                    <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.2, marginTop: 4 }}>Years in Practice</div>
+                  </div>
+                  <div style={{ padding: '18px 24px' }}>
+                    <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                      {doc.langs.map((lang, li) => (
+                        <span key={li} style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.55)', background: 'rgba(255,255,255,0.06)', padding: '3px 8px', borderRadius: 999, border: '1px solid rgba(255,255,255,0.08)' }}>{lang}</span>
+                      ))}
+                    </div>
+                    <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.2, marginTop: 6 }}>Languages</div>
+                  </div>
+                </div>
+
+                {/* School */}
+                <div style={{ padding: '16px 24px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                  <div style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 12 }}>🎓</div>
+                  <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', lineHeight: 1.5 }}>{doc.school}</div>
+                </div>
+
+                {/* Bio */}
+                <div style={{ padding: '24px 24px 28px' }}>
+                  <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.75, margin: '0 0 22px' }}>{doc.bio}</p>
+                  <a href={`/about-us/dentists/${doc.slug}/`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11, fontWeight: 800, color: ORANGE, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 1.2, padding: '8px 16px', background: 'rgba(243,103,42,0.1)', borderRadius: 6, border: '1px solid rgba(243,103,42,0.2)' }}>
+                    Full Profile →
                   </a>
                 </div>
               </motion.div>
