@@ -353,10 +353,9 @@ export function AboutUsPage() {
 
                         {/* Center dot + year */}
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 2 }}>
-                          <div style={{ width: 48, height: 48, borderRadius: '50%', background: i === 5 ? ORANGE : 'white', border: `2px solid ${ORANGE}`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 0 0 6px ${i === 5 ? 'rgba(243,103,42,0.12)' : 'rgba(243,103,42,0.06)'}` }}>
-                            <span style={{ fontSize: 10, fontWeight: 900, color: i === 5 ? 'white' : ORANGE, letterSpacing: '-0.5px' }}>{item.year.slice(2)}</span>
+                          <div style={{ width: 56, height: 56, borderRadius: '50%', background: i === 5 ? ORANGE : 'white', border: `2px solid ${ORANGE}`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 0 0 8px ${i === 5 ? 'rgba(243,103,42,0.10)' : 'rgba(243,103,42,0.06)'}` }}>
+                            <span style={{ fontSize: 11, fontWeight: 900, color: i === 5 ? 'white' : ORANGE, letterSpacing: '-0.5px' }}>{item.year}</span>
                           </div>
-                          <div style={{ fontSize: 11, fontWeight: 800, color: 'rgba(0,29,61,0.3)', letterSpacing: 0.5, marginTop: 4 }}>{item.year}</div>
                         </div>
 
                         {/* Right side */}
