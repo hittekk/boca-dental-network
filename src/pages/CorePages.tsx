@@ -306,26 +306,58 @@ export function AboutUsPage() {
         {/* Orange glow */}
         <div style={{ position: 'absolute', top: '-10%', right: '-5%', width: 600, height: 600, background: 'radial-gradient(circle, rgba(243,103,42,0.12) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
-        <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative', zIndex: 1, width: '100%' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 28, padding: '6px 16px', background: 'rgba(243,103,42,0.12)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.22)' }}>
-            Est. 2006 · Las Vegas, Nevada
+        <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative', zIndex: 1, width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+          <style>{`@media(max-width:860px){ .about-hero-grid{ grid-template-columns:1fr !important; } .about-hero-img{ display:none !important; } }`}</style>
+
+          {/* Left — copy */}
+          <div className="about-hero-grid">
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 28, padding: '6px 16px', background: 'rgba(243,103,42,0.12)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.22)' }}>
+              Est. 2006 · Las Vegas, Nevada
+            </div>
+            <h1 style={{ fontSize: 'clamp(34px, 4.5vw, 62px)', fontWeight: 800, letterSpacing: '-2px', color: 'white', margin: '0 0 8px', lineHeight: 1.0 }}>
+              Las Vegas' Dental Home
+            </h1>
+            <h1 style={{ fontSize: 'clamp(34px, 4.5vw, 62px)', fontWeight: 800, letterSpacing: '-2px', color: ORANGE, margin: '0 0 28px', lineHeight: 1.0 }}>
+              For The Whole Family.
+            </h1>
+            <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, maxWidth: 480, margin: '0 0 44px' }}>
+              Founded in 2006 by Dr. Wyatt Dannels at one clinic on Russell & Eastern — grown to 9 locations, 14 providers, and tens of thousands of Las Vegas families who call Boca their dental home.
+            </p>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+              <a href="/request-consultation" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: 'white', padding: '14px 28px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', letterSpacing: 0.4, textTransform: 'uppercase' }}>
+                Book an Appointment →
+              </a>
+              <a href="/clinics/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.08)', color: 'white', padding: '14px 28px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.15)', letterSpacing: 0.4, textTransform: 'uppercase' }}>
+                Find a Location
+              </a>
+            </div>
           </div>
-          <h1 style={{ fontSize: 'clamp(38px, 5.5vw, 72px)', fontWeight: 800, letterSpacing: '-2px', color: 'white', margin: '0 0 8px', lineHeight: 1.0, maxWidth: 800 }}>
-            Las Vegas' Dental Home
-          </h1>
-          <h1 style={{ fontSize: 'clamp(38px, 5.5vw, 72px)', fontWeight: 800, letterSpacing: '-2px', color: ORANGE, margin: '0 0 32px', lineHeight: 1.0 }}>
-            For The Whole Family.
-          </h1>
-          <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, maxWidth: 580, margin: '0 0 52px' }}>
-            Founded in 2006 by Dr. Wyatt Dannels at one clinic on Russell & Eastern — grown to 9 locations, 14 providers, and tens of thousands of Las Vegas families who call Boca their dental home.
-          </p>
-          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-            <a href="/request-consultation" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: 'white', padding: '14px 28px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', letterSpacing: 0.4, textTransform: 'uppercase' }}>
-              Book an Appointment →
-            </a>
-            <a href="/clinics/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.08)', color: 'white', padding: '14px 28px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.15)', letterSpacing: 0.4, textTransform: 'uppercase' }}>
-              Find a Location
-            </a>
+
+          {/* Right — photo placeholder */}
+          <div className="about-hero-img" style={{ position: 'relative' }}>
+            {/* Main photo card */}
+            <div style={{ borderRadius: 20, overflow: 'hidden', aspectRatio: '4/5', background: 'linear-gradient(160deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16, position: 'relative' }}>
+              {/* Placeholder content */}
+              <div style={{ fontSize: 56, opacity: 0.3 }}>🦷</div>
+              <div style={{ textAlign: 'center', padding: '0 32px' }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.35)', marginBottom: 8 }}>TEAM PHOTO</div>
+                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', lineHeight: 1.6 }}>Real Boca Dental team photo<br />coming from Carlos</div>
+              </div>
+              {/* Corner accent */}
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: ORANGE, opacity: 0.7 }} />
+            </div>
+
+            {/* Floating stat badge — bottom left */}
+            <div style={{ position: 'absolute', bottom: -16, left: -16, background: ORANGE, borderRadius: 14, padding: '16px 22px', boxShadow: '0 8px 32px rgba(243,103,42,0.35)' }}>
+              <div style={{ fontSize: 26, fontWeight: 800, color: 'white', letterSpacing: '-1px', lineHeight: 1 }}>20+</div>
+              <div style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.8)', textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 4 }}>Years Serving<br />Las Vegas</div>
+            </div>
+
+            {/* Floating badge — top right */}
+            <div style={{ position: 'absolute', top: -16, right: -16, background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, padding: '14px 20px' }}>
+              <div style={{ fontSize: 22, fontWeight: 800, color: 'white', letterSpacing: '-0.5px', lineHeight: 1 }}>4.8 ★</div>
+              <div style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 4 }}>1,534+ Reviews</div>
+            </div>
           </div>
         </div>
       </section>
