@@ -152,11 +152,11 @@ function BocaKidsHero() {
         </p>
 
         {/* Stats strip */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 0, flexWrap: 'wrap', borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '24px 0', margin: '0 auto 44px', maxWidth: 640 }}>
-          {[['Infant+', 'First Visit Age'], ['Medicaid', 'CHIP & Nevada'], ['Bilingual', 'Staff On Every Shift'], ['Same-Day', 'Emergency Pedo']].map(([val, label], i, arr) => (
-            <div key={i} style={{ padding: '0 28px', borderRight: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none', textAlign: 'center' }}>
-              <div style={{ fontSize: 'clamp(14px, 1.8vw, 20px)', fontWeight: 800, color: 'white', letterSpacing: '-0.5px', lineHeight: 1 }}>{val}</div>
-              <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 6 }}>{label}</div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '24px 0', margin: '0 auto 44px', maxWidth: 640, width: '100%' }}>
+          {[['Infant+', 'First Visit Age'], ['Medicaid', 'CHIP & Nevada'], ['Bilingual', 'Staff On-Site'], ['Same-Day', 'Emergencies']].map(([val, label], i, arr) => (
+            <div key={i} style={{ padding: '0 16px', borderRight: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none', textAlign: 'center' }}>
+              <div style={{ fontSize: 'clamp(13px, 1.6vw, 18px)', fontWeight: 800, color: 'white', letterSpacing: '-0.3px', lineHeight: 1, whiteSpace: 'nowrap' }}>{val}</div>
+              <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.2, marginTop: 6, whiteSpace: 'nowrap' }}>{label}</div>
             </div>
           ))}
         </div>
