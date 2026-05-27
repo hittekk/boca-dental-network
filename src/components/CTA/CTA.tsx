@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useLang, t } from '../../lib/lang'
 import {
   Phone,
   ArrowRight,
@@ -9,6 +10,7 @@ import {
 } from 'lucide-react'
 
 export function CTA() {
+  const lang = useLang()
   return (
     <section
       id="cta"
@@ -155,7 +157,7 @@ export function CTA() {
                   display: 'inline-block',
                 }}
               />
-              Final Step · Book your visit
+              {t(lang, 'Final Step · Book your visit', 'Último Paso · Reserva Tu Visita')}
             </div>
 
             <h2
@@ -169,7 +171,7 @@ export function CTA() {
                 lineHeight: 1.0,
               }}
             >
-              Ready to book?{' '}
+              {t(lang, 'Ready to book?', '¿Listo para Reservar?')}{' '}
               <span style={{ display: 'block' }}>
                 Your new Las Vegas dentist is{' '}
                 <span style={{ fontStyle: 'italic', opacity: 0.9 }}>
@@ -199,12 +201,12 @@ export function CTA() {
                 gap: 10,
               }}
             >
-              <TrustPill icon={<Languages size={13} />} text="Se Habla Español" />
-              <TrustPill icon={<ShieldCheck size={13} />} text="Medicaid · CHIP" />
-              <TrustPill icon={<Clock size={13} />} text="Open today · 8a–8p" />
+              <TrustPill icon={<Languages size={13} />} text={t(lang, "Se Habla Español", "Se Habla Español")} />
+              <TrustPill icon={<ShieldCheck size={13} />} text={t(lang, "Medicaid · CHIP", "Medicaid · CHIP")} />
+              <TrustPill icon={<Clock size={13} />} text={t(lang, "Open today · 8a–8p", "Abierto Hoy · 8a–8p")} />
               <TrustPill
                 icon={<Star size={13} fill="white" />}
-                text="4.9 · 1,200+ reviews"
+                text={t(lang, "4.9 · 1,200+ reviews", "4.9 · Más de 1,200 Reseñas")}
               />
             </div>
           </motion.div>
@@ -316,7 +318,7 @@ export function CTA() {
             >
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
                 <Clock size={16} />
-                Book an appointment
+                {t(lang, 'Book an appointment', 'Reservar Cita')}
               </span>
               <ArrowRight size={17} />
             </a>

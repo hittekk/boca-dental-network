@@ -2,12 +2,14 @@ import { motion } from 'framer-motion'
 import { MapPin, Phone, ChevronDown, Star } from 'lucide-react'
 import type { Brand } from '../../types'
 import { GoogleG } from '../shared/icons/GoogleG'
+import { useLang, t } from '../../lib/lang'
 
 interface HeroProps {
   brand: Brand
 }
 
 export function Hero({ brand }: HeroProps) {
+  const lang = useLang()
   const scrollToLocations = () => {
     document.getElementById('locations')?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -107,7 +109,7 @@ export function Hero({ brand }: HeroProps) {
               color: '#F3672A',
             }}
           >
-            Accepting New Patients · Most Insurance · Medicaid Welcome
+            {t(lang, 'Accepting New Patients · Most Insurance · Medicaid Welcome', 'Aceptando Nuevos Pacientes · Seguros · Medicaid Bienvenido')}
           </motion.div>
 
           <motion.h1
@@ -124,8 +126,8 @@ export function Hero({ brand }: HeroProps) {
               margin: '0 0 22px',
             }}
           >
-            <span style={{ display: 'block' }}>Las Vegas' Dental</span>
-            <span style={{ display: 'block' }}>Home for the</span>
+            <span style={{ display: 'block' }}>{t(lang, "Las Vegas' Dental", 'Tu Clínica Dental')}</span>
+            <span style={{ display: 'block' }}>{t(lang, 'Home for the', 'en Las Vegas para')}</span>
             <span style={{ display: 'block', color: '#F3672A' }}>
               Whole Family
             </span>
@@ -140,7 +142,7 @@ export function Hero({ brand }: HeroProps) {
                 marginTop: 18,
               }}
             >
-              9 Locations · One Team
+              {t(lang, '9 Locations · One Team', '9 Clínicas · Un Solo Equipo')}
             </span>
           </motion.h1>
 
@@ -156,9 +158,7 @@ export function Hero({ brand }: HeroProps) {
               margin: '0 0 36px',
             }}
           >
-            General, cosmetic, orthodontic, and specialty dental care under
-            one roof — with flexible scheduling, most insurance accepted, and
-            free consultations at locations across Las Vegas.
+            {t(lang, 'General, cosmetic, orthodontic, and specialty dental care under one roof — with flexible scheduling, most insurance accepted, and free consultations at locations across Las Vegas.', 'Atención dental general, cosmética, ortodoncia y especialidades bajo un mismo techo — con horarios flexibles, la mayoría de seguros aceptados y consultas gratuitas en clínicas por todo Las Vegas.')}
           </motion.p>
 
           <motion.div
@@ -200,7 +200,7 @@ export function Hero({ brand }: HeroProps) {
                 ((e.currentTarget as HTMLElement).style.background = '#F3672A')
               }
             >
-              Book an Appointment
+              {t(lang, 'Book an Appointment', 'Reservar Cita')}
             </a>
 
             {/* Secondary CTA: Find a Location Near You (per Treysyde spec) */}
@@ -231,7 +231,7 @@ export function Hero({ brand }: HeroProps) {
               }
             >
               <MapPin size={16} />
-              Find a Location Near You
+              {t(lang, 'Find a Location Near You', 'Encontrar Clínica')}
             </button>
           </motion.div>
 
@@ -270,12 +270,12 @@ export function Hero({ brand }: HeroProps) {
               }}
             >
               <GoogleG size={14} />
-              <span>1,200+ Google reviews</span>
+              <span>{t(lang, '1,200+ Google reviews', 'Más de 1,200 reseñas')}</span>
             </span>
             <span style={{ opacity: 0.55 }}>·</span>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
               <MapPin size={13} color="#F3672A" />
-              <span>across 9 Las Vegas offices</span>
+              <span>{t(lang, 'across 9 Las Vegas offices', 'en 9 clínicas de Las Vegas')}</span>
             </span>
           </motion.div>
         </div>
@@ -369,7 +369,7 @@ export function Hero({ brand }: HeroProps) {
                   background: '#10b981',
                 }}
               />
-              Now Booking
+              {t(lang, 'Now Booking', 'Recibiendo Pacientes')}
             </div>
             <div
               style={{

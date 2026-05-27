@@ -8,6 +8,7 @@ import {
   ArrowRight,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import { useLang, t } from '../../lib/lang'
 
 interface Step {
   number: string
@@ -20,31 +21,31 @@ interface Step {
 const STEPS: Step[] = [
   {
     number: '01',
-    title: 'Book Your Appointment',
-    body: 'Call any Boca location or book online. Most locations offer same-day and next-day appointments for new patients.',
+    title: t(lang, 'Book Your Appointment', 'Reserva Tu Cita'),
+    body: t(lang, 'Call any Boca location or book online. Most locations offer same-day and next-day appointments for new patients.', 'Llama a cualquier clínica Boca o reserva en línea. La mayoría de las clínicas ofrecen citas el mismo día para nuevos pacientes.'),
     icon: Phone,
-    duration: '< 5 min',
+    duration: t(lang, '< 5 min', '< 5 min'),
   },
   {
     number: '02',
-    title: 'Complete Your Forms',
-    body: 'Download and complete your new patient forms before your visit to save time. We accept most insurance plans.',
+    title: t(lang, 'Complete Your Forms', 'Completa Tu Documentación'),
+    body: t(lang, 'Download and complete your new patient forms before your visit to save time. We accept most insurance plans.', 'Descarga y completa tus formularios antes de la visita para ahorrar tiempo. Aceptamos la mayoría de los seguros.'),
     icon: FileText,
-    duration: '~ 10 min',
+    duration: t(lang, '~ 10 min', '~ 10 min'),
   },
   {
     number: '03',
-    title: 'Your First Visit',
-    body: 'Meet your dentist, get a full exam and X-rays, and discuss your treatment options — no pressure, no surprises.',
+    title: t(lang, 'Your First Visit', 'Tu Primera Visita'),
+    body: t(lang, 'Meet your dentist, get a full exam and X-rays, and discuss your treatment options — no pressure, no surprises.', 'Conoce a tu dentista, recibe un examen completo y radiografías, y discute tus opciones de tratamiento — sin presión, sin sorpresas.'),
     icon: Stethoscope,
-    duration: '~ 45 min',
+    duration: t(lang, '~ 45 min', '~ 45 min'),
   },
   {
     number: '04',
-    title: 'Your Treatment Plan',
-    body: 'We build a personalized treatment plan around your needs and budget. Financing options available if needed.',
+    title: t(lang, 'Your Treatment Plan', 'Tu Plan de Tratamiento'),
+    body: t(lang, 'We build a personalized treatment plan around your needs and budget. Financing options available if needed.', 'Elaboramos un plan personalizado según tus necesidades y presupuesto. Opciones de financiamiento disponibles.'),
     icon: ClipboardCheck,
-    duration: 'Same visit',
+    duration: t(lang, 'Same visit', 'Misma visita'),
   },
 ]
 
@@ -53,6 +54,7 @@ const NAVY = '#162E7A'
 const NAVY_DEEP = '#001D3D'
 
 export function Steps() {
+  const lang = useLang()
   return (
     <section
       id="new-patients"
@@ -133,7 +135,7 @@ export function Steps() {
               lineHeight: 1.05,
             }}
           >
-            Getting started is{' '}
+            {t(lang, 'Getting started is', 'Comenzar es')}{' '}
             <span style={{ color: ORANGE, fontStyle: 'italic' }}>easy.</span>
           </h2>
           <p
@@ -371,7 +373,7 @@ export function Steps() {
             }}
           >
             <Phone size={15} />
-            Call to Book — (702) 456-0005
+            {t(lang, 'Call to Book — (702) 456-0005', 'Llama para Reservar — (702) 456-0005')}
             <ArrowRight size={14} />
           </a>
           <div

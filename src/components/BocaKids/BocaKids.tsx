@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Star, Quote, Phone, ArrowRight, Smile, ShieldCheck, Heart, Sparkles } from 'lucide-react'
 import { KIDS_FEATURE_ICONS } from './KidsIcons'
+import { useLang, t } from '../../lib/lang'
 
 const ORANGE = '#F3672A'
 const NAVY = '#162E7A'
@@ -9,20 +10,21 @@ const NAVY_DEEP = '#001D3D'
 const KIDS_FEATURES = [
   'Pediatric dental care from age 1',
   'Kid-friendly offices built for comfort',
-  'Medicaid and CHIP accepted',
+  t(lang,'Medicaid and CHIP accepted','Medicaid y CHIP aceptados'),
   'Bilingual staff — hablamos español',
   'Preventive care, fillings, and extractions',
   'Orthodontics and braces for kids and teens',
 ]
 
 const STATS = [
-  { value: 'Age 1+',  label: 'First-visit age' },
+  { value: t(lang,'Age 1+','Edad 1+'),  label: t(lang,'First-visit age','Primera visita') },
   { value: '1,500+',  label: 'Happy kids served' },
   { value: '★ 4.9',   label: 'Parent rating' },
   { value: 'EN · ES', label: 'Bilingual care' },
 ]
 
 export function BocaKids() {
+  const lang = useLang()
   return (
     <section
       id="boca-kids"
@@ -187,7 +189,7 @@ export function BocaKids() {
                   color: ORANGE,
                 }}
               >
-                built
+                {t(lang,'built','pensada')}
                 <span
                   aria-hidden
                   style={{
@@ -202,7 +204,7 @@ export function BocaKids() {
                   }}
                 />
               </span>{' '}
-              for kids.
+              {t(lang,'for kids.','para niños.')}
             </h2>
 
             <p
@@ -214,9 +216,7 @@ export function BocaKids() {
                 maxWidth: 540,
               }}
             >
-              Boca Kids is our dedicated pediatric practice — designed from the ground
-              up to make every child&apos;s dental visit comfortable, fun, and fear-free.
-              From their first tooth through their teenage years.
+              {t(lang, 'Boca Kids is our dedicated pediatric practice — designed from the ground up to make every child\'s dental visit comfortable, fun, and fear-free. From their first tooth through their teenage years.', 'Boca Kids es nuestra clínica pediátrica dedicada — diseñada para hacer de cada visita dental una experiencia cómoda, divertida y sin miedo. Desde el primer diente hasta la adolescencia.')}
             </p>
 
             {/* Stats cluster */}
@@ -371,7 +371,7 @@ export function BocaKids() {
                   el.style.transform = 'translateY(0)'
                 }}
               >
-                Find Boca Kids near you
+                {t(lang, 'Find Boca Kids near you', 'Visitar Boca Kids')}
                 <ArrowRight size={14} />
               </a>
               <a
@@ -631,7 +631,7 @@ export function BocaKids() {
                   fontStyle: 'italic',
                 }}
               >
-                "My 4-year-old was terrified of the dentist until we came to Boca Kids. They have a special quiet room and the team is amazing with sensory-sensitive kids. Game-changer."
+                {t(lang, "My 4-year-old was terrified of the dentist until we came to Boca Kids. They have a special quiet room and the team is amazing with sensory-sensitive kids. Game-changer.", "Mi niña de 4 años le tenía terror al dentista hasta que vinimos a Boca Kids. Tienen una sala silenciosa especial y el equipo es increíble con niños con necesidades sensoriales. ¡Un cambio total!")}
               </p>
               <div
                 style={{

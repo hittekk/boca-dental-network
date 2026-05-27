@@ -9,6 +9,7 @@ import {
   ArrowRight,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import { useLang, t } from '../../lib/lang'
 
 const ORANGE = '#F3672A'
 
@@ -27,47 +28,48 @@ const REASONS: Reason[] = [
     icon: MapPin,
     stat: '9',
     statLabel: 'Las Vegas clinics',
-    title: '9 Locations Across Las Vegas',
-    body: 'From Bonanza to Serene, we are close to where you live, work, and raise your family. No long drives, no waiting weeks for an appointment.',
+    title: t(lang, '9 Locations Across Las Vegas', '9 Clínicas en Todo Las Vegas'),
+    body: t(lang, 'From Bonanza to Serene, we are close to where you live, work, and raise your family. No long drives, no waiting weeks for an appointment.', 'De Bonanza a Serene, estamos cerca de donde vives, trabajas y crías a tu familia. Sin viajes largos, sin semanas de espera.'),
   },
   {
     icon: Clock,
     stat: '6',
     statLabel: 'Days per week',
-    title: 'Evening & Weekend Hours',
-    body: 'We work around your schedule — not the other way around. Appointments available Monday through Saturday, including early morning and evening slots.',
+    title: t(lang, 'Evening & Weekend Hours', 'Horario de Noche y Fin de Semana'),
+    body: t(lang, 'We work around your schedule — not the other way around. Appointments available Monday through Saturday, including early morning and evening slots.', 'Trabajamos según tu horario. Citas disponibles de lunes a sábado, incluyendo horario matutino y nocturno.'),
   },
   {
     icon: CheckCircle,
     stat: '30+',
     statLabel: 'PPO plans accepted',
-    title: 'Most Insurance Accepted',
-    body: 'Boca Dental & Braces accepts most major PPO dental insurance plans. Our front desk team verifies your benefits before your appointment so there are no surprises.',
+    title: t(lang, 'Most Insurance Accepted', 'Aceptamos la Mayoría de Seguros'),
+    body: t(lang, 'Boca Dental & Braces accepts most major PPO dental insurance plans. Our front desk team verifies your benefits before your appointment so there are no surprises.', 'Boca Dental & Braces acepta la mayoría de los planes PPO. Nuestro equipo verifica tus beneficios antes de la cita para que no haya sorpresas.'),
   },
   {
     icon: CreditCard,
     stat: '24mo',
     statLabel: 'CareCredit financing',
-    title: 'Flexible Financing Options',
-    body: "Treatment shouldn't wait because of cost. We offer CareCredit financing and in-house payment plans to make dental care accessible for every budget.",
+    title: t(lang, 'Flexible Financing Options', 'Opciones de Financiamiento Flexible'),
+    body: t(lang, "Treatment shouldn't wait because of cost. We offer CareCredit financing and in-house payment plans to make dental care accessible for every budget.", 'El tratamiento no debe esperar por el costo. Ofrecemos financiamiento CareCredit y planes de pago propios para que la atención dental sea accesible.'),
   },
   {
     icon: Award,
     stat: '14',
     statLabel: 'Licensed providers',
-    title: 'Experienced, Caring Providers',
-    body: 'Our team includes general dentists, a board-eligible orthodontist, oral surgeons, periodontists, and pediatric specialists — all under one practice umbrella.',
+    title: t(lang, 'Experienced, Caring Providers', 'Proveedores con Experiencia y Vocación'),
+    body: t(lang, 'Our team includes general dentists, a board-eligible orthodontist, oral surgeons, periodontists, and pediatric specialists — all under one practice umbrella.', 'Nuestro equipo incluye dentistas generales, ortodoncista, cirujanos orales, periodoncistas y especialistas en pediatría — todo bajo una misma práctica.'),
   },
   {
     icon: Users,
     stat: 'EN · ES',
     statLabel: 'Languages spoken',
-    title: 'Bilingual Staff',
-    body: "We serve Las Vegas' full community. Spanish-speaking staff are available at multiple locations to ensure every patient feels understood and at ease.",
+    title: t(lang, 'Bilingual Staff', 'Personal Bilingüe'),
+    body: t(lang, "We serve Las Vegas' full community. Spanish-speaking staff are available at multiple locations to ensure every patient feels understood and at ease.", 'Servimos a toda la comunidad de Las Vegas. Personal de habla española disponible en todas las clínicas para que cada paciente se sienta comprendido.'),
   },
 ]
 
 export function WhyBoca() {
+  const lang = useLang()
   return (
     <section
       id="why-boca"
@@ -160,7 +162,7 @@ export function WhyBoca() {
               lineHeight: 1.05,
             }}
           >
-            Why Las Vegas chooses{' '}
+            {t(lang, 'Why Las Vegas chooses', '¿Por Qué Las Familias de Las Vegas Eligen')}{' '}
             <span style={{ display: 'block', color: ORANGE, fontStyle: 'italic' }}>
               Boca Dental &amp; Braces.
             </span>
@@ -447,7 +449,7 @@ export function WhyBoca() {
               el.style.transform = 'translateY(0)'
             }}
           >
-            Book Appointment
+            {t(lang, 'Book Appointment', 'Reservar Cita')}
             <ArrowRight size={14} />
           </a>
         </motion.div>

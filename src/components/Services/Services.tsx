@@ -14,6 +14,7 @@ import {
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { INITIAL_DATA } from '../../data/initialData'
+import { useLang, t } from '../../lib/lang'
 
 // Map each service slug (from initialData) to its lucide icon.
 const SERVICE_ICON_MAP: Record<string, LucideIcon> = {
@@ -31,6 +32,29 @@ const SERVICE_ICON_MAP: Record<string, LucideIcon> = {
 interface ServiceCardProps {
   service: { slug: string; label: string; desc: string }
   index: number
+}
+
+const ES_LABELS: Record<string, string> = {
+  'general-dentistry': 'Odontología General',
+  'cosmetic-dentistry': 'Odontología Cosmética',
+  'restorative-dentistry': 'Odontología Restauradora',
+  'dental-implants': 'Implantes Dentales',
+  'orthodontics': 'Ortodoncia',
+  'pediatric-dentistry': 'Odontología Pediátrica',
+  'sedation-dentistry': 'Sedación Dental',
+  'oral-surgery': 'Cirugía Oral',
+  'periodontal': 'Atención Periodontal',
+}
+const ES_DESCS: Record<string, string> = {
+  'general-dentistry': 'Exámenes, limpiezas, radiografías, empastes y urgencias',
+  'cosmetic-dentistry': 'Blanqueamiento, carillas, bonding y cambios de sonrisa',
+  'restorative-dentistry': 'Coronas, puentes, dentaduras, empastes y reparación dental',
+  'dental-implants': 'Implante individual, arco completo, All-on-4',
+  'orthodontics': 'Invisalign, frenos tradicionales, ortodoncia para adultos y adolescentes',
+  'pediatric-dentistry': 'Exámenes para niños, cuidado infantil, selladores y urgencias',
+  'sedation-dentistry': 'Óxido nitroso, sedación oral y sedación intravenosa',
+  'oral-surgery': 'Extracciones, muelas del juicio, injerto óseo',
+  'periodontal': 'Tratamiento de encías, limpieza profunda y mantenimiento',
 }
 
 function ServiceCard({ service, index }: ServiceCardProps) {
@@ -127,7 +151,7 @@ function ServiceCard({ service, index }: ServiceCardProps) {
           zIndex: 1,
         }}
       >
-        {service.label}
+        {lang === 'es' ? (ES_LABELS[service.slug] || service.label) : service.label}
       </div>
 
       <div
@@ -142,7 +166,7 @@ function ServiceCard({ service, index }: ServiceCardProps) {
           zIndex: 1,
         }}
       >
-        {service.desc}
+        {lang === 'es' ? (ES_DESCS[service.slug] || service.desc) : service.desc}
       </div>
 
       {/* Bottom row: explore link + hairline accent */}
@@ -193,6 +217,7 @@ function ServiceCard({ service, index }: ServiceCardProps) {
 }
 
 export function Services() {
+  const lang = useLang()
   return (
     <section id="services" style={{ background: '#ffffff', padding: '96px 32px' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
@@ -226,7 +251,7 @@ export function Services() {
               lineHeight: 1.15,
             }}
           >
-            Comprehensive Dental Care
+            {t(lang, 'Comprehensive Dental Care', 'Atención Dental Completa')}
             <span style={{ display: 'block' }}>For Every Stage of Life</span>
           </h2>
           <p
@@ -290,7 +315,7 @@ export function Services() {
               ;(e.currentTarget as HTMLElement).style.boxShadow = 'none'
             }}
           >
-            View All Dental Services
+            {t(lang, 'View All Dental Services', 'Ver Todos los Servicios')}
             <span style={{ fontSize: 16, lineHeight: 1 }}>→</span>
           </a>
         </div>

@@ -1,52 +1,55 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, Phone } from 'lucide-react'
+import { useLang, t } from '../../lib/lang'
 
 // 8 homepage FAQs — exact text per Treysyde spec §9.
 // These match the FAQPage JSON-LD emitted by HomepageSchema and inject-schema.mjs
 // (Google penalizes schema/visible-content mismatches).
-const FAQS = [
+function getFAQS(lang: import('../../lib/lang').Lang) { return [
   {
-    question: 'Is Boca Dental & Braces accepting new patients?',
+    question: t(lang, 'Is Boca Dental & Braces accepting new patients?', '¿Boca Dental & Braces acepta nuevos pacientes?'),
     answer:
-      'Yes. All 9 Boca Dental & Braces locations in Las Vegas are currently accepting new patients. You can book an appointment online at any time or call your nearest location directly. Most new patient appointments can be scheduled within a few days.',
+      t(lang, 'Yes. All 9 Boca Dental & Braces locations in Las Vegas are currently accepting new patients. You can book an appointment online at any time or call your nearest location directly. Most new patient appointments can be scheduled within a few days.', 'Sí — las 9 clínicas de Boca Dental & Braces en Las Vegas están aceptando nuevos pacientes. Reserva en línea o llama a tu clínica más cercana. La mayoría de las citas para nuevos pacientes se pueden agendar en pocos días.'),
   },
   {
-    question: 'Does Boca Dental & Braces accept dental insurance?',
+    question: t(lang, 'Does Boca Dental & Braces accept dental insurance?', '¿Aceptan seguros dentales?'),
     answer:
-      'Boca Dental & Braces accepts most major PPO dental insurance plans, including Delta Dental, Aetna, Cigna, Guardian, MetLife, and many others. Our team will verify your benefits before your appointment and provide a clear breakdown of your estimated out-of-pocket costs. We also accept Medicaid for eligible patients at select locations.',
+      t(lang, 'Boca Dental & Braces accepts most major PPO dental insurance plans, including Delta Dental, Aetna, Cigna, Guardian, MetLife, and many others. Our team will verify your benefits before your appointment and provide a clear breakdown of your estimated out-of-pocket costs. We also accept Medicaid for eligible patients at select locations.', 'Aceptamos la mayoría de los planes PPO, incluyendo Delta Dental, Aetna, Cigna, Guardian, MetLife y muchos más. Verificamos tus beneficios antes de la cita y te damos un desglose claro de tus costos. También aceptamos Medicaid para pacientes elegibles.'),
   },
   {
-    question: 'What dental services does Boca Dental & Braces offer?',
+    question: t(lang, 'What dental services does Boca Dental & Braces offer?', '¿Qué servicios dentales ofrecen?'),
     answer:
-      'Boca Dental & Braces offers a comprehensive range of dental services including general and preventive dentistry, cosmetic dentistry, restorative dentistry, dental implants, orthodontics (Invisalign and traditional braces), pediatric dentistry, oral surgery, periodontal care, and sedation dentistry. Not all services are available at every location — contact your nearest clinic or browse our services page to confirm availability.',
+      t(lang, 'Boca Dental & Braces offers a comprehensive range of dental services including general and preventive dentistry, cosmetic dentistry, restorative dentistry, dental implants, orthodontics (Invisalign and traditional braces), pediatric dentistry, oral surgery, periodontal care, and sedation dentistry. Not all services are available at every location — contact your nearest clinic or browse our services page to confirm availability.', 'Ofrecemos atención dental completa: odontología general, cosmética, restauradora, implantes, ortodoncia (Invisalign y frenos), odontología pediátrica, cirugía oral, atención periodontal y sedación. No todos los servicios están disponibles en cada clínica.'),
   },
   {
-    question: 'Do you offer same-day or emergency dental appointments?',
+    question: t(lang, 'Do you offer same-day or emergency dental appointments?', '¿Ofrecen citas de urgencia o el mismo día?'),
     answer:
-      'Yes. Boca Dental & Braces offers same-day emergency dental appointments at multiple Las Vegas locations. If you are experiencing a dental emergency — severe toothache, broken tooth, lost crown, swelling, or dental trauma — call your nearest location immediately. We prioritize emergency cases and work to see patients as quickly as possible, often the same day.',
+      t(lang, 'Yes. Boca Dental & Braces offers same-day emergency dental appointments at multiple Las Vegas locations. If you are experiencing a dental emergency — severe toothache, broken tooth, lost crown, swelling, or dental trauma — call your nearest location immediately. We prioritize emergency cases and work to see patients as quickly as possible, often the same day.', 'Sí. Ofrecemos citas de urgencia el mismo día en varias clínicas de Las Vegas. Si tienes una emergencia dental — dolor intenso, diente roto, corona perdida, inflamación o trauma — llama de inmediato a tu clínica más cercana.'),
   },
   {
-    question: "Where are Boca Dental & Braces' Las Vegas locations?",
+    question: t(lang, "Where are Boca Dental & Braces' Las Vegas locations?", '¿Dónde están ubicadas sus clínicas en Las Vegas?'),
     answer:
-      'Boca Dental & Braces has 9 dental clinic locations across Las Vegas, Nevada: Bonanza & Eastern, Russell & Eastern, Sahara & Decatur, Charleston & Lamb, Flamingo & Torrey Pines, Cheyenne Commons, Beltway Marketplace, Jones & I-95, and our dedicated pediatric clinic Boca Kids Dentistry. Use our location finder to identify the clinic nearest to you.',
+      t(lang, 'Boca Dental & Braces has 9 dental clinic locations across Las Vegas, Nevada: Bonanza & Eastern, Russell & Eastern, Sahara & Decatur, Charleston & Lamb, Flamingo & Torrey Pines, Cheyenne Commons, Beltway Marketplace, Jones & I-95, and our dedicated pediatric clinic Boca Kids Dentistry. Use our location finder to identify the clinic nearest to you.', 'Boca Dental & Braces tiene 9 clínicas en Las Vegas: Bonanza y Eastern, Russell y Eastern, Sahara y Decatur, Charleston y Lamb, Flamingo y Torrey Pines, Cheyenne Commons, Beltway Marketplace, Jones e I-95, y Boca Kids Dentistry.'),
   },
   {
-    question: 'What are your office hours?',
+    question: t(lang, 'What are your office hours?', '¿Cuáles son sus horarios de atención?'),
     answer:
-      'Hours vary by location. Most Boca Dental & Braces clinics are open Monday through Saturday with early morning, daytime, and evening appointment slots available. We designed our hours around Las Vegas families and working adults — so you will find options that fit your schedule without taking time off work.',
+      t(lang, 'Hours vary by location. Most Boca Dental & Braces clinics are open Monday through Saturday with early morning, daytime, and evening appointment slots available. We designed our hours around Las Vegas families and working adults — so you will find options that fit your schedule without taking time off work.', 'Los horarios varían por clínica. La mayoría abren de lunes a sábado con horario matutino, diurno y nocturno. Diseñamos nuestros horarios para familias de Las Vegas y adultos que trabajan.'),
   },
   {
-    question: 'Do you offer payment plans for dental treatment?',
+    question: t(lang, 'Do you offer payment plans for dental treatment?', '¿Ofrecen planes de pago para los tratamientos?'),
     answer:
-      'Yes. Boca Dental & Braces offers flexible financing through CareCredit, allowing patients to spread treatment costs over 6, 12, 18, or 24 months. We also offer in-house payment plans at most locations. Additionally, FSA and HSA funds can be applied toward dental treatment. No patient should delay needed dental care because of cost — our team will work with you to find a plan that fits your budget.',
+      t(lang, 'Yes. Boca Dental & Braces offers flexible financing through CareCredit, allowing patients to spread treatment costs over 6, 12, 18, or 24 months. We also offer in-house payment plans at most locations. Additionally, FSA and HSA funds can be applied toward dental treatment. No patient should delay needed dental care because of cost — our team will work with you to find a plan that fits your budget.', 'Sí. Ofrecemos financiamiento flexible a través de CareCredit en 6, 12, 18 o 24 meses. También ofrecemos planes de pago propios en la mayoría de las clínicas. Ningún paciente debe retrasar su atención dental por costo.'),
   },
   {
-    question: 'Is Boca Dental & Braces good for kids?',
+    question: t(lang, 'Is Boca Dental & Braces good for kids?', '¿Es Boca Dental & Braces buena opción para niños?'),
     answer:
-      'Absolutely. Boca Dental & Braces has a dedicated pediatric dentistry program and a fully kid-focused clinic — Boca Kids Dentistry — adjacent to our Russell & Eastern flagship. We see patients starting from their first tooth. Our team is experienced in creating a calm, friendly environment for children, and we offer preventive services like sealants and fluoride treatments specifically designed for young patients.',
+      t(lang, 'Absolutely. Boca Dental & Braces has a dedicated pediatric dentistry program and a fully kid-focused clinic — Boca Kids Dentistry — adjacent to our Russell & Eastern flagship. We see patients starting from their first tooth. Our team is experienced in creating a calm, friendly environment for children, and we offer preventive services like sealants and fluoride treatments specifically designed for young patients.', 'Absolutamente. Boca Dental & Braces tiene un programa pediátrico dedicado y una clínica completamente enfocada en niños — Boca Kids Dentistry. Atendemos pacientes desde su primer diente con selladores, flúor y un ambiente amigable para los niños.'),
   },
-]
+]}
+
+export function getFAQS_dummy() {}
 
 function FaqItem({
   faq,
@@ -147,6 +150,8 @@ function FaqItem({
 }
 
 export function FAQ() {
+  const lang = useLang()
+  const FAQS = getFAQS(lang)
   const [openIndex, setOpenIndex] = useState<number>(0)
 
   return (
@@ -202,7 +207,7 @@ export function FAQ() {
                 margin: '0 0 20px',
               }}
             >
-              Frequently Asked Questions
+              {t(lang, 'Frequently Asked Questions', 'Preguntas Frecuentes')}
               <br />
               <span style={{ color: '#F3672A' }}>About Boca Dental &amp; Braces</span>
             </h2>
