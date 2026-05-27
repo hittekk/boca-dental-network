@@ -681,7 +681,7 @@ export function ClinicsHubPage() {
     <div style={{ background: '#fff', color: NAVY, fontFamily: 'inherit' }}>
       <style>{`
         body.page-clinics .boca-nav-bg {
-          background: rgba(16,29,74,0.92) !important;
+          background: rgba(22,46,122,0.95) !important;
           backdrop-filter: blur(20px) saturate(180%) !important;
           -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
           box-shadow: 0 4px 30px rgba(0,0,0,0.30) !important;
