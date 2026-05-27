@@ -59,6 +59,7 @@ const ES_DESCS: Record<string, string> = {
 
 function ServiceCard({ service, index }: ServiceCardProps) {
   const [hovered, setHovered] = useState(false)
+  const lang = useLang()
   const Icon = SERVICE_ICON_MAP[service.slug]
   const numberLabel = String(index + 1).padStart(2, '0')
 
