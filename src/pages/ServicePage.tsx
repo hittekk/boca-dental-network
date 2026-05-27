@@ -186,7 +186,7 @@ function Hero({
 
         <div className="srv-hero-ctas" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 56 }}>
           <Link
-            to="#request-consultation"
+            to="/request-consultation"
             onClick={(e) => { e.preventDefault(); document.getElementById('request-consultation')?.scrollIntoView({ behavior: 'smooth' }) }}
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -464,7 +464,7 @@ function SignsCandidacySection({ page, content }: { page: { label: string }; con
           }}
         >
           Not sure if {page.label.toLowerCase()} is right for you?{' '}
-          <a href="#request-consultation" style={{ color: ORANGE, fontWeight: 800, textDecoration: 'none' }}>
+          <a href="/request-consultation" style={{ color: ORANGE, fontWeight: 800, textDecoration: 'none' }}>
             Schedule a free consultation
           </a>{' '}
           at any of our 9 Las Vegas locations.
@@ -1388,7 +1388,7 @@ function ClosingCTAStrip({ page }: { page: { label: string } }) {
         </h2>
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
           <a
-            href="#request-consultation"
+            href="/request-consultation"
             style={{
               background: ORANGE,
               color: 'white',

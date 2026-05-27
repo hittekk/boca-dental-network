@@ -159,7 +159,7 @@ export function DentistPage() {
 
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <a
-                  href="#request-consultation"
+                  href="/request-consultation"
                   style={{ background: ORANGE, color: 'white', padding: '12px 24px', borderRadius: 8, fontSize: 13, fontWeight: 800, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.6, display: 'inline-flex', alignItems: 'center', gap: 8 }}
                 >
                   Book with {nameShort.split(' ').slice(-1)[0]}
@@ -248,7 +248,7 @@ export function DentistPage() {
             New patients always welcome at Boca Dental &amp; Braces. Free consultations, most insurance accepted, evening and weekend hours.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="#request-consultation" style={{ background: ORANGE, color: 'white', padding: '14px 26px', borderRadius: 8, fontSize: 13, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 0.6, textDecoration: 'none' }}>Book online</a>
+            <a href="/request-consultation" style={{ background: ORANGE, color: 'white', padding: '14px 26px', borderRadius: 8, fontSize: 13, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 0.6, textDecoration: 'none' }}>Book online</a>
             <a href={`tel:${INITIAL_DATA.brand.phone.replace(/\D/g, '')}`} style={{ background: 'transparent', color: 'white', border: '2px solid rgba(255,255,255,0.35)', padding: '12px 24px', borderRadius: 8, fontSize: 13, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 0.6, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
               <Phone size={14} color={ORANGE} /> Call us
             </a>

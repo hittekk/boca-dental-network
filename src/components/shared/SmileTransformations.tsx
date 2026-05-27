@@ -373,7 +373,7 @@ export function SmileTransformations({ theme = 'light' }: { theme?: Theme }) {
             of our 9 Las Vegas locations.
           </p>
           <a
-            href="#request-consultation"
+            href="/request-consultation"
             style={{
               display: 'inline-flex',
               alignItems: 'center',

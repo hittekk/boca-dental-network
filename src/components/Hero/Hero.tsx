@@ -175,7 +175,7 @@ export function Hero({ brand }: HeroProps) {
           >
             {/* Primary CTA: Book an Appointment (per Treysyde spec) */}
             <a
-              href="#request-consultation"
+              href="/request-consultation"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
