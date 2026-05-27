@@ -208,22 +208,45 @@ export function AboutUsPage() {
 
   const PILLARS = [
     {
-      icon: '🏥',
+      icon: (
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <path d="M16 3C9.373 3 4 8.373 4 15c0 4.418 2.239 8.307 5.636 10.6L11 28h10l1.364-2.4C25.761 23.307 28 19.418 28 15c0-6.627-5.373-12-12-12z" stroke="#F3672A" strokeWidth="2" strokeLinejoin="round"/>
+          <path d="M12 15h8M16 11v8" stroke="#F3672A" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M11 28v2h10v-2" stroke="#F3672A" strokeWidth="2" strokeLinejoin="round"/>
+        </svg>
+      ),
       title: 'Accessible Care',
       body: 'Nevada Medicaid accepted, most major PPO plans welcomed, and flexible in-house payment options — so cost is never a barrier to a healthy smile.',
     },
     {
-      icon: '🗣️',
+      icon: (
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="13" stroke="#F3672A" strokeWidth="2"/>
+          <path d="M10 16c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="#F3672A" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M8 20c1.5 1.5 4 3 8 3s6.5-1.5 8-3" stroke="#F3672A" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M13 14l-2 4M19 14l2 4" stroke="#F3672A" strokeWidth="1.5" strokeLinecap="round"/>
+        </svg>
+      ),
       title: 'Se Habla Español',
       body: 'Spanish-speaking staff at every one of our 9 Las Vegas locations. We serve the full Las Vegas community — hablamos español en todas nuestras oficinas.',
     },
     {
-      icon: '🦷',
+      icon: (
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <path d="M16 4C12 4 9 6.5 9 10c0 2 .5 3.5 1 5s1 3.5 1 5c0 1.5.5 3 1.5 3s2-1.5 2.5-4c.5-2.5 1-4 1-4s.5 1.5 1 4c.5 2.5 1.5 4 2.5 4s1.5-1.5 1.5-3c0-1.5.5-3.5 1-5s1-3 1-5c0-3.5-3-6-7-6z" stroke="#F3672A" strokeWidth="2" strokeLinejoin="round"/>
+          <path d="M12 10h8" stroke="#F3672A" strokeWidth="1.5" strokeLinecap="round"/>
+        </svg>
+      ),
       title: 'Comprehensive Under One Roof',
       body: 'General dentistry, orthodontics, oral surgery, periodontics, pediatric care, sedation, implants, and cosmetics — no referrals, no runaround.',
     },
     {
-      icon: '📍',
+      icon: (
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <path d="M16 3l2.5 7.5H27l-6.5 4.5 2.5 7.5L16 18l-7 4.5 2.5-7.5L5 10.5h8.5L16 3z" stroke="#F3672A" strokeWidth="2" strokeLinejoin="round"/>
+          <path d="M16 22v7M12 28h8" stroke="#F3672A" strokeWidth="2" strokeLinecap="round"/>
+        </svg>
+      ),
       title: 'Rooted in Las Vegas',
       body: "We've called Las Vegas home since 2006. Every Boca clinic is staffed by team members who live, work, and raise families in the same neighborhoods as our patients.",
     },
@@ -452,7 +475,7 @@ export function AboutUsPage() {
             <style>{`@media(max-width:900px){ .about-pillars{ grid-template-columns:repeat(2,1fr) !important; } } @media(max-width:540px){ .about-pillars{ grid-template-columns:1fr !important; } }`}</style>
             {PILLARS.map((p, i) => (
               <div key={i} style={{ background: 'white', borderRadius: 16, padding: '36px 28px', border: '1px solid rgba(0,29,61,0.07)', boxShadow: '0 4px 20px rgba(0,29,61,0.05)' }}>
-                <div style={{ fontSize: 36, marginBottom: 20 }}>{p.icon}</div>
+                <div style={{ width: 56, height: 56, borderRadius: 14, background: 'rgba(243,103,42,0.08)', border: '1px solid rgba(243,103,42,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>{p.icon}</div>
                 <div style={{ fontSize: 17, fontWeight: 800, color: NAVY, marginBottom: 12, letterSpacing: '-0.3px' }}>{p.title}</div>
                 <p style={{ fontSize: 14, color: 'rgba(0,29,61,0.65)', lineHeight: 1.7, margin: 0 }}>{p.body}</p>
               </div>
