@@ -5,6 +5,13 @@
 [build.environment]
   NODE_VERSION = "20"
 
+# ── MAINTENANCE MODE — remove this block to go live ──────────────────────────
+[[redirects]]
+  from = "/*"
+  to = "/maintenance.html"
+  status = 200
+  force = true
+
 # SPA fallback — any unknown route serves index.html so React Router handles it
 [[redirects]]
   from   = "/*"
@@ -22,10 +29,3 @@
   for = "/index.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
-
-# ── MAINTENANCE MODE — remove this block to go live ──────────────────────────
-[[redirects]]
-  from = "/*"
-  to = "/maintenance.html"
-  status = 200
-  force = true
