@@ -1167,7 +1167,7 @@ export function ClinicsHubPage() {
 
 import {
   Smile, Sparkles, Crown, Wrench, Activity,
-  Baby, Moon, Stethoscope, ShieldCheck, ArrowRight as AR,
+  Baby, Moon, Stethoscope, ShieldCheck,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -1253,7 +1253,7 @@ function HubServiceGrid({ cats, extra }: { cats: ServiceCatEntry[]; extra: Servi
                 <div style={{ fontSize: 14, fontWeight: 800, color: NAVY, marginBottom: 3 }}>{cat.label}</div>
                 <div style={{ fontSize: 12, color: '#64748B' }}>{cat.desc}</div>
               </div>
-              <AR size={15} color={ORANGE} style={{ flexShrink: 0 }} />
+              <ArrowRight size={15} color={ORANGE} style={{ flexShrink: 0 }} />
             </a>
           ))}
         </div>
