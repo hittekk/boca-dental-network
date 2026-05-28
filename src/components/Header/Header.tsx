@@ -20,6 +20,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence, useScroll } from 'framer-motion'
 import { Phone, X, ChevronRight, Calendar } from 'lucide-react'
 import type { Brand, Announcement, NavLink } from '../../types'
+import { useLang } from '../../lib/lang'
 import { BocaLogo } from './BocaLogo'
 
 // ── Types ────────────────────────────────────────────────────────────────────
@@ -639,6 +640,7 @@ function HamburgerBtn({
  *   <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} />
  */
 export function Header({ brand, announcement, activeSection, logoMode = 'white' }: HeaderProps) {
+  const lang = useLang()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
