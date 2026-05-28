@@ -38,6 +38,7 @@ import { INITIAL_DATA } from '../data/initialData'
 import { SERVICE_CATEGORIES, SERVICE_PAGES } from '../data/serviceCatalog'
 import { LOCATION_REVIEWS } from '../data/locationDetails'
 import { COORDS_BY_LOCATION } from './LocationPage'
+import { ServicesHubPage } from './ServicesPage'
 import { Homepage } from '../App'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -1165,48 +1166,6 @@ export function ClinicsHubPage() {
   )
 }
 
-export function ServicesHubPage() {
-  const breadcrumbSchema = usePageMeta({
-    title: 'All Dental Services in Las Vegas | Boca Dental & Braces',
-    description: 'Complete dental services at 9 Las Vegas locations — general dentistry, cosmetic, implants, orthodontics, oral surgery, pediatric, sedation, periodontal, and more. Every specialty in-house. No referrals needed.',
-    url: `${DOMAIN}/services/`,
-    breadcrumb: [{ name: 'Home', url: `${DOMAIN}/` }, { name: 'Services' }],
-  })
-
-  return (
-    <div style={{ background: 'white', fontFamily: 'inherit' }}>
-      <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="light" />
-
-      {/* Short dark intro — same visual language as the rest of the site */}
-      <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '160px 32px 80px', position: 'relative', overflow: 'hidden', textAlign: 'center' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px)', backgroundSize: '36px 36px', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translate(-50%,-50%)', width: 700, height: 400, background: 'radial-gradient(ellipse, rgba(243,103,42,0.07) 0%, transparent 65%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} style={{ position: 'relative', zIndex: 1, maxWidth: 720, margin: '0 auto' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 10, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 24, padding: '6px 18px', background: 'rgba(243,103,42,0.1)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.2)' }}>
-            <span style={{ width: 5, height: 5, borderRadius: '50%', background: ORANGE, display: 'inline-block' }} />
-            9 Locations · Every Specialty In-House
-          </div>
-          <h1 style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 800, letterSpacing: '-2.5px', color: 'white', margin: '0 0 12px', lineHeight: 1.0 }}>
-            Every Specialty.
-          </h1>
-          <h1 style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 800, letterSpacing: '-2.5px', color: ORANGE, margin: '0 0 24px', lineHeight: 1.0 }}>
-            One Practice.
-          </h1>
-          <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, margin: '0 auto', maxWidth: 560 }}>
-            From your child's first cleaning to full-mouth reconstruction — every specialist is in-house at all 9 Las Vegas locations. No referrals. No runaround.
-          </p>
-        </motion.div>
-      </section>
-
-      {/* Exact same Services component as the homepage */}
-      <Services />
-
-      <CTA />
-      <Footer />
-      {breadcrumbSchema}
-    </div>
-  )
-}
 
 export function PatientResourcesHubPage() {
   const items = [
@@ -2012,3 +1971,5 @@ export function HipaaPage() {
     </Shell>
   )
 }
+
+export { ServicesHubPage }
