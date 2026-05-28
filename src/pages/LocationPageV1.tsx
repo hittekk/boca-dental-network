@@ -113,85 +113,96 @@ export function LocationPageV1({ location }: { location: Location }) {
   )
 }
 
-// ─── Boca Kids — cinematic full-bleed photo hero ──────────────────────────────
+// ─── Boca Kids Hero — full-bleed photo, cinematic, on-brand ──────────────────
 function BocaKidsHero() {
   const ORANGE = '#F3672A'
+  const NAVY   = '#162E7A'
 
   return (
-    <section style={{
-      position: 'relative', minHeight: '92vh',
-      display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
-      overflow: 'hidden',
-    }}>
-      {/* Full-bleed background photo */}
-      <div style={{ position: 'absolute', inset: 0 }}>
-        <img
-          src="/boca-kids-office.webp"
-          alt="Boca Kids Dentistry waiting room Las Vegas — children playing in the lobby"
-          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }}
-        />
-        {/* Multi-layer dark gradient — heavier at top (nav) and bottom (copy) */}
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,18,40,0.72) 0%, rgba(0,18,40,0.15) 38%, rgba(0,18,40,0.1) 52%, rgba(0,18,40,0.75) 72%, rgba(0,18,40,0.93) 100%)' }} />
-        {/* Left-side dark vignette for copy legibility */}
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(0,18,40,0.55) 0%, transparent 55%)' }} />
-        {/* Orange glow accent */}
-        <div style={{ position: 'absolute', bottom: 0, left: '30%', width: 600, height: 300, background: 'radial-gradient(ellipse, rgba(243,103,42,0.12) 0%, transparent 70%)', filter: 'blur(40px)', pointerEvents: 'none' }} />
-      </div>
+    <section style={{ position: 'relative', minHeight: '92vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
 
-      {/* Eyebrow pill — top-left, below nav */}
-      <div style={{ position: 'absolute', top: 120, left: 48, zIndex: 10 }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 10, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, padding: '7px 18px', background: 'rgba(243,103,42,0.12)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.3)', backdropFilter: 'blur(8px)' }}>
+      {/* ── Full-bleed photo ── */}
+      <img
+        src="/boca-kids-office.webp"
+        alt="Boca Kids Dentistry Las Vegas"
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 25%', display: 'block' }}
+      />
+
+      {/* ── Gradient layers ── */}
+      {/* Main dark left panel */}
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(100deg, #001D3D 0%, rgba(22,46,122,0.95) 28%, rgba(22,46,122,0.6) 48%, rgba(0,0,0,0.1) 70%, transparent 100%)' }} />
+      {/* Top nav fade */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 180, background: 'linear-gradient(180deg, rgba(0,18,40,0.6) 0%, transparent 100%)' }} />
+      {/* Orange accent glow bottom-right */}
+      <div style={{ position: 'absolute', bottom: 60, right: '15%', width: 400, height: 300, background: 'radial-gradient(ellipse, rgba(243,103,42,0.18) 0%, transparent 70%)', filter: 'blur(40px)', pointerEvents: 'none' }} />
+
+      {/* ── Orange vertical accent bar ── */}
+      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 5, background: `linear-gradient(180deg, transparent 0%, ${ORANGE} 30%, ${ORANGE} 70%, transparent 100%)`, zIndex: 5 }} />
+
+      {/* ── Dot grid texture on left panel only ── */}
+      <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize: '28px 28px', width: '45%', pointerEvents: 'none', zIndex: 2 }} />
+
+      {/* ── Main content ── */}
+      <div style={{ position: 'relative', zIndex: 10, flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '160px 52px 48px', maxWidth: 680 }}>
+
+        {/* Eyebrow */}
+        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 10, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 28, padding: '7px 18px', background: 'rgba(243,103,42,0.12)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.3)', backdropFilter: 'blur(8px)', width: 'fit-content' }}>
           <span style={{ width: 5, height: 5, borderRadius: '50%', background: ORANGE, display: 'inline-block' }} />
           Pediatric Dentistry · Southeast Las Vegas
-        </div>
-      </div>
+        </motion.div>
 
-      {/* Main copy — bottom left */}
-      <motion.div
-        initial={{ opacity: 0, y: 32 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: [0, 0, 0.2, 1] }}
-        style={{ position: 'relative', zIndex: 10, padding: '0 48px 0', maxWidth: 820, marginBottom: 0 }}
-      >
-        <h1 style={{ fontSize: 'clamp(44px, 6.5vw, 88px)', fontWeight: 900, letterSpacing: '-3px', color: 'white', margin: '0 0 8px', lineHeight: 0.92, textTransform: 'uppercase' }}>
-          Where Kids
-        </h1>
-        <h1 style={{ fontSize: 'clamp(44px, 6.5vw, 88px)', fontWeight: 900, letterSpacing: '-3px', color: ORANGE, margin: '0 0 24px', lineHeight: 0.92, textTransform: 'uppercase' }}>
-          Actually Love
-        </h1>
-        <h1 style={{ fontSize: 'clamp(44px, 6.5vw, 88px)', fontWeight: 900, letterSpacing: '-3px', color: 'white', margin: '0 0 28px', lineHeight: 0.92, textTransform: 'uppercase' }}>
-          the Dentist.
-        </h1>
-        <p style={{ fontSize: 'clamp(15px, 1.6vw, 18px)', color: 'rgba(255,255,255,0.72)', lineHeight: 1.7, maxWidth: 520, margin: '0 0 36px' }}>
+        {/* Headline */}
+        <motion.div initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
+          <h1 style={{ fontSize: 'clamp(48px, 6vw, 86px)', fontWeight: 900, letterSpacing: '-3px', color: 'white', margin: 0, lineHeight: 0.92, textTransform: 'uppercase' }}>
+            Where Kids
+          </h1>
+          <h1 style={{ fontSize: 'clamp(48px, 6vw, 86px)', fontWeight: 900, letterSpacing: '-3px', margin: '4px 0', lineHeight: 0.92, textTransform: 'uppercase' }}>
+            <span style={{ color: ORANGE, WebkitTextStroke: '0px' }}>Actually</span>
+            <span style={{ color: 'white' }}> Love</span>
+          </h1>
+          <h1 style={{ fontSize: 'clamp(48px, 6vw, 86px)', fontWeight: 900, letterSpacing: '-3px', color: 'white', margin: '4px 0 28px', lineHeight: 0.92, textTransform: 'uppercase' }}>
+            the Dentist.
+          </h1>
+        </motion.div>
+
+        {/* Sub */}
+        <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }}
+          style={{ fontSize: 16, color: 'rgba(255,255,255,0.7)', lineHeight: 1.75, maxWidth: 460, margin: '0 0 36px' }}>
           Las Vegas's dedicated pediatric dental clinic — sensory-friendly rooms, bilingual staff, and Nevada Medicaid accepted. Built from the ground up for kids and teens.
-        </p>
-        <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 48 }}>
+        </motion.p>
+
+        {/* CTAs */}
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.45 }}
+          style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 44 }}>
           <a href="/request-consultation?location=boca-kids-dentistry" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: 'white', padding: '14px 28px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', letterSpacing: 0.4, textTransform: 'uppercase', boxShadow: '0 8px 24px rgba(243,103,42,0.45)' }}>
             Book for My Child →
           </a>
-          <a href="tel:7024560005" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.1)', color: 'white', padding: '14px 24px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.2)', letterSpacing: 0.4, textTransform: 'uppercase', backdropFilter: 'blur(8px)' }}>
+          <a href="tel:7024560005" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.09)', color: 'white', padding: '14px 24px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.18)', letterSpacing: 0.4, textTransform: 'uppercase', backdropFilter: 'blur(8px)' }}>
             (702) 456-0005
           </a>
-        </div>
-      </motion.div>
+        </motion.div>
 
-      {/* Stats bar — full width, anchored to bottom */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.6 }}
-        style={{ position: 'relative', zIndex: 10, background: 'rgba(0,18,40,0.7)', backdropFilter: 'blur(16px)', borderTop: '1px solid rgba(255,255,255,0.08)' }}
-      >
-        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 48px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)' }}>
-          {[
-            ['Infant+', 'First Visit Age', '🍼'],
-            ['Medicaid & CHIP', 'Accepted', '✓'],
-            ['Bilingual Staff', 'Every Shift', '🗣️'],
-            ['Same-Day', 'Emergency Pedo', '⚡'],
-          ].map(([val, label, icon], i, arr) => (
-            <div key={i} style={{ padding: '22px 0', textAlign: 'center', borderRight: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
-              <div style={{ fontSize: 'clamp(15px, 1.6vw, 20px)', fontWeight: 800, color: 'white', letterSpacing: '-0.3px', lineHeight: 1, marginBottom: 5 }}>{val}</div>
-              <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5 }}>{label}</div>
+        {/* Feature pills */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.65 }}
+          style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          {['Medicaid & CHIP Accepted', 'Se Habla Español', 'Same-Day Emergency', 'From Age 1+'].map((item, i) => (
+            <div key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 999, padding: '6px 14px', fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.75)', backdropFilter: 'blur(8px)' }}>
+              <span style={{ width: 5, height: 5, borderRadius: '50%', background: ORANGE, flexShrink: 0 }} />
+              {item}
+            </div>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* ── Stats bar — brand blue, pinned to bottom ── */}
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.5 }}
+        style={{ position: 'relative', zIndex: 10, background: NAVY, borderTop: `3px solid ${ORANGE}` }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)' }}>
+          {[['Infant+','First Visit Age'],['Medicaid & CHIP','Accepted'],['Bilingual Staff','Every Shift'],['Same-Day','Emergency Pedo']].map(([val,label],i,arr) => (
+            <div key={i} style={{ padding: '22px 16px', textAlign: 'center', borderRight: i < arr.length-1 ? '1px solid rgba(255,255,255,0.1)' : 'none' }}>
+              <div style={{ fontSize: 'clamp(14px,1.4vw,17px)', fontWeight: 800, color: 'white', letterSpacing: '-0.3px', lineHeight: 1, marginBottom: 5 }}>{val}</div>
+              <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.45)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5 }}>{label}</div>
             </div>
           ))}
         </div>
@@ -199,6 +210,7 @@ function BocaKidsHero() {
     </section>
   )
 }
+
 
 function Hero({
   location,
