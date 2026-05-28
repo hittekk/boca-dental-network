@@ -1176,135 +1176,91 @@ export function ServicesHubPage() {
   const PRIMARY = SERVICE_CATEGORIES.slice(0, 9)
   const EXTRA   = SERVICE_CATEGORIES.slice(9)
 
-  const ICONS: Record<string, React.ReactNode> = {
-    'general-dentistry':     <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><path d="M16 4C12 4 9 7 9 11c0 2 .5 4 1.2 5.8.7 1.9 1.2 3.8 1.2 5.7 0 1.5.6 2.5 1.6 2.5 1.1 0 1.8-1.3 2.2-3.7C15.6 19 16 17 16 17s.4 2 .8 4.3c.4 2.4 1.1 3.7 2.2 3.7 1 0 1.6-1 1.6-2.5 0-1.9.5-3.8 1.2-5.7C22.5 15 23 13 23 11c0-4-3-7-7-7z" stroke={ORANGE} strokeWidth="1.8" strokeLinejoin="round"/><path d="M12 11h8" stroke={ORANGE} strokeWidth="1.5" strokeLinecap="round"/></svg>,
-    'cosmetic-dentistry':    <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><path d="M16 5l2 6h6l-5 3.5 2 6L16 17l-5 3.5 2-6L8 11h6l2-6z" stroke={ORANGE} strokeWidth="1.8" strokeLinejoin="round"/></svg>,
-    'restorative-dentistry': <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="8" y="11" width="16" height="13" rx="3" stroke={ORANGE} strokeWidth="1.8"/><path d="M12 11V9a4 4 0 018 0v2" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round"/><path d="M16 15v4M14 17h4" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round"/></svg>,
-    'dental-implants':       <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><path d="M16 4v14M13 4h6v5h-6z" stroke={ORANGE} strokeWidth="1.8" strokeLinejoin="round"/><path d="M11 9l-2 9h14l-2-9" stroke={ORANGE} strokeWidth="1.8" strokeLinejoin="round"/><ellipse cx="16" cy="24" rx="5" ry="2.5" stroke={ORANGE} strokeWidth="1.5"/><path d="M16 22v4" stroke={ORANGE} strokeWidth="1.5" strokeLinecap="round"/></svg>,
-    'orthodontics':          <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="5" y="13" width="22" height="6" rx="3" stroke={ORANGE} strokeWidth="1.8"/><circle cx="11" cy="16" r="1.5" fill={ORANGE}/><circle cx="16" cy="16" r="1.5" fill={ORANGE}/><circle cx="21" cy="16" r="1.5" fill={ORANGE}/><path d="M5 16h4M13 16h3M19 16h3M24 16h3" stroke={ORANGE} strokeWidth="1" strokeLinecap="round"/></svg>,
-    'pediatric-dentistry':   <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="12" r="5" stroke={ORANGE} strokeWidth="1.8"/><path d="M10 12c0 0 2 2.5 6 2.5S22 12 22 12" stroke={ORANGE} strokeWidth="1.5" strokeLinecap="round"/><circle cx="14" cy="11" r="1" fill={ORANGE}/><circle cx="18" cy="11" r="1" fill={ORANGE}/><path d="M10 22c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round"/></svg>,
-    'sedation-dentistry':    <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><path d="M8 18a8 8 0 1116 0" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round"/><path d="M12 15l-1.5 4M20 15l1.5 4M16 14v5" stroke={ORANGE} strokeWidth="1.5" strokeLinecap="round"/><path d="M8 22h16" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round"/></svg>,
-    'oral-surgery':          <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><path d="M10 22l12-12" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round"/><path d="M20 10l2-2 2 2-2 2-2-2z" stroke={ORANGE} strokeWidth="1.5" strokeLinejoin="round"/><circle cx="11" cy="21" r="3" stroke={ORANGE} strokeWidth="1.8"/><path d="M16 8h8v8" stroke={ORANGE} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
-    'periodontal':           <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><path d="M16 6C9.4 6 5 11 5 17s4.4 9 11 9 11-3 11-9S22.6 6 16 6z" stroke={ORANGE} strokeWidth="1.8"/><path d="M16 6v4M16 22v4M6 17h4M22 17h4" stroke={ORANGE} strokeWidth="1.5" strokeLinecap="round"/><path d="M10 10l2.5 2.5M19.5 19.5L22 22M22 10l-2.5 2.5M12.5 19.5L10 22" stroke={ORANGE} strokeWidth="1.2" strokeLinecap="round"/></svg>,
-  }
-
-  const STATS = [
-    { val: '50+',  label: 'Treatments Available' },
-    { val: '12',   label: 'Specialties' },
-    { val: '9',    label: 'Locations' },
-    { val: '0',    label: 'Outside Referrals' },
-  ]
-
   const SPOTLIGHTS = [
-    {
-      slug: 'dental-implants',
-      label: 'Dental Implants',
-      tagline: 'Permanent. Natural. Life-Changing.',
-      desc: 'Single implants, full arch, All-on-4 and implant-supported dentures — performed in-house by Dr. Charles Calder, OMS, UCSF-trained.',
-      badge: 'Most Requested',
-      color: ORANGE,
-    },
-    {
-      slug: 'orthodontics',
-      label: 'Invisalign & Braces',
-      tagline: 'Diamond+ Invisalign Provider.',
-      desc: 'Clear aligner therapy and traditional braces overseen by Dr. Kelcey Loveland — Diamond+ Invisalign provider. Teen and adult programs available.',
-      badge: 'Diamond+ Provider',
-      color: '#162E7A',
-    },
-    {
-      slug: 'cosmetic-dentistry',
-      label: 'Smile Makeovers',
-      tagline: 'Veneers. Whitening. Bonding.',
-      desc: 'Full-mouth cosmetic transformations using porcelain veneers, professional whitening, and composite bonding — tailored to your smile goals.',
-      badge: 'Free Consult',
-      color: '#0E7C66',
-    },
+    { slug: 'dental-implants',   label: 'Dental Implants',   eyebrow: 'Most Requested', tagline: 'Permanent replacement. Natural look. In-house surgeon.', stat: '95%', statLabel: 'Success rate' },
+    { slug: 'orthodontics',      label: 'Invisalign & Braces', eyebrow: 'Diamond+ Provider', tagline: 'Clear aligners & traditional braces. Teen & adult programs.', stat: '6mo', statLabel: 'Avg. results' },
+    { slug: 'cosmetic-dentistry', label: 'Smile Makeovers',  eyebrow: 'Free Consult',    tagline: 'Veneers, whitening & bonding. Tailored to your goals.', stat: '1 Day', statLabel: 'Whitening' },
   ]
 
   return (
-    <div style={{ background: '#001D3D', fontFamily: 'inherit' }}>
+    <div style={{ background: 'white', fontFamily: 'inherit' }}>
       <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="light" />
 
-      {/* ── HERO ── */}
-      <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 55%, #1a3a8f 100%)', padding: '180px 32px 0', position: 'relative', overflow: 'hidden', minHeight: '72vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-        {/* Grid texture */}
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize: '32px 32px', pointerEvents: 'none' }} />
-        {/* Orange glow */}
-        <div style={{ position: 'absolute', top: '20%', right: '10%', width: 600, height: 500, background: 'radial-gradient(ellipse, rgba(243,103,42,0.12) 0%, transparent 65%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
-        {/* Giant watermark */}
-        <div style={{ position: 'absolute', right: -40, bottom: -30, fontSize: 'clamp(180px, 25vw, 380px)', fontWeight: 900, color: 'rgba(255,255,255,0.025)', letterSpacing: '-10px', lineHeight: 1, userSelect: 'none', pointerEvents: 'none' }}>50+</div>
+      {/* ─── HERO — exact same dark gradient as homepage ─── */}
+      <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '180px 32px 96px', position: 'relative', overflow: 'hidden' }}>
+        <div className="absolute pointer-events-none" style={{ top: '-10%', right: '-5%', width: 500, height: 500, borderRadius: '50%', border: '1.5px solid rgba(243,103,42,0.12)' }} />
+        <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 70% 50%, rgba(243,103,42,0.07) 0%, transparent 60%)' }} />
+        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
 
-        <div style={{ position: 'relative', zIndex: 2, maxWidth: 1280, margin: '0 auto', width: '100%' }}>
-          {/* Floating category pills */}
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 36 }}>
-            {PRIMARY.map((cat, i) => (
-              <motion.div key={cat.slug} initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.05 * i, duration: 0.4 }}>
-                <Link to={`/${cat.slug}/`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '6px 14px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 999, fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.65)', textDecoration: 'none', letterSpacing: 0.5, transition: 'all 0.2s', backdropFilter: 'blur(8px)' }}>
-                  <span style={{ width: 5, height: 5, borderRadius: '50%', background: ORANGE, flexShrink: 0 }} />
-                  {cat.label}
-                </Link>
+        <div style={{ maxWidth: 1280, margin: '0 auto', position: 'relative', zIndex: 2, display: 'grid', gridTemplateColumns: '1.15fr 0.85fr', gap: 56, alignItems: 'center' }}>
+          <style>{`@media(max-width:860px){.sh-grid{grid-template-columns:1fr!important}.sh-right{display:none!important}}`}</style>
+
+          <motion.div className="sh-grid" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <div style={{ display: 'inline-block', background: 'rgba(243,103,42,0.12)', border: '1px solid rgba(243,103,42,0.32)', borderRadius: 20, padding: '6px 20px', fontSize: 11, fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase', color: ORANGE, marginBottom: 24 }}>
+              9 Locations · Every Specialist In-House · No Referrals
+            </div>
+            <h1 style={{ fontSize: 'clamp(36px, 4.8vw, 64px)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '-2px', lineHeight: 1.0, color: 'white', margin: '0 0 6px' }}>Every Specialty.</h1>
+            <h1 style={{ fontSize: 'clamp(36px, 4.8vw, 64px)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '-2px', lineHeight: 1.0, color: ORANGE, margin: '0 0 28px' }}>One Practice.</h1>
+            <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.7)', lineHeight: 1.65, maxWidth: 500, margin: '0 0 36px' }}>
+              General, cosmetic, orthodontics, implants, oral surgery, pediatric care and more — every specialist on staff at all 9 Las Vegas locations.
+            </p>
+            <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+              <a href="/request-consultation" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: 'white', borderRadius: 8, padding: '14px 28px', fontSize: 14, fontWeight: 800, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.4, boxShadow: '0 8px 18px rgba(243,103,42,0.32)' }}>Book an Appointment →</a>
+              <a href="#services" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.85)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: 8, padding: '14px 22px', fontSize: 14, fontWeight: 700, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.3 }}>Browse All Services ↓</a>
+            </div>
+          </motion.div>
+
+          {/* Right — stat cards */}
+          <motion.div className="sh-right" initial={{ opacity: 0, x: 32 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4, duration: 0.6 }} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            {[['50+','Treatments','Available now'],['12','Specialties','All in-house'],['9','Locations','Las Vegas'],['0','Referrals','Needed']].map(([val, label, sub], i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 + i * 0.08 }} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: '24px 18px', backdropFilter: 'blur(12px)' }}>
+                <div style={{ fontSize: 'clamp(26px, 2.5vw, 38px)', fontWeight: 900, color: i === 3 ? '#10b981' : ORANGE, letterSpacing: '-1px', lineHeight: 1 }}>{val}</div>
+                <div style={{ fontSize: 13, fontWeight: 800, color: 'white', marginTop: 5 }}>{label}</div>
+                <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', marginTop: 2 }}>{sub}</div>
               </motion.div>
             ))}
           </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 10, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 24, padding: '6px 18px', background: 'rgba(243,103,42,0.1)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.2)' }}>
-              <span style={{ width: 5, height: 5, borderRadius: '50%', background: ORANGE, display: 'inline-block' }} />
-              9 Locations · Every Specialist In-House · No Referrals
-            </div>
-            <h1 style={{ fontSize: 'clamp(48px, 7vw, 96px)', fontWeight: 900, letterSpacing: '-4px', color: 'white', margin: '0 0 8px', lineHeight: 0.9, textTransform: 'uppercase' }}>
-              Every
-            </h1>
-            <h1 style={{ fontSize: 'clamp(48px, 7vw, 96px)', fontWeight: 900, letterSpacing: '-4px', color: ORANGE, margin: '0 0 8px', lineHeight: 0.9, textTransform: 'uppercase' }}>
-              Specialty.
-            </h1>
-            <h1 style={{ fontSize: 'clamp(48px, 7vw, 96px)', fontWeight: 900, letterSpacing: '-4px', color: 'white', margin: '0 0 40px', lineHeight: 0.9, textTransform: 'uppercase' }}>
-              One Practice.
-            </h1>
-          </motion.div>
         </div>
-
-        {/* Stats bar pinned to bottom of hero */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 0.5 }} style={{ position: 'relative', zIndex: 2, background: 'rgba(0,0,0,0.3)', backdropFilter: 'blur(20px)', borderTop: '1px solid rgba(255,255,255,0.08)', marginTop: 60 }}>
-          <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)' }}>
-            {STATS.map((s, i) => (
-              <div key={i} style={{ padding: '28px 24px', textAlign: 'center', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.07)' : 'none' }}>
-                <div style={{ fontSize: 'clamp(32px, 3.5vw, 52px)', fontWeight: 900, color: i === 3 ? '#10b981' : ORANGE, letterSpacing: '-2px', lineHeight: 1 }}>{s.val}</div>
-                <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 6 }}>{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
       </section>
 
-      {/* ── SPOTLIGHT — 3 premium services ── */}
-      <section style={{ background: '#0a1628', padding: '96px 32px' }}>
+      {/* ─── TRUST BAR — light, same as homepage TrustBar ─── */}
+      <section style={{ background: '#F7F9FC', borderBottom: '1px solid rgba(0,29,61,0.07)' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px', display: 'flex', overflowX: 'auto' }}>
+          {['Nevada Medicaid Accepted','Most PPO Insurance','Same-Day Emergencies','Se Habla Español','9 Las Vegas Locations','Evening & Weekend Hours','Free Consultations'].map((item, i, arr) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '16px 22px', borderRight: i < arr.length - 1 ? '1px solid rgba(0,29,61,0.07)' : 'none', whiteSpace: 'nowrap', flexShrink: 0 }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: ORANGE, flexShrink: 0 }} />
+              <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(0,29,61,0.6)' }}>{item}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ─── SPOTLIGHT — 3 premium, white bg, dark cards ─── */}
+      <section style={{ background: 'white', padding: '96px 32px' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ marginBottom: 52 }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: 'center', marginBottom: 56 }}>
             <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 14 }}>Most Requested</div>
-            <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 52px)', fontWeight: 800, letterSpacing: '-2px', color: 'white', margin: 0 }}>Our Signature Services.</h2>
+            <h2 style={{ fontSize: 'clamp(26px, 3vw, 44px)', fontWeight: 800, letterSpacing: '-1.5px', color: NAVY, margin: '0 0 16px' }}>Our Signature Services.</h2>
+            <p style={{ fontSize: 16, color: 'rgba(0,29,61,0.55)', maxWidth: 480, margin: '0 auto', lineHeight: 1.65 }}>The treatments our patients ask for most — all done in-house by Boca specialists.</p>
           </motion.div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16 }}>
-            <style>{`@media(max-width:860px){ .svc-spot{ grid-template-columns:1fr !important; } }`}</style>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20 }}>
+            <style>{`@media(max-width:860px){.spot-grid{grid-template-columns:1fr!important}}`}</style>
             {SPOTLIGHTS.map((sp, i) => (
-              <motion.div key={sp.slug} className="svc-spot" initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.12 }}>
-                <Link to={`/${sp.slug}/`} style={{ textDecoration: 'none', display: 'block', background: 'linear-gradient(160deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20, overflow: 'hidden', transition: 'transform 0.3s ease, box-shadow 0.3s ease' }}>
-                  {/* Color accent top */}
-                  <div style={{ height: 4, background: `linear-gradient(90deg, ${sp.color}, rgba(255,255,255,0.1))` }} />
-                  <div style={{ padding: '36px 32px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
-                      <div style={{ display: 'inline-flex', alignItems: 'center', padding: '5px 12px', background: `${sp.color}22`, border: `1px solid ${sp.color}44`, borderRadius: 999, fontSize: 10, fontWeight: 800, color: sp.color, letterSpacing: 1.5, textTransform: 'uppercase' }}>
-                        {sp.badge}
+              <motion.div key={sp.slug} className="spot-grid" initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}>
+                <Link to={`/${sp.slug}/`} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', background: 'linear-gradient(160deg, #001D3D, #162E7A)', borderRadius: 20, overflow: 'hidden', boxShadow: '0 20px 48px rgba(22,46,122,0.18)' }}>
+                  <div style={{ height: 4, background: `linear-gradient(90deg, ${ORANGE}, rgba(243,103,42,0.2))` }} />
+                  <div style={{ padding: '32px 28px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 22 }}>
+                      <div style={{ padding: '4px 12px', background: 'rgba(243,103,42,0.15)', border: '1px solid rgba(243,103,42,0.3)', borderRadius: 999, fontSize: 10, fontWeight: 800, color: ORANGE, letterSpacing: 1.5, textTransform: 'uppercase' }}>{sp.eyebrow}</div>
+                      <div style={{ textAlign: 'right' }}>
+                        <div style={{ fontSize: 22, fontWeight: 900, color: ORANGE, letterSpacing: '-0.5px', lineHeight: 1 }}>{sp.stat}</div>
+                        <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 }}>{sp.statLabel}</div>
                       </div>
-                      <ArrowRight size={18} color="rgba(255,255,255,0.2)" />
                     </div>
-                    <h3 style={{ fontSize: 'clamp(20px, 1.8vw, 26px)', fontWeight: 800, color: 'white', letterSpacing: '-0.5px', margin: '0 0 8px', lineHeight: 1.1 }}>{sp.label}</h3>
-                    <div style={{ fontSize: 12, fontWeight: 700, color: sp.color, letterSpacing: 0.5, marginBottom: 16 }}>{sp.tagline}</div>
-                    <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, margin: '0 0 28px' }}>{sp.desc}</p>
-                    <div style={{ fontSize: 12, fontWeight: 800, color: 'white', textTransform: 'uppercase', letterSpacing: 1.2, display: 'flex', alignItems: 'center', gap: 6 }}>
-                      Learn More <ArrowRight size={12} />
-                    </div>
+                    <h3 style={{ fontSize: 'clamp(18px, 1.6vw, 24px)', fontWeight: 800, color: 'white', letterSpacing: '-0.5px', margin: '0 0 10px', lineHeight: 1.1 }}>{sp.label}</h3>
+                    <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7, margin: '0 0 24px', flex: 1 }}>{sp.tagline}</p>
+                    <div style={{ fontSize: 12, fontWeight: 800, color: ORANGE, textTransform: 'uppercase', letterSpacing: 1.2, display: 'flex', alignItems: 'center', gap: 6 }}>Learn More <ArrowRight size={12} /></div>
                   </div>
                 </Link>
               </motion.div>
@@ -1313,42 +1269,46 @@ export function ServicesHubPage() {
         </div>
       </section>
 
-      {/* ── ALL SERVICES GRID ── */}
-      <section style={{ background: '#001528', padding: '96px 32px' }}>
+      {/* ─── ALL SERVICES — #F7F9FC bg, white cards, homepage hover style ─── */}
+      <section id="services" style={{ background: '#F7F9FC', padding: '96px 32px' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 52, flexWrap: 'wrap', gap: 16 }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 48, flexWrap: 'wrap', gap: 16 }}>
             <div>
               <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 14 }}>All Services</div>
-              <h2 style={{ fontSize: 'clamp(26px, 3vw, 44px)', fontWeight: 800, letterSpacing: '-1.5px', color: 'white', margin: 0 }}>Complete Care.<br />Under One Roof.</h2>
+              <h2 style={{ fontSize: 'clamp(26px, 3vw, 44px)', fontWeight: 800, letterSpacing: '-1.5px', color: NAVY, margin: 0 }}>Complete Care Under One Roof.</h2>
             </div>
-            <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.4)', maxWidth: 360, lineHeight: 1.65, margin: 0 }}>Every specialist on staff. No referrals. No runaround. Available across all 9 Las Vegas locations.</p>
+            <p style={{ fontSize: 15, color: 'rgba(0,29,61,0.55)', maxWidth: 380, lineHeight: 1.65, margin: 0 }}>Every specialist on staff. Select a category to explore all available treatments.</p>
           </motion.div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }}>
             <style>{`
-              @media(max-width:860px){ .svc-main-grid{ grid-template-columns:repeat(2,1fr) !important; } }
-              @media(max-width:520px){ .svc-main-grid{ grid-template-columns:1fr !important; } }
-              .svc-card-dark:hover { transform: translateY(-6px) !important; box-shadow: 0 24px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(243,103,42,0.3) !important; }
-              .svc-card-dark { transition: transform 0.3s ease, box-shadow 0.3s ease !important; }
+              @media(max-width:860px){.svc-all{grid-template-columns:repeat(2,1fr)!important}}
+              @media(max-width:520px){.svc-all{grid-template-columns:1fr!important}}
+              .svc-c:hover{background:${NAVY}!important;transform:translateY(-3px);box-shadow:0 16px 40px rgba(22,46,122,0.18)!important}
+              .svc-c:hover .sc-title{color:white!important}
+              .svc-c:hover .sc-desc{color:rgba(255,255,255,0.58)!important}
+              .svc-c:hover .sc-cta{color:${ORANGE}!important}
+              .svc-c:hover .sc-icon{background:rgba(243,103,42,0.15)!important;border-color:rgba(243,103,42,0.35)!important;color:${ORANGE}!important}
+              .svc-c{transition:all 0.25s ease}
+              .sc-title,.sc-desc,.sc-cta,.sc-icon{transition:all 0.25s ease}
             `}</style>
+
             {PRIMARY.map((cat, i) => {
               const count = SERVICE_PAGES.filter(s => s.categorySlug === cat.slug).length
               return (
-                <motion.div key={cat.slug} className="svc-main-grid" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: (i % 3) * 0.07 }}>
-                  <Link to={`/${cat.slug}/`} className="svc-card-dark" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', background: 'linear-gradient(160deg, rgba(22,46,122,0.4) 0%, rgba(0,21,40,0.8) 100%)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.2)' }}>
-                    {/* Orange accent bar */}
-                    <div style={{ height: 3, background: `linear-gradient(90deg, ${ORANGE}, rgba(243,103,42,0.2))` }} />
-                    <div style={{ padding: '28px 26px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
-                        <div style={{ width: 52, height: 52, borderRadius: 14, background: 'rgba(243,103,42,0.1)', border: '1px solid rgba(243,103,42,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          {ICONS[cat.slug] ?? <ArrowRight size={22} color={ORANGE} />}
+                <motion.div key={cat.slug} className="svc-all" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: (i % 3) * 0.07 }}>
+                  <Link to={`/${cat.slug}/`} className="svc-c" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', background: 'white', border: '1px solid rgba(0,29,61,0.07)', borderTop: `3px solid ${ORANGE}`, borderRadius: 16, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,29,61,0.05)' }}>
+                    <div style={{ padding: '26px 24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 18 }}>
+                        <div className="sc-icon" style={{ width: 46, height: 46, borderRadius: 12, background: 'rgba(243,103,42,0.08)', border: '1px solid rgba(243,103,42,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: ORANGE, fontSize: 20 }}>
+                          {String(i + 1).padStart(2, '0')}
                         </div>
-                        {count > 0 && <span style={{ fontSize: 10, fontWeight: 800, color: ORANGE, background: 'rgba(243,103,42,0.12)', border: '1px solid rgba(243,103,42,0.2)', borderRadius: 999, padding: '4px 10px', letterSpacing: 1, textTransform: 'uppercase' }}>{count} services</span>}
+                        {count > 0 && <span style={{ fontSize: 10, fontWeight: 800, color: ORANGE, background: 'rgba(243,103,42,0.07)', border: '1px solid rgba(243,103,42,0.15)', borderRadius: 999, padding: '3px 10px', letterSpacing: 1 }}>{count} services</span>}
                       </div>
-                      <div style={{ fontSize: 'clamp(15px, 1.4vw, 19px)', fontWeight: 800, color: 'white', letterSpacing: '-0.3px', marginBottom: 10, lineHeight: 1.2 }}>{cat.label}</div>
-                      <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', lineHeight: 1.65, margin: '0 0 20px', flex: 1 }}>{cat.longDesc ?? cat.desc}</p>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, fontWeight: 800, color: ORANGE, textTransform: 'uppercase', letterSpacing: 1.2 }}>
-                        Explore <ArrowRight size={12} />
+                      <div className="sc-title" style={{ fontSize: 'clamp(15px, 1.3vw, 18px)', fontWeight: 800, color: NAVY, letterSpacing: '-0.3px', marginBottom: 8, lineHeight: 1.2 }}>{cat.label}</div>
+                      <p className="sc-desc" style={{ fontSize: 13, color: 'rgba(0,29,61,0.55)', lineHeight: 1.65, margin: '0 0 18px', flex: 1 }}>{cat.desc}</p>
+                      <div className="sc-cta" style={{ fontSize: 11, fontWeight: 800, color: ORANGE, textTransform: 'uppercase', letterSpacing: 1.2, display: 'flex', alignItems: 'center', gap: 5 }}>
+                        Explore <ArrowRight size={11} />
                       </div>
                     </div>
                   </Link>
@@ -1357,55 +1317,50 @@ export function ServicesHubPage() {
             })}
           </div>
 
-          {/* Additional specialties */}
           {EXTRA.length > 0 && (
-            <div style={{ marginTop: 12, display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12 }}>
-              {EXTRA.map((cat, i) => (
-                <motion.div key={cat.slug} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
-                  <Link to={`/${cat.slug}/`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: '20px 24px', gap: 12 }}>
-                    <div>
-                      <div style={{ fontSize: 15, fontWeight: 700, color: 'rgba(255,255,255,0.8)', marginBottom: 4 }}>{cat.label}</div>
-                      <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>{cat.desc}</div>
-                    </div>
-                    <ArrowRight size={16} color={ORANGE} style={{ flexShrink: 0 }} />
-                  </Link>
-                </motion.div>
+            <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10 }}>
+              <style>{`@media(max-width:720px){.svc-extra{grid-template-columns:1fr!important}}`}</style>
+              {EXTRA.map(cat => (
+                <Link key={cat.slug} className="svc-extra" to={`/${cat.slug}/`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', border: '1px solid rgba(0,29,61,0.07)', borderRadius: 12, padding: '18px 22px', gap: 12 }}>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: NAVY, marginBottom: 3 }}>{cat.label}</div>
+                    <div style={{ fontSize: 12, color: 'rgba(0,29,61,0.5)' }}>{cat.desc}</div>
+                  </div>
+                  <ArrowRight size={15} color={ORANGE} style={{ flexShrink: 0 }} />
+                </Link>
               ))}
             </div>
           )}
         </div>
       </section>
 
-      {/* ── NO REFERRALS BANNER ── */}
-      <section style={{ background: ORANGE, padding: '72px 32px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', right: -60, top: '50%', transform: 'translateY(-50%)', fontSize: 280, fontWeight: 900, color: 'rgba(255,255,255,0.07)', lineHeight: 1, userSelect: 'none', pointerEvents: 'none' }}>0</div>
-        <motion.div initial={{ opacity: 0, x: -32 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 40, flexWrap: 'wrap' }}>
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: 12 }}>The Boca Difference</div>
-            <h2 style={{ fontSize: 'clamp(28px, 4vw, 60px)', fontWeight: 900, letterSpacing: '-2.5px', color: 'white', margin: 0, lineHeight: 0.95, textTransform: 'uppercase' }}>
-              Zero Outside<br />Referrals. Ever.
-            </h2>
-          </div>
-          <div style={{ maxWidth: 480 }}>
-            <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.85)', lineHeight: 1.7, margin: '0 0 28px' }}>
-              Most dental offices send you out for surgery, implants, or orthodontics. Every Boca specialist — oral surgeon, orthodontist, periodontist — is on staff. Your full treatment happens in one place.
-            </p>
-            <a href="/request-consultation" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'white', color: ORANGE, padding: '14px 28px', borderRadius: 8, fontSize: 14, fontWeight: 800, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.4, boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }}>
-              Book an Appointment →
-            </a>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ── TRUST STRIP ── */}
-      <section style={{ background: '#001D3D', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', overflowX: 'auto', padding: '0 32px' }}>
-          {['Nevada Medicaid Accepted','Most PPO Insurance','Same-Day Emergency','Se Habla Español','9 Las Vegas Locations','Evening & Weekend Hours'].map((item, i, arr) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '18px 24px', borderRight: i < arr.length-1 ? '1px solid rgba(255,255,255,0.07)' : 'none', whiteSpace: 'nowrap', flexShrink: 0 }}>
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: ORANGE, flexShrink: 0 }} />
-              <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.55)' }}>{item}</span>
+      {/* ─── NO REFERRALS — one dark section like WhyBoca ─── */}
+      <section style={{ background: '#001D3D', padding: '96px 32px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 60% 50%, rgba(243,103,42,0.07) 0%, transparent 65%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px)', backgroundSize: '32px 32px', pointerEvents: 'none' }} />
+        <div style={{ maxWidth: 1280, margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+            <style>{`@media(max-width:860px){.nr-grid{grid-template-columns:1fr!important}}`}</style>
+            <div className="nr-grid">
+              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 20 }}>The Boca Difference</div>
+              <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 52px)', fontWeight: 800, letterSpacing: '-2px', color: 'white', margin: '0 0 16px', lineHeight: 1.0 }}>
+                Zero Outside<br />
+                <span style={{ color: ORANGE }}>Referrals.</span> Ever.
+              </h2>
+              <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.55)', lineHeight: 1.75, margin: '0 0 36px' }}>Most practices send you out for surgery, implants, or ortho. Every Boca specialist — oral surgeon, orthodontist, periodontist — is on staff. Your full treatment stays in one place.</p>
+              <a href="/request-consultation" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: 'white', borderRadius: 8, padding: '14px 28px', fontSize: 14, fontWeight: 800, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.4, boxShadow: '0 8px 18px rgba(243,103,42,0.32)' }}>
+                Book an Appointment →
+              </a>
             </div>
-          ))}
+            <div className="nr-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+              {[['No Referral Delays','Surgery, implants, ortho — all in-house. No weeks of lag, no extra copays.'],['One Patient Record','Your full history shared across every location. No repeating yourself.'],['Medicaid & Most PPOs','Nevada Medicaid, CHIP, and most major PPO plans accepted at all 9 locations.'],['9 Locations','Same clinical standards at every clinic. Go to whichever is closest to you.']].map(([title, body], i) => (
+                <motion.div key={i} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }} style={{ padding: '28px 24px', background: i % 2 === 0 ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.02)', borderTop: `3px solid ${i === 0 ? ORANGE : 'rgba(255,255,255,0.08)'}` }}>
+                  <div style={{ fontSize: 15, fontWeight: 800, color: 'white', marginBottom: 10, lineHeight: 1.2 }}>{title}</div>
+                  <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', lineHeight: 1.7, margin: 0 }}>{body}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
 
