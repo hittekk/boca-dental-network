@@ -76,8 +76,7 @@ function ServiceCard({ cat, index }: { cat: Cat; index: number }) {
 }
 
 export function ServicesHubPage() {
-  const PRIMARY = SERVICE_CATEGORIES.slice(0, 9)
-  const EXTRA   = SERVICE_CATEGORIES.slice(9)
+  const ALL_CATS = SERVICE_CATEGORIES
 
   const SPOTLIGHTS = [
     { slug: 'dental-implants',    label: 'Dental Implants',    eyebrow: 'Most Requested',  stat: '95%',  statLabel: 'Success rate',   desc: 'Single implants, full arch, All-on-4 — performed in-house by Dr. Charles Calder, oral & maxillofacial surgeon. No outside referrals needed.' },
@@ -183,27 +182,12 @@ export function ServicesHubPage() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }}>
             <style>{`@media(max-width:860px){.sc-g{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:520px){.sc-g{grid-template-columns:1fr!important}}`}</style>
-            {PRIMARY.map((cat, i) => (
+            {ALL_CATS.map((cat, i) => (
               <div key={cat.slug} className="sc-g">
                 <ServiceCard cat={cat} index={i} />
               </div>
             ))}
           </div>
-
-          {EXTRA.length > 0 && (
-            <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10 }}>
-              <style>{`@media(max-width:720px){.sc-ex{grid-template-columns:1fr!important}}`}</style>
-              {EXTRA.map(cat => (
-                <a key={cat.slug} className="sc-ex" href={`/${cat.slug}/`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#F7F7FA', border: '1px solid #E2E8F0', borderRadius: 12, padding: '18px 22px', gap: 12 }}>
-                  <div>
-                    <div style={{ fontSize: 14, fontWeight: 800, color: NAVY, marginBottom: 3 }}>{cat.label}</div>
-                    <div style={{ fontSize: 12, color: '#64748B' }}>{cat.desc}</div>
-                  </div>
-                  <ArrowRight size={15} color={ORANGE} style={{ flexShrink: 0 }} />
-                </a>
-              ))}
-            </div>
-          )}
         </div>
       </section>
 
