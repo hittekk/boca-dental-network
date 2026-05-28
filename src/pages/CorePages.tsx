@@ -1184,7 +1184,7 @@ const HUB_ICON_MAP: Record<string, LucideIcon> = {
   'periodontal':           ShieldCheck,
 }
 
-type ServiceCatEntry = typeof import('../data/serviceCatalog').SERVICE_CATEGORIES[0]
+type ServiceCatEntry = { slug: string; label: string; desc?: string; longDesc?: string }
 
 function HubCard({ cat, index }: { cat: ServiceCatEntry; index: number }) {
   const [hovered, setHovered] = useState(false)
