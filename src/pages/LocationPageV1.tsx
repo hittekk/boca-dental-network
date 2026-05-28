@@ -94,7 +94,7 @@ export function LocationPageV1({ location }: { location: Location }) {
       />
 
       {location.slug === 'boca-kids-dentistry' ? (
-        <Hero location={location} coords={coords} />
+        <BocaKidsHero />
       ) : (
         <Hero location={location} coords={coords} />
       )}
