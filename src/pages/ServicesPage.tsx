@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, Smile, Sparkles, Crown, Wrench, Activity, Baby, Moon, Stethoscope, ShieldCheck } from 'lucide-react'
+import { ArrowRight, Smile, Sparkles, Crown, Wrench, Activity, Baby, Moon, Stethoscope, ShieldCheck, Zap, Layers, Heart } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { Header } from '../components/Header/Header'
 import { Footer } from '../components/Footer/Footer'
@@ -21,6 +21,9 @@ const ICON_MAP: Record<string, LucideIcon> = {
   'sedation-dentistry':    Moon,
   'oral-surgery':          Stethoscope,
   'periodontal':           ShieldCheck,
+  'endodontics':           Zap,
+  'prosthodontics':        Layers,
+  'preventive-dentistry':  Heart,
 }
 
 type Cat = { slug: string; label: string; desc?: string; longDesc?: string }
