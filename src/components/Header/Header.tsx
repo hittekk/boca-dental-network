@@ -291,6 +291,7 @@ function DesktopNav({
 // ── HeaderCTAs ──────────────────────────────────────────────────────────────
 
 function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: 'white' | 'dark' }) {
+  const lang = useLang()
   const isDark = logoMode === 'dark'
   const subtleColor = isDark ? 'rgba(0,29,61,0.6)' : 'rgba(255,255,255,0.6)'
   const phoneIdle = isDark ? 'rgba(0,29,61,0.75)' : 'rgba(255,255,255,0.75)'
@@ -396,6 +397,7 @@ function MobileMenu({
   onClose: () => void
   phone: string
 }) {
+  const lang = useLang()
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : ''
     return () => {
