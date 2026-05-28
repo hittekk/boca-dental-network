@@ -372,7 +372,7 @@ function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: '
         }
       >
         <Calendar size={14} />
-        Book Appointment
+        {t(lang,'Book Appointment','Reservar Cita')}
       </a>
     </div>
   )
@@ -528,7 +528,7 @@ function MobileMenu({
                 }
               >
                 <Calendar size={14} />
-                Book Appointment
+                {t(lang,'Book Appointment','Reservar Cita')}
               </a>
               <a
                 href="/oficina-de-habla-hispana/"
