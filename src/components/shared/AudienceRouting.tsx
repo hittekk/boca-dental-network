@@ -1,60 +1,57 @@
 import { motion } from 'framer-motion'
 import { Users, Baby, Sparkles, Siren, Brackets, ArrowUpRight } from 'lucide-react'
-import { useLang, t } from '../../lib/lang'
 
 type Theme = 'light' | 'dark' | 'cream'
 
-function getCards(lang: import('../../lib/lang').Lang) { return [
+const CARDS = [
   {
     icon: Users,
-    title: t(lang,'New Family Patient','Nuevo Paciente Familiar'),
-    body: t(lang,'Exams, cleanings & family care','Exámenes, limpiezas y cuidado familiar'),
+    title: 'New Family Patient',
+    body: 'Exams, cleanings & family care',
     href: '/general-dentistry/',
     color: '#162E7A',
     colorBright: '#2E4AB0',
-    tag: t(lang,'New here?','¿Primera vez?'),
+    tag: 'New here?',
   },
   {
     icon: Baby,
-    title: t(lang,'Parent / Child Patient','Paciente Pediátrico'),
-    body: t(lang,'Pediatric & kids dentistry','Odontología pediátrica y para niños'),
+    title: 'Parent / Child Patient',
+    body: 'Pediatric & kids dentistry',
     href: '/pediatric-dentistry/',
     color: '#0E7C66',
     colorBright: '#1FA188',
-    tag: t(lang,'Ages 0–17','Edades 0–17'),
+    tag: 'Ages 0–17',
   },
   {
     icon: Sparkles,
-    title: t(lang,'Adult / Cosmetic Patient','Paciente Adulto / Cosmético'),
-    body: t(lang,'Smile makeovers, whitening, veneers','Cambios de sonrisa, blanqueamiento, carillas'),
+    title: 'Adult / Cosmetic Patient',
+    body: 'Smile makeovers, whitening, veneers',
     href: '/cosmetic-dentistry/',
     color: '#B86F0F',
     colorBright: '#D88718',
-    tag: t(lang,'Smile goals','Metas de sonrisa'),
+    tag: 'Smile goals',
   },
   {
     icon: Siren,
-    title: t(lang,'Dental Emergency','Urgencia Dental'),
-    body: t(lang,'Same-day care, pain relief','Atención el mismo día, alivio del dolor'),
+    title: 'Dental Emergency',
+    body: 'Same-day care, pain relief',
     href: '/general-dentistry/emergency-dental-care/',
     color: '#B83A2D',
     colorBright: '#D85040',
-    tag: t(lang,'Same day','Mismo día'),
+    tag: 'Same day',
   },
   {
     icon: Brackets,
-    title: t(lang,'Orthodontic Patient','Paciente de Ortodoncia'),
-    body: t(lang,'Invisalign & braces','Invisalign y frenos dentales'),
+    title: 'Orthodontic Patient',
+    body: 'Invisalign & braces',
     href: '/orthodontics/',
     color: '#5B3FB8',
     colorBright: '#7D5DD8',
-    tag: t(lang,'Teens & adults','Adolescentes y adultos'),
+    tag: 'Teens & adults',
   },
-]}
+]
 
 export function AudienceRouting({ theme = 'light' }: { theme?: Theme }) {
-  const lang = useLang()
-  const CARDS = getCards(lang)
   const isDark = theme === 'dark'
   const sectionBg = isDark ? '#0A0A0F' : theme === 'cream' ? '#FFFAF6' : '#FFFFFF'
   const headingColor = isDark ? 'white' : '#0A0A0F'
@@ -107,7 +104,7 @@ export function AudienceRouting({ theme = 'light' }: { theme?: Theme }) {
                 color: '#F3672A',
               }}
             >
-              {t(lang,'Skip the menu','Saltar el menú')} · {t(lang,'5 quickest paths','5 caminos rápidos')}
+              Skip the menu · 5 quickest paths
             </span>
           </div>
           <h2
@@ -134,7 +131,8 @@ export function AudienceRouting({ theme = 'light' }: { theme?: Theme }) {
               textWrap: 'balance' as React.CSSProperties['textWrap'],
             }}
           >
-            {t(lang,"Skip the mega-menu. Pick the path that matches you and we'll route you to the right page in two seconds.","Elige el camino que te describe y te llevamos a la página correcta en dos segundos.")}
+            Skip the mega-menu. Pick the path that matches you and we'll route
+            you to the right page in two seconds.
           </p>
         </motion.div>
 

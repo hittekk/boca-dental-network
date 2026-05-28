@@ -20,17 +20,6 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence, useScroll } from 'framer-motion'
 import { Phone, X, ChevronRight, Calendar } from 'lucide-react'
 import type { Brand, Announcement, NavLink } from '../../types'
-import { useLang, t } from '../../lib/lang'
-
-function getNavLinks(lang: import('../../lib/lang').Lang): NavLink[] {
-  return [
-    { label: t(lang, 'Services', 'Servicios'), href: '/services/' },
-    { label: t(lang, 'Locations', 'Ubicaciones'), href: '/clinics/' },
-    { label: t(lang, 'Boca Kids', 'Boca Kids'), href: '/clinics/boca-kids-dentistry/' },
-    { label: t(lang, 'About', 'Nosotros'), href: '/about-us/' },
-    { label: t(lang, 'Reviews', 'Reseñas'), href: '/patient-resources/reviews/' },
-  ]
-}
 import { BocaLogo } from './BocaLogo'
 
 // ── Types ────────────────────────────────────────────────────────────────────
@@ -383,7 +372,7 @@ function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: '
         }
       >
         <Calendar size={14} />
-        {t(lang,'Book Appointment','Reservar Cita')}
+        Book Appointment
       </a>
     </div>
   )
@@ -539,7 +528,7 @@ function MobileMenu({
                 }
               >
                 <Calendar size={14} />
-                {t(lang,'Book Appointment','Reservar Cita')}
+                Book Appointment
               </a>
               <a
                 href="/oficina-de-habla-hispana/"
@@ -644,8 +633,6 @@ function HamburgerBtn({
  *   <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} />
  */
 export function Header({ brand, announcement, activeSection, logoMode = 'white' }: HeaderProps) {
-  const lang = useLang()
-  const NAV_LINKS = getNavLinks(lang)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 

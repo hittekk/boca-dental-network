@@ -178,7 +178,8 @@ export function WhyBoca() {
               textWrap: 'balance' as React.CSSProperties['textWrap'],
             }}
           >
-            {t(lang,'We built Boca Dental around one idea — every Las Vegas family deserves world-class dental care at a price they can actually afford.','Construimos Boca Dental alrededor de una sola idea — cada familia de Las Vegas merece atención dental de clase mundial a un precio que realmente pueden pagar.')}
+            We built Boca Dental around one idea — every Las Vegas family
+            deserves world-class dental care at a price they can actually afford.
           </p>
         </motion.div>
 

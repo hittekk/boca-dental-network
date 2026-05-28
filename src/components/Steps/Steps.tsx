@@ -137,7 +137,7 @@ export function Steps() {
             }}
           >
             {t(lang, 'Getting started is', 'Comenzar es')}{' '}
-            <span style={{ color: ORANGE, fontStyle: 'italic' }}>{t(lang,'easy.','fácil.')}</span>
+            <span style={{ color: ORANGE, fontStyle: 'italic' }}>easy.</span>
           </h2>
           <p
             style={{
