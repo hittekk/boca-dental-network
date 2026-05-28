@@ -303,15 +303,21 @@ function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: '
       }}
     >
       <a
-        href="/oficina-de-habla-hispana/"
+        href={lang === 'es' ? '/' : '/oficina-de-habla-hispana/'}
         style={{
           color: subtleColor,
           fontSize: 11,
-          fontWeight: 600,
+          fontWeight: 700,
           textTransform: 'uppercase',
           letterSpacing: '0.05em',
           textDecoration: 'none',
           transition: 'color 0.2s ease',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 5,
+          border: `1px solid ${subtleColor}44`,
+          borderRadius: 999,
+          padding: '4px 10px',
         }}
         onMouseEnter={(e) =>
           ((e.currentTarget as HTMLElement).style.color = phoneHover)
@@ -320,7 +326,7 @@ function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: '
           ((e.currentTarget as HTMLElement).style.color = subtleColor)
         }
       >
-        Se Habla Español
+        🌐 {lang === 'es' ? 'English' : 'Se Habla Español'}
       </a>
 
       <a
@@ -531,12 +537,12 @@ function MobileMenu({
                 Book Appointment
               </a>
               <a
-                href="/oficina-de-habla-hispana/"
+                href={lang === 'es' ? '/' : '/oficina-de-habla-hispana/'}
                 style={{
                   textAlign: 'center',
                   color: 'rgba(255,255,255,0.5)',
                   fontSize: 11,
-                  fontWeight: 600,
+                  fontWeight: 700,
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
                   marginTop: 8,
@@ -544,7 +550,7 @@ function MobileMenu({
                   display: 'block',
                 }}
               >
-                Se Habla Español
+                🌐 {lang === 'es' ? 'English' : 'Se Habla Español'}
               </a>
             </div>
           </div>
