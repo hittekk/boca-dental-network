@@ -228,6 +228,8 @@ function DesktopNav({
   activeSection?: string
   logoMode?: 'white' | 'dark'
 }) {
+  const lang = useLang()
+  const NAV_LINKS = getNavLinks(lang)
   const isDark = logoMode === 'dark'
   const idleColor = isDark ? 'rgba(0,29,61,0.85)' : 'rgba(255,255,255,0.85)'
   const hoverColor = isDark ? '#001D3D' : 'white'
@@ -398,6 +400,7 @@ function MobileMenu({
   phone: string
 }) {
   const lang = useLang()
+  const NAV_LINKS = getNavLinks(lang)
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : ''
     return () => {
