@@ -1165,6 +1165,103 @@ export function ClinicsHubPage() {
   )
 }
 
+import {
+  Smile, Sparkles, Crown, Wrench, Activity,
+  Baby, Moon, Stethoscope, ShieldCheck, ArrowRight as AR,
+} from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
+
+// ─── Homepage-identical service cards for the Services Hub page ───────────────
+const HUB_ICON_MAP: Record<string, LucideIcon> = {
+  'general-dentistry':     Smile,
+  'cosmetic-dentistry':    Sparkles,
+  'restorative-dentistry': Crown,
+  'dental-implants':       Wrench,
+  'orthodontics':          Activity,
+  'pediatric-dentistry':   Baby,
+  'sedation-dentistry':    Moon,
+  'oral-surgery':          Stethoscope,
+  'periodontal':           ShieldCheck,
+}
+
+type ServiceCatEntry = typeof import('../data/serviceCatalog').SERVICE_CATEGORIES[0]
+
+function HubCard({ cat, index }: { cat: ServiceCatEntry; index: number }) {
+  const [hovered, setHovered] = useState(false)
+  const Icon = HUB_ICON_MAP[cat.slug]
+  const num = String(index + 1).padStart(2, '0')
+  return (
+    <motion.a
+      href={`/${cat.slug}/`}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ delay: index * 0.05, duration: 0.4 }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        position: 'relative',
+        background: hovered ? '#162E7A' : '#F7F7FA',
+        border: `1px solid ${hovered ? '#162E7A' : '#E2E8F0'}`,
+        borderRadius: 16,
+        padding: '28px 26px',
+        cursor: 'pointer',
+        textDecoration: 'none',
+        overflow: 'hidden',
+        transition: 'background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease',
+        boxShadow: hovered ? '0 16px 36px rgba(22,46,122,0.22)' : '0 1px 4px rgba(0,0,0,0.04)',
+        transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
+        display: 'flex', flexDirection: 'column', minHeight: 220,
+      }}
+    >
+      {Icon && (
+        <div aria-hidden style={{ position: 'absolute', bottom: -36, right: -28, opacity: hovered ? 0.12 : 0.07, transition: 'opacity 0.25s ease, transform 0.25s ease', transform: hovered ? 'rotate(-6deg)' : 'rotate(0deg)', pointerEvents: 'none' }}>
+          <Icon size={180} color={hovered ? '#F3672A' : '#162E7A'} />
+        </div>
+      )}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18, position: 'relative', zIndex: 1 }}>
+        {Icon ? <Icon size={34} color={hovered ? '#F3672A' : '#162E7A'} /> : <span style={{ width: 34, height: 34 }} />}
+        <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 1.5, color: hovered ? 'rgba(255,255,255,0.45)' : 'rgba(22,46,122,0.4)', fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace', transition: 'color 0.25s ease' }}>/ {num}</div>
+      </div>
+      <div style={{ fontSize: 16, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '-0.3px', color: hovered ? 'white' : '#162E7A', marginBottom: 8, lineHeight: 1.15, transition: 'color 0.25s ease', position: 'relative', zIndex: 1 }}>{cat.label}</div>
+      <div style={{ fontSize: 13, color: hovered ? 'rgba(255,255,255,0.7)' : '#64748B', lineHeight: 1.6, marginBottom: 18, transition: 'color 0.25s ease', flex: 1, position: 'relative', zIndex: 1 }}>{cat.desc}</div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', zIndex: 1 }}>
+        <span style={{ fontSize: 12, fontWeight: 800, color: hovered ? ORANGE : ORANGE, textTransform: 'uppercase', letterSpacing: 1.2 }}>Explore →</span>
+        <div style={{ width: 28, height: 2, background: hovered ? ORANGE : 'transparent', borderRadius: 999, transition: 'background 0.3s ease' }} />
+      </div>
+    </motion.a>
+  )
+}
+
+function HubServiceGrid({ cats, extra }: { cats: ServiceCatEntry[]; extra: ServiceCatEntry[] }) {
+  return (
+    <>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }}>
+        <style>{`@media(max-width:860px){.hub-grid{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:520px){.hub-grid{grid-template-columns:1fr!important}}`}</style>
+        {cats.map((cat, i) => (
+          <div key={cat.slug} className="hub-grid">
+            <HubCard cat={cat} index={i} />
+          </div>
+        ))}
+      </div>
+      {extra.length > 0 && (
+        <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10 }}>
+          <style>{`@media(max-width:720px){.hub-extra{grid-template-columns:1fr!important}}`}</style>
+          {extra.map(cat => (
+            <a key={cat.slug} className="hub-extra" href={`/${cat.slug}/`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#F7F7FA', border: '1px solid #E2E8F0', borderRadius: 12, padding: '18px 22px', gap: 12, transition: 'border-color 0.2s' }}>
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 800, color: NAVY, marginBottom: 3 }}>{cat.label}</div>
+                <div style={{ fontSize: 12, color: '#64748B' }}>{cat.desc}</div>
+              </div>
+              <AR size={15} color={ORANGE} style={{ flexShrink: 0 }} />
+            </a>
+          ))}
+        </div>
+      )}
+    </>
+  )
+}
+
 export function ServicesHubPage() {
   const breadcrumbSchema = usePageMeta({
     title: 'All Dental Services in Las Vegas | Boca Dental & Braces',
@@ -1269,7 +1366,7 @@ export function ServicesHubPage() {
         </div>
       </section>
 
-      {/* ─── ALL SERVICES — #F7F9FC bg, white cards, homepage hover style ─── */}
+      {/* ─── ALL SERVICES — exact homepage card style ─── */}
       <section id="services" style={{ background: '#F7F9FC', padding: '96px 32px' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 48, flexWrap: 'wrap', gap: 16 }}>
@@ -1280,57 +1377,7 @@ export function ServicesHubPage() {
             <p style={{ fontSize: 15, color: 'rgba(0,29,61,0.55)', maxWidth: 380, lineHeight: 1.65, margin: 0 }}>Every specialist on staff. Select a category to explore all available treatments.</p>
           </motion.div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }}>
-            <style>{`
-              @media(max-width:860px){.svc-all{grid-template-columns:repeat(2,1fr)!important}}
-              @media(max-width:520px){.svc-all{grid-template-columns:1fr!important}}
-              .svc-c:hover{background:${NAVY}!important;transform:translateY(-3px);box-shadow:0 16px 40px rgba(22,46,122,0.18)!important}
-              .svc-c:hover .sc-title{color:white!important}
-              .svc-c:hover .sc-desc{color:rgba(255,255,255,0.58)!important}
-              .svc-c:hover .sc-cta{color:${ORANGE}!important}
-              .svc-c:hover .sc-icon{background:rgba(243,103,42,0.15)!important;border-color:rgba(243,103,42,0.35)!important;color:${ORANGE}!important}
-              .svc-c{transition:all 0.25s ease}
-              .sc-title,.sc-desc,.sc-cta,.sc-icon{transition:all 0.25s ease}
-            `}</style>
-
-            {PRIMARY.map((cat, i) => {
-              const count = SERVICE_PAGES.filter(s => s.categorySlug === cat.slug).length
-              return (
-                <motion.div key={cat.slug} className="svc-all" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: (i % 3) * 0.07 }}>
-                  <Link to={`/${cat.slug}/`} className="svc-c" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', background: 'white', border: '1px solid rgba(0,29,61,0.07)', borderTop: `3px solid ${ORANGE}`, borderRadius: 16, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,29,61,0.05)' }}>
-                    <div style={{ padding: '26px 24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 18 }}>
-                        <div className="sc-icon" style={{ width: 46, height: 46, borderRadius: 12, background: 'rgba(243,103,42,0.08)', border: '1px solid rgba(243,103,42,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: ORANGE, fontSize: 20 }}>
-                          {String(i + 1).padStart(2, '0')}
-                        </div>
-                        {count > 0 && <span style={{ fontSize: 10, fontWeight: 800, color: ORANGE, background: 'rgba(243,103,42,0.07)', border: '1px solid rgba(243,103,42,0.15)', borderRadius: 999, padding: '3px 10px', letterSpacing: 1 }}>{count} services</span>}
-                      </div>
-                      <div className="sc-title" style={{ fontSize: 'clamp(15px, 1.3vw, 18px)', fontWeight: 800, color: NAVY, letterSpacing: '-0.3px', marginBottom: 8, lineHeight: 1.2 }}>{cat.label}</div>
-                      <p className="sc-desc" style={{ fontSize: 13, color: 'rgba(0,29,61,0.55)', lineHeight: 1.65, margin: '0 0 18px', flex: 1 }}>{cat.desc}</p>
-                      <div className="sc-cta" style={{ fontSize: 11, fontWeight: 800, color: ORANGE, textTransform: 'uppercase', letterSpacing: 1.2, display: 'flex', alignItems: 'center', gap: 5 }}>
-                        Explore <ArrowRight size={11} />
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              )
-            })}
-          </div>
-
-          {EXTRA.length > 0 && (
-            <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10 }}>
-              <style>{`@media(max-width:720px){.svc-extra{grid-template-columns:1fr!important}}`}</style>
-              {EXTRA.map(cat => (
-                <Link key={cat.slug} className="svc-extra" to={`/${cat.slug}/`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', border: '1px solid rgba(0,29,61,0.07)', borderRadius: 12, padding: '18px 22px', gap: 12 }}>
-                  <div>
-                    <div style={{ fontSize: 14, fontWeight: 800, color: NAVY, marginBottom: 3 }}>{cat.label}</div>
-                    <div style={{ fontSize: 12, color: 'rgba(0,29,61,0.5)' }}>{cat.desc}</div>
-                  </div>
-                  <ArrowRight size={15} color={ORANGE} style={{ flexShrink: 0 }} />
-                </Link>
-              ))}
-            </div>
-          )}
+          <HubServiceGrid cats={PRIMARY} extra={EXTRA} />
         </div>
       </section>
 
