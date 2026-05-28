@@ -94,7 +94,10 @@ export function LocationPageV1({ location }: { location: Location }) {
       />
 
       {location.slug === 'boca-kids-dentistry' ? (
-        <BocaKidsHero />
+        <>
+          <BocaKidsHero />
+          <BocaKidsMapSection location={location} coords={coords} />
+        </>
       ) : (
         <Hero location={location} coords={coords} />
       )}
@@ -110,6 +113,71 @@ export function LocationPageV1({ location }: { location: Location }) {
       <CTA />
       <Footer />
     </div>
+  )
+}
+
+
+// ─── Boca Kids map + address section ────────────────────────────────────────
+function BocaKidsMapSection({ location, coords }: { location: Location; coords?: [number, number] }) {
+  const mapContainer = useRef<HTMLDivElement | null>(null)
+  const mapRef = useRef<mapboxgl.Map | null>(null)
+  const ORANGE = '#F3672A'
+  const NAVY   = '#162E7A'
+
+  useEffect(() => {
+    if (!MAPBOX_READY || !mapContainer.current || mapRef.current || !coords) return
+    let map: mapboxgl.Map
+    try {
+      map = new mapboxgl.Map({ container: mapContainer.current, style: 'mapbox://styles/mapbox/light-v11', center: coords, zoom: 14, interactive: false })
+      mapRef.current = map
+      map.on('load', () => {
+        const el = document.createElement('div')
+        el.style.cssText = 'width:44px;height:44px;background:#F3672A;border-radius:50%;border:3px solid white;box-shadow:0 4px 12px rgba(243,103,42,0.4);display:flex;align-items:center;justify-content:center;font-size:20px;'
+        el.textContent = '🦷'
+        new mapboxgl.Marker({ element: el, anchor: 'center' }).setLngLat(coords!).addTo(map)
+      })
+    } catch (err) { console.warn('[BocaKids] Map failed:', err) }
+    return () => { if (mapRef.current) { mapRef.current.remove(); mapRef.current = null } }
+  }, [coords])
+
+  return (
+    <section style={{ background: '#F7F9FC', padding: '64px 32px' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+        <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 12 }}>Find Our Clinic</div>
+        <h2 style={{ fontSize: 'clamp(22px, 2.5vw, 36px)', fontWeight: 800, letterSpacing: '-1px', color: NAVY, margin: '0 0 32px' }}>Visit Boca Kids Dentistry</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+          <style>{`@media(max-width:860px){ .bk-map-grid{ grid-template-columns:1fr !important; } }`}</style>
+          {/* Map */}
+          <div className="bk-map-grid" style={{ position: 'relative', borderRadius: 18, overflow: 'hidden', minHeight: 360, border: '1px solid rgba(0,29,61,0.08)', boxShadow: '0 8px 32px rgba(0,29,61,0.1)' }}>
+            <div ref={mapContainer} style={{ position: 'absolute', inset: 0, background: '#F0E9DF' }} />
+            <div style={{ position: 'absolute', top: 16, left: 16, display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 10, fontWeight: 800, letterSpacing: 1.5, textTransform: 'uppercase', color: 'white', background: ORANGE, borderRadius: 999, padding: '7px 14px', boxShadow: '0 6px 16px rgba(243,103,42,0.4)', zIndex: 2 }}>
+              <MapPin size={11} /> Boca Kids · {location.neighborhood}
+            </div>
+          </div>
+          {/* NAP card */}
+          <div className="bk-map-grid" style={{ background: 'white', borderRadius: 18, padding: '32px', border: '1px solid rgba(0,29,61,0.08)', boxShadow: '0 8px 32px rgba(0,29,61,0.06)', display: 'flex', flexDirection: 'column', gap: 22 }}>
+            <div>
+              <div style={{ fontSize: 10, fontWeight: 800, color: ORANGE, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 6 }}>Address</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: NAVY, lineHeight: 1.55 }}>{location.address}<br />{location.city}, {location.state} {location.zip}</div>
+            </div>
+            <div>
+              <div style={{ fontSize: 10, fontWeight: 800, color: ORANGE, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 6 }}>Phone</div>
+              <a href={"tel:" + location.phone.replace(/[^0-9]/g,"")} style={{ fontSize: 18, fontWeight: 800, color: NAVY, textDecoration: 'none' }}>{location.phone}</a>
+            </div>
+            <div>
+              <div style={{ fontSize: 10, fontWeight: 800, color: ORANGE, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 6 }}>Hours</div>
+              <div style={{ fontSize: 14, fontWeight: 600, color: 'rgba(0,29,61,0.7)', lineHeight: 1.7 }}>Mon–Fri 9am–7pm<br />Sat 9am–5pm<br /><span style={{ color: ORANGE, fontWeight: 700, fontSize: 12 }}>Same-day emergency available</span></div>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 'auto' }}>
+              <a href="/request-consultation?location=boca-kids-dentistry" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: ORANGE, color: 'white', borderRadius: 8, padding: '14px', fontSize: 14, fontWeight: 800, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.4, boxShadow: '0 8px 18px rgba(243,103,42,0.28)' }}>
+                Book at This Office →
+              </a>
+              {coords && <a href={"https://www.google.com/maps/dir/?api=1&destination=" + coords[1] + "," + coords[0]} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: 'white', color: NAVY, borderRadius: 8, padding: '12px', fontSize: 13, fontWeight: 700, textDecoration: 'none', border: '1.5px solid rgba(0,29,61,0.12)', textTransform: 'uppercase', letterSpacing: 0.3 }}>Get Directions</a>}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }
 
@@ -1963,3 +2031,5 @@ function SectionHeader({
 }
 
 export default LocationPageV1
+
+// This is a placeholder — see BocaKidsMapSection defined earlier in file
