@@ -20,7 +20,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence, useScroll } from 'framer-motion'
 import { Phone, X, ChevronRight, Calendar } from 'lucide-react'
 import type { Brand, Announcement, NavLink } from '../../types'
-import { useLang } from '../../lib/lang'
+import { useLang, t } from '../../lib/lang'
 import { BocaLogo } from './BocaLogo'
 
 // ── Types ────────────────────────────────────────────────────────────────────
@@ -35,13 +35,13 @@ interface HeaderProps {
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-const NAV_LINKS: NavLink[] = [
-  { label: 'Services', href: '/services/' },
-  { label: 'Locations', href: '/clinics/' },
-  { label: 'Boca Kids', href: '/clinics/boca-kids-dentistry/' },
-  { label: 'About', href: '/about-us/' },
-  { label: 'Reviews', href: '/patient-resources/reviews/' },
-]
+function getNavLinks(lang: ReturnType<typeof useLang>): NavLink[] { return [
+  { label: t(lang, 'Services', 'Servicios'), href: '/services/' },
+  { label: t(lang, 'Locations', 'Ubicaciones'), href: '/clinics/' },
+  { label: t(lang, 'Boca Kids', 'Boca Kids'), href: '/clinics/boca-kids-dentistry/' },
+  { label: t(lang, 'About', 'Nosotros'), href: '/about-us/' },
+  { label: t(lang, 'Reviews', 'Reseñas'), href: '/patient-resources/reviews/' },
+]}
 
 const SCROLL_THRESHOLD = 300
 
@@ -380,7 +380,7 @@ function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: '
         }
       >
         <Calendar size={14} />
-        Book Appointment
+        {t(lang, 'Book Appointment', 'Reservar Cita')}
       </a>
     </div>
   )
@@ -537,7 +537,7 @@ function MobileMenu({
                 }
               >
                 <Calendar size={14} />
-                Book Appointment
+                {t(lang, 'Book Appointment', 'Reservar Cita')}
               </a>
               <a
                 href={lang === 'es' ? '/' : '/oficina-de-habla-hispana/'}
@@ -643,6 +643,7 @@ function HamburgerBtn({
  */
 export function Header({ brand, announcement, activeSection, logoMode = 'white' }: HeaderProps) {
   const lang = useLang()
+  const NAV_LINKS = getNavLinks(lang)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 

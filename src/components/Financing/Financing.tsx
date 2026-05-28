@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { CheckCircle, Wallet, CreditCard, Sparkles, Building2, ArrowRight } from 'lucide-react'
+import { useLang, t } from '../../lib/lang'
 
 const PLANS = [
   {
@@ -48,6 +49,7 @@ const INSURANCE = [
 ]
 
 export function Financing() {
+  const lang = useLang()
   return (
     <section
       id="financing"

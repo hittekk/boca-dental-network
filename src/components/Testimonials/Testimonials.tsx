@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Star } from 'lucide-react'
 import { GoogleG } from '../shared/icons/GoogleG'
+import { useLang, t } from '../../lib/lang'
 
 // 4 cards covering: (1) general/family/new-patient · (2) ortho-cosmetic ·
 // (3) pediatric/family · (4) location-specific · per Treysyde spec.
@@ -158,6 +159,7 @@ function ReviewCard({
 }
 
 export function Testimonials() {
+  const lang = useLang()
   return (
     <section
       id="testimonials"
@@ -187,7 +189,7 @@ export function Testimonials() {
               marginBottom: 10,
             }}
           >
-            Patient Reviews
+            {t(lang, 'Patient Reviews', 'Reseñas de Pacientes')}
           </div>
           <h2
             style={{
@@ -200,7 +202,7 @@ export function Testimonials() {
               lineHeight: 1.05,
             }}
           >
-            What Las Vegas Patients Say About Boca Dental & Braces
+            {t(lang, 'What Las Vegas Patients Say About Boca Dental & Braces', 'Lo que Dicen los Pacientes de Las Vegas sobre Boca Dental & Braces')}
           </h2>
         </motion.div>
 
@@ -239,13 +241,13 @@ export function Testimonials() {
                 marginLeft: 4,
               }}
             >
-              4.9 out of 5 stars
+              {t(lang, '4.9 out of 5 stars', '4.9 de 5 estrellas')}
             </strong>
           </span>
           <span style={{ color: '#94A3B8' }}>·</span>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
             <GoogleG size={15} />
-            <span>1,200+ Google reviews across all 9 Las Vegas locations</span>
+            <span>{t(lang, '1,200+ Google reviews across all 9 Las Vegas locations', 'Más de 1,200 reseñas de Google en las 9 clínicas')}</span>
           </span>
           <span style={{ color: '#94A3B8' }}>·</span>
           <a
@@ -260,7 +262,7 @@ export function Testimonials() {
               paddingBottom: 1,
             }}
           >
-            Read all reviews →
+            {t(lang, 'Read all reviews →', 'Ver todas las reseñas →')}
           </a>
         </motion.div>
 

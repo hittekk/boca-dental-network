@@ -253,7 +253,7 @@ export function Services() {
             }}
           >
             {t(lang, 'Comprehensive Dental Care', 'Atención Dental Completa')}
-            <span style={{ display: 'block' }}>For Every Stage of Life</span>
+            <span style={{ display: 'block' }}>{t(lang, 'For Every Stage of Life', 'Para Cada Etapa de la Vida')}</span>
           </h2>
           <p
             style={{
@@ -264,9 +264,7 @@ export function Services() {
               lineHeight: 1.65,
             }}
           >
-            From routine cleanings to full-mouth restorations, orthodontics
-            to pediatric care, Boca Dental & Braces provides a complete range
-            of dental services at 9 Las Vegas locations.
+            {t(lang, 'From routine cleanings to full-mouth restorations, orthodontics to pediatric care, Boca Dental & Braces provides a complete range of dental services at 9 Las Vegas locations.', 'Desde limpiezas de rutina hasta restauraciones completas, ortodoncia y atención pediátrica — Boca Dental & Braces ofrece atención dental completa en 9 clínicas en Las Vegas.')}
           </p>
         </motion.div>
 
