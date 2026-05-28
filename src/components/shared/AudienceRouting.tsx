@@ -134,7 +134,7 @@ export function AudienceRouting({ theme = 'light' }: { theme?: Theme }) {
               textWrap: 'balance' as React.CSSProperties['textWrap'],
             }}
           >
-            {t(lang,'Skip the mega-menu. Pick the path that matches you and we\'ll route you to the right page in two seconds.','Elige el camino que te describe y te llevamos a la página correcta en dos segundos.')}
+            {t(lang,"Skip the mega-menu. Pick the path that matches you and we'll route you to the right page in two seconds.","Elige el camino que te describe y te llevamos a la página correcta en dos segundos.")}
           </p>
         </motion.div>
 
