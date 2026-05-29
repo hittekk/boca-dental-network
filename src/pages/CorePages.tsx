@@ -1898,6 +1898,11 @@ export function RequestConsultationPage() {
                       {matchedLocation && (
                         <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', marginTop: 1 }}>{matchedLocation.address}</div>
                       )}
+                      {matchedLocation && (
+                        <a href={`tel:${matchedLocation.phone.replace(/[^0-9]/g,'')}`} style={{ fontSize: 12, color: ORANGE, fontWeight: 700, marginTop: 4, display: 'inline-block', textDecoration: 'none' }}>
+                          📞 {matchedLocation.phone}
+                        </a>
+                      )}
                     </div>
                   </div>
                   <button

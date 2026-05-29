@@ -168,7 +168,7 @@ function BocaKidsMapSection({ location, coords }: { location: Location; coords?:
               <div style={{ fontSize: 14, fontWeight: 600, color: 'rgba(0,29,61,0.7)', lineHeight: 1.7 }}>Mon–Fri 9am–7pm<br />Sat 9am–5pm<br /><span style={{ color: ORANGE, fontWeight: 700, fontSize: 12 }}>Same-day emergency available</span></div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 'auto' }}>
-              <a href="/request-consultation?location=boca-kids-dentistry" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: ORANGE, color: 'white', borderRadius: 8, padding: '14px', fontSize: 14, fontWeight: 800, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.4, boxShadow: '0 8px 18px rgba(243,103,42,0.28)' }}>
+              <a href={`/request-consultation?location=${location.slug}`} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: ORANGE, color: 'white', borderRadius: 8, padding: '14px', fontSize: 14, fontWeight: 800, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.4, boxShadow: '0 8px 18px rgba(243,103,42,0.28)' }}>
                 Book at This Office →
               </a>
               {coords && <a href={"https://www.google.com/maps/dir/?api=1&destination=" + coords[1] + "," + coords[0]} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: 'white', color: NAVY, borderRadius: 8, padding: '12px', fontSize: 13, fontWeight: 700, textDecoration: 'none', border: '1.5px solid rgba(0,29,61,0.12)', textTransform: 'uppercase', letterSpacing: 0.3 }}>Get Directions</a>}
@@ -222,7 +222,7 @@ function BocaKidsHero() {
             Las Vegas's dedicated pediatric dental clinic — sensory-friendly rooms, bilingual staff, and Nevada Medicaid accepted. Built from the ground up for kids and teens.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'center', marginBottom: 32 }}>
-            <a href="/request-consultation?location=boca-kids-dentistry" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: 'white', borderRadius: 8, padding: '14px 24px', fontSize: 14, fontWeight: 800, textDecoration: 'none', letterSpacing: 0.4, textTransform: 'uppercase', boxShadow: '0 8px 18px rgba(243,103,42,0.32)' }}>
+            <a href={`/request-consultation?location=${location.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: 'white', borderRadius: 8, padding: '14px 24px', fontSize: 14, fontWeight: 800, textDecoration: 'none', letterSpacing: 0.4, textTransform: 'uppercase', boxShadow: '0 8px 18px rgba(243,103,42,0.32)' }}>
               Book for My Child →
             </a>
             <a href="tel:7024560005" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.85)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: 8, padding: '14px 22px', fontSize: 14, fontWeight: 700, textDecoration: 'none', letterSpacing: 0.3, textTransform: 'uppercase' }}>

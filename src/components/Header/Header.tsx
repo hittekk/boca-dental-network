@@ -334,17 +334,19 @@ function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: '
       </a>
 
       <a
-        href={`tel:${phone.replace(/\D/g, '')}`}
+        href="/clinics/"
         style={{
           display: 'inline-flex',
           alignItems: 'center',
           gap: 6,
           color: phoneIdle,
           fontSize: 12,
-          fontWeight: 600,
+          fontWeight: 700,
           textDecoration: 'none',
           whiteSpace: 'nowrap',
           transition: 'color 0.2s ease',
+          textTransform: 'uppercase',
+          letterSpacing: '0.05em',
         }}
         onMouseEnter={(e) =>
           ((e.currentTarget as HTMLElement).style.color = phoneHover)
@@ -353,8 +355,8 @@ function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: '
           ((e.currentTarget as HTMLElement).style.color = phoneIdle)
         }
       >
-        <Phone size={14} />
-        {phone}
+        <MapPin size={13} />
+        {t(lang, '9 Locations', '9 Clínicas')}
       </a>
 
       <a
