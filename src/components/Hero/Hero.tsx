@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { MapPin, Phone, ChevronDown, Star } from 'lucide-react'
 import type { Brand } from '../../types'
@@ -204,9 +205,9 @@ export function Hero({ brand }: HeroProps) {
               {t(lang, 'Book an Appointment', 'Reservar Cita')}
             </a>
 
-            {/* Secondary CTA: Find a Location Near You (per Treysyde spec) */}
-            <button
-              onClick={scrollToLocations}
+            {/* Secondary CTA: Find a Location Near You */}
+            <Link
+              to="/clinics/"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -220,6 +221,7 @@ export function Hero({ brand }: HeroProps) {
                 fontWeight: 600,
                 cursor: 'pointer',
                 fontFamily: 'inherit',
+                textDecoration: 'none',
                 transition: 'background 0.2s ease',
               }}
               onMouseEnter={(e) =>
@@ -233,7 +235,7 @@ export function Hero({ brand }: HeroProps) {
             >
               <MapPin size={16} />
               {t(lang, 'Find a Location Near You', 'Encontrar Clínica')}
-            </button>
+            </Link>
           </motion.div>
 
           {/* Inline rating line — micro trust signal in copy column */}
