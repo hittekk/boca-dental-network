@@ -333,31 +333,7 @@ function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: '
         🌐 {lang === 'es' ? 'English' : 'Se Habla Español'}
       </a>
 
-      <a
-        href="/clinics/"
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 6,
-          color: phoneIdle,
-          fontSize: 12,
-          fontWeight: 700,
-          textDecoration: 'none',
-          whiteSpace: 'nowrap',
-          transition: 'color 0.2s ease',
-          textTransform: 'uppercase',
-          letterSpacing: '0.05em',
-        }}
-        onMouseEnter={(e) =>
-          ((e.currentTarget as HTMLElement).style.color = phoneHover)
-        }
-        onMouseLeave={(e) =>
-          ((e.currentTarget as HTMLElement).style.color = phoneIdle)
-        }
-      >
-        <MapPin size={13} />
-        {t(lang, '9 Locations', '9 Clínicas')}
-      </a>
+
 
       <a
         href="/request-consultation"
