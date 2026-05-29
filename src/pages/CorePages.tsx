@@ -994,6 +994,11 @@ export function ClinicsHubPage() {
   return (
     <div style={{ background: '#fff', color: NAVY, fontFamily: 'inherit' }}>
       <style>{`
+        @media (max-width: 768px) {
+          .clinics-hero-split { flex-direction: column !important; height: auto !important; min-height: 100vh !important; }
+          .clinics-left-panel { width: 100% !important; padding: 28px 20px !important; }
+          .clinics-map-panel { height: 50vh !important; }
+        }
         body.page-clinics .boca-nav-bg {
           background: rgba(22,46,122,0.95) !important;
           backdrop-filter: blur(20px) saturate(180%) !important;
@@ -1005,13 +1010,14 @@ export function ClinicsHubPage() {
       <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="light" />
 
       {/* ── Full-viewport hero: navy panel left, real Mapbox map right ── */}
-      <section style={{ display: 'flex', height: '100vh', paddingTop: 110, overflow: 'hidden', position: 'relative' }}>
+      <section className="clinics-hero-split" style={{ display: 'flex', height: '100vh', paddingTop: 110, overflow: 'hidden', position: 'relative' }}>
 
         {/* Left: navy copy panel */}
-        <div style={{
+        <div className="clinics-left-panel" style={{
           width: 400,
           flexShrink: 0,
           background: 'linear-gradient(180deg, #162E7A 0%, #001D3D 55%, #001228 100%)',
+          // className via parent
           padding: '40px 44px 40px',
           display: 'flex',
           flexDirection: 'column',
@@ -1060,7 +1066,7 @@ export function ClinicsHubPage() {
         </div>
 
         {/* Right: Mapbox map */}
-        <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+        <div className="clinics-map-panel" style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
           <ClinicsMap
             onSelect={handleMapSelect}
             onDeselect={handleClose}

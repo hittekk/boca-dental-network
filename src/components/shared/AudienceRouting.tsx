@@ -139,6 +139,7 @@ export function AudienceRouting({ theme = 'light' }: { theme?: Theme }) {
         </motion.div>
 
         <div
+          className="audience-cards"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(5, 1fr)',
@@ -152,6 +153,10 @@ export function AudienceRouting({ theme = 'light' }: { theme?: Theme }) {
             .audience-card:hover .audience-arrow { transform: translate(3px, -3px); }
             .audience-card:hover .audience-icon-tile { background: rgba(255,255,255,0.32) !important; transform: rotate(-4deg) scale(1.06); }
             .audience-card:hover .audience-start { gap: 10px !important; }
+            @media (max-width: 768px) {
+              .audience-cards { display: flex !important; overflow-x: auto !important; padding-bottom: 12px !important; scroll-snap-type: x mandatory !important; -webkit-overflow-scrolling: touch; }
+              .audience-card { min-width: 220px !important; flex-shrink: 0 !important; scroll-snap-align: start !important; }
+            }
           `}</style>
           {CARDS.map((card, i) => {
             const Icon = card.icon

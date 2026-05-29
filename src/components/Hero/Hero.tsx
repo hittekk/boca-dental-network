@@ -58,6 +58,7 @@ export function Hero({ brand }: HeroProps) {
       {/* Mobile-stack media query — Treysyde spec: single column on small screens */}
       <style>{`
         @media (max-width: 768px) {
+          .boca-hero-copy { padding: 0 4px !important; }
           .boca-hero-grid {
             grid-template-columns: 1fr !important;
             gap: 32px !important;
