@@ -21,7 +21,7 @@ export const INITIAL_DATA: InitialData = {
   announcement: {
     enabled:   true,
     text:      'Now accepting new patients at all 9 Las Vegas locations · Se Habla Español',
-    link:      '/contact',
+    link:      '/request-consultation',
     linkLabel: 'Book Today',
   },
   // 9 LV locations only. Slugs + labels match the Expansion sheet of
