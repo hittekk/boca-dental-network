@@ -121,8 +121,8 @@ export function AudienceRouting({ theme = 'light' }: { theme?: Theme }) {
               textTransform: 'uppercase',
             }}
           >
-            How can we help you{' '}
-            <span style={{ color: '#F3672A' }}>today?</span>
+            {t(lang, 'How can we help you', '¿Cómo podemos ayudarte')}{' '}
+            <span style={{ color: '#F3672A' }}>{t(lang, 'today?', 'hoy?')}</span>
           </h2>
           <p
             style={{
