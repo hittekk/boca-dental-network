@@ -1080,21 +1080,20 @@ export function ClinicsHubPage() {
       <ClinicPopup clinic={activeClinic} onClose={handleClose} />
 
       {/* ── Filter pills + grid ── */}
-      <section style={{ background: NAVY, padding: '72px 32px 96px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px)', backgroundSize: '32px 32px', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 0%, rgba(243,103,42,0.07) 0%, transparent 60%)', pointerEvents: 'none' }} />
+      <section style={{ background: '#F7F9FC', padding: '72px 32px 96px', position: 'relative', overflow: 'hidden' }}>
+
         <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative', zIndex: 1 }}>
           {/* Section heading */}
           <div style={{ marginBottom: 36 }}>
             <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 12 }}>Find Your Location</div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-              <h2 style={{ fontSize: 'clamp(24px, 2.8vw, 38px)', fontWeight: 800, letterSpacing: '-1px', color: 'white', margin: 0 }}>
+              <h2 style={{ fontSize: 'clamp(24px, 2.8vw, 38px)', fontWeight: 800, letterSpacing: '-1px', color: NAVY, margin: 0 }}>
                 9 Clinics Across Las Vegas
               </h2>
               {/* Filter pills */}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                 {neighborhoods.map(n => (
-                  <button key={n} onClick={() => setActiveNeighborhood(n)} style={{ padding: '7px 16px', borderRadius: 999, fontSize: 12, fontWeight: 700, cursor: 'pointer', border: activeNeighborhood === n ? 'none' : '1px solid rgba(255,255,255,0.15)', background: activeNeighborhood === n ? ORANGE : 'rgba(255,255,255,0.06)', color: 'white', transition: 'all 0.2s ease', boxShadow: activeNeighborhood === n ? '0 4px 12px rgba(243,103,42,0.3)' : 'none' }}>
+                  <button key={n} onClick={() => setActiveNeighborhood(n)} style={{ padding: '7px 16px', borderRadius: 999, fontSize: 12, fontWeight: 700, cursor: 'pointer', border: activeNeighborhood === n ? 'none' : '1.5px solid rgba(0,29,61,0.15)', background: activeNeighborhood === n ? ORANGE : 'white', color: activeNeighborhood === n ? 'white' : NAVY, transition: 'all 0.2s ease', boxShadow: activeNeighborhood === n ? '0 4px 12px rgba(243,103,42,0.3)' : 'none' }}>
                     {n}
                   </button>
                 ))}
@@ -1119,49 +1118,47 @@ export function ClinicsHubPage() {
                   className="clinic-card"
                   style={{
                     background: 'white',
-                    borderRadius: 18,
-                    border: isActive ? `2px solid ${ORANGE}` : '2px solid transparent',
+                    borderRadius: 16,
+                    border: isActive ? `2px solid ${ORANGE}` : '1px solid rgba(0,29,61,0.08)',
                     overflow: 'hidden',
-                    boxShadow: isActive ? `0 0 0 4px rgba(243,103,42,0.15), 0 16px 40px rgba(0,0,0,0.3)` : '0 8px 32px rgba(0,0,0,0.22)',
+                    boxShadow: isActive ? `0 0 0 3px rgba(243,103,42,0.12), 0 8px 24px rgba(0,0,0,0.12)` : '0 2px 12px rgba(0,29,61,0.08)',
                     display: 'flex',
                     flexDirection: 'column',
                     opacity: isDimmed ? 0.35 : 1,
                     transform: isActive ? 'scale(1.02)' : 'scale(1)',
+                    transition: 'all 0.25s ease',
                   }}>
-                  {/* Color top bar */}
-                  <div style={{ height: 4, background: loc.kids ? `linear-gradient(90deg, ${NAVY}, #1a3a8f)` : `linear-gradient(90deg, ${ORANGE}, #f5853a)` }} />
-                  <div style={{ padding: '20px 22px 22px', flex: 1, display: 'flex', flexDirection: 'column', gap: 14 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                      <div>
-                        <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 4 }}>
-                          {loc.neighborhood}{loc.kids ? ' · Kids' : ''}
-                        </div>
-                        <div style={{ fontSize: 17, fontWeight: 800, color: NAVY, letterSpacing: '-0.3px', lineHeight: 1.15 }}>{loc.label}</div>
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'rgba(243,103,42,0.08)', borderRadius: 8, padding: '4px 9px', flexShrink: 0 }}>
-                        <Star size={11} fill={ORANGE} color={ORANGE} />
-                        <span style={{ fontSize: 12, fontWeight: 800, color: NAVY }}>{loc.rating.toFixed(1)}</span>
-                      </div>
+                  {/* Orange header band */}
+                  <div style={{ background: loc.kids ? NAVY : ORANGE, padding: '12px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)' }}>
+                      {loc.neighborhood}{loc.kids ? ' · Kids' : ''}
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: 'rgba(0,29,61,0.65)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <Star size={11} fill="white" color="white" />
+                      <span style={{ fontSize: 12, fontWeight: 800, color: 'white' }}>{loc.rating.toFixed(1)}</span>
+                    </div>
+                  </div>
+                  <div style={{ padding: '18px 20px 20px', flex: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    <div style={{ fontSize: 18, fontWeight: 800, color: NAVY, letterSpacing: '-0.4px', lineHeight: 1.15 }}>{loc.label}</div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: 'rgba(0,29,61,0.6)' }}>
                         <MapPin size={13} color={ORANGE} style={{ flexShrink: 0, marginTop: 1 }} />
                         <span style={{ lineHeight: 1.4 }}>{loc.address}, {loc.city}, {loc.state} {loc.zip}</span>
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'rgba(0,29,61,0.65)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'rgba(0,29,61,0.6)' }}>
                         <Clock size={13} color={ORANGE} />
                         <span>{loc.hours.split(' · ')[0]}</span>
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'rgba(0,29,61,0.65)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'rgba(0,29,61,0.6)' }}>
                         <Phone size={13} color={ORANGE} />
-                        <a href={`tel:${loc.phone.replace(/[^0-9]/g, '')}`} style={{ color: 'rgba(0,29,61,0.65)', textDecoration: 'none' }}>{loc.phone}</a>
+                        <a href={`tel:${loc.phone.replace(/[^0-9]/g, '')}`} style={{ color: 'rgba(0,29,61,0.6)', textDecoration: 'none' }}>{loc.phone}</a>
                       </div>
                     </div>
-                    <div style={{ display: 'flex', gap: 8, marginTop: 'auto', paddingTop: 14, borderTop: '1px solid rgba(0,29,61,0.07)' }}>
-                      <Link to={`/request-consultation?location=${loc.slug}`} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: ORANGE, color: 'white', borderRadius: 10, padding: '11px 12px', fontSize: 12, fontWeight: 800, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.5, boxShadow: '0 4px 10px rgba(243,103,42,0.3)' }}>
+                    <div style={{ display: 'flex', gap: 8, marginTop: 'auto', paddingTop: 12, borderTop: '1px solid rgba(0,29,61,0.06)' }}>
+                      <Link to={`/request-consultation?location=${loc.slug}`} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: ORANGE, color: 'white', borderRadius: 8, padding: '10px', fontSize: 12, fontWeight: 800, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.5, boxShadow: '0 3px 8px rgba(243,103,42,0.25)' }}>
                         Book Here
                       </Link>
-                      <Link to={`/clinics/${loc.slug}/`} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'white', color: NAVY, border: `1.5px solid rgba(0,29,61,0.12)`, borderRadius: 10, padding: '11px 12px', fontSize: 12, fontWeight: 800, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                      <Link to={`/clinics/${loc.slug}/`} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#F7F9FC', color: NAVY, border: '1px solid rgba(0,29,61,0.1)', borderRadius: 8, padding: '10px', fontSize: 12, fontWeight: 800, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.5 }}>
                         View Clinic
                       </Link>
                     </div>
