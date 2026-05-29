@@ -184,7 +184,7 @@ export function ServicesHubPage() {
           </motion.div>
 
           <div className="svc-main-outer" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }}>
-            <style>{`@media(max-width:768px){.svc-main-outer{grid-template-columns:repeat(2,1fr)!important;gap:12px!important}}@media(max-width:480px){.svc-main-outer{grid-template-columns:1fr!important}}`}</style>
+            <style>{`@media(max-width:768px){.svc-main-outer{grid-template-columns:1fr!important;gap:12px!important}}`}</style>
             {ALL_CATS.map((cat, i) => (
               <div key={cat.slug}>
                 <ServiceCard cat={cat} index={i} />
