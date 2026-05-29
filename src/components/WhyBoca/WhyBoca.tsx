@@ -407,7 +407,7 @@ export function WhyBoca() {
                 marginBottom: 6,
               }}
             >
-              Ready to experience the Boca difference?
+              {t(lang, 'Ready to experience the Boca difference?', '¿Listo para experimentar la diferencia Boca?')}
             </div>
             <div
               style={{
@@ -415,7 +415,7 @@ export function WhyBoca() {
                 color: 'rgba(255,255,255,0.6)',
               }}
             >
-              New patients welcome at all 9 Las Vegas locations.
+              {t(lang, 'New patients welcome at all 9 Las Vegas locations.', 'Nuevos pacientes bienvenidos en las 9 clínicas de Las Vegas.')}
             </div>
           </div>
           <a

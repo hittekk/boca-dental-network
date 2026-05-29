@@ -74,7 +74,7 @@ export function Financing() {
               marginBottom: 10,
             }}
           >
-            Financing &amp; Insurance
+            {t(lang, 'Financing & Insurance', 'Financiamiento y Seguros')}
           </div>
           <h2
             style={{
@@ -86,7 +86,7 @@ export function Financing() {
               letterSpacing: '-0.5px',
             }}
           >
-            Care You Can Afford
+            {t(lang, 'Care You Can Afford', 'Atención que Puedes Pagar')}
           </h2>
           <p
             style={{
@@ -134,7 +134,7 @@ export function Financing() {
                 marginBottom: 16,
               }}
             >
-              Financing Options
+              {t(lang, 'Financing Options', 'Opciones de Financiamiento')}
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -255,7 +255,7 @@ export function Financing() {
                 marginBottom: 16,
               }}
             >
-              Insurance We Accept
+              {t(lang, 'Insurance We Accept', 'Seguros que Aceptamos')}
             </div>
 
             <div

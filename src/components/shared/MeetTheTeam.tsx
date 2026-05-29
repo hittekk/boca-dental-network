@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { ArrowUpRight, Stethoscope, User2, Camera } from 'lucide-react'
+import { useLang, t } from '../../lib/lang'
 
 type Theme = 'light' | 'dark' | 'cream'
 
@@ -48,7 +49,9 @@ const PROVIDERS: Provider[] = [
   },
 ]
 
-export function MeetTheTeam({ theme = 'light' }: { theme?: Theme }) {
+export function MeetTheTeam({
+  theme = 'light' }: { theme?: Theme }) {
+  const lang = useLang()
   const isDark = theme === 'dark'
   const sectionBg = isDark ? '#0A0A0F' : theme === 'cream' ? '#FAFAFA' : '#FAFAFA'
   const headingColor = isDark ? 'white' : '#0A0A0F'

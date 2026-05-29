@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { MapPin, ExternalLink } from 'lucide-react'
+import { useLang, t } from '../../lib/lang'
 
 type Theme = 'light' | 'dark' | 'cream'
 
@@ -18,6 +19,7 @@ const NEIGHBORHOODS = [
 ]
 
 export function LocationsMap({ theme = 'light' }: { theme?: Theme }) {
+  const lang = useLang()
   const isDark  = theme === 'dark'
   const isCream = theme === 'cream'
 
@@ -140,7 +142,7 @@ export function LocationsMap({ theme = 'light' }: { theme?: Theme }) {
                 color: '#F3672A',
               }}
             >
-              Greater Las Vegas Coverage
+              {t(lang, 'Greater Las Vegas Coverage', 'Cobertura en el Gran Las Vegas')}
             </span>
           </div>
 
@@ -155,7 +157,7 @@ export function LocationsMap({ theme = 'light' }: { theme?: Theme }) {
               textTransform: 'uppercase',
             }}
           >
-            Coverage Across the
+            {t(lang, 'Coverage Across the', 'Cobertura en Todo')}
             <br />
             <span
               style={{
@@ -163,7 +165,7 @@ export function LocationsMap({ theme = 'light' }: { theme?: Theme }) {
                 fontStyle: accentItalic ? 'italic' : 'normal',
               }}
             >
-              Las Vegas Valley
+              {t(lang, 'Las Vegas Valley', 'el Valle de Las Vegas')}
             </span>
           </h3>
 
@@ -206,7 +208,7 @@ export function LocationsMap({ theme = 'light' }: { theme?: Theme }) {
               marginBottom: 12,
             }}
           >
-            Neighborhoods we serve
+            {t(lang, 'Neighborhoods we serve', 'Vecindarios que atendemos')}
           </div>
 
           {/* Neighborhood chips */}
@@ -288,7 +290,7 @@ export function LocationsMap({ theme = 'light' }: { theme?: Theme }) {
               el.style.boxShadow = 'none'
             }}
           >
-            View All 9 Locations
+            {t(lang, 'View All 9 Locations', 'Ver las 9 Clínicas')}
             <span style={{ fontSize: 16, lineHeight: 1 }}>→</span>
           </a>
         </motion.div>

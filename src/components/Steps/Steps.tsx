@@ -149,7 +149,7 @@ export function Steps() {
               textWrap: 'balance' as React.CSSProperties['textWrap'],
             }}
           >
-            From your first call to your first appointment — here&apos;s what to
+            {t(lang, "From your first call to your first appointment — here's what to expect when you choose Boca Dental & Braces.", 'Desde tu primera llamada hasta tu primera cita — esto es lo que puedes esperar al elegir Boca Dental & Braces.')}
             expect when you choose Boca Dental &amp; Braces.
           </p>
         </motion.div>

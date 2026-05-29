@@ -191,7 +191,7 @@ export function BocaKids() {
                   color: ORANGE,
                 }}
               >
-                {t(lang,'built','pensada')}
+                {t(lang, 'built for', 'pensada')}
                 <span
                   aria-hidden
                   style={{
@@ -206,7 +206,7 @@ export function BocaKids() {
                   }}
                 />
               </span>{' '}
-              {t(lang,'for kids.','para niños.')}
+              {lang === 'es' ? 'para niños.' : 'for kids.'}
             </h2>
 
             <p
