@@ -478,17 +478,22 @@ export function AboutUsPage() {
             ))}
           </div>
 
-          {/* All 14 — clean list */}
+          {/* All 14 — small cards */}
           <div style={{ background: 'white', borderRadius: 16, padding: '32px', border: '1px solid rgba(0,29,61,0.07)' }}>
-            <div style={{ fontSize: 11, fontWeight: 800, color: 'rgba(0,29,61,0.3)', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 20 }}>All 14 Licensed Providers — Boca Dental & Braces Las Vegas</div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px 16px' }}>
-              <style>{`@media(max-width:700px){ .about-all-g{ grid-template-columns:repeat(2,1fr) !important; } }`}</style>
-              {ALL_DOCTORS.map((name, i) => (
-                <div key={i} className="about-all-g" style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 0', borderBottom: '1px solid rgba(0,29,61,0.04)' }}>
-                  <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'rgba(243,103,42,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 800, color: ORANGE, flexShrink: 0 }}>{name.split(' ')[1]?.[0] ?? name[0]}</div>
-                  <span style={{ fontSize: 12, fontWeight: 700, color: NAVY }}>{name}</span>
-                </div>
-              ))}
+            <div style={{ fontSize: 11, fontWeight: 800, color: 'rgba(0,29,61,0.35)', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 24 }}>All 14 Licensed Providers — Boca Dental & Braces Las Vegas</div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
+              <style>{`@media(max-width:860px){ .about-all-g{ grid-template-columns:repeat(3,1fr) !important; } } @media(max-width:560px){ .about-all-g{ grid-template-columns:repeat(2,1fr) !important; } }`}</style>
+              {ALL_DOCTORS.map((name, i) => {
+                const initial = name.split(' ')[1]?.[0] ?? name[0]
+                const colors = ['rgba(243,103,42,0.1)','rgba(22,46,122,0.08)','rgba(0,29,61,0.06)']
+                const bg = colors[i % 3]
+                return (
+                  <div key={i} className="about-all-g" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, padding: '16px 12px', background: '#F8FAFC', borderRadius: 12, border: '1px solid rgba(0,29,61,0.06)', textAlign: 'center' }}>
+                    <div style={{ width: 44, height: 44, borderRadius: '50%', background: i % 2 === 0 ? 'rgba(243,103,42,0.1)' : 'rgba(22,46,122,0.08)', border: i % 2 === 0 ? '1.5px solid rgba(243,103,42,0.2)' : '1.5px solid rgba(22,46,122,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 800, color: i % 2 === 0 ? ORANGE : NAVY, flexShrink: 0 }}>{initial}</div>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: NAVY, lineHeight: 1.3 }}>{name}</span>
+                  </div>
+                )
+              })}
             </div>
           </div>
         </div>
