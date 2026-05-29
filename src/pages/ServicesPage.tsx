@@ -148,7 +148,7 @@ export function ServicesHubPage() {
             <p style={{ fontSize: 16, color: 'rgba(0,29,61,0.55)', maxWidth: 480, margin: '0 auto', lineHeight: 1.65 }}>The treatments our patients ask for most — all done in-house by Boca specialists.</p>
           </motion.div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20 }}>
-            <style>{`@media(max-width:860px){.sp-g{grid-template-columns:1fr!important}}`}</style>
+            <style>{`@media(max-width:768px){.sp-g-outer{grid-template-columns:1fr!important}}`}</style>
             {SPOTLIGHTS.map((sp, i) => (
               <motion.div key={sp.slug} className="sp-g" initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}>
                 <a href={`/${sp.slug}/`} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', background: 'linear-gradient(160deg, #001D3D, #162E7A)', borderRadius: 20, overflow: 'hidden', boxShadow: '0 20px 48px rgba(22,46,122,0.18)' }}>
@@ -183,10 +183,10 @@ export function ServicesHubPage() {
             <p style={{ fontSize: 15, color: 'rgba(0,29,61,0.55)', maxWidth: 380, lineHeight: 1.65, margin: 0 }}>Every specialist on staff. Select a category to explore all available treatments.</p>
           </motion.div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }}>
-            <style>{`@media(max-width:860px){.sc-g{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:520px){.sc-g{grid-template-columns:1fr!important}}`}</style>
+          <div className="svc-main-outer" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }}>
+            <style>{`@media(max-width:768px){.svc-main-outer{grid-template-columns:repeat(2,1fr)!important;gap:12px!important}}@media(max-width:480px){.svc-main-outer{grid-template-columns:1fr!important}}`}</style>
             {ALL_CATS.map((cat, i) => (
-              <div key={cat.slug} className="sc-g">
+              <div key={cat.slug}>
                 <ServiceCard cat={cat} index={i} />
               </div>
             ))}

@@ -178,7 +178,7 @@ export function ServiceCategoryPage({ categorySlugProp }: { categorySlugProp?: s
               </h2>
             </motion.div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }}>
-              <style>{`@media(max-width:860px){.svc-cat-grid{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:520px){.svc-cat-grid{grid-template-columns:1fr!important}}`}</style>
+              <style>{`@media(max-width:768px){.svc-cat-grid{grid-template-columns:repeat(2,1fr)!important;gap:12px!important}}@media(max-width:480px){.svc-cat-grid{grid-template-columns:1fr!important}}`}</style>
               {services.map((s, i) => (
                 <div key={s.slug} className="svc-cat-grid">
                   <ServiceCard s={s} catSlug={cat.slug} index={i} />
@@ -201,7 +201,7 @@ export function ServiceCategoryPage({ categorySlugProp }: { categorySlugProp?: s
             </h2>
           </motion.div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10 }}>
-            <style>{`@media(max-width:860px){.loc-grid{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:520px){.loc-grid{grid-template-columns:1fr!important}}`}</style>
+            <style>{`@media(max-width:768px){.loc-grid{grid-template-columns:repeat(2,1fr)!important;gap:8px!important}}@media(max-width:480px){.loc-grid{grid-template-columns:1fr!important}}`}</style>
             {INITIAL_DATA.locations.map((loc, i) => (
               <motion.div key={loc.slug} className="loc-grid" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: (i % 3) * 0.07 }}>
                 <Link to={`/clinics/${loc.slug}/`} style={{ display: 'flex', flexDirection: 'column', gap: 8, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: '20px 20px', textDecoration: 'none', transition: 'background 0.2s' }}>

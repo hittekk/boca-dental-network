@@ -1104,8 +1104,8 @@ export function ClinicsHubPage() {
 
           <div className="clinics-hub-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
             <style>{`
-              @media (max-width: 900px){ .clinics-hub-grid{ grid-template-columns: repeat(2,1fr) !important; } }
-              @media (max-width: 540px){ .clinics-hub-grid{ grid-template-columns: 1fr !important; } }
+              @media (max-width: 768px){ .clinics-hub-grid{ grid-template-columns: repeat(2,1fr) !important; gap: 12px !important; } }
+              @media (max-width: 480px){ .clinics-hub-grid{ grid-template-columns: 1fr !important; } }
               .clinic-card:hover { transform: translateY(-4px) !important; box-shadow: 0 20px 48px rgba(0,0,0,0.35), 0 0 0 1px rgba(243,103,42,0.25) !important; }
               .clinic-card { transition: all 0.25s ease !important; }
             `}</style>
