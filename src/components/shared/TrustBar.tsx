@@ -38,55 +38,33 @@ export function TrustBar({ theme = 'light' }: { theme?: Theme }) {
       aria-label="Boca Dental & Braces trust signals"
     >
       <style>{`
-        /* Desktop: single horizontal row with dividers — 6th item (Se Habla Español) hidden */
+        /* Desktop: single horizontal row with dividers */
         .trust-bar-row {
           display: flex;
-          flex-wrap: wrap;
+          flex-wrap: nowrap;
           justify-content: center;
           align-items: center;
-          gap: 12px 0;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
         }
+        .trust-bar-row::-webkit-scrollbar { display: none; }
         .trust-bar-item {
           display: inline-flex;
           align-items: center;
           gap: 8px;
           padding: 0 22px;
           border-right: 1px solid var(--trust-divider);
+          flex-shrink: 0;
+          white-space: nowrap;
         }
-        .trust-bar-item:last-child,
-        .trust-bar-item:nth-last-child(2) { border-right: none; }
+        .trust-bar-item:last-child { border-right: none; }
         .trust-bar-item-text { white-space: nowrap; }
-        /* Hide the 6th item (Se Habla Español) everywhere except phone */
         .trust-bar-item:nth-child(6) { display: none; }
 
-        /* Tablet: 2-col grid of chips, no dividers; 5th item spans both cols */
-        @media (max-width: 760px) {
-          .trust-bar-row {
-            display: grid !important;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            max-width: 540px;
-          }
-          .trust-bar-item {
-            border-right: none !important;
-            padding: 10px 12px !important;
-            background: var(--trust-chip-bg);
-            border: 1px solid var(--trust-chip-border);
-            border-radius: 999px;
-            justify-content: center;
-          }
-          .trust-bar-item-text {
-            white-space: normal;
-            text-align: center;
-          }
-          /* 5th item (Accepting New Patients) spans both columns so the last row fills cleanly */
-          .trust-bar-item:nth-child(5) { grid-column: span 2; }
-        }
-
-        /* Phone: single column stack — surface the 6th item (Se Habla Español) here */
-        @media (max-width: 460px) {
-          .trust-bar-row { grid-template-columns: 1fr !important; }
-          .trust-bar-item:nth-child(5) { grid-column: auto; }
+        @media (max-width: 768px) {
+          .trust-bar-row { justify-content: flex-start; padding: 0 8px; }
+          .trust-bar-item { padding: 0 16px; font-size: 11px !important; }
           .trust-bar-item:nth-child(6) { display: inline-flex; }
         }
       `}</style>
