@@ -417,14 +417,15 @@ function MobileMenu({
           animate="visible"
           exit="exit"
           variants={mobileMenuVariants}
-          className="boca-hdr-mobile-only"
           style={{
             position: 'absolute',
             left: 0,
             right: 0,
             top: '100%',
             padding: '0 16px 16px',
+            display: 'flex',
             flexDirection: 'column',
+            zIndex: 50,
           }}
         >
           <div
