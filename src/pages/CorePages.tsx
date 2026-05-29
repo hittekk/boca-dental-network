@@ -1118,27 +1118,26 @@ export function ClinicsHubPage() {
                   className="clinic-card"
                   style={{
                     background: 'white',
-                    borderRadius: 16,
-                    border: isActive ? `2px solid ${ORANGE}` : '1px solid rgba(0,29,61,0.08)',
+                    borderRadius: 14,
+                    border: isActive ? `1.5px solid ${ORANGE}` : '1px solid rgba(0,29,61,0.09)',
                     overflow: 'hidden',
-                    boxShadow: isActive ? `0 0 0 3px rgba(243,103,42,0.12), 0 8px 24px rgba(0,0,0,0.12)` : '0 2px 12px rgba(0,29,61,0.08)',
+                    boxShadow: isActive ? `0 0 0 3px rgba(243,103,42,0.10), 0 8px 20px rgba(0,0,0,0.10)` : '0 1px 8px rgba(0,29,61,0.07)',
                     display: 'flex',
                     flexDirection: 'column',
                     opacity: isDimmed ? 0.35 : 1,
                     transform: isActive ? 'scale(1.02)' : 'scale(1)',
                     transition: 'all 0.25s ease',
                   }}>
-                  {/* Orange header band */}
-                  <div style={{ background: loc.kids ? NAVY : ORANGE, padding: '12px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)' }}>
-                      {loc.neighborhood}{loc.kids ? ' · Kids' : ''}
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                      <Star size={11} fill="white" color="white" />
-                      <span style={{ fontSize: 12, fontWeight: 800, color: 'white' }}>{loc.rating.toFixed(1)}</span>
-                    </div>
-                  </div>
+                  {/* Subtle top accent */}
+                  <div style={{ height: 3, background: loc.kids ? NAVY : ORANGE }} />
                   <div style={{ padding: '18px 20px 20px', flex: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', color: ORANGE }}>{loc.neighborhood}{loc.kids ? ' · Kids' : ''}</div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                        <Star size={10} fill={ORANGE} color={ORANGE} />
+                        <span style={{ fontSize: 11, fontWeight: 700, color: 'rgba(0,29,61,0.5)' }}>{loc.rating.toFixed(1)}</span>
+                      </div>
+                    </div>
                     <div style={{ fontSize: 18, fontWeight: 800, color: NAVY, letterSpacing: '-0.4px', lineHeight: 1.15 }}>{loc.label}</div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: 'rgba(0,29,61,0.6)' }}>
