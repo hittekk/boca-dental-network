@@ -122,7 +122,7 @@ export function Steps() {
                 color: ORANGE,
               }}
             >
-              New patients · simple process
+              {t(lang, 'New patients · simple process', 'Nuevos pacientes · proceso simple')}
             </span>
           </div>
           <h2

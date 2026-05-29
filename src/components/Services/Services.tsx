@@ -239,7 +239,7 @@ export function Services() {
               marginBottom: 10,
             }}
           >
-            Our Dental Services
+            {t(lang, 'Our Dental Services', 'Nuestros Servicios Dentales')}
           </div>
           <h2
             style={{

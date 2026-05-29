@@ -173,9 +173,9 @@ export function CTA() {
             >
               {t(lang, 'Ready to book?', '¿Listo para Reservar?')}{' '}
               <span style={{ display: 'block' }}>
-                Your new Las Vegas dentist is{' '}
+                {t(lang, 'Your new Las Vegas dentist is', 'Tu nuevo dentista en Las Vegas te')}{' '}
                 <span style={{ fontStyle: 'italic', opacity: 0.9 }}>
-                  waiting.
+                  {t(lang, 'waiting.', 'espera.')}
                 </span>
               </span>
             </h2>
@@ -189,8 +189,7 @@ export function CTA() {
                 maxWidth: 540,
               }}
             >
-              Free consultations available. Most insurance accepted. Evening
-              and weekend hours at all 9 Las Vegas locations.
+              {t(lang, 'Free consultations available. Most insurance accepted. Evening and weekend hours at all 9 Las Vegas locations.', 'Consultas gratuitas. La mayoría de seguros aceptados. Horario de noche y fin de semana en las 9 clínicas de Las Vegas.')}
             </p>
 
             {/* Trust pills with real icons */}
