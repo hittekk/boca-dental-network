@@ -403,168 +403,91 @@ function MobileMenu({
   const NAV_LINKS = getNavLinks(lang)
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : ''
-    return () => {
-      document.body.style.overflow = ''
-    }
+    return () => { document.body.style.overflow = '' }
   }, [isOpen])
 
+  if (!isOpen) return null
+
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          key="mobile-menu"
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          variants={mobileMenuVariants}
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: '100%',
-            padding: '0 16px 16px',
-            display: 'flex',
-            flexDirection: 'column',
-            zIndex: 50,
-          }}
-        >
-          <div
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 9999,
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      {/* Backdrop */}
+      <div onClick={onClose} style={{ position: 'absolute', inset: 0, background: 'rgba(0,10,30,0.7)', backdropFilter: 'blur(4px)' }} />
+      {/* Panel */}
+      <div
+        style={{
+          position: 'relative',
+          marginTop: 'auto',
+          background: '#001D3D',
+          borderTop: '3px solid #F3672A',
+          borderRadius: '20px 20px 0 0',
+          padding: '24px 20px 40px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 4,
+          maxHeight: '85vh',
+          overflowY: 'auto',
+        }}
+      >
+        {/* Drag handle */}
+        <div style={{ width: 40, height: 4, borderRadius: 999, background: 'rgba(255,255,255,0.2)', margin: '0 auto 20px' }} />
+        {/* Nav links */}
+        {NAV_LINKS.map((link, i) => (
+          <a
+            key={link.href}
+            href={link.href}
+            onClick={onClose}
             style={{
-              borderRadius: 16,
-              padding: 16,
               display: 'flex',
-              flexDirection: 'column',
-              gap: 4,
-              background: GLASS_BG,
-              backdropFilter: GLASS_BLUR,
-              WebkitBackdropFilter: GLASS_BLUR,
-              border: `1px solid ${GLASS_BORDER}`,
-              boxShadow: GLASS_SHADOW,
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '14px 12px',
+              color: 'white',
+              fontSize: 18,
+              fontWeight: 700,
+              textDecoration: 'none',
+              borderBottom: i < NAV_LINKS.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none',
+              letterSpacing: '-0.3px',
             }}
           >
-            {NAV_LINKS.map((link, i) => (
-              <motion.a
-                key={link.href}
-                href={link.href}
-                custom={i}
-                initial="hidden"
-                animate="visible"
-                variants={mobileLinkVariants}
-                onClick={onClose}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '12px 8px',
-                  color: 'white',
-                  fontSize: 16,
-                  fontWeight: 600,
-                  textDecoration: 'none',
-                  borderBottom: `1px solid ${
-                    i < NAV_LINKS.length - 1 ? 'rgba(255,255,255,0.1)' : 'transparent'
-                  }`,
-                  transition: 'color 0.2s ease',
-                }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLElement).style.color = ORANGE)
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLElement).style.color = 'white')
-                }
-              >
-                {link.label}
-                <ChevronRight
-                  size={16}
-                  style={{ color: 'rgba(255,255,255,0.4)' }}
-                />
-              </motion.a>
-            ))}
-
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 8,
-                marginTop: 16,
-              }}
-            >
-              <a
-                href={`tel:${phone.replace(/\D/g, '')}`}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 8,
-                  padding: '12px 0',
-                  borderRadius: 8,
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  color: 'white',
-                  fontSize: 14,
-                  fontWeight: 600,
-                  textDecoration: 'none',
-                  transition: 'background 0.2s ease',
-                }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLElement).style.background =
-                    'rgba(255,255,255,0.1)')
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLElement).style.background =
-                    'transparent')
-                }
-              >
-                <Phone size={14} />
-                {phone}
-              </a>
-              <a
-                href="/request-consultation"
-                onClick={onClose}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 8,
-                  padding: '12px 0',
-                  borderRadius: 8,
-                  background: ORANGE,
-                  color: 'white',
-                  fontSize: 14,
-                  fontWeight: 700,
-                  textDecoration: 'none',
-                  transition: 'background 0.2s ease',
-                }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLElement).style.background = ORANGE_HOVER)
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLElement).style.background = ORANGE)
-                }
-              >
-                <Calendar size={14} />
-                {t(lang, 'Book Appointment', 'Reservar Cita')}
-              </a>
-              <a
-                href={lang === 'es' ? '/' : '/oficina-de-habla-hispana/'}
-                style={{
-                  textAlign: 'center',
-                  color: 'rgba(255,255,255,0.5)',
-                  fontSize: 11,
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  marginTop: 8,
-                  textDecoration: 'none',
-                  display: 'block',
-                }}
-              >
-                🌐 {lang === 'es' ? 'English' : 'Se Habla Español'}
-              </a>
-            </div>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+            {link.label}
+            <ChevronRight size={18} style={{ color: '#F3672A', flexShrink: 0 }} />
+          </a>
+        ))}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 24 }}>
+          <a
+            href="/request-consultation"
+            onClick={onClose}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '16px', borderRadius: 12, background: '#F3672A', color: 'white', fontSize: 15, fontWeight: 800, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.5, boxShadow: '0 8px 20px rgba(243,103,42,0.35)' }}
+          >
+            <Calendar size={16} /> {t(lang, 'Book Appointment', 'Reservar Cita')}
+          </a>
+          <a
+            href={`tel:${phone.replace(/[^0-9]/g, '')}`}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '14px', borderRadius: 12, border: '1.5px solid rgba(255,255,255,0.2)', color: 'white', fontSize: 15, fontWeight: 700, textDecoration: 'none' }}
+          >
+            <Phone size={15} /> {phone}
+          </a>
+          <a
+            href={lang === 'es' ? '/' : '/oficina-de-habla-hispana/'}
+            onClick={onClose}
+            style={{ textAlign: 'center', color: 'rgba(255,255,255,0.5)', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 8, textDecoration: 'none', display: 'block' }}
+          >
+            🌐 {lang === 'es' ? 'English' : 'Se Habla Español'}
+          </a>
+        </div>
+      </div>
+    </div>
   )
+
+
 }
 
 // ── HamburgerBtn ────────────────────────────────────────────────────────────
