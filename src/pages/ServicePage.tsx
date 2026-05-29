@@ -21,7 +21,6 @@ import type { LucideIcon } from 'lucide-react'
 
 import { Header } from '../components/Header/Header'
 import { Footer } from '../components/Footer/Footer'
-import { ConsultationForm } from '../components/ConsultationForm/ConsultationForm'
 import { INITIAL_DATA } from '../data/initialData'
 import {
   findCategory,
@@ -1331,7 +1330,7 @@ function FindLocationSection({
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Booking section — embedded ConsultationForm anchored to #request-consultation
+// Booking section — CTA button linking to booking page
 // ─────────────────────────────────────────────────────────────────────────────
 function BookingSection({ page }: { page: { label: string } }) {
   return (
@@ -1339,19 +1338,24 @@ function BookingSection({ page }: { page: { label: string } }) {
       id="request-consultation"
       style={{ background: '#F7F9FC', padding: '96px 32px' }}
     >
-      <div style={{ maxWidth: 900, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 48 }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: '#F3672A', marginBottom: 16, padding: '6px 14px', background: 'rgba(243,103,42,0.08)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.2)' }}>
-            Free consultation
-          </div>
-          <h2 style={{ fontSize: 'clamp(26px, 3.2vw, 40px)', fontWeight: 800, letterSpacing: '-0.8px', color: '#001D3D', margin: '0 0 12px', textTransform: 'uppercase' }}>
-            Book Your {page.label} Appointment
-          </h2>
-          <p style={{ fontSize: 15, color: 'rgba(0,29,61,0.6)', lineHeight: 1.65, maxWidth: 520, margin: '0 auto' }}>
-            Choose your nearest Boca location and we'll confirm within one business hour.
-          </p>
+      <div style={{ maxWidth: 640, margin: '0 auto', textAlign: 'center' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: '#F3672A', marginBottom: 16, padding: '6px 14px', background: 'rgba(243,103,42,0.08)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.2)' }}>
+          Free consultation
         </div>
-        <ConsultationForm />
+        <h2 style={{ fontSize: 'clamp(26px, 3.2vw, 40px)', fontWeight: 800, letterSpacing: '-0.8px', color: '#001D3D', margin: '0 0 12px', textTransform: 'uppercase' }}>
+          Book Your {page.label} Appointment
+        </h2>
+        <p style={{ fontSize: 15, color: 'rgba(0,29,61,0.6)', lineHeight: 1.65, maxWidth: 480, margin: '0 auto 36px' }}>
+          Choose your nearest Boca location and we'll confirm within one business hour. Same-day and next-day appointments available.
+        </p>
+        <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <a href="/request-consultation" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#F3672A', color: 'white', borderRadius: 8, padding: '16px 32px', fontSize: 15, fontWeight: 800, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.4, boxShadow: '0 8px 18px rgba(243,103,42,0.32)' }}>
+            Book an Appointment →
+          </a>
+          <a href="tel:7024560005" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'white', color: '#001D3D', border: '1.5px solid rgba(0,29,61,0.12)', borderRadius: 8, padding: '16px 28px', fontSize: 15, fontWeight: 700, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+            (702) 456-0005
+          </a>
+        </div>
       </div>
     </section>
   )
