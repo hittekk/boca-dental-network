@@ -442,7 +442,7 @@ export function BocaKids() {
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
-                  objectPosition: '35% center',
+                  objectPosition: '55% center',
                   display: 'block',
                 }}
               />
