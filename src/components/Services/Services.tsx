@@ -268,8 +268,10 @@ export function Services() {
           </p>
         </motion.div>
 
-        {/* 3×3 grid per Treysyde spec */}
+        {/* 3×3 grid — stacks on mobile */}
+        <style>{`@media(max-width:768px){.svc-home-grid{grid-template-columns:1fr!important}}`}</style>
         <div
+          className="svc-home-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
