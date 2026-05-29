@@ -258,7 +258,7 @@ export function LocationsMap({ theme = 'light' }: { theme?: Theme }) {
 
           {/* CTA pill — matches Services / Testimonials standard */}
           <a
-            href="#locations"
+            href="/clinics/"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
