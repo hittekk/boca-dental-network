@@ -38,17 +38,12 @@ export function TrustBar({ theme = 'light' }: { theme?: Theme }) {
       aria-label="Boca Dental & Braces trust signals"
     >
       <style>{`
-        /* Desktop: single horizontal row with dividers */
         .trust-bar-row {
           display: flex;
           flex-wrap: nowrap;
           justify-content: center;
           align-items: center;
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
-          scrollbar-width: none;
         }
-        .trust-bar-row::-webkit-scrollbar { display: none; }
         .trust-bar-item {
           display: inline-flex;
           align-items: center;
@@ -63,8 +58,19 @@ export function TrustBar({ theme = 'light' }: { theme?: Theme }) {
         .trust-bar-item:nth-child(6) { display: none; }
 
         @media (max-width: 768px) {
-          .trust-bar-row { justify-content: flex-start; padding: 0 8px; }
-          .trust-bar-item { padding: 0 16px; font-size: 11px !important; }
+          .trust-bar-row {
+            flex-direction: column;
+            gap: 0;
+            align-items: stretch;
+          }
+          .trust-bar-item {
+            padding: 12px 20px;
+            border-right: none;
+            border-bottom: 1px solid var(--trust-divider);
+            justify-content: center;
+            font-size: 13px;
+          }
+          .trust-bar-item:last-child { border-bottom: none; }
           .trust-bar-item:nth-child(6) { display: inline-flex; }
         }
       `}</style>
