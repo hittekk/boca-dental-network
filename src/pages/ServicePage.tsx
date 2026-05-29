@@ -81,7 +81,7 @@ export function ServicePage({ categorySlugProp }: { categorySlugProp?: string } 
 
   return (
     <div style={{ background: 'white', color: NAVY, fontFamily: 'inherit' }}>
-      <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="dark" />
+      <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode="light" />
 
       <Hero category={categoryEntry} page={pageEntry} content={content} />
       <TrustBar />
