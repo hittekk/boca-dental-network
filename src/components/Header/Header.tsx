@@ -43,7 +43,7 @@ function getNavLinks(lang: ReturnType<typeof useLang>): NavLink[] { return [
   { label: t(lang, 'Reviews', 'Reseñas'), href: '/patient-resources/reviews/' },
 ]}
 
-const SCROLL_THRESHOLD = 300
+const SCROLL_THRESHOLD = 10
 
 // All media-query responsive bits live in this single <style> block.
 // Everything else is inline styles per project convention.
