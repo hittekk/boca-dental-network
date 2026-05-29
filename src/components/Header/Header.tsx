@@ -18,7 +18,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence, useScroll } from 'framer-motion'
-import { Phone, X, ChevronRight, Calendar } from 'lucide-react'
+import { Phone, X, ChevronRight, Calendar, MapPin } from 'lucide-react'
 import type { Brand, Announcement, NavLink } from '../../types'
 import { useLang, t } from '../../lib/lang'
 import { BocaLogo } from './BocaLogo'
