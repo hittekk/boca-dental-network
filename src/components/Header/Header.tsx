@@ -106,6 +106,7 @@ const ORANGE_HOVER = '#d95a22'
 // ── AnnouncementBar ─────────────────────────────────────────────────────────
 
 function AnnouncementBar({ data }: { data: Announcement }) {
+  const lang = useLang()
   const [dismissed, setDismissed] = useState(() => {
     if (typeof window === 'undefined') return false
     return sessionStorage.getItem('boca-ann-dismissed') === '1'
@@ -153,7 +154,7 @@ function AnnouncementBar({ data }: { data: Announcement }) {
               margin: 0,
             }}
           >
-            {data.text}
+            {t(lang, data.text, 'Aceptamos nuevos pacientes en las 9 clínicas de Las Vegas · Se Habla Español')}
           </p>
 
           {data.link && data.linkLabel && (
@@ -182,7 +183,7 @@ function AnnouncementBar({ data }: { data: Announcement }) {
                   'rgba(255,255,255,0.2)')
               }
             >
-              {data.linkLabel}
+              {t(lang, data.linkLabel, 'Reservar Hoy')}
               <ChevronRight size={12} />
             </a>
           )}
