@@ -46,7 +46,7 @@ export function LocationsMap({ theme = 'light' }: { theme?: Theme }) {
 
   return (
     <section
-      id="locations-map"
+      id="locations"
       style={{
         background: sectionBg,
         padding: '96px 32px',

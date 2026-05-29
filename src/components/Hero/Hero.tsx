@@ -12,7 +12,12 @@ interface HeroProps {
 export function Hero({ brand }: HeroProps) {
   const lang = useLang()
   const scrollToLocations = () => {
-    document.getElementById('locations')?.scrollIntoView({ behavior: 'smooth' })
+    const el = document.getElementById('locations')
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      window.location.href = '/clinics/'
+    }
   }
 
   return (
