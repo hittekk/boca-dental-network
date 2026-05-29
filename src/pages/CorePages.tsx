@@ -1865,7 +1865,10 @@ export function RequestConsultationPage() {
                           <span style={{ fontSize: 15, fontWeight: 800, color: NAVY, letterSpacing: '-0.2px' }}>{loc.label}</span>
                           {loc.kids && <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase', background: 'rgba(0,29,61,0.07)', color: NAVY, borderRadius: 999, padding: '2px 8px' }}>Kids</span>}
                         </div>
-                        <div style={{ fontSize: 12, color: 'rgba(0,29,61,0.45)' }}>{loc.address} · <Star size={10} fill={ORANGE} color={ORANGE} style={{ verticalAlign: 'middle' }} /> {loc.rating.toFixed(1)}</div>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+                          <div style={{ fontSize: 12, color: 'rgba(0,29,61,0.45)', minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{loc.address}</div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 3, flexShrink: 0 }}><Star size={10} fill={ORANGE} color={ORANGE} /><span style={{ fontSize: 12, color: 'rgba(0,29,61,0.45)', fontWeight: 600 }}>{loc.rating.toFixed(1)}</span></div>
+                        </div>
                       </div>
                       <ArrowRight size={15} color={ORANGE} style={{ flexShrink: 0, opacity: 0.6 }} />
                     </button>
