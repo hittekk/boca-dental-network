@@ -172,6 +172,21 @@ export const INITIAL_DATA: InitialData = {
       narrative:
         'Charleston & Lamb is our East Las Vegas office, serving the dense residential corridors along E Charleston Boulevard from Maryland Parkway out to Boulder Highway. This is one of our busiest clinics for general dentistry, with families from Sunrise Manor, the East Las Vegas Community Center area, and the historic neighborhoods near Bonanza High School filling our chairs daily. We staff six full operatories here, run two hygiene chairs throughout the day, and keep emergency slots open every afternoon for the walk-in toothaches that are common in any high-density urban neighborhood. Spanish is spoken at every front desk shift, and we accept Nevada Medicaid for both adults and children.',
       gbp_id:       'ChIJ-charleston-lamb-placeholder',
+      heroImage:    '/locations/charleston-lamb/01-reception.webp',
+      gallery: [
+        '/locations/charleston-lamb/01-reception.webp',
+        '/locations/charleston-lamb/02-waiting-hall.webp',
+        '/locations/charleston-lamb/03-operatory-1.webp',
+        '/locations/charleston-lamb/04-imaging-op3d.webp',
+        '/locations/charleston-lamb/05-operatory-2.webp',
+        '/locations/charleston-lamb/06-operatory-3.webp',
+        '/locations/charleston-lamb/07-operatory-4.webp',
+        '/locations/charleston-lamb/08-operatory-5.webp',
+        '/locations/charleston-lamb/09-operatory-6.webp',
+        '/locations/charleston-lamb/10-hallway.webp',
+        '/locations/charleston-lamb/11-exterior.webp',
+        '/locations/charleston-lamb/12-exterior-aerial.webp',
+      ],
       faqs: [],
     },
     {
@@ -276,6 +291,7 @@ export const INITIAL_DATA: InitialData = {
     { slug: 'dr-kelcey-loveland',  name: 'Dr. Kelcey Loveland, DDS',  title: 'General Dentist',            bio: '', locations: [] },
     {
       slug: 'minh-nguyen', name: 'Minh Nguyen, RDH', title: 'Dental Hygienist',
+      photo: '/team/minh-nguyen.webp',
       bio: 'Minh chose dentistry out of a strong desire to help people improve their health and confidence \u2014 inspired by the example of their adoptive mom Sandra, a dental assistant of 37 years, whose meaningful relationships with patients made the path feel obvious. After earning a Bachelor of Science in Dental Hygiene from the College of Southern Nevada in 2015 (graduating with Honors, alongside an AA in Psychology), Minh has spent 11 years focused on periodontal care, patient education, and supporting people with dental anxiety so they feel genuinely comfortable in the chair. Minh is a member of the American Dental Hygienists\u2019 Association. Originally from Vietnam and now living in Las Vegas, Minh enjoys traveling, exploring history, kayaking, and paddleboarding, and \u2014 at home \u2014 life with three dogs, family, and a fianc\u00e9 with a talent for perfectly timed humor.',
       locations: [],
     },
