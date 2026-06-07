@@ -1081,13 +1081,13 @@ function NeighborhoodNarrative({ location }: { location: Location }) {
             }}
           >
             <img
-              src="/boca-office-interior.webp"
+              src={hasGallery ? (location.heroImage || galleryImages[0]) : '/boca-office-interior.webp'}
               alt={`Boca Dental & Braces ${location.neighborhood} office interior`}
               style={{
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
-                objectPosition: 'center 30%',
+                objectPosition: hasGallery ? 'center' : 'center 30%',
               }}
             />
             <div
