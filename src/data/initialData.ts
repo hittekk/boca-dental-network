@@ -45,6 +45,17 @@ export const INITIAL_DATA: InitialData = {
       narrative:
         'Our Russell & Eastern clinic is the original Boca Dental & Braces location, anchoring Southeast Las Vegas just north of the 215 Beltway and a short drive from McCarran International, Henderson, and the Sunset Park corridor. The office sits inside the Eastern Marketplace plaza, with free parking right at the door and Spanish-speaking staff on every shift. We see a steady mix of working families from the 89119 and 89120 ZIP codes, hospitality-industry employees coming off late shifts on the Strip, and longtime patients who have been with us since 2006. Same-day emergency appointments, Saturday hours, and most major insurance — including Nevada Medicaid — are all available here.',
       gbp_id:       'ChIJ-russell-eastern-placeholder',
+      heroImage:    '/locations/russell-eastern/01-reception.webp',
+      gallery: [
+        '/locations/russell-eastern/01-reception.webp',
+        '/locations/russell-eastern/02-waiting-room.webp',
+        '/locations/russell-eastern/03-operatory-1.webp',
+        '/locations/russell-eastern/04-operatory-2.webp',
+        '/locations/russell-eastern/05-hallway.webp',
+        '/locations/russell-eastern/06-exterior-front.webp',
+        '/locations/russell-eastern/07-exterior-sign.webp',
+        '/locations/russell-eastern/08-exterior-entrance.webp',
+      ],
       faqs: [
         {
           question: 'Does Boca Dental on Eastern Ave accept walk-ins?',
