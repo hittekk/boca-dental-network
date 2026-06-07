@@ -1,10 +1,50 @@
 # Boca Dental Network — Session Handoff
-**Last updated:** 2026-05-26  
-**Live site:** boca.datastacklogic.com  
-**Repo:** hittekk/boca-dental-network (branch: main)  
-**Netlify Site ID:** f6412e13-9738-4bf5-bdbf-cb60da6917c2  
-**Deploy method:** local build → Netlify MCP (dist is gitignored)  
-**Mapbox token:** [MAPBOX_TOKEN — set in Netlify env vars]
+**Last updated:** 2026-06-07 (HEAD `a2b40ac`)
+**Live site:** boca.datastacklogic.com
+**Repo:** hittekk/boca-dental-network (branch: main)
+**Netlify Site ID:** short slug `f6412e13` — ⚠️ VERIFY full ID against Netlify dashboard (historical docs disagree: `…cb60da6917c2` vs `…cb96da6917c2`)
+**Secrets:** never committed. Live only in `/home/claude/.dsl/config.json` (github_pat, mapbox_token) — recreate each session.
+
+---
+
+## ⚡ SESSION BOOTSTRAP (container wipes between sessions — do this first)
+1. Write `/home/claude/.dsl/config.json` with: `github_pat` (working: classic `ghp_fCXR…`; the fine-grained `github_pat_11AAIK…` is REVOKED), `mapbox_token` (`pk.eyJ1IjoiaGl0dGVray…`), `repo`, `netlify_site_id`. If either secret is lost, ask Robert to re-paste.
+2. Clone: `git clone https://hittekk:${PAT}@github.com/hittekk/boca-dental-network.git`
+3. `npm ci` (needed only for builds, not for doc edits).
+- Mapbox token is build-time env var, NOT in repo, NOT readable via Netlify MCP (deploy ops only).
+
+## 🔒 WORKFLOW RULES (strict)
+- **Build:** `VITE_MAPBOX_TOKEN=$(python3 -c "import json;print(json.load(open('/home/claude/.dsl/config.json'))['mapbox_token'])") npx vite build`
+- **Push:** `git push "https://hittekk:${PAT}@github.com/hittekk/boca-dental-network.git" main`
+- **EVERY dev commit message MUST include `[skip netlify]`.** Nothing goes live until Robert explicitly says "push to netlify." GitHub `[skip netlify]` pushes are the authorized dev loop — Robert's localhost:8080 watcher pulls `main` every ~30s; this does NOT deploy live.
+- `vite build` does NOT typecheck → smoke-test any touched render path before pushing.
+- `LocationPageV1.tsx` — NEVER modify unless explicitly directed. (Restore: `git checkout v1.2-location-final -- src/pages/LocationPageV1.tsx`)
+- All photo/gallery/provider data stays data-driven in `src/data/initialData.ts` → `window.__INITIAL_DATA__`.
+
+## ★ STANDING DIRECTIVE (all locations)
+"Post all images, let the client decide what is not a good image." Build a labeled contact sheet, PRESENT every shot with scene labels + a suggested disposition (flag likely-drops: back-office, restroom, empty lot) but do NOT exclude unilaterally. Wire only the keepers after Robert/Frankie/Carlos pick cuts.
+
+## 📷 PHOTO-INTAKE PIPELINE (per batch)
+Uploads land in `/mnt/user-data/uploads/` (resets each session). Pillow available.
+1. Build labeled contact sheet keyed by FILE LEADING NUMBER (upload order ≠ leading number — always verify via the sheet).
+2. View → map scene→leading#. 3. Present all per standing directive.
+4. Convert keepers: location → WebP 1600w q82 method6 → `public/locations/<slug>/NN-name.webp`; portraits → WebP 600w q85 → `public/team/` (`dr-<slug>.webp`, `om-*.webp`).
+5. Wire `heroImage` + flat `gallery[]` mirroring `charleston-lamb` in initialData.ts. `01-reception.webp` is always hero; exteriors last; alternates committed as `alt-*.webp` but NOT in the gallery array.
+6. Build → smoke-test `/clinics/<slug>` → commit `[skip netlify]` → push.
+
+**Smoke-test harness:** place the node script INSIDE the repo dir (so `puppeteer` resolves). One script = SPA http server (serve `dist`, fall back to index.html only for extension-less paths) + puppeteer. `waitUntil:'domcontentloaded'` + ~1.8s settle (networkidle2 hangs on Mapbox). `setRequestInterception(true)`, abort `mapbox|tiles|events.map`. Hardstop `setTimeout(...process.exit)`. Delete script after.
+
+## 📊 GALLERY STATUS — 6 of 9 LV clinics wired
+✅ bonanza-eastern · charleston-lamb · cheyenne-commons · flamingo-torrey · jones-i95 · russell-eastern (latest, `a2b40ac`)
+🔲 boca-kids-dentistry (5642 S Eastern Ste F) · beltway-marketplace (placeholder phone) · sahara-decatur ⏳ (uploaded but NOT processed; container reset — Robert must re-upload to process)
+🔲 9210-eastern: 10 photos staged in `public/locations/9210-eastern/` but NOT wired — needs a slug decision.
+
+## 🚧 OPEN ITEMS (priority order)
+1. **Provider→clinic mapping (BLOCKER):** all 14 providers in initialData.ts have empty `locations: []` → book CTAs fall back to picker. Need Robert's full `provider: clinic(s)` list in one pass. Marlin↔Flamingo, Thompson↔Jones implied but NOT confirmed (no-assume rule).
+2. **Unresolved provider — Dr. Cal Heinrich:** matches no documented slug (closest is `dr-charles-calder`, a different person). Ask Robert: new provider? slug? which clinic? before staging. Liz Reyes = OM Sahara → stage `om-liz-reyes.webp`.
+3. **8 missing headshots:** dr-wyatt-dannels, dr-harrison-luu, dr-sana-fahim, dr-kelcey-loveland, dr-johnson-fong, dr-michael-st-laurent, dr-charles-calder, dr-farhan-hossain.
+4. **Office managers staged, no UI slot:** pedraza, barone, rodriguez, lopez, raingel, rabre (+ pending reyes). Decision: add an "Office Managers" strip on About, or keep holding.
+5. Pre-launch: permanent `VITE_MAPBOX_TOKEN` in Netlify env; Supabase leads table confirm; SmileTransformations hidden pending Carlos photos.
 
 ---
 
