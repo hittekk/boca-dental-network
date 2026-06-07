@@ -225,6 +225,22 @@ export const INITIAL_DATA: InitialData = {
       narrative:
         'Our Cheyenne Commons clinic anchors Northwest Las Vegas, serving Centennial Hills, Lone Mountain, the western edge of North Las Vegas, and patients all the way out to the Painted Desert. The office sits inside the Cheyenne Commons retail plaza, with easy access from the U.S. 95 and Cheyenne Avenue interchange. Many of our patients here are growing families — first-time homeowners in the newer subdivisions north of Cheyenne who joined us for a pediatric checkup and stayed for the whole household\'s dental care. We offer expanded weekend hours twice a month, accept Nevada Medicaid for children, and run a robust orthodontic program with both Invisalign and traditional braces for teens.',
       gbp_id:       'ChIJ-cheyenne-commons-placeholder',
+      heroImage:    '/locations/cheyenne-commons/01-reception.webp',
+      gallery: [
+        '/locations/cheyenne-commons/01-reception.webp',
+        '/locations/cheyenne-commons/02-waiting.webp',
+        '/locations/cheyenne-commons/03-lobby.webp',
+        '/locations/cheyenne-commons/04-front-office.webp',
+        '/locations/cheyenne-commons/05-imaging.webp',
+        '/locations/cheyenne-commons/06-hallway.webp',
+        '/locations/cheyenne-commons/07-operatory-1.webp',
+        '/locations/cheyenne-commons/08-operatory-2.webp',
+        '/locations/cheyenne-commons/09-operatory-3.webp',
+        '/locations/cheyenne-commons/10-operatory-4.webp',
+        '/locations/cheyenne-commons/11-operatory-5.webp',
+        '/locations/cheyenne-commons/12-exterior.webp',
+        '/locations/cheyenne-commons/13-exterior-aerial.webp',
+      ],
       faqs: [],
     },
     {
@@ -317,6 +333,7 @@ export const INITIAL_DATA: InitialData = {
     },
     {
       slug: 'dr-james-yun', name: 'Dr. James Yun, DDS', title: 'General Dentist',
+      photo: '/team/dr-james-yun.webp',
       bio: 'Dr. James Yun chose dentistry because it lets him combine science, problem-solving, and hands-on care while building real relationships with patients. A 2024 graduate of New York University with two years in practice, he is Invisalign trained and especially passionate about restorative dentistry and Invisalign treatment. His approach is personalized and conservative, focused on natural-looking, long-lasting results that improve both how a smile works and how a patient feels about it. He is a member of the American Dental Association and the Academy of General Dentistry, and a recipient of the President\u2019s Volunteer Service Award. Born in Korea and raised in New York City, Dr. Yun recently moved to Las Vegas and is excited to put down roots. When he is not at the office, you will find him snowboarding, hiking, or recharging outdoors.',
       locations: [],
     },
