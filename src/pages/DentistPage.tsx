@@ -404,9 +404,15 @@ export function DentistsHubPage() {
               const initials = d.name.replace(/^Dr\.\s+/i, '').split(/\s+/).map((w) => w[0]).slice(0, 2).join('')
               return (
                 <Link key={d.slug} to={`/about-us/dentists/${d.slug}/`} style={{ background: 'white', border: '1px solid rgba(0,29,61,0.08)', borderRadius: 12, padding: '18px 18px 20px', textDecoration: 'none', color: NAVY }}>
-                  <div style={{ aspectRatio: '4 / 5', borderRadius: 10, background: 'linear-gradient(160deg, rgba(243,103,42,0.16) 0%, rgba(243,103,42,0.04) 60%, rgba(0,29,61,0.04) 100%)', border: '1px solid rgba(243,103,42,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14, fontFamily: MONO, fontSize: 'clamp(36px, 4vw, 56px)', fontWeight: 800, color: 'rgba(0,29,61,0.85)' }}>
-                    {initials}
-                  </div>
+                  {c?.photo ? (
+                    <div style={{ aspectRatio: '4 / 5', borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(0,29,61,0.08)', marginBottom: 14 }}>
+                      <img src={c.photo} alt={`${d.name} — Boca Dental & Braces`} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }} />
+                    </div>
+                  ) : (
+                    <div style={{ aspectRatio: '4 / 5', borderRadius: 10, background: 'linear-gradient(160deg, rgba(243,103,42,0.16) 0%, rgba(243,103,42,0.04) 60%, rgba(0,29,61,0.04) 100%)', border: '1px solid rgba(243,103,42,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14, fontFamily: MONO, fontSize: 'clamp(36px, 4vw, 56px)', fontWeight: 800, color: 'rgba(0,29,61,0.85)' }}>
+                      {initials}
+                    </div>
+                  )}
                   <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.5, textTransform: 'uppercase', color: ORANGE, fontFamily: MONO, marginBottom: 6 }}>{c?.medicalSpecialty ?? 'Dentist'}</div>
                   <div style={{ fontSize: 15, fontWeight: 800, color: NAVY, letterSpacing: '-0.2px', marginBottom: 4 }}>{d.name}</div>
                   <div style={{ fontSize: 12, color: 'rgba(0,29,61,0.6)' }}>{d.title}</div>
