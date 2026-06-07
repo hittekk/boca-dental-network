@@ -8,7 +8,7 @@
 ---
 
 ## ⚡ SESSION BOOTSTRAP (container wipes between sessions — do this first)
-1. Write `/home/claude/.dsl/config.json` with: `github_pat` (working: classic `ghp_fCXR…`; the fine-grained `github_pat_11AAIK…` is REVOKED), `mapbox_token` (`pk.eyJ1IjoiaGl0dGVray…`), `repo`, `netlify_site_id`. If either secret is lost, ask Robert to re-paste.
+1. Write `/home/claude/.dsl/config.json` with: `github_pat` (working token is the **classic** one stored in config.json — the older fine-grained token is REVOKED), `mapbox_token` (`pk.…` public token), `repo`, `netlify_site_id`. If either secret is lost, ask Robert to re-paste.
 2. Clone: `git clone https://hittekk:${PAT}@github.com/hittekk/boca-dental-network.git`
 3. `npm ci` (needed only for builds, not for doc edits).
 - Mapbox token is build-time env var, NOT in repo, NOT readable via Netlify MCP (deploy ops only).
