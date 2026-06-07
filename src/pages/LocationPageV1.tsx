@@ -67,28 +67,6 @@ const SERVICE_ICONS: Record<string, LucideIcon> = {
 }
 
 export function LocationPageV1({ location }: { location: Location }) {
-  // Image gallery (data-driven — maps to the backend wp_options JSON; editable per-location with no code changes)
-  const galleryImages = (location.gallery && location.gallery.length > 0) ? location.gallery : []
-  const hasGallery = galleryImages.length > 0
-  const [lightbox, setLightbox] = useState<number | null>(null)
-  const closeLightbox = () => setLightbox(null)
-  const stepLightbox = (dir: number) =>
-    setLightbox((i) => (i === null ? null : (i + dir + galleryImages.length) % galleryImages.length))
-  useEffect(() => {
-    if (lightbox === null) return
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeLightbox()
-      else if (e.key === 'ArrowRight') stepLightbox(1)
-      else if (e.key === 'ArrowLeft') stepLightbox(-1)
-    }
-    window.addEventListener('keydown', onKey)
-    document.body.style.overflow = 'hidden'
-    return () => {
-      window.removeEventListener('keydown', onKey)
-      document.body.style.overflow = ''
-    }
-  }, [lightbox])
-
   const services = servicesForLocation(location.slug)
     .map((slug) => INITIAL_DATA.services.find((s) => s.slug === slug))
     .filter((s): s is NonNullable<typeof s> => s != null)
@@ -980,6 +958,28 @@ function NeighborhoodNarrative({ location }: { location: Location }) {
   const landmarks = LOCATION_LANDMARKS[location.slug] ?? []
   const firstLetter = location.narrative.charAt(0)
   const restOfNarrative = location.narrative.slice(1)
+
+  // Image gallery (data-driven — maps to the backend wp_options JSON; editable per-location with no code changes)
+  const galleryImages = (location.gallery && location.gallery.length > 0) ? location.gallery : []
+  const hasGallery = galleryImages.length > 0
+  const [lightbox, setLightbox] = useState<number | null>(null)
+  const closeLightbox = () => setLightbox(null)
+  const stepLightbox = (dir: number) =>
+    setLightbox((i) => (i === null ? null : (i + dir + galleryImages.length) % galleryImages.length))
+  useEffect(() => {
+    if (lightbox === null) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeLightbox()
+      else if (e.key === 'ArrowRight') stepLightbox(1)
+      else if (e.key === 'ArrowLeft') stepLightbox(-1)
+    }
+    window.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [lightbox])
 
   return (
     <section
