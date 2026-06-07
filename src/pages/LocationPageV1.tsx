@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   Phone,
@@ -67,6 +67,28 @@ const SERVICE_ICONS: Record<string, LucideIcon> = {
 }
 
 export function LocationPageV1({ location }: { location: Location }) {
+  // Image gallery (data-driven — maps to the backend wp_options JSON; editable per-location with no code changes)
+  const galleryImages = (location.gallery && location.gallery.length > 0) ? location.gallery : []
+  const hasGallery = galleryImages.length > 0
+  const [lightbox, setLightbox] = useState<number | null>(null)
+  const closeLightbox = () => setLightbox(null)
+  const stepLightbox = (dir: number) =>
+    setLightbox((i) => (i === null ? null : (i + dir + galleryImages.length) % galleryImages.length))
+  useEffect(() => {
+    if (lightbox === null) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeLightbox()
+      else if (e.key === 'ArrowRight') stepLightbox(1)
+      else if (e.key === 'ArrowLeft') stepLightbox(-1)
+    }
+    window.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [lightbox])
+
   const services = servicesForLocation(location.slug)
     .map((slug) => INITIAL_DATA.services.find((s) => s.slug === slug))
     .filter((s): s is NonNullable<typeof s> => s != null)
@@ -1202,36 +1224,85 @@ function NeighborhoodNarrative({ location }: { location: Location }) {
             transition={{ duration: 0.55, delay: 0.16 }}
             style={{ position: 'sticky', top: 100 }}
           >
-            {/* Main image */}
-            <div style={{ borderRadius: 16, overflow: 'hidden', marginBottom: 10, position: 'relative', height: 260, boxShadow: '0 8px 32px rgba(0,29,61,0.12)' }}>
-              <img
-                src="/boca-office-interior.webp"
-                alt={`Boca Dental & Braces ${location.neighborhood} — reception`}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%' }}
-              />
-              <div style={{ position: 'absolute', bottom: 12, left: 12, background: 'rgba(0,29,61,0.78)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', borderRadius: 999, padding: '6px 14px', fontSize: 11, fontWeight: 700, color: 'white', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                <MapPin size={10} color={ORANGE} /> {location.neighborhood}
-              </div>
-            </div>
+            {hasGallery ? (
+              <>
+                {/* Main image — from location.heroImage / gallery[0] */}
+                <button
+                  type="button"
+                  onClick={() => setLightbox(0)}
+                  style={{ display: 'block', width: '100%', padding: 0, border: 'none', background: 'none', cursor: 'pointer', borderRadius: 16, overflow: 'hidden', marginBottom: 10, position: 'relative', height: 260, boxShadow: '0 8px 32px rgba(0,29,61,0.12)' }}
+                  aria-label={`View ${location.label} photos`}
+                >
+                  <img
+                    src={location.heroImage || galleryImages[0]}
+                    alt={`Boca Dental & Braces ${location.neighborhood} — office`}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
+                  />
+                  <div style={{ position: 'absolute', bottom: 12, left: 12, background: 'rgba(0,29,61,0.78)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', borderRadius: 999, padding: '6px 14px', fontSize: 11, fontWeight: 700, color: 'white', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                    <MapPin size={10} color={ORANGE} /> {location.neighborhood}
+                  </div>
+                </button>
 
-            {/* Thumbnail row */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
-              {/* Thumb 1 — reuse hero image at different crop */}
-              <div style={{ borderRadius: 10, overflow: 'hidden', height: 90, position: 'relative', boxShadow: '0 2px 8px rgba(0,29,61,0.08)' }}>
-                <img src="/boca-office-interior.webp" alt="Office interior"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'right 20%' }} />
-              </div>
-              {/* Thumb 2 — placeholder: Treatment room */}
-              <div style={{ borderRadius: 10, overflow: 'hidden', height: 90, background: 'linear-gradient(135deg, rgba(0,29,61,0.06) 0%, rgba(243,103,42,0.06) 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, border: '1.5px dashed rgba(0,29,61,0.1)' }}>
-                <div style={{ fontSize: 18 }}>🦷</div>
-                <div style={{ fontSize: 9, fontWeight: 700, color: 'rgba(0,29,61,0.35)', textTransform: 'uppercase', letterSpacing: 1, textAlign: 'center', lineHeight: 1.3 }}>Treatment<br />Room</div>
-              </div>
-              {/* Thumb 3 — placeholder: Team */}
-              <div style={{ borderRadius: 10, overflow: 'hidden', height: 90, background: 'linear-gradient(135deg, rgba(243,103,42,0.06) 0%, rgba(0,29,61,0.06) 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, border: '1.5px dashed rgba(0,29,61,0.1)' }}>
-                <div style={{ fontSize: 18 }}>👩‍⚕️</div>
-                <div style={{ fontSize: 9, fontWeight: 700, color: 'rgba(0,29,61,0.35)', textTransform: 'uppercase', letterSpacing: 1, textAlign: 'center', lineHeight: 1.3 }}>Our<br />Team</div>
-              </div>
-            </div>
+                {/* Thumbnail row — next images, last tile shows "+N" when there are more */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
+                  {galleryImages.slice(1, 4).map((src, i) => {
+                    const idx = i + 1
+                    const extra = galleryImages.length - 4
+                    const showMore = i === 2 && extra > 0
+                    return (
+                      <button
+                        key={src}
+                        type="button"
+                        onClick={() => setLightbox(idx)}
+                        style={{ padding: 0, border: 'none', background: 'none', cursor: 'pointer', borderRadius: 10, overflow: 'hidden', height: 90, position: 'relative', boxShadow: '0 2px 8px rgba(0,29,61,0.08)' }}
+                        aria-label={`View photo ${idx + 1} of ${galleryImages.length}`}
+                      >
+                        <img src={src} alt={`${location.label} — photo ${idx + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        {showMore && (
+                          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,29,61,0.64)', backdropFilter: 'blur(1px)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                            <span style={{ fontSize: 16, fontWeight: 800, lineHeight: 1 }}>+{extra}</span>
+                            <span style={{ fontSize: 8, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1, marginTop: 2, opacity: 0.85 }}>photos</span>
+                          </div>
+                        )}
+                      </button>
+                    )
+                  })}
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Main image */}
+                <div style={{ borderRadius: 16, overflow: 'hidden', marginBottom: 10, position: 'relative', height: 260, boxShadow: '0 8px 32px rgba(0,29,61,0.12)' }}>
+                  <img
+                    src="/boca-office-interior.webp"
+                    alt={`Boca Dental & Braces ${location.neighborhood} — reception`}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%' }}
+                  />
+                  <div style={{ position: 'absolute', bottom: 12, left: 12, background: 'rgba(0,29,61,0.78)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', borderRadius: 999, padding: '6px 14px', fontSize: 11, fontWeight: 700, color: 'white', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                    <MapPin size={10} color={ORANGE} /> {location.neighborhood}
+                  </div>
+                </div>
+
+                {/* Thumbnail row */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
+                  {/* Thumb 1 — reuse hero image at different crop */}
+                  <div style={{ borderRadius: 10, overflow: 'hidden', height: 90, position: 'relative', boxShadow: '0 2px 8px rgba(0,29,61,0.08)' }}>
+                    <img src="/boca-office-interior.webp" alt="Office interior"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'right 20%' }} />
+                  </div>
+                  {/* Thumb 2 — placeholder: Treatment room */}
+                  <div style={{ borderRadius: 10, overflow: 'hidden', height: 90, background: 'linear-gradient(135deg, rgba(0,29,61,0.06) 0%, rgba(243,103,42,0.06) 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, border: '1.5px dashed rgba(0,29,61,0.1)' }}>
+                    <div style={{ fontSize: 18 }}>🦷</div>
+                    <div style={{ fontSize: 9, fontWeight: 700, color: 'rgba(0,29,61,0.35)', textTransform: 'uppercase', letterSpacing: 1, textAlign: 'center', lineHeight: 1.3 }}>Treatment<br />Room</div>
+                  </div>
+                  {/* Thumb 3 — placeholder: Team */}
+                  <div style={{ borderRadius: 10, overflow: 'hidden', height: 90, background: 'linear-gradient(135deg, rgba(243,103,42,0.06) 0%, rgba(0,29,61,0.06) 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, border: '1.5px dashed rgba(0,29,61,0.1)' }}>
+                    <div style={{ fontSize: 18 }}>👩‍⚕️</div>
+                    <div style={{ fontSize: 9, fontWeight: 700, color: 'rgba(0,29,61,0.35)', textTransform: 'uppercase', letterSpacing: 1, textAlign: 'center', lineHeight: 1.3 }}>Our<br />Team</div>
+                  </div>
+                </div>
+              </>
+            )}
 
             {/* Rating + call CTA below gallery */}
             <div style={{ marginTop: 14, background: 'white', borderRadius: 14, border: '1px solid rgba(0,29,61,0.08)', padding: '16px 18px', boxShadow: '0 2px 12px rgba(0,29,61,0.05)' }}>
@@ -1254,6 +1325,65 @@ function NeighborhoodNarrative({ location }: { location: Location }) {
               </a>
             </div>
           </motion.aside>
+
+          {/* Lightbox — full-screen gallery viewer */}
+          {lightbox !== null && hasGallery && (
+            <div
+              onClick={closeLightbox}
+              role="dialog"
+              aria-modal="true"
+              style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,12,28,0.92)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px 16px' }}
+            >
+              {/* Close */}
+              <button
+                type="button"
+                onClick={closeLightbox}
+                aria-label="Close"
+                style={{ position: 'absolute', top: 20, right: 20, width: 44, height: 44, borderRadius: '50%', border: 'none', background: 'rgba(255,255,255,0.12)', color: 'white', fontSize: 22, lineHeight: 1, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              >
+                ✕
+              </button>
+
+              {/* Prev */}
+              {galleryImages.length > 1 && (
+                <button
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); stepLightbox(-1) }}
+                  aria-label="Previous photo"
+                  style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', width: 48, height: 48, borderRadius: '50%', border: 'none', background: 'rgba(255,255,255,0.12)', color: 'white', fontSize: 26, lineHeight: 1, cursor: 'pointer' }}
+                >
+                  ‹
+                </button>
+              )}
+
+              {/* Image + caption */}
+              <div onClick={(e) => e.stopPropagation()} style={{ maxWidth: 1100, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
+                <img
+                  src={galleryImages[lightbox]}
+                  alt={`${location.label} — photo ${lightbox + 1} of ${galleryImages.length}`}
+                  style={{ maxWidth: '100%', maxHeight: '78vh', objectFit: 'contain', borderRadius: 12, boxShadow: '0 24px 80px rgba(0,0,0,0.5)' }}
+                />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'rgba(255,255,255,0.75)', fontSize: 13, fontWeight: 600 }}>
+                  <MapPin size={13} color={ORANGE} />
+                  <span>{location.label} · {location.address}</span>
+                  <span style={{ opacity: 0.5 }}>|</span>
+                  <span>{lightbox + 1} / {galleryImages.length}</span>
+                </div>
+              </div>
+
+              {/* Next */}
+              {galleryImages.length > 1 && (
+                <button
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); stepLightbox(1) }}
+                  aria-label="Next photo"
+                  style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', width: 48, height: 48, borderRadius: '50%', border: 'none', background: 'rgba(255,255,255,0.12)', color: 'white', fontSize: 26, lineHeight: 1, cursor: 'pointer' }}
+                >
+                  ›
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </section>
