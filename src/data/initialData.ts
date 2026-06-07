@@ -140,7 +140,7 @@ export const INITIAL_DATA: InitialData = {
       id:           5,
       slug:         'jones-i95',
       label:        'Jones & I-95',
-      address:      '240 N Jones Blvd, Ste B',
+      address:      '240 N Jones Blvd, Ste C',
       city:         'Las Vegas',
       state:        'NV',
       zip:          '89107',
@@ -153,6 +153,19 @@ export const INITIAL_DATA: InitialData = {
       narrative:
         'The Jones & I-95 clinic sits just off Charleston Boulevard in Westside Las Vegas, with easy access from the U.S. 95 freeway interchange. Most patients here are West Las Vegas residents from the 89107 and 89108 ZIPs — a tight-knit, multigenerational community where dental care often spans grandparents, parents, and kids inside the same family folder. We focus heavily on preventive care, periodontal maintenance, and restorative work for older adults, plus pediatric exams for kids referred over from Boca Kids Dentistry. The office accepts Nevada Medicaid and offers in-house payment plans with no credit check. Parking is free and the entrance is fully wheelchair accessible.',
       gbp_id:       'ChIJ-jones-i95-placeholder',
+      heroImage:    '/locations/jones-i95/01-reception.webp',
+      gallery: [
+        '/locations/jones-i95/01-reception.webp',
+        '/locations/jones-i95/02-waiting-room.webp',
+        '/locations/jones-i95/03-operatory-1.webp',
+        '/locations/jones-i95/04-imaging.webp',
+        '/locations/jones-i95/05-operatory-2.webp',
+        '/locations/jones-i95/06-operatory-3.webp',
+        '/locations/jones-i95/07-operatory-4.webp',
+        '/locations/jones-i95/08-operatory-5.webp',
+        '/locations/jones-i95/09-exterior.webp',
+        '/locations/jones-i95/10-exterior-plaza.webp',
+      ],
       faqs: [],
     },
     {
@@ -360,6 +373,7 @@ export const INITIAL_DATA: InitialData = {
     },
     {
       slug: 'dr-cole-thompson', name: 'Dr. Cole Thompson, DDS', title: 'General Dentist',
+      photo: '/team/dr-cole-thompson.webp',
       bio: 'Dr. Cole Thompson became a dentist because he wanted a career where he could genuinely make a difference in people\u2019s lives \u2014 and helping patients walk out feeling more confident about their smile is what he loves most about the job. A 2024 graduate of Roseman University, he focuses on implants and crowns, and takes pride in creating a comfortable, welcoming experience for every patient in his chair. He is a member of the American Dental Association and the Academy of General Dentistry. Originally from the Bay Area, Dr. Thompson now calls Las Vegas home, where he lives with his wife and two sons. When he is not at the office, he is usually on the golf course, out for a run, in the gym, or catching a game with his family.',
       locations: [],
     },
