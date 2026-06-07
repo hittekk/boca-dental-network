@@ -238,9 +238,9 @@ export function DentistPage() {
         </section>
       )}
 
-      {/* Closing CTA */}
-      <section style={{ background: NAVY, color: 'white', padding: '64px 32px' }}>
-        <div style={{ maxWidth: 880, margin: '0 auto', textAlign: 'center' }}>
+      {/* Closing CTA — contained card on white so it doesn't merge into the navy footer */}
+      <section style={{ background: 'white', padding: '24px 24px 72px' }}>
+        <div style={{ maxWidth: 1080, margin: '0 auto', background: 'linear-gradient(160deg, #002a57 0%, #001D3D 70%)', borderRadius: 22, padding: '56px 32px', textAlign: 'center', color: 'white', boxShadow: '0 24px 60px -28px rgba(0,29,61,0.45)', borderTop: `4px solid ${ORANGE}` }}>
           <h2 style={{ fontSize: 'clamp(22px, 2.4vw, 32px)', fontWeight: 800, margin: '0 0 14px', textTransform: 'uppercase', letterSpacing: '-0.4px', color: 'white' }}>
             Book your first appointment with {nameShort}
           </h2>
