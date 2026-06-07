@@ -206,6 +206,20 @@ export const INITIAL_DATA: InitialData = {
       narrative:
         'Flamingo & Torrey Pines is our Spring Valley flagship, sitting on the southwest corner of one of the busiest intersections on the west side of Las Vegas. Patients here come from across Spring Valley, Mountain\'s Edge, and the southern reach of Summerlin. The clinic is purpose-built for cosmetic and restorative work — we run an iTero scanner for Invisalign consults, offer same-day veneer try-ins, and have an on-site CEREC mill for single-visit crowns. The neighborhood skews young-professional and family, with patients often booking ortho consults for teens and cosmetic whitening or veneers for parents in the same visit. Evening and Saturday appointments are heavily used by working couples.',
       gbp_id:       'ChIJ-flamingo-torrey-placeholder',
+      heroImage:    '/locations/flamingo-torrey/01-reception.webp',
+      gallery: [
+        '/locations/flamingo-torrey/01-reception.webp',
+        '/locations/flamingo-torrey/02-waiting-room.webp',
+        '/locations/flamingo-torrey/03-operatory-1.webp',
+        '/locations/flamingo-torrey/04-imaging.webp',
+        '/locations/flamingo-torrey/05-operatory-2.webp',
+        '/locations/flamingo-torrey/06-operatory-3.webp',
+        '/locations/flamingo-torrey/07-operatory-4.webp',
+        '/locations/flamingo-torrey/08-operatory-5.webp',
+        '/locations/flamingo-torrey/09-hallway.webp',
+        '/locations/flamingo-torrey/10-exterior.webp',
+        '/locations/flamingo-torrey/11-exterior-aerial.webp',
+      ],
       faqs: [],
     },
     {
@@ -323,6 +337,7 @@ export const INITIAL_DATA: InitialData = {
     },
     {
       slug: 'dr-bredan-marlin', name: 'Dr. Brendan Marlin, DMD', title: 'General Dentist',
+      photo: '/team/dr-bredan-marlin.webp',
       bio: 'Dr. Brendan Marlin became a dentist to provide the same compassionate care that once made a difference in his own life, and his focus today is relieving patients\u2019 pain so they can get back to feeling like themselves. A 2025 graduate of the UNLV School of Dental Medicine, he is affiliated with the American Academy of Implant Dentistry and is Invisalign trained. He thinks of himself as a \u201CSuper GP,\u201D practicing across all aspects of dentistry \u2014 from general care to endodontics, orthodontics, and surgery \u2014 which means patients can address more of their needs under one familiar roof. He is a member of the American Dental Association. Originally from Tampa, Florida, Dr. Marlin now lives in southwest Las Vegas, and brings the same energy and curiosity from snowboarding, hiking, and weightlifting into how he approaches his work.',
       locations: [],
     },
