@@ -100,11 +100,25 @@ const PILOT_OVERRIDES: Record<string, DentistContent> = {
   'dr-wyatt-dannels': PILOT_DANNELS,
 }
 
+/** First N sentences of a longer bio, for card/short use. */
+function shortFrom(bio: string, n = 2): string {
+  const parts = bio.match(/[^.!?]+[.!?]+/g)
+  return parts ? parts.slice(0, n).join(' ').trim() : bio
+}
+
 export const DENTIST_CONTENT: Record<string, DentistContent> = Object.fromEntries(
-  INITIAL_DATA.doctors.map((d) => [
-    d.slug,
-    PILOT_OVERRIDES[d.slug] ?? DEFAULT_CONTENT_FOR(d.slug, d.name, d.title),
-  ]),
+  INITIAL_DATA.doctors.map((d) => {
+    const base = { ...(PILOT_OVERRIDES[d.slug] ?? DEFAULT_CONTENT_FOR(d.slug, d.name, d.title)) }
+    // Real bios/photos live on initialData.doctors — overlay them when present.
+    base.name = d.name
+    base.title = d.title
+    if (d.bio) {
+      base.longBio = d.bio
+      base.shortBio = shortFrom(d.bio)
+    }
+    if (d.photo) base.photo = d.photo
+    return [d.slug, base]
+  }),
 )
 
 export function dentistContentFor(slug: string): DentistContent | undefined {
