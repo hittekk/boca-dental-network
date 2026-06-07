@@ -235,14 +235,6 @@ export function AboutUsPage() {
     },
   ]
 
-  const ALL_DOCTORS = [
-    'Dr. Wyatt Dannels, DDS', 'Dr. Harrison Luu, DDS', 'Dr. Sana Fahim, DDS',
-    'Dr. Justin Wall, DDS', 'Dr. Kelcey Loveland, DDS', 'Minh Nguyen, DDS',
-    'Dr. Johnson Fong, DDS', 'Dr. Michael St Laurent, DDS', 'Dr. Bredan Marlin, DDS',
-    'Dr. Charles Calder, DDS', 'Dr. James Yun, DDS', 'Dr. Kathy Gonzalez, DDS',
-    'Dr. Cole Thompson, DDS', 'Dr. Farhan Hossain, DDS',
-  ]
-
   const VALUES = [
     { num: '01', title: 'Access for Every Family', body: 'Nevada Medicaid accepted. Most major PPO plans welcomed. Flexible in-house payment options available. We built Boca so that cost is never the reason a Las Vegas family skips dental care.' },
     { num: '02', title: 'Bilingual by Design', body: 'Se habla español en todas nuestras oficinas. Spanish-speaking staff at every one of our 9 Las Vegas locations — because serving Las Vegas means serving the whole community.' },
@@ -481,17 +473,24 @@ export function AboutUsPage() {
           {/* All 14 — small cards */}
           <div style={{ background: 'white', borderRadius: 16, padding: '32px', border: '1px solid rgba(0,29,61,0.07)' }}>
             <div style={{ fontSize: 11, fontWeight: 800, color: 'rgba(0,29,61,0.35)', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 24 }}>All 14 Licensed Providers — Boca Dental & Braces Las Vegas</div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
+            <div className="about-all-g" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
               <style>{`@media(max-width:860px){ .about-all-g{ grid-template-columns:repeat(3,1fr) !important; } } @media(max-width:560px){ .about-all-g{ grid-template-columns:repeat(2,1fr) !important; } }`}</style>
-              {ALL_DOCTORS.map((name, i) => {
-                const initial = name.split(' ')[1]?.[0] ?? name[0]
-                const colors = ['rgba(243,103,42,0.1)','rgba(22,46,122,0.08)','rgba(0,29,61,0.06)']
-                const bg = colors[i % 3]
+              {INITIAL_DATA.doctors.map((d, i) => {
+                const initials = d.name.replace(/^Dr\.\s+/i, '').split(/\s+/).map((w) => w[0]).slice(0, 2).join('')
                 return (
-                  <div key={i} className="about-all-g" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, padding: '16px 12px', background: '#F8FAFC', borderRadius: 12, border: '1px solid rgba(0,29,61,0.06)', textAlign: 'center' }}>
-                    <div style={{ width: 44, height: 44, borderRadius: '50%', background: i % 2 === 0 ? 'rgba(243,103,42,0.1)' : 'rgba(22,46,122,0.08)', border: i % 2 === 0 ? '1.5px solid rgba(243,103,42,0.2)' : '1.5px solid rgba(22,46,122,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 800, color: i % 2 === 0 ? ORANGE : NAVY, flexShrink: 0 }}>{initial}</div>
-                    <span style={{ fontSize: 12, fontWeight: 700, color: NAVY, lineHeight: 1.3 }}>{name}</span>
-                  </div>
+                  <Link key={d.slug} to={`/about-us/dentists/${d.slug}/`} style={{ display: 'block', background: 'white', border: '1px solid rgba(0,29,61,0.08)', borderRadius: 12, overflow: 'hidden', textDecoration: 'none', color: NAVY }}>
+                    {d.photo ? (
+                      <div style={{ aspectRatio: '4 / 5', overflow: 'hidden' }}>
+                        <img src={d.photo} alt={`${d.name} — Boca Dental & Braces`} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }} />
+                      </div>
+                    ) : (
+                      <div style={{ aspectRatio: '4 / 5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: MONO, fontSize: 'clamp(26px, 3vw, 40px)', fontWeight: 800, background: i % 2 === 0 ? 'linear-gradient(160deg, rgba(243,103,42,0.14), rgba(243,103,42,0.04))' : 'linear-gradient(160deg, rgba(22,46,122,0.12), rgba(0,29,61,0.04))', color: i % 2 === 0 ? ORANGE : NAVY }}>{initials}</div>
+                    )}
+                    <div style={{ padding: '12px 12px 14px', textAlign: 'center' }}>
+                      <div style={{ fontSize: 13, fontWeight: 800, color: NAVY, lineHeight: 1.25 }}>{d.name}</div>
+                      <div style={{ fontSize: 11, color: 'rgba(0,29,61,0.55)', marginTop: 3 }}>{d.title}</div>
+                    </div>
+                  </Link>
                 )
               })}
             </div>
