@@ -101,6 +101,20 @@ export const INITIAL_DATA: InitialData = {
       narrative:
         'Our Bonanza & Eastern office serves Downtown Las Vegas and the Cultural Corridor — patients walking over from the Las Vegas Medical District, residents in the historic John S. Park and Huntridge neighborhoods, and a daily flow of casino and resort workers from the Fremont East Entertainment District. The clinic is on N Eastern Ave just south of Charleston, with a covered entry and 14 dedicated parking spaces. Many of our patients here are bilingual, and our hygiene team includes Spanish, Tagalog, and Mandarin speakers. Same-day emergency slots are reserved every morning for walk-in toothaches and dental trauma — a real need in a downtown that runs 24 hours.',
       gbp_id:       'ChIJ-bonanza-eastern-placeholder',
+      heroImage:    '/locations/bonanza-eastern/01-lobby.webp',
+      gallery: [
+        '/locations/bonanza-eastern/01-lobby.webp',
+        '/locations/bonanza-eastern/02-reception.webp',
+        '/locations/bonanza-eastern/04-operatory-1.webp',
+        '/locations/bonanza-eastern/05-operatory-2.webp',
+        '/locations/bonanza-eastern/06-operatory-3.webp',
+        '/locations/bonanza-eastern/07-operatory-4.webp',
+        '/locations/bonanza-eastern/08-waiting.webp',
+        '/locations/bonanza-eastern/09-consult.webp',
+        '/locations/bonanza-eastern/03-front-office.webp',
+        '/locations/bonanza-eastern/10-exterior.webp',
+        '/locations/bonanza-eastern/11-exterior-2.webp',
+      ],
       faqs: [],
     },
     {
@@ -239,19 +253,68 @@ export const INITIAL_DATA: InitialData = {
     // PLACEHOLDER DOCTORS — names from sitemap, titles/bios/photos/location
     // assignments are mock values during design phase. Real bios + photos + per-
     // location assignments come from Frankie via the admin dashboard later.
+    // NOTE: locations[] left empty pending per-clinic assignments from Frankie.
+    // Dannels / Loveland / Hossain have no bio submitted yet. Reno doctors
+    // (Abdelmeseeh, Montalvo) belong to the Reno/Tahoe brand — not added here.
     { slug: 'dr-wyatt-dannels',    name: 'Dr. Wyatt Dannels, DDS',    title: 'Lead Dentist & Founder',     bio: '', locations: [] },
-    { slug: 'dr-harrison-luu',     name: 'Dr. Harrison Luu, DDS',     title: 'General Dentist',            bio: '', locations: [] },
-    { slug: 'dr-sana-fahim',       name: 'Dr. Sana Fahim, DDS',       title: 'General Dentist',            bio: '', locations: [] },
-    { slug: 'dr-justin-wall',      name: 'Dr. Justin Wall, DDS',      title: 'General Dentist',            bio: '', locations: [] },
+    {
+      slug: 'dr-harrison-luu', name: 'Dr. Harrison Luu, DDS', title: 'General Dentist',
+      bio: 'Dr. Harrison Luu chose dentistry for the chance to make a direct, positive difference in people\u2019s lives \u2014 relieving pain, restoring function, and improving smiles so patients feel better both physically and emotionally. A 2020 graduate of the UNLV School of Dental Medicine with six years in practice, he focuses on root canals and implants, and is a member of the American Dental Association. Knowing a dental visit can feel stressful, he works to create a calm, judgment-free environment where patients move at their own pace toward a healthy, confident smile. Originally from Southern California, he now lives in Las Vegas with his wife Tina, also a dentist, and their son Hudson. Outside the office he enjoys trying new restaurants and playing pool with friends.',
+      locations: [],
+    },
+    {
+      slug: 'dr-sana-fahim', name: 'Dr. Sana Fahim, DDS', title: 'General Dentist',
+      bio: 'Dr. Sana Fahim loves helping people feel good about themselves \u2014 there is something rewarding, she says, about helping someone get their confidence back through their smile. Dentistry gives her the balance of precision, creativity, and patient care she was looking for. A 2025 graduate of UNLV, she has completed the AAID implant maxi course, is laser certified, and focuses on crowns, veneers, and bridges. She is a member of the American Dental Association. A Las Vegas native who still calls the city home, Dr. Fahim spends her free time on Pilates and pickleball or traveling somewhere new. What she values most about Boca Dental & Braces is that the practice truly puts patients first \u2014 finding solutions, saying yes whenever possible, and doing whatever it takes to help people feel great about their smiles.',
+      locations: [],
+    },
+    {
+      slug: 'dr-justin-wall', name: 'Dr. Justin Wall, DDS', title: 'General Dentist',
+      photo: '/team/dr-justin-wall.webp',
+      bio: 'Dr. Justin Wall became a dentist because he loves combining hands-on clinical work with building real relationships with the people he treats. A 2025 graduate of Roseman College of Dental Medicine, he is especially passionate about restorative dentistry, implants, and implant-supported dentures \u2014 helping patients get out of pain, rebuild function, and walk out feeling more like themselves. He is a member of the American Dental Association. Dr. Wall lives in Las Vegas, and when he is not at the office you will usually find him out on the golf course. What he loves most about working at Boca Dental & Braces is his team, whose dedication, positivity, and commitment to patients make coming to work rewarding every day \u2014 energy that carries straight through to how he cares for the people in his chair.',
+      locations: [],
+    },
     { slug: 'dr-kelcey-loveland',  name: 'Dr. Kelcey Loveland, DDS',  title: 'General Dentist',            bio: '', locations: [] },
-    { slug: 'minh-nguyen',         name: 'Minh Nguyen, DDS',          title: 'General Dentist',            bio: '', locations: [] },
-    { slug: 'dr-johnson-fong',     name: 'Dr. Johnson Fong, DDS',     title: 'General Dentist',            bio: '', locations: [] },
-    { slug: 'dr-michael-st-laurent', name: 'Dr. Michael St Laurent, DDS', title: 'General Dentist',        bio: '', locations: [] },
-    { slug: 'dr-bredan-marlin',    name: 'Dr. Bredan Marlin, DDS',    title: 'General Dentist',            bio: '', locations: [] },
-    { slug: 'dr-charles-calder',   name: 'Dr. Charles Calder, DDS',   title: 'General Dentist',            bio: '', locations: [] },
-    { slug: 'dr-james-yun',        name: 'Dr. James Yun, DDS',        title: 'General Dentist',            bio: '', locations: [] },
-    { slug: 'dr-kathy-gonzalez',   name: 'Dr. Kathy Gonzalez, DDS',   title: 'General Dentist',            bio: '', locations: [] },
-    { slug: 'dr-cole-thompson',    name: 'Dr. Cole Thompson, DDS',    title: 'General Dentist',            bio: '', locations: [] },
+    {
+      slug: 'minh-nguyen', name: 'Minh Nguyen, RDH', title: 'Dental Hygienist',
+      bio: 'Minh chose dentistry out of a strong desire to help people improve their health and confidence \u2014 inspired by the example of their adoptive mom Sandra, a dental assistant of 37 years, whose meaningful relationships with patients made the path feel obvious. After earning a Bachelor of Science in Dental Hygiene from the College of Southern Nevada in 2015 (graduating with Honors, alongside an AA in Psychology), Minh has spent 11 years focused on periodontal care, patient education, and supporting people with dental anxiety so they feel genuinely comfortable in the chair. Minh is a member of the American Dental Hygienists\u2019 Association. Originally from Vietnam and now living in Las Vegas, Minh enjoys traveling, exploring history, kayaking, and paddleboarding, and \u2014 at home \u2014 life with three dogs, family, and a fianc\u00e9 with a talent for perfectly timed humor.',
+      locations: [],
+    },
+    {
+      slug: 'dr-johnson-fong', name: 'Dr. Johnson Fong, DDS', title: 'General Dentist',
+      bio: 'Dr. Johnson Fong became a dentist for one straightforward reason: he loves taking people out of pain. A 2023 graduate of the Tufts University School of Dental Medicine with three years in practice, his clinical focus is implant surgery, where he combines careful surgical technique with results patients can both see and feel. Originally from Boston, Dr. Fong now lives in Las Vegas, and unwinds with a good Netflix night. What he enjoys most about working at Boca Dental & Braces is the team around him, who make every day at the office a little better.',
+      locations: [],
+    },
+    {
+      slug: 'dr-michael-st-laurent', name: 'Dr. Michael St. Laurent, DDS', title: 'General Dentist',
+      bio: 'Dr. Michael St. Laurent chose dentistry because he wanted to help people feel better, smile bigger, and live more confidently. A graduate of the UNLV School of Dental Medicine with five years in practice, he focuses on oral surgery, implants, and sedation dentistry, and takes the time to understand each patient\u2019s needs before building a personalized treatment plan. His goal is simple: every patient should leave feeling comfortable, cared for, and confident in their smile. He is a member of the American Dental Association and the Academy of General Dentistry. Dr. St. Laurent grew up in Oceanside, California and now lives in Las Vegas. Outside the office he loves spending time with his five-year-old son, hiking, and staying active in the gym \u2014 plus two dogs, a maltipoo named Lulu and a shih tzu named Charlie, who keep things lively at home.',
+      locations: [],
+    },
+    {
+      slug: 'dr-bredan-marlin', name: 'Dr. Brendan Marlin, DMD', title: 'General Dentist',
+      bio: 'Dr. Brendan Marlin became a dentist to provide the same compassionate care that once made a difference in his own life, and his focus today is relieving patients\u2019 pain so they can get back to feeling like themselves. A 2025 graduate of the UNLV School of Dental Medicine, he is affiliated with the American Academy of Implant Dentistry and is Invisalign trained. He thinks of himself as a \u201CSuper GP,\u201D practicing across all aspects of dentistry \u2014 from general care to endodontics, orthodontics, and surgery \u2014 which means patients can address more of their needs under one familiar roof. He is a member of the American Dental Association. Originally from Tampa, Florida, Dr. Marlin now lives in southwest Las Vegas, and brings the same energy and curiosity from snowboarding, hiking, and weightlifting into how he approaches his work.',
+      locations: [],
+    },
+    {
+      slug: 'dr-charles-calder', name: 'Dr. Charles Calder, DDS, MD', title: 'Oral & Maxillofacial Surgeon',
+      bio: 'Dr. Charles Calder is an oral and maxillofacial surgeon who has spent 25 years helping patients get the care they need. He earned his DDS from the Loma Linda University School of Dentistry in 2000, followed by his MD in 2003 and completion of his Oral and Maxillofacial Surgery residency in 2006. His practice focuses on extractions, dental implants, bone grafting, and pathology, and he brings the kind of steady, experienced hand that puts patients at ease \u2014 especially when surgery feels intimidating. Dr. Calder is a member of the American Association of Oral and Maxillofacial Surgeons and was inducted into the OKU dental honor society in recognition of his academic achievement. A California native who now lives in Las Vegas, he enjoys cooking and spending time with family and friends.',
+      locations: [],
+    },
+    {
+      slug: 'dr-james-yun', name: 'Dr. James Yun, DDS', title: 'General Dentist',
+      bio: 'Dr. James Yun chose dentistry because it lets him combine science, problem-solving, and hands-on care while building real relationships with patients. A 2024 graduate of New York University with two years in practice, he is Invisalign trained and especially passionate about restorative dentistry and Invisalign treatment. His approach is personalized and conservative, focused on natural-looking, long-lasting results that improve both how a smile works and how a patient feels about it. He is a member of the American Dental Association and the Academy of General Dentistry, and a recipient of the President\u2019s Volunteer Service Award. Born in Korea and raised in New York City, Dr. Yun recently moved to Las Vegas and is excited to put down roots. When he is not at the office, you will find him snowboarding, hiking, or recharging outdoors.',
+      locations: [],
+    },
+    {
+      slug: 'dr-kathy-gonzalez', name: 'Dr. Kathy Gonzalez, DDS', title: 'General Dentist',
+      photo: '/team/dr-kathy-gonzalez.webp',
+      bio: 'Dr. Kathy Gonzalez has spent her entire adult life in dentistry. She started as a dental assistant at 18, worked as a dental hygienist for nearly two decades, and then returned to school to become a dentist once her children were older, earning her degree from UNLV. For her, dentistry is the perfect intersection of art, science, and service. She has completed 300 hours of the AAID MaxiCourse in Implant Dentistry, and her practice focuses on cosmetic and implant work. She is a member of the American Dental Association and the American Academy of Implant Dentistry. Originally from the Philippines and now living in Las Vegas, Dr. Gonzalez enjoys sketching, painting, piano, guitar, traveling, hiking, biking, cooking, and baking. She loves bringing laughter into the office and believes a trip to the dentist should feel positive \u2014 especially for anxious patients who just need a little reassurance to relax.',
+      locations: [],
+    },
+    {
+      slug: 'dr-cole-thompson', name: 'Dr. Cole Thompson, DDS', title: 'General Dentist',
+      bio: 'Dr. Cole Thompson became a dentist because he wanted a career where he could genuinely make a difference in people\u2019s lives \u2014 and helping patients walk out feeling more confident about their smile is what he loves most about the job. A 2024 graduate of Roseman University, he focuses on implants and crowns, and takes pride in creating a comfortable, welcoming experience for every patient in his chair. He is a member of the American Dental Association and the Academy of General Dentistry. Originally from the Bay Area, Dr. Thompson now calls Las Vegas home, where he lives with his wife and two sons. When he is not at the office, he is usually on the golf course, out for a run, in the gym, or catching a game with his family.',
+      locations: [],
+    },
     { slug: 'dr-farhan-hossain',   name: 'Dr. Farhan Hossain, DDS',   title: 'General Dentist',            bio: '', locations: [] },
   ],
 };

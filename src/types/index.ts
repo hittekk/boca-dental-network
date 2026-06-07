@@ -76,6 +76,10 @@ export interface Location {
   narrative: string;
   /** Google Business Profile Place ID — required for schema GBP alignment */
   gbp_id: string;
+  /** Hero/card image for this clinic (real office photo). Path under /public. */
+  heroImage?: string;
+  /** Ordered gallery of real office photos (paths under /public) — first is treated as primary. */
+  gallery?: string[];
   faqs: FAQ[];
 }
 
