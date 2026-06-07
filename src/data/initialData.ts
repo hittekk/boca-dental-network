@@ -84,6 +84,19 @@ export const INITIAL_DATA: InitialData = {
       narrative:
         'Boca Kids Dentistry is a fully dedicated pediatric dental office sharing the same plaza as our Russell & Eastern flagship adult clinic — different door, kid-scaled everything inside. We designed this space specifically for babies, kids, and teens in the Southeast Las Vegas community: low-lit private rooms for nervous first visits, an open-bay layout for siblings, ceiling-mounted screens, and a sensory-quiet treatment room for kids with autism spectrum needs. Most families come from the Whitney, Paradise, and Henderson border neighborhoods. We accept Nevada Medicaid and CHIP, see infants from age one for first-tooth visits, and offer Saturday appointments so school is never missed. Spanish-speaking pediatric assistants are on staff daily.',
       gbp_id:       'ChIJ-boca-kids-dentistry-placeholder',
+      heroImage:    '/locations/boca-kids-dentistry/01-reception.webp',
+      gallery: [
+        '/locations/boca-kids-dentistry/01-reception.webp',
+        '/locations/boca-kids-dentistry/02-operatory-space-mural.webp',
+        '/locations/boca-kids-dentistry/03-waiting-room-arcade.webp',
+        '/locations/boca-kids-dentistry/04-waiting-room.webp',
+        '/locations/boca-kids-dentistry/05-operatory.webp',
+        '/locations/boca-kids-dentistry/06-operatory-bay.webp',
+        '/locations/boca-kids-dentistry/07-imaging-pano.webp',
+        '/locations/boca-kids-dentistry/08-hallway.webp',
+        '/locations/boca-kids-dentistry/09-exterior.webp',
+        '/locations/boca-kids-dentistry/10-exterior-entrance.webp',
+      ],
       faqs: [
         {
           question: 'At what age should my child first see a dentist?',
