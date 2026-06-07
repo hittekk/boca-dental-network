@@ -390,4 +390,18 @@ export const INITIAL_DATA: InitialData = {
     },
     { slug: 'dr-farhan-hossain',   name: 'Dr. Farhan Hossain, DDS',   title: 'General Dentist',            bio: '', locations: [] },
   ],
+
+  // Office / practice managers. Data-driven like doctors so staff can edit from
+  // the admin with no code change. locationSlug '' = clinic not yet confirmed
+  // (flagged for Frankie/Carlos). Headshots live in /public/team/om-*.webp.
+  managers: [
+    { slug: 'om-katherine-pedraza', name: 'Katherine Pedraza', title: 'Office Manager',        photo: '/team/om-katherine-pedraza.webp', locationSlug: 'charleston-lamb' },
+    { slug: 'om-yuli-lopez',        name: 'Yuli Lopez',        title: 'Office Manager',        photo: '/team/om-yuli-lopez.webp',        locationSlug: 'cheyenne-commons' },
+    { slug: 'om-jennifer-raingel',  name: 'Jennifer Raingel',  title: 'Office Manager',        photo: '/team/om-jennifer-raingel.webp',  locationSlug: 'flamingo-torrey' },
+    { slug: 'om-sildy-rabre',       name: 'Sildy Rabre',       title: 'Office Manager',        photo: '/team/om-sildy-rabre.webp',       locationSlug: 'jones-i95' },
+    { slug: 'om-liz-reyes',         name: 'Liz Reyes',         title: 'Office Manager',        photo: '/team/om-liz-reyes.webp',         locationSlug: 'sahara-decatur' },
+    { slug: 'om-bianca-barone',     name: 'Bianca Barone',     title: 'Office Manager',        photo: '/team/om-bianca-barone.webp',     locationSlug: '' },
+    { slug: 'om-celia-rodriguez',   name: 'Celia Rodriguez',   title: 'Office Manager',        photo: '/team/om-celia-rodriguez.webp',   locationSlug: '' },
+    { slug: 'om-kevin-guzman',      name: 'Kevin Guzman',      title: 'Orthodontic Manager',   photo: '/team/om-kevin-guzman.webp',      locationSlug: '' },
+  ],
 };

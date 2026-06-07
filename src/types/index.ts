@@ -99,6 +99,18 @@ export interface Doctor {
  * Announcement bar data — stored in wp_options, editable from React admin.
  * When enabled is false the bar does not render at all.
  */
+/** Office / practice manager — non-provider staff shown in the team section */
+export interface Manager {
+  slug: string;
+  name: string;
+  /** Role title, e.g. "Office Manager", "Orthodontic Manager" */
+  title: string;
+  /** Optional headshot URL — uploaded via admin */
+  photo?: string;
+  /** Slug of the clinic this manager runs — empty string OK while unconfirmed */
+  locationSlug?: string;
+}
+
 export interface Announcement {
   enabled: boolean;
   text: string;
@@ -122,6 +134,7 @@ export interface InitialData {
   locations: Location[];
   services: Service[];
   doctors: Doctor[];
+  managers: Manager[];
 }
 
 /** Single navigation link */

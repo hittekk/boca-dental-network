@@ -498,6 +498,41 @@ export function AboutUsPage() {
         </div>
       </section>
 
+      {/* ── PRACTICE MANAGEMENT — office / practice managers ── */}
+      <section style={{ background: 'white', padding: '112px 32px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} style={{ marginBottom: 48 }}>
+            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 14 }}>Practice Management</div>
+            <h2 style={{ fontSize: 'clamp(26px, 3vw, 44px)', fontWeight: 800, letterSpacing: '-1.5px', color: NAVY, margin: 0 }}>The Team Behind<br />Every Visit.</h2>
+            <p style={{ fontSize: 15, lineHeight: 1.7, color: 'rgba(0,29,61,0.6)', maxWidth: 560, marginTop: 18 }}>Our office and practice managers keep every Boca Dental &amp; Braces location running smoothly — coordinating care, scheduling, and the front-desk experience patients feel from the moment they walk in.</p>
+          </motion.div>
+
+          <div className="about-mgr-g" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
+            <style>{`@media(max-width:860px){ .about-mgr-g{ grid-template-columns:repeat(3,1fr) !important; } } @media(max-width:560px){ .about-mgr-g{ grid-template-columns:repeat(2,1fr) !important; } }`}</style>
+            {INITIAL_DATA.managers.map((m, i) => {
+              const initials = m.name.split(/\s+/).map((w) => w[0]).slice(0, 2).join('')
+              const clinic = INITIAL_DATA.locations.find((l) => l.slug === m.locationSlug)?.label
+              return (
+                <div key={m.slug} style={{ display: 'block', background: 'white', border: '1px solid rgba(0,29,61,0.08)', borderRadius: 12, overflow: 'hidden', color: NAVY }}>
+                  {m.photo ? (
+                    <div style={{ aspectRatio: '4 / 5', overflow: 'hidden' }}>
+                      <img src={m.photo} alt={`${m.name} — ${m.title}, Boca Dental & Braces`} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }} />
+                    </div>
+                  ) : (
+                    <div style={{ aspectRatio: '4 / 5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: MONO, fontSize: 'clamp(26px, 3vw, 40px)', fontWeight: 800, background: i % 2 === 0 ? 'linear-gradient(160deg, rgba(243,103,42,0.14), rgba(243,103,42,0.04))' : 'linear-gradient(160deg, rgba(22,46,122,0.12), rgba(0,29,61,0.04))', color: i % 2 === 0 ? ORANGE : NAVY }}>{initials}</div>
+                  )}
+                  <div style={{ padding: '12px 12px 14px', textAlign: 'center' }}>
+                    <div style={{ fontSize: 13, fontWeight: 800, color: NAVY, lineHeight: 1.25 }}>{m.name}</div>
+                    <div style={{ fontSize: 11, color: 'rgba(0,29,61,0.55)', marginTop: 3 }}>{m.title}</div>
+                    {clinic && <div style={{ fontSize: 11, fontWeight: 700, color: ORANGE, marginTop: 6 }}>{clinic}</div>}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* ── LOCATIONS ── */}
       <section style={{ background: '#001D3D', padding: '112px 32px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '120px 100%', pointerEvents: 'none' }} />
