@@ -53,6 +53,17 @@ export function DentistPage() {
     .map((s) => INITIAL_DATA.locations.find((l) => l.slug === s))
     .filter((l): l is NonNullable<typeof l> => l != null)
   const nameShort = content.name.replace(/, DDS$/, '')
+  // Last name without credentials (DDS/DMD/MD/RDH) or "Dr." prefix — e.g. "Minh Nguyen, RDH" → "Nguyen"
+  const nameParts = content.name.replace(/,.*$/, '').replace(/^Dr\.\s+/i, '').trim().split(/\s+/)
+  const surnamePrefix = /^(st\.?|de|del|della|van|von|la|le|da|di|dos|du|mc|mac)$/i
+  const lastName =
+    nameParts.length >= 2 && surnamePrefix.test(nameParts[nameParts.length - 2])
+      ? nameParts.slice(-2).join(' ')
+      : nameParts[nameParts.length - 1]
+  // Booking deep-link: pre-select + lock the provider's clinic when known, else let the patient pick
+  const bookHref = worksAtClinics[0]
+    ? `/request-consultation?location=${worksAtClinics[0].slug}`
+    : '/request-consultation'
   const initials = nameShort
     .replace(/^Dr\.\s+/i, '')
     .split(/\s+/)
@@ -159,10 +170,10 @@ export function DentistPage() {
 
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <a
-                  href="/request-consultation"
+                  href={bookHref}
                   style={{ background: ORANGE, color: 'white', padding: '12px 24px', borderRadius: 8, fontSize: 13, fontWeight: 800, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.6, display: 'inline-flex', alignItems: 'center', gap: 8 }}
                 >
-                  Book with {nameShort.split(' ').slice(-1)[0]}
+                  Book with {lastName}
                   <ArrowUpRight size={14} />
                 </a>
                 {worksAtClinics[0] && (
@@ -248,7 +259,7 @@ export function DentistPage() {
             New patients always welcome at Boca Dental &amp; Braces. Free consultations, most insurance accepted, evening and weekend hours.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="/request-consultation" style={{ background: ORANGE, color: 'white', padding: '14px 26px', borderRadius: 8, fontSize: 13, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 0.6, textDecoration: 'none' }}>Book online</a>
+            <a href={bookHref} style={{ background: ORANGE, color: 'white', padding: '14px 26px', borderRadius: 8, fontSize: 13, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 0.6, textDecoration: 'none' }}>Book online</a>
             <a href={`tel:${INITIAL_DATA.brand.phone.replace(/\D/g, '')}`} style={{ background: 'transparent', color: 'white', border: '2px solid rgba(255,255,255,0.35)', padding: '12px 24px', borderRadius: 8, fontSize: 13, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 0.6, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
               <Phone size={14} color={ORANGE} /> Call us
             </a>
