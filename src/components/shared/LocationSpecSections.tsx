@@ -1080,7 +1080,7 @@ export function InsuranceFinancingSection({
             </div>
           </div>
           <a
-            href="/request-consultation"
+            href={`/request-consultation?location=${location.slug}`}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
