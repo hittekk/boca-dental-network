@@ -320,7 +320,7 @@ export const INITIAL_DATA: InitialData = {
       id:           9,
       slug:         'beltway-marketplace',
       label:        'Beltway Marketplace',
-      address:      'Eastern Ave & E Serene Ave',
+      address:      '9210 S Eastern Ave, Ste 130',
       city:         'Las Vegas',
       state:        'NV',
       zip:          '89123',
