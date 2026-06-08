@@ -206,7 +206,7 @@ export function BocaKids() {
                   }}
                 />
               </span>{' '}
-              {lang === 'es' ? 'para niños.' : 'for kids.'}
+              {lang === 'es' ? 'para niños.' : 'kids.'}
             </h2>
 
             <p
@@ -436,13 +436,13 @@ export function BocaKids() {
               }}
             >
               <img
-                src="/boca-kids-office.webp"
-                alt="Smiling child in a Boca Kids dental chair with a friendly hygienist showing them a mirror"
+                src="/locations/boca-kids-dentistry/04-waiting-room.webp"
+                alt="The colorful Boca Kids waiting area in Las Vegas with a Boca-branded kids bench and playful movie posters"
                 style={{
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
-                  objectPosition: '65% center',
+                  objectPosition: '28% center',
                   display: 'block',
                 }}
               />
