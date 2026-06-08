@@ -305,10 +305,10 @@ export function Hero({ brand }: HeroProps) {
           }}
         >
           <img
-            src="/hero-1.png"
-            alt="A mother and daughter sharing a moment in the warmly lit Boca Dental and Braces waiting room — Las Vegas family dental practice"
-            width={1312}
-            height={736}
+            src="/locations/flamingo-torrey/01-reception.webp"
+            alt="The bright, modern reception and front desk at Boca Dental and Braces in Las Vegas, with the Boca logo on a navy accent wall"
+            width={1600}
+            height={1067}
             loading="eager"
             decoding="async"
             style={{
@@ -317,7 +317,7 @@ export function Hero({ brand }: HeroProps) {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              objectPosition: 'center 35%',
+              objectPosition: 'center 40%',
               display: 'block',
             }}
           />
