@@ -436,8 +436,8 @@ export function BocaKids() {
               }}
             >
               <img
-                src="/locations/boca-kids-dentistry/02-operatory-space-mural.webp"
-                alt="Boca Kids Dentistry space-themed pediatric operatory with a friendly green alien mural and glow-in-the-dark stars in Las Vegas"
+                src="/boca-kids-office.webp"
+                alt="Smiling child in a Boca Kids dental chair with a friendly hygienist showing them a mirror"
                 style={{
                   width: '100%',
                   height: '100%',

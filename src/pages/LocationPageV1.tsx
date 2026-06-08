@@ -188,8 +188,8 @@ function BocaKidsHero() {
     <section className="relative overflow-hidden" style={{ paddingTop: 180, paddingBottom: 96 }}>
 
       {/* Full-bleed photo */}
-      <img src="/boca-kids-office.webp" alt="Boca Kids Dentistry Las Vegas"
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 25%' }} />
+      <img src="/locations/boca-kids-dentistry/02-operatory-space-mural.webp" alt="Boca Kids Dentistry space-themed pediatric operatory with a green alien mural and glow-in-the-dark stars, Southeast Las Vegas"
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 40%' }} />
 
       {/* Solid navy left → fades right so photo shows through on right side */}
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, #001D3D 0%, #162E7A 30%, rgba(22,46,122,0.85) 50%, rgba(22,46,122,0.3) 70%, transparent 100%)' }} />
