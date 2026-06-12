@@ -1,6 +1,6 @@
 # BOCA DENTAL NETWORK — MASTER DOC (single source of truth)
-**Last updated:** 2026-06-07 · **Repo HEAD at write:** `8c325fc`
-**Live site:** boca.datastacklogic.com · **Repo:** `hittekk/boca-dental-network` (private, branch `main`)
+**Last updated:** 2026-06-12 · **Repo HEAD at write:** `a008c75`
+**Live site:** boca.datastacklogic.com · **Repo:** `hittekk/boca-dental-network` (**PUBLIC**, branch `main`) — clones with no auth; this is WHY a live token must NEVER be committed (GitHub secret-scanning auto-revokes it).
 **Netlify site ID:** `f6412e13-9738-4bf5-bdbf-cb60da6917c2`  *(consensus value across past sessions; verify against Netlify dashboard if a deploy ever lands wrong)*
 
 > This is the consolidated record of everything across all build sessions. Read this first every session.
@@ -9,8 +9,10 @@
 ---
 
 ## 1. SESSION BOOTSTRAP (container wipes between sessions — do this first)
-1. Write `/home/claude/.dsl/config.json` with: `github_pat`, `mapbox_token`, `repo`, `netlify_site_id`. If either secret is missing, ask Robert to paste it **once into the session** (never store it in git or project knowledge).
-   - Working PAT is the **classic** token; the older **fine-grained** token is **REVOKED**. (If a fine-grained token is ever issued again, scope it to this repo only, Contents read/write.)
+1. Write `/home/claude/.dsl/config.json` with: `github_pat`, `mapbox_token`, `repo`, `netlify_site_id`.
+   - **TOKEN HOME (anti-hunting rule, set 2026-06-12):** the current GitHub PAT lives in the **`gitHUB_PAT` project-knowledge file** — read it first, don't go searching past chats. If that file's token returns `401 Bad credentials`, it's been **rotated** → ask Robert to update the project file with the current one. (Robert maintains that file; it's the single durable store. NEVER put the token in git — repo is public.)
+   - **Working token as of 2026-06-12:** the **fine-grained** PAT ending `…IXULLAEFJYiMDDif` (93 chars) is LIVE with **push + admin** on this repo. NOTE: this REVERSES the old note here — it was the *fine-grained* one that survived, not a classic token. Verify with `curl -H "Authorization: Bearer $PAT" https://api.github.com/repos/hittekk/boca-dental-network` (look for `"push": true`).
+   - If `mapbox_token` is missing this session, build-only work is blocked until Robert pastes it or it's pulled from a past session; code/content edits + smoke tests don't need it.
 2. Clone: `git clone https://hittekk:${PAT}@github.com/hittekk/boca-dental-network.git`
 3. `npm ci` (needed for builds, not for doc edits). Skipping it causes silent build failures.
 - Mapbox token is a build-time env var, NOT committed, NOT readable via Netlify MCP (deploy ops only). Uploads land in `/mnt/user-data/uploads/` and reset every session.
