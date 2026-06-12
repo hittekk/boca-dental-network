@@ -375,6 +375,7 @@ export const INITIAL_DATA: InitialData = {
     {
       slug: 'dr-harrison-luu', name: 'Dr. Harrison Luu, DDS', title: 'General Dentist',
       photo: '/team/dr-harrison-luu.webp',
+      familyPhoto: '/team/dr-harrison-luu-family.webp',
       bio: 'Dr. Harrison Luu chose dentistry for the chance to make a direct, positive difference in people\u2019s lives \u2014 relieving pain, restoring function, and improving smiles so patients feel better both physically and emotionally. A 2020 graduate of the UNLV School of Dental Medicine with six years in practice, he focuses on root canals and implants, and is a member of the American Dental Association. Knowing a dental visit can feel stressful, he works to create a calm, judgment-free environment where patients move at their own pace toward a healthy, confident smile. Originally from Southern California, he now lives in Las Vegas with his wife Tina, also a dentist, and their son Hudson. Outside the office he enjoys trying new restaurants and playing pool with friends.',
       locations: [],
     },
@@ -429,6 +430,7 @@ export const INITIAL_DATA: InitialData = {
     {
       slug: 'dr-kathy-gonzalez', name: 'Dr. Kathy Gonzalez, DDS', title: 'General Dentist',
       photo: '/team/dr-kathy-gonzalez.webp',
+      familyPhoto: '/team/dr-kathy-gonzalez-family.webp',
       bio: 'Dr. Kathy Gonzalez has spent her entire adult life in dentistry. She started as a dental assistant at 18, worked as a dental hygienist for nearly two decades, and then returned to school to become a dentist once her children were older, earning her degree from UNLV. For her, dentistry is the perfect intersection of art, science, and service. She has completed 300 hours of the AAID MaxiCourse in Implant Dentistry, and her practice focuses on cosmetic and implant work. She is a member of the American Dental Association and the American Academy of Implant Dentistry. Originally from the Philippines and now living in Las Vegas, Dr. Gonzalez enjoys sketching, painting, piano, guitar, traveling, hiking, biking, cooking, and baking. She loves bringing laughter into the office and believes a trip to the dentist should feel positive \u2014 especially for anxious patients who just need a little reassurance to relax.',
       locations: [],
     },
