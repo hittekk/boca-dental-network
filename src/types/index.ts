@@ -91,6 +91,8 @@ export interface Doctor {
   bio: string;
   /** Optional headshot URL — uploaded via admin */
   photo?: string;
+  /** Optional family/lifestyle photo for the profile page — humanizes the bio */
+  familyPhoto?: string;
   /** Slugs of locations this doctor practices at — empty array OK during mocking */
   locations: string[];
 }

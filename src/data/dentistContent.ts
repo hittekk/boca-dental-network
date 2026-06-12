@@ -25,6 +25,8 @@ export interface DentistContent {
   worksAt:        string[]
   /** Optional headshot URL — [content] */
   photo?:         string
+  /** Optional family/lifestyle photo for the profile page — [content] */
+  familyPhoto?:   string
   /** Languages spoken */
   languages?:     string[]
 }
@@ -117,6 +119,7 @@ export const DENTIST_CONTENT: Record<string, DentistContent> = Object.fromEntrie
       base.shortBio = shortFrom(d.bio)
     }
     if (d.photo) base.photo = d.photo
+    if (d.familyPhoto) base.familyPhoto = d.familyPhoto
     return [d.slug, base]
   }),
 )

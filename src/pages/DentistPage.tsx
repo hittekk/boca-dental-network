@@ -203,6 +203,19 @@ export function DentistPage() {
             <p style={{ fontSize: 17, lineHeight: 1.8, color: 'rgba(0,29,61,0.78)' }}>
               {content.longBio}
             </p>
+            {content.familyPhoto && (
+              <figure style={{ margin: '32px 0 0' }}>
+                <img
+                  src={content.familyPhoto}
+                  alt={`${nameShort} with family`}
+                  loading="lazy"
+                  style={{ width: '100%', maxWidth: 560, borderRadius: 16, border: '1px solid rgba(0,29,61,0.08)', display: 'block' }}
+                />
+                <figcaption style={{ fontFamily: MONO, fontSize: 11, color: 'rgba(0,29,61,0.5)', marginTop: 10, letterSpacing: 0.4 }}>
+                  {nameShort} outside the office.
+                </figcaption>
+              </figure>
+            )}
           </div>
         </section>
       )}

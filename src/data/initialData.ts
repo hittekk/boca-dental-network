@@ -435,6 +435,7 @@ export const INITIAL_DATA: InitialData = {
     {
       slug: 'dr-cole-thompson', name: 'Dr. Cole Thompson, DDS', title: 'General Dentist',
       photo: '/team/dr-cole-thompson.webp',
+      familyPhoto: '/team/dr-cole-thompson-family.webp',
       bio: 'Dr. Cole Thompson became a dentist because he wanted a career where he could genuinely make a difference in people\u2019s lives \u2014 and helping patients walk out feeling more confident about their smile is what he loves most about the job. A 2024 graduate of Roseman University, he focuses on implants and crowns, and takes pride in creating a comfortable, welcoming experience for every patient in his chair. He is a member of the American Dental Association and the Academy of General Dentistry. Originally from the Bay Area, Dr. Thompson now calls Las Vegas home, where he lives with his wife and two sons. When he is not at the office, he is usually on the golf course, out for a run, in the gym, or catching a game with his family.',
       locations: [],
     },
