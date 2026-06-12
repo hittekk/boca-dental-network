@@ -66,7 +66,9 @@ ALL photo / gallery / provider data is **data-driven on the location & doctor ob
 
 ## 7. PROVIDERS (14) & HEADSHOTS
 - **Headshots wired (6 of 14):** Gonzalez, Wall, Minh Nguyen, James Yun, Brendan Marlin, Cole Thompson.
-- **Missing headshots (8):** dr-wyatt-dannels, dr-harrison-luu, dr-sana-fahim, dr-kelcey-loveland, dr-johnson-fong, dr-michael-st-laurent, dr-charles-calder, dr-farhan-hossain.
+- **Headshots wired (10 of 14):** Gonzalez, Wall, Minh Nguyen, James Yun, Brendan Marlin, Cole Thompson, + (2026-06-12, from Frankie's bio doc via Google Drive form links) Harrison Luu, Sana Fahim, Michael St. Laurent, Charles Calder. (Hossain also has a photo on disk but bio is blank + flagged departing.)
+- **Still missing headshots:** dr-wyatt-dannels (no bio either), dr-kelcey-loveland (no bio either), dr-johnson-fong (bio done; doc only provided a *Team Pic*, NOT an individual portrait — need a real headshot from him). Note: dr-cal-heinrich.webp is on disk but has NO profile entry/slug/clinic — do not wire until Frankie/Carlos confirm.
+- **Reno providers (NOT on Vegas):** Dr. Isaiah Abdelmeseeh and Dr. David Montalvo — both bios say "now living in Reno"; their headshots (Drive ids in Frankie's doc) belong to the Reno repo, not here.
 - **Unresolved — Dr. Cal Heinrich:** uploaded portrait matches NO documented slug (closest is `dr-charles-calder`, a different person). Do NOT assume a mapping — ask Robert: new provider? slug? which clinic? Then stage `dr-cal-heinrich.webp`.
 - Bios: most populated; historically 3 lacked bios (Dannels/Founder, Loveland, Hossain). Reno doctors (Abdelmeseeh, Montalvo) intentionally excluded as Reno-brand.
 

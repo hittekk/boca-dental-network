@@ -374,11 +374,13 @@ export const INITIAL_DATA: InitialData = {
     { slug: 'dr-wyatt-dannels',    name: 'Dr. Wyatt Dannels, DDS',    title: 'Lead Dentist & Founder',     bio: '', locations: [] },
     {
       slug: 'dr-harrison-luu', name: 'Dr. Harrison Luu, DDS', title: 'General Dentist',
+      photo: '/team/dr-harrison-luu.webp',
       bio: 'Dr. Harrison Luu chose dentistry for the chance to make a direct, positive difference in people\u2019s lives \u2014 relieving pain, restoring function, and improving smiles so patients feel better both physically and emotionally. A 2020 graduate of the UNLV School of Dental Medicine with six years in practice, he focuses on root canals and implants, and is a member of the American Dental Association. Knowing a dental visit can feel stressful, he works to create a calm, judgment-free environment where patients move at their own pace toward a healthy, confident smile. Originally from Southern California, he now lives in Las Vegas with his wife Tina, also a dentist, and their son Hudson. Outside the office he enjoys trying new restaurants and playing pool with friends.',
       locations: [],
     },
     {
       slug: 'dr-sana-fahim', name: 'Dr. Sana Fahim, DDS', title: 'General Dentist',
+      photo: '/team/dr-sana-fahim.webp',
       bio: 'Dr. Sana Fahim loves helping people feel good about themselves \u2014 there is something rewarding, she says, about helping someone get their confidence back through their smile. Dentistry gives her the balance of precision, creativity, and patient care she was looking for. A 2025 graduate of UNLV, she has completed the AAID implant maxi course, is laser certified, and focuses on crowns, veneers, and bridges. She is a member of the American Dental Association. A Las Vegas native who still calls the city home, Dr. Fahim spends her free time on Pilates and pickleball or traveling somewhere new. What she values most about Boca Dental & Braces is that the practice truly puts patients first \u2014 finding solutions, saying yes whenever possible, and doing whatever it takes to help people feel great about their smiles.',
       locations: [],
     },
@@ -402,6 +404,7 @@ export const INITIAL_DATA: InitialData = {
     },
     {
       slug: 'dr-michael-st-laurent', name: 'Dr. Michael St. Laurent, DDS', title: 'General Dentist',
+      photo: '/team/dr-michael-st-laurent.webp',
       bio: 'Dr. Michael St. Laurent chose dentistry because he wanted to help people feel better, smile bigger, and live more confidently. A graduate of the UNLV School of Dental Medicine with five years in practice, he focuses on oral surgery, implants, and sedation dentistry, and takes the time to understand each patient\u2019s needs before building a personalized treatment plan. His goal is simple: every patient should leave feeling comfortable, cared for, and confident in their smile. He is a member of the American Dental Association and the Academy of General Dentistry. Dr. St. Laurent grew up in Oceanside, California and now lives in Las Vegas. Outside the office he loves spending time with his five-year-old son, hiking, and staying active in the gym \u2014 plus two dogs, a maltipoo named Lulu and a shih tzu named Charlie, who keep things lively at home.',
       locations: [],
     },
@@ -413,6 +416,7 @@ export const INITIAL_DATA: InitialData = {
     },
     {
       slug: 'dr-charles-calder', name: 'Dr. Charles Calder, DDS, MD', title: 'Oral & Maxillofacial Surgeon',
+      photo: '/team/dr-charles-calder.webp',
       bio: 'Dr. Charles Calder is an oral and maxillofacial surgeon who has spent 25 years helping patients get the care they need. He earned his DDS from the Loma Linda University School of Dentistry in 2000, followed by his MD in 2003 and completion of his Oral and Maxillofacial Surgery residency in 2006. His practice focuses on extractions, dental implants, bone grafting, and pathology, and he brings the kind of steady, experienced hand that puts patients at ease \u2014 especially when surgery feels intimidating. Dr. Calder is a member of the American Association of Oral and Maxillofacial Surgeons and was inducted into the OKU dental honor society in recognition of his academic achievement. A California native who now lives in Las Vegas, he enjoys cooking and spending time with family and friends.',
       locations: [],
     },
