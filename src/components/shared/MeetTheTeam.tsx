@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { ArrowUpRight, Stethoscope, User2, Camera } from 'lucide-react'
 import { useLang, t } from '../../lib/lang'
+import { INITIAL_DATA } from '../../data/initialData'
 
 type Theme = 'light' | 'dark' | 'cream'
 
@@ -51,6 +52,10 @@ const PROVIDERS: Provider[] = [
 
 export function MeetTheTeam({
   theme = 'light' }: { theme?: Theme }) {
+  // Real headshots live on INITIAL_DATA.doctors — look up by slug so this
+  // section stays in sync as photos are added (placeholder shown until then).
+  const photoFor = (slug: string): string | undefined =>
+    INITIAL_DATA.doctors.find((d) => d.slug === slug)?.photo
   const lang = useLang()
   const isDark = theme === 'dark'
   const sectionBg = isDark ? '#0A0A0F' : theme === 'cream' ? '#FAFAFA' : '#FAFAFA'
@@ -206,7 +211,33 @@ export function MeetTheTeam({
                   flexShrink: 0,
                 }}
               >
-                {/* Main circle — softer gradient + dashed border to read as placeholder */}
+                {/* Real headshot when present (headroom crop, no head cut off);
+                    dashed placeholder during mockup phase otherwise */}
+                {photoFor(provider.slug) ? (
+                  <div
+                    style={{
+                      width: 76,
+                      height: 76,
+                      borderRadius: '50%',
+                      overflow: 'hidden',
+                      border: `2px solid ${provider.accent}55`,
+                      boxShadow: `0 6px 16px ${provider.accent}25`,
+                    }}
+                  >
+                    <img
+                      src={photoFor(provider.slug)}
+                      alt={`${provider.name} — Boca Dental & Braces Las Vegas`}
+                      loading="lazy"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'center 22%',
+                        display: 'block',
+                      }}
+                    />
+                  </div>
+                ) : (
                 <div
                   style={{
                     width: 76,
@@ -230,6 +261,7 @@ export function MeetTheTeam({
                     style={{ opacity: 0.85 }}
                   />
                 </div>
+                )}
 
                 {/* Initials badge — top-left, ID-tag style */}
                 <div
@@ -252,7 +284,8 @@ export function MeetTheTeam({
                   {provider.initials}
                 </div>
 
-                {/* Camera badge — bottom-right, signals "photo upload spot" */}
+                {/* Camera badge — only on placeholders (no real photo yet) */}
+                {!photoFor(provider.slug) && (
                 <div
                   style={{
                     position: 'absolute',
@@ -272,6 +305,7 @@ export function MeetTheTeam({
                 >
                   <Camera size={12} color={provider.accent} strokeWidth={2.5} />
                 </div>
+                )}
               </div>
 
               <div
