@@ -200,21 +200,46 @@ export function DentistPage() {
             <h2 style={{ fontSize: 'clamp(22px, 2.4vw, 32px)', fontWeight: 800, letterSpacing: '-0.4px', color: NAVY, margin: '0 0 20px', textTransform: 'uppercase' }}>
               Training &amp; Experience
             </h2>
-            <p style={{ fontSize: 17, lineHeight: 1.8, color: 'rgba(0,29,61,0.78)' }}>
-              {content.longBio}
-            </p>
-            {content.familyPhoto && (
-              <figure style={{ margin: '32px 0 0' }}>
-                <img
-                  src={content.familyPhoto}
-                  alt={`${nameShort} with family`}
-                  loading="lazy"
-                  style={{ width: '100%', maxWidth: 560, borderRadius: 16, border: '1px solid rgba(0,29,61,0.08)', display: 'block' }}
-                />
-                <figcaption style={{ fontFamily: MONO, fontSize: 11, color: 'rgba(0,29,61,0.5)', marginTop: 10, letterSpacing: 0.4 }}>
-                  {nameShort} outside the office.
-                </figcaption>
-              </figure>
+            {content.familyPhoto ? (
+              <div
+                className="dent-about-grid"
+                style={{ display: 'grid', gridTemplateColumns: '1.15fr 0.85fr', gap: 44, alignItems: 'start' }}
+              >
+                <style>{`@media (max-width: 880px){ .dent-about-grid{ grid-template-columns: 1fr !important; gap: 28px !important; } .dent-about-photo{ max-width: 420px; } }`}</style>
+                <p style={{ fontSize: 17, lineHeight: 1.8, color: 'rgba(0,29,61,0.78)', margin: 0 }}>
+                  {content.longBio}
+                </p>
+                <figure className="dent-about-photo" style={{ margin: 0 }}>
+                  <div
+                    style={{
+                      borderTop: `3px solid ${ORANGE}`,
+                      borderRadius: 16,
+                      overflow: 'hidden',
+                      border: '1px solid rgba(0,29,61,0.06)',
+                      boxShadow: '0 30px 60px -34px rgba(0,29,61,0.45)',
+                    }}
+                  >
+                    <img
+                      src={content.familyPhoto}
+                      alt={`${nameShort} with family`}
+                      loading="lazy"
+                      style={{ width: '100%', display: 'block' }}
+                    />
+                  </div>
+                  <figcaption style={{ marginTop: 14 }}>
+                    <div style={{ fontFamily: MONO, fontSize: 10, fontWeight: 800, letterSpacing: 1.6, textTransform: 'uppercase', color: ORANGE, marginBottom: 4 }}>
+                      Outside the office
+                    </div>
+                    <div style={{ fontSize: 13, color: 'rgba(0,29,61,0.6)', lineHeight: 1.5 }}>
+                      {nameShort} and family.
+                    </div>
+                  </figcaption>
+                </figure>
+              </div>
+            ) : (
+              <p style={{ fontSize: 17, lineHeight: 1.8, color: 'rgba(0,29,61,0.78)' }}>
+                {content.longBio}
+              </p>
             )}
           </div>
         </section>
