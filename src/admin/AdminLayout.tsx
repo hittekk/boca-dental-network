@@ -73,7 +73,7 @@ export default function AdminLayout({ session }: { session: Session }) {
       >
         {/* Brand */}
         <div className="h-20 px-5 flex items-center border-b border-white/10">
-          <div className="flex items-center gap-3 w-full">
+          <div className="flex items-center gap-3">
             <img
               src="/boca-logo.png"
               alt="Boca Dental and Braces"
@@ -89,19 +89,16 @@ export default function AdminLayout({ session }: { session: Session }) {
               <div className="text-[10px] font-bold uppercase tracking-widest text-white/90 leading-none">
                 Admin
               </div>
-              <div className="text-[9px] font-semibold uppercase tracking-widest text-white/45 mt-1 leading-none">
-                DentalPress
-              </div>
+              {market?.label && (
+                <span
+                  className="inline-block mt-1.5 text-[9px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded leading-none"
+                  style={{ background: ORANGE, color: 'white' }}
+                  title={`Connected to the ${market.label} backend`}
+                >
+                  {market.label}
+                </span>
+              )}
             </div>
-            {market?.label && (
-              <span
-                className="ml-auto text-[9px] font-extrabold uppercase tracking-widest px-2 py-1 rounded leading-none"
-                style={{ background: ORANGE, color: 'white' }}
-                title="This admin is connected to the VEGAS backend"
-              >
-                {market.label}
-              </span>
-            )}
           </div>
         </div>
 
