@@ -1,11 +1,13 @@
-import { useQuery } from '@tanstack/react-query';
-import { Inbox, Phone, Mail, Calendar } from 'lucide-react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Inbox, Phone, Mail, Calendar, Trash2 } from 'lucide-react';
 import { supabase, type DbLead } from '../../lib/supabase';
 
 const ORANGE = '#F3672A';
 const DARK_NAVY = '#001D3D';
 
 export default function LeadsListPage() {
+  const qc = useQueryClient();
+
   const { data, isLoading } = useQuery({
     queryKey: ['admin', 'leads'],
     queryFn: async () => {
@@ -15,6 +17,19 @@ export default function LeadsListPage() {
         .order('created_at', { ascending: false });
       if (error) throw error;
       return (data ?? []) as DbLead[];
+    },
+  });
+
+  const deleteLead = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from('leads').delete().eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['admin', 'leads'] });
+      qc.invalidateQueries({ queryKey: ['admin', 'recent-leads'] });
+      qc.invalidateQueries({ queryKey: ['admin', 'leads-this-week'] });
+      qc.invalidateQueries({ queryKey: ['admin', 'stats'] });
     },
   });
 
@@ -49,6 +64,7 @@ export default function LeadsListPage() {
                 <th className="px-4 py-3">Interest</th>
                 <th className="px-4 py-3">Status</th>
                 <th className="px-4 py-3">When</th>
+                <th className="px-4 py-3 text-right sr-only">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -84,6 +100,18 @@ export default function LeadsListPage() {
                       <Calendar className="h-3 w-3" />
                       {new Date(lead.created_at).toLocaleDateString()}
                     </span>
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    <button
+                      onClick={() => {
+                        if (confirm(`Delete lead "${lead.full_name}"? This can't be undone.`)) deleteLead.mutate(lead.id);
+                      }}
+                      disabled={deleteLead.isPending}
+                      title="Delete lead"
+                      className="h-8 w-8 rounded-lg inline-flex items-center justify-center text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
                   </td>
                 </tr>
               ))}
