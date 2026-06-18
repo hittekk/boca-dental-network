@@ -122,7 +122,7 @@ export default function PagesListPage() {
                   <td className="px-4 py-3 text-right relative">
                     <button
                       onClick={() => setMenuOpen(menuOpen === page.id ? null : page.id)}
-                      className="h-8 w-8 rounded-lg flex items-center justify-center hover:bg-slate-100 text-slate-400 hover:text-slate-700 opacity-0 group-hover:opacity-100 transition-all"
+                      className="h-8 w-8 rounded-lg flex items-center justify-center hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-all"
                     >
                       <MoreVertical className="h-4 w-4" />
                     </button>
