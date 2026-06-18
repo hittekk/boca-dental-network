@@ -71,7 +71,6 @@ export default function LoginPage() {
                 className="w-full px-4 py-2.5 rounded-lg border-2 border-slate-200 focus:outline-none focus:border-orange-500 transition-colors text-slate-900"
                 required
                 autoFocus
-                placeholder="frankie@bocadentalandbraces.com"
               />
             </div>
             <div>
