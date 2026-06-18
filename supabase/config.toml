@@ -1,0 +1,42 @@
+# Supabase CLI config — Boca VEGAS (bocadentalandbraces.com)
+#
+# `project_id` is a LOCAL label only; it is never baked into the app bundle.
+# To install on a new (client) Supabase project, you do NOT edit this value —
+# you run `supabase link --project-ref <your-ref>` (see supabase/README.md).
+#
+# This repo is the VEGAS product. It must never be linked to the Reno project
+# (xcbyluaziufeptbmdtme). Reno lives in hittekk/boca-specialty-reno.
+project_id = "boca-dental-network"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+
+[auth]
+enabled = true
+# Set to your production domain when linking a client project.
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://localhost:5173"]
+jwt_expiry = 3600
+enable_signup = true
+
+[auth.email]
+enable_signup = true
+enable_confirmations = false
+
+[storage]
+enabled = true
+# Matches the `media` bucket created in migration 20260515055407.
+file_size_limit = "10MiB"
