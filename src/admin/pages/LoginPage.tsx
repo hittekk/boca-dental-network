@@ -13,26 +13,16 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [mode, setMode] = useState<'signin' | 'signup'>('signin');
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
-    const { error: authError } = mode === 'signin'
-      ? await supabase.auth.signInWithPassword({ email, password })
-      : await supabase.auth.signUp({ email, password });
+    const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
 
     if (authError) {
       setError(authError.message);
-      setLoading(false);
-      return;
-    }
-
-    if (mode === 'signup') {
-      setError('Check your email to confirm your account, then sign in.');
-      setMode('signin');
       setLoading(false);
       return;
     }
@@ -63,12 +53,10 @@ export default function LoginPage() {
           style={{ boxShadow: '0 30px 60px -15px rgba(0,0,0,0.5)' }}
         >
           <h1 className="text-2xl font-bold mb-1" style={{ color: DARK_NAVY }}>
-            {mode === 'signin' ? 'Sign in' : 'Create account'}
+            Sign in
           </h1>
           <p className="text-sm text-slate-500 mb-6">
-            {mode === 'signin'
-              ? 'Welcome back. Manage your locations, services, and leads.'
-              : 'First time here? Create your admin account.'}
+            Welcome back. Manage your locations, services, and leads.
           </p>
 
           <form onSubmit={onSubmit} className="space-y-4">
@@ -115,36 +103,14 @@ export default function LoginPage() {
               {loading ? 'Working...' : (
                 <>
                   <LogIn className="h-4 w-4" />
-                  {mode === 'signin' ? 'Sign in' : 'Create account'}
+                  Sign in
                 </>
               )}
             </button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-slate-500">
-            {mode === 'signin' ? (
-              <>
-                First time?{' '}
-                <button
-                  onClick={() => { setMode('signup'); setError(null); }}
-                  className="font-semibold hover:underline"
-                  style={{ color: ORANGE }}
-                >
-                  Create account
-                </button>
-              </>
-            ) : (
-              <>
-                Already have an account?{' '}
-                <button
-                  onClick={() => { setMode('signin'); setError(null); }}
-                  className="font-semibold hover:underline"
-                  style={{ color: ORANGE }}
-                >
-                  Sign in
-                </button>
-              </>
-            )}
+          <div className="mt-6 text-center text-xs text-slate-400">
+            Access is provisioned by your administrator.
           </div>
         </div>
 
