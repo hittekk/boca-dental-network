@@ -53,17 +53,8 @@ export default function LoginPage() {
           <img
             src="/boca-logo.png"
             alt="Boca Dental and Braces"
-            style={{ height: 56, width: 'auto', display: 'block', marginBottom: 16 }}
+            style={{ height: 56, width: 'auto', display: 'block' }}
           />
-          <div
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full"
-            style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}
-          >
-            <div className="h-1.5 w-1.5 rounded-full" style={{ background: ORANGE }} />
-            <span className="text-white/70 text-[10px] uppercase tracking-widest font-bold">
-              DentalPress Admin
-            </span>
-          </div>
         </div>
 
         {/* Card */}
