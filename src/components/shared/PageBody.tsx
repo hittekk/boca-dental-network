@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // src/components/shared/PageBody.tsx
-// Generic renderer for a CMS page: takes a page_template's field_schema + the
-// page's saved content and renders each section's fields into a clean, readable
-// page body. Shared by the public CustomPage and the in-admin preview so what
-// you preview is exactly what publishes.
+// Generic renderer for a CMS page body: takes a page_template's field_schema +
+// the page's saved content and renders each section's fields as a clean, on-brand
+// article. Shared by the public CustomPage and the in-admin preview so what you
+// preview is exactly what publishes.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const ORANGE = '#F3672A'
@@ -35,7 +35,7 @@ function renderField(field: Field, value: unknown, key: string) {
         key={key}
         src={str(value)}
         alt={field.label ?? ''}
-        style={{ width: '100%', maxHeight: 460, objectFit: 'cover', borderRadius: 16, margin: '8px 0 20px' }}
+        style={{ width: '100%', maxHeight: 460, objectFit: 'cover', borderRadius: 16, margin: '8px 0 28px' }}
       />
     )
   }
@@ -45,7 +45,7 @@ function renderField(field: Field, value: unknown, key: string) {
     return (
       <div
         key={key}
-        style={{ fontSize: 17, lineHeight: 1.8, color: 'rgba(0,29,61,0.82)', margin: '0 0 18px' }}
+        style={{ fontSize: 17, lineHeight: 1.85, color: 'rgba(0,29,61,0.82)', margin: '0 0 22px' }}
         dangerouslySetInnerHTML={{ __html: str(value) }}
       />
     )
@@ -56,9 +56,9 @@ function renderField(field: Field, value: unknown, key: string) {
     const items = (Array.isArray(value) ? value : [value]).map(str).filter((s) => s.trim())
     if (!items.length) return null
     return (
-      <ul key={key} style={{ margin: '0 0 20px', paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 10 }}>
+      <ul key={key} style={{ margin: '0 0 24px', padding: 0, listStyle: 'none', display: 'grid', gap: 12 }}>
         {items.map((it, i) => (
-          <li key={i} style={{ display: 'flex', gap: 10, fontSize: 16, lineHeight: 1.6, color: 'rgba(0,29,61,0.82)' }}>
+          <li key={i} style={{ display: 'flex', gap: 12, fontSize: 16.5, lineHeight: 1.6, color: 'rgba(0,29,61,0.82)' }}>
             <span style={{ color: ORANGE, fontWeight: 800, flexShrink: 0 }}>›</span>
             <span>{it}</span>
           </li>
@@ -72,7 +72,7 @@ function renderField(field: Field, value: unknown, key: string) {
   // Eyebrow / badge / small tag
   if (matches(field.key, 'eyebrow', 'badge', 'tag', 'category')) {
     return (
-      <div key={key} style={{ fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: ORANGE, margin: '0 0 12px' }}>
+      <div key={key} style={{ fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: ORANGE, margin: '28px 0 12px' }}>
         {text}
       </div>
     )
@@ -81,7 +81,7 @@ function renderField(field: Field, value: unknown, key: string) {
   // Headlines
   if (matches(field.key, 'headline', 'h1', 'title') && !matches(field.key, 'sub')) {
     return (
-      <h2 key={key} style={{ fontSize: 'clamp(26px, 3vw, 38px)', fontWeight: 800, letterSpacing: '-0.6px', color: DARK_NAVY, margin: '0 0 16px', textTransform: 'uppercase' }}>
+      <h2 key={key} style={{ fontSize: 'clamp(22px, 2.6vw, 30px)', fontWeight: 800, letterSpacing: '-0.4px', color: DARK_NAVY, margin: '32px 0 16px', textTransform: 'uppercase' }}>
         {text}
       </h2>
     )
@@ -90,19 +90,19 @@ function renderField(field: Field, value: unknown, key: string) {
   // Sub-headlines / supporting lines / intros / excerpts / messages
   if (matches(field.key, 'subheadline', 'supporting', 'intro', 'excerpt', 'message', 'subtitle')) {
     return (
-      <p key={key} style={{ fontSize: 18, lineHeight: 1.7, color: 'rgba(0,29,61,0.7)', margin: '0 0 20px', maxWidth: 760 }}>
+      <p key={key} style={{ fontSize: 18.5, lineHeight: 1.7, color: 'rgba(0,29,61,0.72)', margin: '0 0 22px', maxWidth: 720 }}>
         {text}
       </p>
     )
   }
 
-  // Call-to-action buttons (a *_cta_label paired with *_cta_link)
-  if (matches(field.key, 'cta_label', 'button') && !matches(field.key, 'link')) return null // handled at section level
+  // CTA label handled at section level
+  if (matches(field.key, 'cta_label', 'button') && !matches(field.key, 'link')) return null
 
   // Trust line / small print
   if (matches(field.key, 'trust', 'last_updated', 'read_time', 'author')) {
     return (
-      <p key={key} style={{ fontSize: 13, color: 'rgba(0,29,61,0.5)', margin: '0 0 14px' }}>
+      <p key={key} style={{ fontSize: 13, color: 'rgba(0,29,61,0.5)', margin: '0 0 16px' }}>
         {text}
       </p>
     )
@@ -111,7 +111,7 @@ function renderField(field: Field, value: unknown, key: string) {
   // Testimonial quote
   if (matches(field.key, 'testimonial_quote', 'quote')) {
     return (
-      <blockquote key={key} style={{ borderLeft: `3px solid ${ORANGE}`, paddingLeft: 18, margin: '0 0 12px', fontSize: 19, fontStyle: 'italic', color: DARK_NAVY }}>
+      <blockquote key={key} style={{ borderLeft: `3px solid ${ORANGE}`, paddingLeft: 20, margin: '0 0 16px', fontSize: 20, fontStyle: 'italic', color: DARK_NAVY }}>
         “{text}”
       </blockquote>
     )
@@ -119,13 +119,13 @@ function renderField(field: Field, value: unknown, key: string) {
 
   // Default: body paragraph
   return (
-    <p key={key} style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(0,29,61,0.82)', margin: '0 0 16px' }}>
+    <p key={key} style={{ fontSize: 16.5, lineHeight: 1.8, color: 'rgba(0,29,61,0.82)', margin: '0 0 18px' }}>
       {text}
     </p>
   )
 }
 
-/** Find a CTA (label + link) pair within a section's content. */
+/** Find CTA (label + link) pairs within a section's content. */
 function ctaPairs(section: Section, c: Record<string, unknown>) {
   const out: { label: string; link: string }[] = []
   for (const f of section.fields) {
@@ -140,21 +140,34 @@ function ctaPairs(section: Section, c: Record<string, unknown>) {
   return out
 }
 
-export default function PageBody({ template, content }: { template: PageTemplateLike; content: PageContentLike }) {
+export default function PageBody({
+  template,
+  content,
+  pageTitle,
+}: {
+  template: PageTemplateLike
+  content: PageContentLike
+  pageTitle?: string
+}) {
   const sections = template?.field_schema?.sections ?? []
+  const titleLc = (pageTitle ?? '').trim().toLowerCase()
   return (
     <div style={{ background: 'white' }}>
-      {sections.map((section) => {
-        const c = content?.[section.id] ?? {}
-        const ctas = ctaPairs(section, c)
-        const body = section.fields.map((f) => renderField(f, c[f.key], `${section.id}-${f.key}`)).filter(Boolean)
-        if (!body.length && !ctas.length) return null
-        return (
-          <section key={section.id} style={{ padding: '40px 32px', borderTop: '1px solid #EEF2F7' }}>
-            <div style={{ maxWidth: 880, margin: '0 auto' }}>
+      <div style={{ maxWidth: 800, margin: '0 auto', padding: '12px 32px 64px' }}>
+        {sections.map((section) => {
+          const c = content?.[section.id] ?? {}
+          const ctas = ctaPairs(section, c)
+          const body = section.fields
+            // Drop a heading field that merely repeats the page title (the hero already shows it)
+            .filter((f) => !(titleLc && matches(f.key, 'title', 'headline', 'h1') && !matches(f.key, 'sub') && str(c[f.key]).trim().toLowerCase() === titleLc))
+            .map((f) => renderField(f, c[f.key], `${section.id}-${f.key}`))
+            .filter(Boolean)
+          if (!body.length && !ctas.length) return null
+          return (
+            <section key={section.id}>
               {body}
               {ctas.length > 0 && (
-                <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 8 }}>
+                <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', margin: '8px 0 28px' }}>
                   {ctas.map((cta, i) => (
                     <a
                       key={i}
@@ -166,10 +179,10 @@ export default function PageBody({ template, content }: { template: PageTemplate
                   ))}
                 </div>
               )}
-            </div>
-          </section>
-        )
-      })}
+            </section>
+          )
+        })}
+      </div>
     </div>
   )
 }

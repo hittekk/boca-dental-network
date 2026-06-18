@@ -52,7 +52,7 @@ const DOMAIN = 'https://bocadentalandbraces.com'
 // Shared layout helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-function usePageMeta(opts: {
+export function usePageMeta(opts: {
   title: string
   description: string
   url: string
@@ -98,7 +98,7 @@ function setLink(rel: string, href: string) {
   el.setAttribute('href', href)
 }
 
-function Shell({ children, logoMode = 'dark' }: { children: React.ReactNode, logoMode?: 'white' | 'dark' }) {
+export function Shell({ children, logoMode = 'dark' }: { children: React.ReactNode, logoMode?: 'white' | 'dark' }) {
   return (
     <div style={{ background: 'white', color: NAVY, fontFamily: 'inherit' }}>
       <Header brand={INITIAL_DATA.brand} announcement={INITIAL_DATA.announcement} logoMode={logoMode} />
@@ -170,7 +170,7 @@ function PlaceholderBody({ children }: { children: React.ReactNode }) {
   )
 }
 
-function CTAStrip({ headline = 'Ready to book? Your new Las Vegas dentist is waiting.' }: { headline?: string }) {
+export function CTAStrip({ headline = 'Ready to book? Your new Las Vegas dentist is waiting.' }: { headline?: string }) {
   return (
     <section style={{ background: NAVY, color: 'white', padding: '56px 32px' }}>
       <div style={{ maxWidth: 880, margin: '0 auto', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>

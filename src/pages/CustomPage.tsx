@@ -1,19 +1,18 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // src/pages/CustomPage.tsx
 // Public renderer for admin-created CMS pages (the `pages` table). Resolves the
-// current path to a published page, renders it inside the site chrome using the
-// shared <PageBody>. If no published page matches, the caller falls back to the
-// homepage (preserving the previous catch-all behaviour).
+// current path to a published page and renders it inside the SAME chrome the
+// site's core pages use (Shell + gradient hero + CTA strip), so a custom page
+// looks native. Falls back to the homepage when no published page matches.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useEffect, useState } from 'react'
-import { Header } from '../components/Header/Header'
-import { Footer } from '../components/Footer/Footer'
+import { Link } from 'react-router-dom'
+import { Shell, CTAStrip, usePageMeta } from './CorePages'
 import PageBody, { type PageTemplateLike, type PageContentLike } from '../components/shared/PageBody'
-import { useSiteData } from '../lib/site-data'
 import { supabase } from '../lib/supabase'
 
-const DARK_NAVY = '#001D3D'
+const ORANGE = '#F3672A'
 const NAVY = '#162E7A'
 
 export type FetchedPage = {
@@ -23,7 +22,7 @@ export type FetchedPage = {
   content: PageContentLike
   meta_title: string | null
   meta_description: string | null
-  template: PageTemplateLike & { name?: string }
+  template: PageTemplateLike & { name?: string; category?: string }
 }
 
 type State = { loading: boolean; page: FetchedPage | null }
@@ -56,49 +55,42 @@ export function usePageBySlug(pathname: string): State {
   return state
 }
 
-function setMeta(name: string, content: string, attr: 'name' | 'property') {
-  let el = document.head.querySelector(`meta[${attr}="${name}"]`) as HTMLMetaElement | null
-  if (!el) {
-    el = document.createElement('meta')
-    el.setAttribute(attr, name)
-    document.head.appendChild(el)
-  }
-  el.setAttribute('content', content)
-}
-
 export function CustomPage({ page }: { page: FetchedPage }) {
-  const siteData = useSiteData()
+  const origin = typeof window !== 'undefined' ? window.location.origin : ''
+  const breadcrumbSchema = usePageMeta({
+    title: page.meta_title || page.title,
+    description: page.meta_description || `${page.title} — Boca Dental and Braces.`,
+    url: `${origin}/${page.slug}/`,
+    breadcrumb: [{ name: 'Home', url: `${origin}/` }, { name: page.title }],
+  })
+
+  // Make sure the title reflects the page even if usePageMeta hasn't run yet.
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
-    document.title = page.meta_title || page.title
-    if (page.meta_description) {
-      setMeta('description', page.meta_description, 'name')
-      setMeta('og:description', page.meta_description, 'property')
-    }
-    setMeta('og:title', page.meta_title || page.title, 'property')
-  }, [page])
+  }, [page.id])
 
   return (
-    <div style={{ background: 'white', color: NAVY }}>
-      <Header brand={siteData.brand} announcement={siteData.announcement} />
-      <section style={{ background: 'linear-gradient(180deg, #F7F9FC 0%, white 70%)', padding: '160px 32px 24px' }}>
+    <Shell>
+      <section style={{ background: 'linear-gradient(180deg, #F7F9FC 0%, white 65%)', padding: '160px 32px 48px' }}>
         <div style={{ maxWidth: 880, margin: '0 auto' }}>
-          <h1
-            style={{
-              fontSize: 'clamp(32px, 4.4vw, 56px)',
-              fontWeight: 800,
-              letterSpacing: '-1.2px',
-              color: DARK_NAVY,
-              margin: 0,
-              textTransform: 'uppercase',
-            }}
-          >
+          <nav style={{ fontSize: 12, fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', color: 'rgba(0,29,61,0.55)', marginBottom: 22, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <Link to="/" style={{ color: 'rgba(0,29,61,0.55)', textDecoration: 'none' }}>Home</Link>
+            <span style={{ opacity: 0.4 }}>/</span>
+            <span style={{ color: ORANGE, fontWeight: 700 }}>{page.title}</span>
+          </nav>
+          <h1 style={{ fontSize: 'clamp(32px, 4.4vw, 56px)', fontWeight: 800, letterSpacing: '-1.2px', color: NAVY, margin: 0, textTransform: 'uppercase' }}>
             {page.title}
           </h1>
+          {page.meta_description && (
+            <p style={{ fontSize: 17, lineHeight: 1.7, color: 'rgba(0,29,61,0.75)', maxWidth: 760, margin: '18px 0 0' }}>
+              {page.meta_description}
+            </p>
+          )}
         </div>
       </section>
-      <PageBody template={page.template} content={page.content} />
-      <Footer />
-    </div>
+      <PageBody template={page.template} content={page.content} pageTitle={page.title} />
+      <CTAStrip />
+      {breadcrumbSchema}
+    </Shell>
   )
 }
