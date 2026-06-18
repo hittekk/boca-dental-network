@@ -6,23 +6,36 @@
 // Components that import INITIAL_DATA can be migrated one at a time to call
 // useSiteData() instead. Until migrated, they continue to read the static
 // fallback. Once migrated, they get live data from the admin.
+//
+// Service-page content (the rich treatment pages) is provided separately via
+// useServicePages(), merging DB rows over the static SERVICE_CONTENT fallback.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { InitialData, Location, Service } from '../types';
+import type { InitialData, Location, Service, Doctor, Manager, LocationReview } from '../types';
 import { supabase, isSupabaseConfigured } from './supabase';
 import { INITIAL_DATA } from '../data/initialData';
 import type { AnalyticsConfig } from './analytics';
-
-type Extended = { data: InitialData; analytics: AnalyticsConfig };
+import type { ServicePageEntry } from '../data/serviceCatalog';
+import { SERVICE_CONTENT, type ServiceContent } from '../data/serviceContent';
 
 const SiteDataContext = createContext<InitialData>(INITIAL_DATA);
 const AnalyticsConfigContext = createContext<AnalyticsConfig>({});
 
+export type ServicePagesValue = {
+  /** Full per-page content keyed by service slug (DB merged over static fallback). */
+  content: Record<string, ServiceContent>;
+  /** DB-managed service pages as catalog entries (for category-hub listings + new pages). */
+  entries: ServicePageEntry[];
+};
+const DEFAULT_SERVICE_PAGES: ServicePagesValue = { content: SERVICE_CONTENT, entries: [] };
+const ServicePagesContext = createContext<ServicePagesValue>(DEFAULT_SERVICE_PAGES);
+
 export function SiteDataProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<InitialData>(INITIAL_DATA);
   const [analytics, setAnalytics] = useState<AnalyticsConfig>({});
+  const [servicePages, setServicePages] = useState<ServicePagesValue>(DEFAULT_SERVICE_PAGES);
 
   useEffect(() => {
     if (!isSupabaseConfigured) return;
@@ -30,10 +43,10 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
 
     (async () => {
       try {
-        const [locs, svcs, settings, ann, faqs] = await Promise.all([
+        const [locs, svcs, settings, ann, faqs, reviews, pages, docs, docLocs, oms] = await Promise.all([
           supabase
             .from('locations')
-            .select('legacy_id, slug, label, address, city, state, zip, phone, hours, is_kids_clinic, rating, review_count, neighborhood, narrative, gbp_id, languages, id')
+            .select('legacy_id, slug, label, address, city, state, zip, phone, hours, is_kids_clinic, rating, review_count, neighborhood, narrative, gbp_id, languages, gallery, id')
             .eq('is_published', true)
             .order('sort_order'),
           supabase
@@ -53,6 +66,29 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
             .from('location_faqs')
             .select('location_id, question, answer, sort_order')
             .order('sort_order'),
+          supabase
+            .from('reviews')
+            .select('location_id, author_name, rating, review_text, review_date, is_featured')
+            .eq('is_published', true)
+            .order('is_featured', { ascending: false }),
+          supabase
+            .from('service_pages')
+            .select('slug, category_slug, label, short_desc, title_tag, meta_description, primary_keyword, secondary_keywords, h1, hero_intro, hero_alt, content')
+            .eq('is_published', true)
+            .order('sort_order'),
+          supabase
+            .from('doctors')
+            .select('id, slug, name, title, bio, headshot_url, photo_url')
+            .eq('is_published', true)
+            .order('sort_order'),
+          supabase
+            .from('doctor_locations')
+            .select('doctor_id, location_id, is_primary_location, sort_order'),
+          supabase
+            .from('office_managers')
+            .select('id, name, title, location_id, image_url, sort_order')
+            .eq('is_published', true)
+            .order('sort_order'),
         ]);
 
         if (cancelled) return;
@@ -68,12 +104,29 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
           faqsByLocation.set(f.location_id, list);
         });
 
+        // location uuid -> real reviews (featured first)
+        const reviewsByLocation = new Map<string, LocationReview[]>();
+        (reviews.data ?? []).forEach((r: {
+          location_id: string | null; author_name: string; rating: number;
+          review_text: string; review_date: string | null;
+        }) => {
+          if (!r.location_id) return;
+          const list = reviewsByLocation.get(r.location_id) ?? [];
+          list.push({
+            author: r.author_name,
+            rating: r.rating,
+            body: r.review_text,
+            date: r.review_date ?? undefined,
+          });
+          reviewsByLocation.set(r.location_id, list);
+        });
+
         const mappedLocations: Location[] = (locs.data ?? []).map((l: {
           legacy_id: number | null; slug: string; label: string; address: string;
           city: string; state: string; zip: string; phone: string; hours: string;
           is_kids_clinic: boolean; rating: number | null; review_count: number;
           neighborhood: string | null; narrative: string | null; gbp_id: string | null;
-          languages: string[] | null; id: string;
+          languages: string[] | null; gallery: string[] | null; id: string;
         }) => ({
           id: l.legacy_id ?? 0,
           slug: l.slug,
@@ -91,6 +144,8 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
           narrative: l.narrative ?? '',
           gbp_id: l.gbp_id ?? '',
           languages: l.languages ?? ['English'],
+          gallery: Array.isArray(l.gallery) && l.gallery.length > 0 ? l.gallery : undefined,
+          reviews: reviewsByLocation.get(l.id) ?? [],
           faqs: faqsByLocation.get(l.id) ?? [],
         }));
 
@@ -102,6 +157,79 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
           desc: s.short_description ?? '',
           category: s.category ?? '',
         }));
+
+        // location uuid -> slug, for resolving doctor_locations / office_managers
+        const locIdToSlug = new Map<string, string>(
+          (locs.data ?? []).map((l: { id: string; slug: string }) => [l.id, l.slug]),
+        );
+
+        // doctor_id -> ordered clinic links (primary first, then sort_order)
+        const linksByDoctor = new Map<string, { slug: string; primary: boolean; sort: number }[]>();
+        (docLocs.data ?? []).forEach((dl: {
+          doctor_id: string; location_id: string; is_primary_location: boolean | null; sort_order: number | null;
+        }) => {
+          const slug = locIdToSlug.get(dl.location_id);
+          if (!slug) return;
+          const arr = linksByDoctor.get(dl.doctor_id) ?? [];
+          arr.push({ slug, primary: !!dl.is_primary_location, sort: dl.sort_order ?? 0 });
+          linksByDoctor.set(dl.doctor_id, arr);
+        });
+
+        const mappedDoctors: Doctor[] = (docs.data ?? []).map((d: {
+          id: string; slug: string; name: string; title: string | null; bio: string | null;
+          headshot_url: string | null; photo_url: string | null;
+        }) => {
+          const links = (linksByDoctor.get(d.id) ?? []).sort(
+            (a, b) => (b.primary ? 1 : 0) - (a.primary ? 1 : 0) || a.sort - b.sort,
+          );
+          return {
+            slug: d.slug,
+            name: d.name,
+            title: d.title ?? '',
+            bio: d.bio ?? '',
+            photo: d.headshot_url ?? d.photo_url ?? undefined,
+            locations: links.map((x) => x.slug),
+          };
+        });
+
+        const mappedManagers: Manager[] = (oms.data ?? []).map((m: {
+          id: string; name: string; title: string | null; location_id: string | null; image_url: string | null;
+        }) => ({
+          slug: m.id,
+          name: m.name,
+          title: m.title ?? 'Office Manager',
+          photo: m.image_url ?? undefined,
+          locationSlug: m.location_id ? locIdToSlug.get(m.location_id) ?? '' : '',
+        }));
+
+        const dbServiceContent: Record<string, ServiceContent> = {};
+        const dbServiceEntries: ServicePageEntry[] = [];
+        (pages.data ?? []).forEach((p: {
+          slug: string; category_slug: string; label: string; short_desc: string | null;
+          title_tag: string | null; meta_description: string | null; primary_keyword: string | null;
+          secondary_keywords: string[] | null; h1: string | null; hero_intro: string | null;
+          hero_alt: string | null; content: Record<string, unknown> | null;
+        }) => {
+          dbServiceContent[p.slug] = {
+            categorySlug: p.category_slug,
+            slug: p.slug,
+            label: p.label,
+            titleTag: p.title_tag ?? '',
+            metaDesc: p.meta_description ?? '',
+            primaryKeyword: p.primary_keyword ?? '',
+            secondaryKeywords: p.secondary_keywords ?? [],
+            h1: p.h1 ?? p.label,
+            heroIntro: p.hero_intro ?? '',
+            heroAlt: p.hero_alt ?? '',
+            ...(p.content ?? {}),
+          } as unknown as ServiceContent;
+          dbServiceEntries.push({
+            slug: p.slug,
+            label: p.label,
+            categorySlug: p.category_slug,
+            desc: p.short_desc ?? '',
+          });
+        });
 
         const newData: InitialData = {
           ...INITIAL_DATA,
@@ -119,12 +247,16 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
             : INITIAL_DATA.announcement,
           locations: mappedLocations.length > 0 ? mappedLocations : INITIAL_DATA.locations,
           services: mappedServices.length > 0 ? mappedServices : INITIAL_DATA.services,
-          // doctors stays from INITIAL_DATA until we wire that table similarly
-          doctors: INITIAL_DATA.doctors,
+          doctors: mappedDoctors.length > 0 ? mappedDoctors : INITIAL_DATA.doctors,
+          managers: mappedManagers.length > 0 ? mappedManagers : INITIAL_DATA.managers,
         };
 
         setData(newData);
         setAnalytics(analyticsSettings);
+        setServicePages({
+          content: { ...SERVICE_CONTENT, ...dbServiceContent },
+          entries: dbServiceEntries,
+        });
       } catch (err) {
         console.warn('[site-data] Supabase fetch failed, using static fallback:', err);
       }
@@ -138,7 +270,9 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
   return (
     <SiteDataContext.Provider value={data}>
       <AnalyticsConfigContext.Provider value={analytics}>
-        {children}
+        <ServicePagesContext.Provider value={servicePages}>
+          {children}
+        </ServicePagesContext.Provider>
       </AnalyticsConfigContext.Provider>
     </SiteDataContext.Provider>
   );
@@ -150,4 +284,8 @@ export function useSiteData(): InitialData {
 
 export function useAnalyticsConfigFromSettings(): AnalyticsConfig {
   return useContext(AnalyticsConfigContext);
+}
+
+export function useServicePages(): ServicePagesValue {
+  return useContext(ServicePagesContext);
 }

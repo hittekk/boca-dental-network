@@ -10,9 +10,12 @@ import {
   LogOut,
   ExternalLink,
   FileText,
+  FileStack,
+  UserCog,
   Images,
   BarChart3,
 } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
 
 const ORANGE = '#F3672A';
@@ -22,6 +25,39 @@ const DARK_NAVY = '#001D3D';
 export default function AdminLayout({ session }: { session: Session }) {
   const navigate = useNavigate();
   const email = session.user?.email ?? '';
+
+  const { data: counts } = useQuery({
+    queryKey: ['admin', 'nav-counts'],
+    queryFn: async () => {
+      const [loc, svc, doc, om] = await Promise.all([
+        supabase.from('locations').select('id', { count: 'exact', head: true }),
+        supabase.from('services').select('id', { count: 'exact', head: true }),
+        supabase.from('doctors').select('id', { count: 'exact', head: true }),
+        supabase.from('office_managers').select('id', { count: 'exact', head: true }),
+      ]);
+      return {
+        locations: loc.count ?? 0,
+        services: svc.count ?? 0,
+        doctors: doc.count ?? 0,
+        office_managers: om.count ?? 0,
+      };
+    },
+  });
+
+  // Market marker (site_settings.key='market') — confirms which backend this admin
+  // is connected to so VEGAS and Reno can never be edited by mistake.
+  const { data: market } = useQuery({
+    queryKey: ['admin', 'market'],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from('site_settings')
+        .select('value')
+        .eq('key', 'market')
+        .maybeSingle();
+      return (data?.value as { code?: string; label?: string } | undefined) ?? null;
+    },
+    staleTime: Infinity,
+  });
 
   async function signOut() {
     await supabase.auth.signOut();
@@ -37,7 +73,7 @@ export default function AdminLayout({ session }: { session: Session }) {
       >
         {/* Brand */}
         <div className="h-20 px-5 flex items-center border-b border-white/10">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 w-full">
             <img
               src="/boca-logo.png"
               alt="Boca Dental and Braces"
@@ -57,6 +93,15 @@ export default function AdminLayout({ session }: { session: Session }) {
                 DentalPress
               </div>
             </div>
+            {market?.label && (
+              <span
+                className="ml-auto text-[9px] font-extrabold uppercase tracking-widest px-2 py-1 rounded leading-none"
+                style={{ background: ORANGE, color: 'white' }}
+                title="This admin is connected to the VEGAS backend"
+              >
+                {market.label}
+              </span>
+            )}
           </div>
         </div>
 
@@ -65,9 +110,11 @@ export default function AdminLayout({ session }: { session: Session }) {
           <NavItem to="/dental-admin" icon={LayoutDashboard} label="Dashboard" end />
           <SectionLabel>Content</SectionLabel>
           <NavItem to="/dental-admin/pages" icon={FileText} label="Pages" />
-          <NavItem to="/dental-admin/locations" icon={MapPin} label="Locations" badge="9" />
-          <NavItem to="/dental-admin/services" icon={Sparkles} label="Services" badge="9" />
-          <NavItem to="/dental-admin/doctors" icon={Users} label="Dentists" badge="14" />
+          <NavItem to="/dental-admin/locations" icon={MapPin} label="Locations" badge={counts?.locations} />
+          <NavItem to="/dental-admin/services" icon={Sparkles} label="Services" badge={counts?.services} />
+          <NavItem to="/dental-admin/service-pages" icon={FileStack} label="Service Pages" />
+          <NavItem to="/dental-admin/doctors" icon={Users} label="Dentists" badge={counts?.doctors} />
+          <NavItem to="/dental-admin/office-managers" icon={UserCog} label="Office Managers" badge={counts?.office_managers} />
           <NavItem to="/dental-admin/transformations" icon={Images} label="Transformations" />
           <SectionLabel>Engagement</SectionLabel>
           <NavItem to="/dental-admin/leads" icon={Inbox} label="Leads" />
@@ -133,7 +180,7 @@ function NavItem({
   icon: React.ComponentType<{ className?: string }>;
   label: string;
   end?: boolean;
-  badge?: string;
+  badge?: string | number;
 }) {
   return (
     <NavLink
@@ -154,7 +201,7 @@ function NavItem({
     >
       <Icon className="h-4 w-4" />
       <span className="flex-1">{label}</span>
-      {badge && (
+      {badge != null && (
         <span
           className="text-[10px] font-bold px-1.5 py-0.5 rounded"
           style={{ background: NAVY, color: 'white' }}

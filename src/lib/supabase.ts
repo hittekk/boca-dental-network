@@ -88,6 +88,18 @@ export type DbDoctor = {
   sort_order: number;
 };
 
+export type DbOfficeManager = {
+  id: string;
+  name: string;
+  title: string | null;
+  location_id: string | null;
+  image_url: string | null;
+  is_published: boolean;
+  sort_order: number;
+  created_at?: string;
+  updated_at?: string;
+};
+
 export type DbLead = {
   id: string;
   full_name: string;

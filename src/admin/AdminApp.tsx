@@ -20,6 +20,9 @@ import TransformationsListPage from './pages/TransformationsListPage';
 import TransformationEditPage from './pages/TransformationEditPage';
 import ServiceEditPage from './pages/ServiceEditPage';
 import DoctorEditPage from './pages/DoctorEditPage';
+import OfficeManagersPage from './pages/OfficeManagersPage';
+import ServicePagesListPage from './pages/ServicePagesListPage';
+import ServicePageEditPage from './pages/ServicePageEditPage';
 import UsersPage from './pages/UsersPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 
@@ -78,8 +81,12 @@ export default function AdminApp() {
           <Route path="locations/:id" element={<LocationEditPage />} />
           <Route path="services" element={<ServicesListPage />} />
           <Route path="services/:id" element={<ServiceEditPage />} />
+          <Route path="service-pages" element={<ServicePagesListPage />} />
+          <Route path="service-pages/new" element={<ServicePageEditPage isNew />} />
+          <Route path="service-pages/:slug" element={<ServicePageEditPage />} />
           <Route path="doctors" element={<DoctorsListPage />} />
           <Route path="doctors/:id" element={<DoctorEditPage />} />
+          <Route path="office-managers" element={<OfficeManagersPage />} />
           <Route path="leads" element={<LeadsListPage />} />
           <Route path="pages" element={<PagesListPage />} />
           <Route path="pages/new" element={<PageNewPage />} />
