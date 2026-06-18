@@ -1,8 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import {
   MapPin, Sparkles, Users, Inbox, TrendingUp, ArrowUpRight, Activity, Plus,
-  FileText, Images, Zap, Star, Phone, Calendar, ChevronRight, MessageSquare,
+  FileText, Images, Zap, Star, Phone, Calendar, ChevronRight, MessageSquare, Trash2,
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
@@ -87,6 +87,19 @@ export default function DashboardPage() {
         .order('created_at', { ascending: false })
         .limit(5);
       return data ?? [];
+    },
+  });
+
+  const qc = useQueryClient();
+  const deleteLead = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from('leads').delete().eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['admin', 'recent-leads'] });
+      qc.invalidateQueries({ queryKey: ['admin', 'leads-this-week'] });
+      qc.invalidateQueries({ queryKey: ['admin', 'stats'] });
     },
   });
 
@@ -220,7 +233,13 @@ export default function DashboardPage() {
                       {lead.full_name[0]?.toUpperCase()}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-semibold text-sm">{lead.full_name}</div>
+                      <Link
+                        to="/dental-admin/leads"
+                        className="font-semibold text-sm hover:underline"
+                        style={{ color: DARK_NAVY }}
+                      >
+                        {lead.full_name}
+                      </Link>
                       <div className="flex items-center gap-2 text-xs text-slate-500 mt-0.5">
                         <span className="flex items-center gap-1">
                           <Phone className="h-3 w-3" />
@@ -243,6 +262,16 @@ export default function DashboardPage() {
                     >
                       {lead.status}
                     </span>
+                    <button
+                      onClick={() => {
+                        if (confirm(`Delete lead "${lead.full_name}"? This can't be undone.`)) deleteLead.mutate(lead.id);
+                      }}
+                      disabled={deleteLead.isPending}
+                      title="Delete lead"
+                      className="flex-shrink-0 h-8 w-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
                   </div>
                 ))}
               </div>
