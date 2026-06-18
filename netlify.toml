@@ -1,6 +1,13 @@
 [build]
-  command   = "node scripts/inject-schema.mjs && vite build"
+  # Full chain: inject-schema + vite build + prerender + generate-sitemap.
+  # Prerender runs in CI via @sparticuz/chromium (CI-safe headless Chrome), so a
+  # normal git push deploys the fully prerendered site + sitemap.
+  command   = "npm run build"
   publish   = "dist"
+
+[functions]
+  directory    = "netlify/functions"
+  node_bundler = "esbuild"
 
 [build.environment]
   NODE_VERSION = "20"

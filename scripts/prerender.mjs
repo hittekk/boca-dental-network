@@ -19,7 +19,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import serveHandler from 'serve-handler'
-import puppeteer from 'puppeteer'
+import puppeteer from 'puppeteer-core'
+import chromium from '@sparticuz/chromium'
 import prettier from 'prettier'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -114,10 +115,11 @@ const server = http.createServer((req, res) =>
 await new Promise((r) => server.listen(PORT, r))
 console.log(`✓ Local static server on http://localhost:${PORT}`)
 
-// ── Launch headless Chrome ────────────────────────────────────────────────
+// ── Launch headless Chrome (CI-safe via @sparticuz/chromium) ──────────────
 const browser = await puppeteer.launch({
-  headless: 'new',
-  args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
+  executablePath: await chromium.executablePath(),
+  headless: chromium.headless,
 })
 
 // ── Comment building blocks ───────────────────────────────────────────────
