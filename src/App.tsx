@@ -82,6 +82,7 @@ import {
   HipaaPage,
 } from './pages/CorePages'
 import { VariantSwitcher, type Variant } from './components/VariantSwitcher'
+import { CustomPage, usePageBySlug } from './pages/CustomPage'
 import { useSiteData } from './lib/site-data'
 import { SERVICE_CATEGORIES } from './data/serviceCatalog'
 
@@ -119,6 +120,16 @@ export function Homepage() {
       <Footer />
     </div>
   )
+}
+
+// Catch-all: render an admin-created custom page if one is published at this
+// path, otherwise fall back to the homepage (previous behaviour).
+function CatchAll() {
+  const loc = useLocation()
+  const { loading, page } = usePageBySlug(loc.pathname)
+  if (loading) return null
+  if (page) return <CustomPage page={page} />
+  return <Homepage />
 }
 
 function App() {
@@ -207,7 +218,7 @@ function App() {
         <Route path="/hipaa-compliance" element={<HipaaPage />} />
 
         {/* Catch-all fallback to homepage */}
-        <Route path="*" element={<Homepage />} />
+        <Route path="*" element={<CatchAll />} />
       </Routes>
       <MobileStickyCTA phone={siteData.brand.phone} />
     </>

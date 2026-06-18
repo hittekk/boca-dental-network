@@ -68,6 +68,25 @@ try {
   console.warn('⚠ sitemap: could not load DB service pages:', err.message)
 }
 
+// DB-managed custom pages (admin "Pages" CMS). Non-fatal if unavailable.
+let dbCustomPagePaths = []
+try {
+  const SB_URL = process.env.VITE_SUPABASE_URL
+  const SB_KEY = process.env.VITE_SUPABASE_ANON_KEY
+  if (SB_URL && SB_KEY) {
+    const res = await fetch(
+      `${SB_URL}/rest/v1/pages?select=slug&status=eq.published`,
+      { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } },
+    )
+    if (res.ok) {
+      const rows = await res.json()
+      dbCustomPagePaths = rows.map((r) => `/${r.slug}/`)
+    }
+  }
+} catch (err) {
+  console.warn('⚠ sitemap: could not load DB custom pages:', err.message)
+}
+
 const urls = [...new Set([
   ...staticPaths,
   ...clinicPaths,
@@ -75,6 +94,7 @@ const urls = [...new Set([
   ...categoryPaths,
   ...servicePaths,
   ...dbServicePaths,
+  ...dbCustomPagePaths,
 ])]
 
 const today = new Date().toISOString().slice(0, 10)

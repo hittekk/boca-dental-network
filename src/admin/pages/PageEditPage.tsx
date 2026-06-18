@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { ArrowLeft, Save, Loader2, Eye, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Eye, ExternalLink, X } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { supabase, type DbPage, type DbPageTemplate, type PageContent } from '../../lib/supabase';
 import DynamicField from '../components/DynamicField';
+import PageBody from '../../components/shared/PageBody';
 
 const ORANGE = '#F3672A';
 const NAVY = '#162E7A';
@@ -23,6 +24,7 @@ export default function PageEditPage() {
   const [metaTitle, setMetaTitle] = useState('');
   const [metaDescription, setMetaDescription] = useState('');
   const [saved, setSaved] = useState(false);
+  const [preview, setPreview] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ['admin', 'page', id],
@@ -116,6 +118,13 @@ export default function PageEditPage() {
               View live
             </a>
           )}
+          <button
+            onClick={() => setPreview(true)}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-lg font-semibold text-sm text-slate-700 bg-white border-2 border-slate-200 hover:border-slate-300 active:scale-[0.98] transition-all"
+          >
+            <Eye className="h-4 w-4" />
+            Preview
+          </button>
           <button
             onClick={() => save.mutate(false)}
             disabled={save.isPending}
@@ -219,6 +228,34 @@ export default function PageEditPage() {
           </div>
         </div>
       </div>
+
+      {preview && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex flex-col">
+          <div className="flex items-center justify-between px-5 py-3 bg-white border-b border-slate-200">
+            <div className="text-sm font-bold" style={{ color: DARK_NAVY }}>
+              Preview — {title || 'Untitled page'}{' '}
+              <span className="text-slate-400 font-normal">· not published yet</span>
+            </div>
+            <button
+              onClick={() => setPreview(false)}
+              className="flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-slate-900"
+            >
+              <X className="h-5 w-5" />
+              Close
+            </button>
+          </div>
+          <div className="flex-1 overflow-y-auto bg-white">
+            <div style={{ padding: '40px 32px 8px' }}>
+              <div style={{ maxWidth: 880, margin: '0 auto' }}>
+                <h1 style={{ fontSize: 'clamp(28px, 3.4vw, 44px)', fontWeight: 800, letterSpacing: '-0.8px', color: DARK_NAVY, margin: 0, textTransform: 'uppercase' }}>
+                  {title || 'Untitled page'}
+                </h1>
+              </div>
+            </div>
+            <PageBody template={data.template} content={content} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
