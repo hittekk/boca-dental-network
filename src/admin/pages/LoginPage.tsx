@@ -52,7 +52,7 @@ export default function LoginPage() {
           className="bg-white rounded-2xl p-8 shadow-2xl"
           style={{ boxShadow: '0 30px 60px -15px rgba(0,0,0,0.5)' }}
         >
-          <h1 className="text-2xl font-bold mb-1" style={{ color: DARK_NAVY }}>
+          <h1 className="text-2xl font-bold mb-1 text-center" style={{ color: DARK_NAVY }}>
             Sign in
           </h1>
           <p className="text-sm text-slate-500 mb-6">
