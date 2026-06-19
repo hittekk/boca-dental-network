@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { Bold, Italic, Underline, Heading2, Heading3, List, ListOrdered, Link2, Image as ImageIcon, RemoveFormatting, Loader2 } from 'lucide-react';
+import { Bold, Italic, Underline, Heading2, Heading3, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, Link2, Image as ImageIcon, RemoveFormatting, Loader2 } from 'lucide-react';
 import { uploadMedia } from '../../lib/supabase';
 
 const ORANGE = '#F3672A';
@@ -91,6 +91,10 @@ export default function RichTextEditor({ value, onChange, placeholder }: Props) 
         <Divider />
         <ToolBtn label="Bullet list" onClick={() => exec('insertUnorderedList')}><List className="h-3.5 w-3.5" /></ToolBtn>
         <ToolBtn label="Numbered list" onClick={() => exec('insertOrderedList')}><ListOrdered className="h-3.5 w-3.5" /></ToolBtn>
+        <Divider />
+        <ToolBtn label="Align left" onClick={() => exec('justifyLeft')}><AlignLeft className="h-3.5 w-3.5" /></ToolBtn>
+        <ToolBtn label="Align center" onClick={() => exec('justifyCenter')}><AlignCenter className="h-3.5 w-3.5" /></ToolBtn>
+        <ToolBtn label="Align right" onClick={() => exec('justifyRight')}><AlignRight className="h-3.5 w-3.5" /></ToolBtn>
         <Divider />
         <ToolBtn label="Add link" onClick={addLink}><Link2 className="h-3.5 w-3.5" /></ToolBtn>
         <ToolBtn label="Insert image" onClick={pickImage}>
