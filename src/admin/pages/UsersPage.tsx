@@ -269,23 +269,14 @@ function InviteModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: (
     setError(null);
     setLoading(true);
     try {
-      // Create the auth account (Supabase emails them a confirmation link)
-      const { data, error: signupErr } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { data: { full_name: fullName } },
+      // Client-side signup is disabled on this project, so an owner/admin provisions
+      // the account server-side via the admin Edge Function (service role). The account
+      // is created already-confirmed with the chosen role assigned.
+      const { data, error: fnErr } = await supabase.functions.invoke('invite-user', {
+        body: { email, password, full_name: fullName, role },
       });
-      if (signupErr) throw signupErr;
-      if (!data.user) throw new Error('Signup returned no user');
-
-      // Wait a tick for the handle_new_user trigger to create the profile + role
-      await new Promise((r) => setTimeout(r, 600));
-
-      // Set the desired role (trigger assigns 'editor' by default)
-      if (role !== 'editor') {
-        await supabase.from('user_roles').delete().eq('user_id', data.user.id);
-        await supabase.from('user_roles').insert({ user_id: data.user.id, role });
-      }
+      if (fnErr) throw new Error(fnErr.message || 'Could not reach the invite service.');
+      if (!data?.ok) throw new Error(data?.error || 'Failed to create the account.');
 
       setSuccess({ email, password });
     } catch (err) {
@@ -297,7 +288,7 @@ function InviteModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: (
 
   function copyCredentials() {
     if (!success) return;
-    const text = `Boca DentalPress Admin\nURL: https://boca.datastacklogic.com/dental-admin/login\nEmail: ${success.email}\nTemp password: ${success.password}\n\nYou'll need to confirm your email first (check your inbox), then sign in.`;
+    const text = `Boca Admin\nURL: https://boca.datastacklogic.com/dental-admin/login\nEmail: ${success.email}\nTemp password: ${success.password}\n\nSign in with these credentials, then change your password from account settings.`;
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -313,7 +304,7 @@ function InviteModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: (
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
               {success
-                ? 'Share these credentials with your teammate. They\'ll get an email to confirm.'
+                ? 'Share these credentials with your teammate. They can sign in right away.'
                 : 'Create an account for someone in your organization.'}
             </p>
           </div>
@@ -340,7 +331,7 @@ function InviteModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: (
               )}
             </button>
             <div className="text-xs text-slate-500 leading-relaxed">
-              Your teammate will receive a Supabase confirmation email. Once they click the link, they can sign in with the password above and change it from their account settings.
+              The account is ready now — your teammate can sign in immediately with the email and password above, and change the password from their account settings.
             </div>
             <button
               onClick={onSuccess}
