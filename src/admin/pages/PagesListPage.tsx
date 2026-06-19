@@ -1,10 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  FileText, Plus, Eye, EyeOff, Search, MoreVertical, Trash2, Edit3, ExternalLink, Sparkles,
+  FileText, Plus, Eye, EyeOff, Search, Trash2, Edit3, ExternalLink, Sparkles,
 } from 'lucide-react';
 import { useState } from 'react';
-import { supabase, type DbPage, type DbPageTemplate } from '../../lib/supabase';
+import { supabase, type DbPage } from '../../lib/supabase';
 
 const ORANGE = '#F3672A';
 const NAVY = '#162E7A';
@@ -16,7 +16,6 @@ export default function PagesListPage() {
   const navigate = useNavigate();
   const qc = useQueryClient();
   const [search, setSearch] = useState('');
-  const [menuOpen, setMenuOpen] = useState<string | null>(null);
 
   const { data, isLoading } = useQuery({
     queryKey: ['admin', 'pages'],
@@ -91,12 +90,12 @@ export default function PagesListPage() {
                 <th className="px-4 py-3">Template</th>
                 <th className="px-4 py-3">Status</th>
                 <th className="px-4 py-3">Updated</th>
-                <th className="px-4 py-3 w-10"></th>
+                <th className="px-4 py-3 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {filtered.map((page) => (
-                <tr key={page.id} className="hover:bg-slate-50 group">
+                <tr key={page.id} className="hover:bg-slate-50">
                   <td className="px-4 py-3">
                     <Link to={`/dental-admin/pages/${page.id}`} className="block">
                       <div className="font-semibold text-sm" style={{ color: DARK_NAVY }}>
@@ -119,50 +118,37 @@ export default function PagesListPage() {
                   <td className="px-4 py-3 text-xs text-slate-400">
                     {new Date(page.updated_at).toLocaleDateString()}
                   </td>
-                  <td className="px-4 py-3 text-right relative">
-                    <button
-                      onClick={() => setMenuOpen(menuOpen === page.id ? null : page.id)}
-                      className="h-8 w-8 rounded-lg flex items-center justify-center hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-all"
-                    >
-                      <MoreVertical className="h-4 w-4" />
-                    </button>
-                    {menuOpen === page.id && (
-                      <>
-                        <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(null)} />
-                        <div className="absolute right-2 top-full mt-1 z-20 bg-white rounded-lg border border-slate-200 shadow-lg overflow-hidden w-44">
-                          <Link
-                            to={`/dental-admin/pages/${page.id}`}
-                            className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-slate-50 transition-colors"
-                          >
-                            <Edit3 className="h-3.5 w-3.5" />
-                            Edit
-                          </Link>
-                          {page.status === 'published' && (
-                            <a
-                              href={`/${page.slug}`}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-slate-50 transition-colors"
-                            >
-                              <ExternalLink className="h-3.5 w-3.5" />
-                              View live
-                            </a>
-                          )}
-                          <button
-                            onClick={() => {
-                              if (confirm(`Delete "${page.title}"? This can't be undone.`)) {
-                                remove.mutate(page.id);
-                                setMenuOpen(null);
-                              }
-                            }}
-                            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
-                          >
-                            <Trash2 className="h-3.5 w-3.5" />
-                            Delete
-                          </button>
-                        </div>
-                      </>
-                    )}
+                  <td className="px-4 py-3">
+                    <div className="flex items-center justify-end gap-1">
+                      <Link
+                        to={`/dental-admin/pages/${page.id}`}
+                        title="Edit page"
+                        className="h-8 w-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors"
+                      >
+                        <Edit3 className="h-4 w-4" />
+                      </Link>
+                      {page.status === 'published' && (
+                        <a
+                          href={`/${page.slug}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          title="View live"
+                          className="h-8 w-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors"
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                        </a>
+                      )}
+                      <button
+                        onClick={() => {
+                          if (confirm(`Delete "${page.title}"? This can't be undone.`)) remove.mutate(page.id);
+                        }}
+                        disabled={remove.isPending}
+                        title="Delete page"
+                        className="h-8 w-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
