@@ -1,6 +1,7 @@
 import { Plus, X } from 'lucide-react';
 import type { TemplateField } from '../../lib/supabase';
 import ImageUpload from './ImageUpload';
+import RichTextEditor from './RichTextEditor';
 
 const ORANGE = '#F3672A';
 
@@ -62,18 +63,11 @@ function renderInput(field: TemplateField, value: unknown, onChange: (v: unknown
 
     case 'richtext':
       return (
-        <div>
-          <textarea
-            value={(value as string) ?? ''}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder={field.placeholder ?? 'Write your content here...'}
-            rows={10}
-            className={`${inputClass} font-normal leading-relaxed`}
-          />
-          <p className="text-[10px] text-slate-400 mt-1">
-            Plain text for now. Rich-text editor (TipTap) coming next.
-          </p>
-        </div>
+        <RichTextEditor
+          value={(value as string) ?? ''}
+          onChange={onChange}
+          placeholder={field.placeholder ?? 'Write your content here…'}
+        />
       );
 
     case 'image':
