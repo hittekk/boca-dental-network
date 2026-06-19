@@ -1,5 +1,6 @@
-import { useRef, useEffect } from 'react';
-import { Bold, Italic, Underline, Heading2, Heading3, List, ListOrdered, Link2, RemoveFormatting } from 'lucide-react';
+import { useRef, useEffect, useState } from 'react';
+import { Bold, Italic, Underline, Heading2, Heading3, List, ListOrdered, Link2, Image as ImageIcon, RemoveFormatting, Loader2 } from 'lucide-react';
+import { uploadMedia } from '../../lib/supabase';
 
 const ORANGE = '#F3672A';
 
@@ -13,6 +14,9 @@ type Props = {
 // emits the HTML string, which the public page renders via PageBody (richtext).
 export default function RichTextEditor({ value, onChange, placeholder }: Props) {
   const ref = useRef<HTMLDivElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const savedRange = useRef<Range | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   // Sync external changes (loading a page, switching fields) without clobbering
   // the caret while the user is actively typing in this editor.
@@ -40,6 +44,39 @@ export default function RichTextEditor({ value, onChange, placeholder }: Props) 
     if (url) exec('createLink', url);
   }
 
+  // Remember where the caret is before the file dialog steals focus.
+  function pickImage() {
+    const sel = window.getSelection();
+    savedRange.current = sel && sel.rangeCount ? sel.getRangeAt(0) : null;
+    fileRef.current?.click();
+  }
+
+  async function onFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    setUploading(true);
+    try {
+      const url = await uploadMedia(file, 'pages');
+      const el = ref.current;
+      el?.focus();
+      // Restore the caret position from before the dialog opened.
+      if (savedRange.current) {
+        const sel = window.getSelection();
+        sel?.removeAllRanges();
+        sel?.addRange(savedRange.current);
+      }
+      const img = `<img src="${url}" alt="" style="max-width:100%;height:auto;border-radius:12px;margin:12px 0;" />`;
+      document.execCommand('insertHTML', false, img);
+      emit();
+    } catch (err) {
+      alert('Image upload failed. Please try again.');
+      console.error(err);
+    } finally {
+      setUploading(false);
+    }
+  }
+
   return (
     <div className="border-2 border-slate-200 rounded-lg overflow-hidden focus-within:border-orange-500 transition-colors bg-white">
       {/* Toolbar */}
@@ -56,6 +93,9 @@ export default function RichTextEditor({ value, onChange, placeholder }: Props) 
         <ToolBtn label="Numbered list" onClick={() => exec('insertOrderedList')}><ListOrdered className="h-3.5 w-3.5" /></ToolBtn>
         <Divider />
         <ToolBtn label="Add link" onClick={addLink}><Link2 className="h-3.5 w-3.5" /></ToolBtn>
+        <ToolBtn label="Insert image" onClick={pickImage}>
+          {uploading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ImageIcon className="h-3.5 w-3.5" />}
+        </ToolBtn>
         <ToolBtn label="Clear formatting" onClick={() => exec('removeFormat')}><RemoveFormatting className="h-3.5 w-3.5" /></ToolBtn>
       </div>
 
@@ -70,6 +110,8 @@ export default function RichTextEditor({ value, onChange, placeholder }: Props) 
         className="rte-surface px-3.5 py-3 min-h-[180px] text-sm text-slate-900 focus:outline-none"
       />
 
+      <input ref={fileRef} type="file" accept="image/*" hidden onChange={onFile} />
+
       <style>{`
         .rte-surface:empty:before { content: attr(data-placeholder); color: #94a3b8; pointer-events: none; }
         .rte-surface h2 { font-size: 1.25rem; font-weight: 800; margin: 0.6em 0 0.3em; color: #001D3D; }
@@ -79,6 +121,7 @@ export default function RichTextEditor({ value, onChange, placeholder }: Props) 
         .rte-surface ol { list-style: decimal; padding-left: 1.5em; margin: 0.5em 0; }
         .rte-surface li { margin: 0.2em 0; }
         .rte-surface a { color: ${ORANGE}; text-decoration: underline; }
+        .rte-surface img { max-width: 100%; height: auto; border-radius: 12px; }
       `}</style>
     </div>
   );
