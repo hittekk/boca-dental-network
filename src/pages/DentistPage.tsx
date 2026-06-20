@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
@@ -17,11 +17,18 @@ import { Header } from '../components/Header/Header'
 import { Footer } from '../components/Footer/Footer'
 import { INITIAL_DATA } from '../data/initialData'
 import { dentistContentFor } from '../data/dentistContent'
+import { useDoctors, useDoctorBySlug, useSiteData } from '../lib/site-data'
 
 const ORANGE = '#F3672A'
 const NAVY = '#001D3D'
 const MONO = 'ui-monospace, "SF Mono", Menlo, monospace'
 const DOMAIN = 'https://bocadentalandbraces.com'
+
+/** First N sentences of a longer bio, for the card/short summary use. */
+function firstSentences(bio: string, n = 2): string {
+  const parts = bio.match(/[^.!?]+[.!?]+/g)
+  return parts ? parts.slice(0, n).join(' ').trim() : bio
+}
 
 /**
  * Dentist detail page at /about-us/dentists/[slug]/
@@ -29,7 +36,32 @@ const DOMAIN = 'https://bocadentalandbraces.com'
  */
 export function DentistPage() {
   const { slug } = useParams<{ slug: string }>()
-  const content = slug ? dentistContentFor(slug) : undefined
+  const siteData = useSiteData()
+  const dbDoc = useDoctorBySlug(slug)
+
+  // Merge admin-editable DB fields (name/title/bio/photo/locations) over the
+  // static schema content. Falls back to a sensible default for brand-new
+  // doctors added in the admin that have no static entry yet.
+  const content = useMemo(() => {
+    const base = slug ? dentistContentFor(slug) : undefined
+    if (!base && !dbDoc) return undefined
+    const dbBio = (dbDoc?.bio ?? '').trim()
+    const longBio = dbBio || base?.longBio || base?.shortBio || ''
+    return {
+      slug: slug!,
+      name: dbDoc?.name ?? base?.name ?? '',
+      title: dbDoc?.title ?? base?.title ?? 'Dentist',
+      medicalSpecialty: base?.medicalSpecialty ?? 'General Dentistry',
+      yearsInPractice: base?.yearsInPractice,
+      dentalSchool: base?.dentalSchool,
+      shortBio: dbBio ? firstSentences(dbBio, 2) : (base?.shortBio ?? ''),
+      longBio,
+      worksAt: (dbDoc?.locations?.length ? dbDoc.locations : base?.worksAt) ?? [],
+      photo: dbDoc?.photo ?? base?.photo,
+      familyPhoto: dbDoc?.familyPhoto ?? base?.familyPhoto,
+      languages: base?.languages,
+    }
+  }, [slug, dbDoc])
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
@@ -50,7 +82,7 @@ export function DentistPage() {
   if (!content) return <DentistNotFound slug={slug} />
 
   const worksAtClinics = content.worksAt
-    .map((s) => INITIAL_DATA.locations.find((l) => l.slug === s))
+    .map((s) => siteData.locations.find((l) => l.slug === s))
     .filter((l): l is NonNullable<typeof l> => l != null)
   const nameShort = content.name.replace(/, DDS$/, '')
   // Last name without credentials (DDS/DMD/MD/RDH) or "Dr." prefix — e.g. "Minh Nguyen, RDH" → "Nguyen"
@@ -401,10 +433,12 @@ export default DentistPage
 // Hub page at /about-us/dentists/
 // ─────────────────────────────────────────────────────────────────────────────
 export function DentistsHubPage() {
+  // Roster comes from the DB (admin-editable) via siteData, static fallback.
+  const doctors = useDoctors()
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
     document.title = 'Meet Our Dentists | Boca Dental & Braces Las Vegas'
-    setMeta('description', 'Meet the 14 licensed dentists and specialists at Boca Dental & Braces — 9 Las Vegas locations. Orthodontists, oral surgeons, periodontists, and general dentists.', 'name')
+    setMeta('description', 'Meet the licensed dentists and specialists at Boca Dental & Braces across our Las Vegas locations — orthodontists, oral surgeons, periodontists, and general dentists.', 'name')
     setLink('canonical', `${DOMAIN}/about-us/dentists/`)
   }, [])
 
@@ -425,7 +459,7 @@ export function DentistsHubPage() {
             Meet the Boca Dental &amp; Braces Team
           </h1>
           <p style={{ fontSize: 17, lineHeight: 1.7, color: 'rgba(0,29,61,0.78)', maxWidth: 820 }}>
-            14 licensed dentists and specialists serving 9 locations across Las Vegas — general dentists,
+            Licensed dentists and specialists serving our Las Vegas locations — general dentists,
             a board-eligible orthodontist, an oral and maxillofacial surgeon, periodontists, and
             pediatric specialists, all under one practice.
           </p>
@@ -443,14 +477,15 @@ export function DentistsHubPage() {
               @media (max-width: 720px){ .dent-hub-grid{ grid-template-columns: repeat(2, 1fr) !important; } }
               @media (max-width: 460px){ .dent-hub-grid{ grid-template-columns: 1fr !important; } }
             `}</style>
-            {INITIAL_DATA.doctors.map((d) => {
+            {doctors.map((d) => {
               const c = dentistContentFor(d.slug)
+              const photo = d.photo ?? c?.photo
               const initials = d.name.replace(/^Dr\.\s+/i, '').split(/\s+/).map((w) => w[0]).slice(0, 2).join('')
               return (
                 <Link key={d.slug} to={`/about-us/dentists/${d.slug}/`} style={{ background: 'white', border: '1px solid rgba(0,29,61,0.08)', borderRadius: 12, padding: '18px 18px 20px', textDecoration: 'none', color: NAVY }}>
-                  {c?.photo ? (
+                  {photo ? (
                     <div style={{ aspectRatio: '4 / 5', borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(0,29,61,0.08)', marginBottom: 14 }}>
-                      <img src={c.photo} alt={`${d.name} — Boca Dental & Braces`} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }} />
+                      <img src={photo} alt={`${d.name} — Boca Dental & Braces`} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }} />
                     </div>
                   ) : (
                     <div style={{ aspectRatio: '4 / 5', borderRadius: 10, background: 'linear-gradient(160deg, rgba(243,103,42,0.16) 0%, rgba(243,103,42,0.04) 60%, rgba(0,29,61,0.04) 100%)', border: '1px solid rgba(243,103,42,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14, fontFamily: MONO, fontSize: 'clamp(36px, 4vw, 56px)', fontWeight: 800, color: 'rgba(0,29,61,0.85)' }}>

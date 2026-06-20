@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { ArrowUpRight, Stethoscope, User2, Camera } from 'lucide-react'
 import { useLang, t } from '../../lib/lang'
-import { INITIAL_DATA } from '../../data/initialData'
+import { useDoctors } from '../../lib/site-data'
 
 type Theme = 'light' | 'dark' | 'cream'
 
@@ -13,6 +13,8 @@ interface Provider {
   slug: string
   /** Accent color for the avatar gradient */
   accent: string
+  /** Live headshot from the DB-backed roster (filled at render) */
+  photo?: string
 }
 
 const PROVIDERS: Provider[] = [
@@ -52,10 +54,14 @@ const PROVIDERS: Provider[] = [
 
 export function MeetTheTeam({
   theme = 'light' }: { theme?: Theme }) {
-  // Real headshots live on INITIAL_DATA.doctors — look up by slug so this
-  // section stays in sync as photos are added (placeholder shown until then).
-  const photoFor = (slug: string): string | undefined =>
-    INITIAL_DATA.doctors.find((d) => d.slug === slug)?.photo
+  // Pull the featured providers from the live DB-backed roster: drop anyone no
+  // longer on staff and use their live name/title/photo (admin is the source).
+  const dbDoctors = useDoctors()
+  const bySlug = new Map(dbDoctors.map((d) => [d.slug, d]))
+  const providers = PROVIDERS.filter((p) => bySlug.has(p.slug)).map((p) => {
+    const d = bySlug.get(p.slug)!
+    return { ...p, name: d.name, title: d.title || p.title, photo: d.photo }
+  })
   const lang = useLang()
   const isDark = theme === 'dark'
   const sectionBg = isDark ? '#0A0A0F' : theme === 'cream' ? '#FAFAFA' : '#FAFAFA'
@@ -166,7 +172,7 @@ export function MeetTheTeam({
             @media (max-width: 980px){ .team-providers-grid{ grid-template-columns: repeat(2, 1fr) !important; } }
             @media (max-width: 520px){ .team-providers-grid{ grid-template-columns: 1fr !important; } }
           `}</style>
-          {PROVIDERS.map((provider, i) => (
+          {providers.map((provider, i) => (
             <motion.a
               key={provider.slug}
               href={`/about-us/dentists/${provider.slug}/`}
@@ -213,7 +219,7 @@ export function MeetTheTeam({
               >
                 {/* Real headshot when present (headroom crop, no head cut off);
                     dashed placeholder during mockup phase otherwise */}
-                {photoFor(provider.slug) ? (
+                {provider.photo ? (
                   <div
                     style={{
                       width: 76,
@@ -225,7 +231,7 @@ export function MeetTheTeam({
                     }}
                   >
                     <img
-                      src={photoFor(provider.slug)}
+                      src={provider.photo}
                       alt={`${provider.name} — Boca Dental & Braces Las Vegas`}
                       loading="lazy"
                       style={{
@@ -285,7 +291,7 @@ export function MeetTheTeam({
                 </div>
 
                 {/* Camera badge — only on placeholders (no real photo yet) */}
-                {!photoFor(provider.slug) && (
+                {!provider.photo && (
                 <div
                   style={{
                     position: 'absolute',

@@ -38,9 +38,9 @@ import { INITIAL_DATA } from '../data/initialData'
 import type { Location } from '../types'
 import {
   servicesForLocation,
-  doctorsForLocation,
   COORDS_BY_LOCATION,
 } from './LocationPage'
+import { useDoctorsForLocation } from '../lib/site-data'
 import {
   LOCATION_LANGUAGES,
   LOCATION_PARKING,
@@ -70,9 +70,9 @@ export function LocationPageV1({ location }: { location: Location }) {
   const services = servicesForLocation(location.slug)
     .map((slug) => INITIAL_DATA.services.find((s) => s.slug === slug))
     .filter((s): s is NonNullable<typeof s> => s != null)
-  const doctors = doctorsForLocation(location.slug)
-    .map((slug) => INITIAL_DATA.doctors.find((d) => d.slug === slug))
-    .filter((d): d is NonNullable<typeof d> => d != null)
+  // Provider list comes from the DB (admin-editable) via siteData, with the
+  // static doctorLocations map as fallback — so turnover edits go live.
+  const doctors = useDoctorsForLocation(location.slug)
   const coords = COORDS_BY_LOCATION[location.slug]
 
   const otherLocations = INITIAL_DATA.locations

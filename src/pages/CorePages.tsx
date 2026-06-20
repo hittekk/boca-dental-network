@@ -35,6 +35,7 @@ import { CTA } from '../components/CTA/CTA'
 import { LangProvider } from '../lib/lang'
 import { ConsultationForm } from '../components/ConsultationForm/ConsultationForm'
 import { INITIAL_DATA } from '../data/initialData'
+import { useDoctors } from '../lib/site-data'
 import { SERVICE_CATEGORIES, SERVICE_PAGES } from '../data/serviceCatalog'
 import { LOCATION_REVIEWS } from '../data/locationDetails'
 import { COORDS_BY_LOCATION } from './LocationPage'
@@ -195,9 +196,10 @@ export function CTAStrip({ headline = 'Ready to book? Your new Las Vegas dentist
 // ─────────────────────────────────────────────────────────────────────────────
 
 export function AboutUsPage() {
+  const doctors = useDoctors()
   const breadcrumbSchema = usePageMeta({
     title: 'About Boca Dental & Braces | Las Vegas, NV',
-    description: 'Founded by Dr. Wyatt Dannels, Boca Dental & Braces has grown to 9 Las Vegas locations with 14 licensed providers — delivering consistent, high-quality care to every Las Vegas family regardless of ZIP code, schedule, or budget.',
+    description: 'Founded by Dr. Wyatt Dannels, Boca Dental & Braces has grown to 9 Las Vegas locations with a team of licensed providers — delivering consistent, high-quality care to every Las Vegas family regardless of ZIP code, schedule, or budget.',
     url: `${DOMAIN}/about-us/`,
     breadcrumb: [{ name: 'Home', url: `${DOMAIN}/` }, { name: 'About Us' }],
   })
@@ -205,17 +207,17 @@ export function AboutUsPage() {
   const FEATURED_DOCTORS = [
     {
       slug: 'dr-wyatt-dannels',
-      name: 'Dr. Wyatt Dannels, DDS',
+      name: 'Dr. Wyatt Dannels',
       title: 'Founder & Lead Dentist',
-      school: 'UNLV School of Dental Medicine',
-      years: 19,
+      school: 'University of Southern California',
+      years: 13,
       bio: 'Dr. Dannels founded Boca Dental & Braces with one goal: give every Las Vegas family access to consistent, high-quality dental care regardless of ZIP code or budget. He oversees clinical standards across all 9 locations and personally sees patients at Russell & Eastern and our newest Beltway Marketplace clinic. He is a member of the American Dental Association and the Nevada Dental Association.',
       langs: ['English', 'Spanish'],
       initial: 'W',
     },
     {
       slug: 'dr-kelcey-loveland',
-      name: 'Dr. Kelcey Loveland, DDS',
+      name: 'Dr. Kelcey Loveland',
       title: 'Orthodontist · Board-Eligible',
       school: 'University of the Pacific, Arthur A. Dugoni School of Dentistry',
       years: 8,
@@ -225,7 +227,7 @@ export function AboutUsPage() {
     },
     {
       slug: 'dr-charles-calder',
-      name: 'Dr. Charles Calder, DDS',
+      name: 'Dr. Charles Calder',
       title: 'Oral & Maxillofacial Surgeon',
       school: 'UCLA School of Dentistry · UCSF Medical Center Residency',
       years: 14,
@@ -368,7 +370,7 @@ export function AboutUsPage() {
           <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 56, flexWrap: 'wrap', gap: 16 }}>
             <div>
               <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 14 }}>Our Providers</div>
-              <h2 style={{ fontSize: 'clamp(26px, 3vw, 44px)', fontWeight: 800, letterSpacing: '-1.5px', color: NAVY, margin: 0 }}>14 Dentists.<br />Every Specialty.</h2>
+              <h2 style={{ fontSize: 'clamp(26px, 3vw, 44px)', fontWeight: 800, letterSpacing: '-1.5px', color: NAVY, margin: 0 }}>Our Dentists.<br />Every Specialty.</h2>
             </div>
             <a href="/about-us/dentists/" style={{ fontSize: 13, fontWeight: 800, color: ORANGE, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 1 }}>Meet All Providers →</a>
           </motion.div>
@@ -430,10 +432,10 @@ export function AboutUsPage() {
 
           {/* All 14 — small cards */}
           <div style={{ background: 'white', borderRadius: 16, padding: '32px', border: '1px solid rgba(0,29,61,0.07)' }}>
-            <div style={{ fontSize: 11, fontWeight: 800, color: 'rgba(0,29,61,0.35)', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 24 }}>All 14 Licensed Providers — Boca Dental & Braces Las Vegas</div>
+            <div style={{ fontSize: 11, fontWeight: 800, color: 'rgba(0,29,61,0.35)', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 24 }}>All Licensed Providers — Boca Dental & Braces Las Vegas</div>
             <div className="about-all-g" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
               <style>{`@media(max-width:860px){ .about-all-g{ grid-template-columns:repeat(3,1fr) !important; } } @media(max-width:560px){ .about-all-g{ grid-template-columns:repeat(2,1fr) !important; } }`}</style>
-              {INITIAL_DATA.doctors.map((d, i) => {
+              {doctors.map((d, i) => {
                 const initials = d.name.replace(/^Dr\.\s+/i, '').split(/\s+/).map((w) => w[0]).slice(0, 2).join('')
                 return (
                   <Link key={d.slug} to={`/about-us/dentists/${d.slug}/`} style={{ display: 'block', background: 'white', border: '1px solid rgba(0,29,61,0.08)', borderRadius: 12, overflow: 'hidden', textDecoration: 'none', color: NAVY }}>

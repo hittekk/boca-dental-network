@@ -16,6 +16,7 @@ import type { ReactNode } from 'react';
 import type { InitialData, Location, Service, Doctor, Manager, LocationReview } from '../types';
 import { supabase, isSupabaseConfigured } from './supabase';
 import { INITIAL_DATA } from '../data/initialData';
+import { locationsForDoctor } from '../data/doctorLocations';
 import type { AnalyticsConfig } from './analytics';
 import type { ServicePageEntry } from '../data/serviceCatalog';
 import { SERVICE_CONTENT, type ServiceContent } from '../data/serviceContent';
@@ -175,6 +176,10 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
           linksByDoctor.set(dl.doctor_id, arr);
         });
 
+        // Static doctors are the fallback source for the rich bios/photos that
+        // aren't stored in the DB. Overlay DB (admin-editable) fields on top so
+        // admin changes go live, while keeping static bio/photo when DB is blank.
+        const staticDoctorBySlug = new Map(INITIAL_DATA.doctors.map((d) => [d.slug, d]));
         const mappedDoctors: Doctor[] = (docs.data ?? []).map((d: {
           id: string; slug: string; name: string; title: string | null; bio: string | null;
           headshot_url: string | null; photo_url: string | null;
@@ -182,13 +187,17 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
           const links = (linksByDoctor.get(d.id) ?? []).sort(
             (a, b) => (b.primary ? 1 : 0) - (a.primary ? 1 : 0) || a.sort - b.sort,
           );
+          const s = staticDoctorBySlug.get(d.slug);
+          const dbBio = (d.bio ?? '').trim();
           return {
             slug: d.slug,
-            name: d.name,
-            title: d.title ?? '',
-            bio: d.bio ?? '',
-            photo: d.headshot_url ?? d.photo_url ?? undefined,
-            locations: links.map((x) => x.slug),
+            name: d.name || s?.name || '',
+            title: d.title ?? s?.title ?? '',
+            bio: dbBio || s?.bio || '',
+            photo: d.headshot_url ?? d.photo_url ?? s?.photo,
+            familyPhoto: s?.familyPhoto,
+            // DB doctor_locations win; fall back to the canonical static map.
+            locations: links.length ? links.map((x) => x.slug) : locationsForDoctor(d.slug),
           };
         });
 
@@ -288,4 +297,18 @@ export function useAnalyticsConfigFromSettings(): AnalyticsConfig {
 
 export function useServicePages(): ServicePagesValue {
   return useContext(ServicePagesContext);
+}
+
+// ── Doctor helpers ───────────────────────────────────────────────────────────
+// All read the merged siteData.doctors (DB overlaid on static fallback), so the
+// admin is the live source of truth for the roster + per-location assignments.
+export function useDoctors(): Doctor[] {
+  return useContext(SiteDataContext).doctors;
+}
+export function useDoctorBySlug(slug: string | undefined): Doctor | undefined {
+  const doctors = useDoctors();
+  return slug ? doctors.find((d) => d.slug === slug) : undefined;
+}
+export function useDoctorsForLocation(slug: string): Doctor[] {
+  return useDoctors().filter((d) => d.locations?.includes(slug));
 }
