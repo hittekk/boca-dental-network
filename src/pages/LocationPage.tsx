@@ -6,48 +6,26 @@ import { LocationPageV1 } from './LocationPageV1'
 import { LocationPageMeta } from '../components/shared/LocationPageMeta'
 import { LocationPageSchema } from '../components/shared/LocationPageSchema'
 
-// Service slugs available at each location. Kids offices = pediatric only.
+// Service slugs available at each location. Per the Boca Bible (tab 3) every
+// service is offered network-wide EXCEPT sedation dentistry, which is only at
+// Charleston & Lamb (4G), Russell & Eastern, and Flamingo & Torrey Pines.
+const SEDATION_LOCATIONS = ['charleston-lamb', 'russell-eastern', 'flamingo-torrey']
 export function servicesForLocation(slug: string): string[] {
   const loc = INITIAL_DATA.locations.find((l) => l.slug === slug)
   if (!loc) return []
+  const sedation = SEDATION_LOCATIONS.includes(slug) ? ['sedation-dentistry'] : []
   if (loc.kids) {
-    return ['pediatric-dentistry', 'general-dentistry', 'orthodontics', 'sedation-dentistry']
+    return ['pediatric-dentistry', 'general-dentistry', 'orthodontics', ...sedation]
   }
   return [
     'general-dentistry', 'cosmetic-dentistry', 'restorative-dentistry',
-    'dental-implants', 'orthodontics', 'periodontal', 'oral-surgery', 'sedation-dentistry',
+    'dental-implants', 'orthodontics', 'periodontal', 'oral-surgery', ...sedation,
   ]
 }
 
-// Doctors assigned per location.
-const DOCTORS_BY_LOCATION: Record<string, string[]> = {
-  'russell-eastern':     ['dr-wyatt-dannels', 'dr-harrison-luu', 'dr-sana-fahim'],
-  'boca-kids-dentistry': ['dr-kelcey-loveland', 'minh-nguyen'],
-  'bonanza-eastern':     ['dr-justin-wall', 'dr-johnson-fong'],
-  'sahara-decatur':      ['dr-michael-st-laurent', 'dr-bredan-marlin'],
-  'jones-i95':           ['dr-charles-calder', 'dr-james-yun'],
-  'charleston-lamb':     ['dr-harrison-luu', 'dr-sana-fahim'],
-  'flamingo-torrey':     ['dr-justin-wall', 'dr-kelcey-loveland'],
-  'cheyenne-commons':    ['dr-johnson-fong', 'minh-nguyen'],
-  'beltway-marketplace': ['dr-wyatt-dannels', 'dr-bredan-marlin'],
-}
-
-export function doctorsForLocation(slug: string): string[] {
-  return DOCTORS_BY_LOCATION[slug] ?? []
-}
-
-// Approximate lat/lng per location for the embedded single-pin map.
-export const COORDS_BY_LOCATION: Record<string, [number, number]> = {
-  'russell-eastern':     [-115.1198, 36.0641],
-  'boca-kids-dentistry': [-115.1186, 36.0631],
-  'bonanza-eastern':     [-115.1198, 36.1762],
-  'sahara-decatur':      [-115.2095, 36.1442],
-  'jones-i95':           [-115.2236, 36.1731],
-  'charleston-lamb':     [-115.0942, 36.1577],
-  'flamingo-torrey':     [-115.2628, 36.1147],
-  'cheyenne-commons':    [-115.2425, 36.2167],
-  'beltway-marketplace': [-115.1198, 36.0227],
-}
+// Provider assignments per location + precise pin coordinates now live in the
+// canonical Boca-Bible map. Re-exported here so existing imports keep working.
+export { doctorsForLocation, COORDS_BY_LOCATION } from '../data/doctorLocations'
 
 export function LocationPage() {
   const { slug } = useParams<{ slug: string }>()

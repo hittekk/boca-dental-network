@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 
 const SIGNATURE_FACTS = [
-  { label: 'Founded', value: '2006', detail: 'in Las Vegas, NV' },
+  { label: 'Locations', value: '9', detail: 'across the valley' },
   { label: 'Doctors', value: '14', detail: 'on staff today' },
   { label: 'Languages', value: '2', detail: 'English + Spanish' },
   { label: 'Plans', value: '30+', detail: 'PPO + Medicaid' },

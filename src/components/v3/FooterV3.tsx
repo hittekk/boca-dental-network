@@ -20,7 +20,6 @@ const COLUMNS = [
       { label: 'Book a Visit', href: '#request-consultation' },
       { label: 'Insurance & Medicaid', href: '/patient-resources/insurance/' },
       { label: 'Financing Options', href: '/patient-resources/financing/' },
-      { label: 'New Patient Forms', href: '/patient-resources/new-patient-forms/' },
       { label: 'Patient Reviews', href: '/patient-resources/reviews/' },
       { label: 'Oficina de Habla Hispana', href: '/oficina-de-habla-hispana/' },
     ],

@@ -327,7 +327,7 @@ export function HeaderV3({ brand, announcement }: HeaderV3Props) {
               }}
             >
               <div>LV · 9 Offices</div>
-              <div style={{ color: 'rgba(255,255,255,0.3)' }}>Est. 2006</div>
+              <div style={{ color: 'rgba(255,255,255,0.3)' }}>Las Vegas, NV</div>
             </div>
           </a>
 

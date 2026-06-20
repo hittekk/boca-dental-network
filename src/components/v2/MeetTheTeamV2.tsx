@@ -28,7 +28,7 @@ const PROVIDERS: Provider[] = [
     initials: 'WD',
     name: 'Dr. Wyatt Dannels',
     title: 'General Dentist · Founder',
-    credential: 'Founded Boca in 2006. Twenty years of family dentistry in Las Vegas.',
+    credential: 'Founder of Boca Dental & Braces. Family dentistry across the Las Vegas Valley.',
     slug: 'dr-wyatt-dannels',
   },
   {

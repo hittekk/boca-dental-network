@@ -196,8 +196,8 @@ export function CTAStrip({ headline = 'Ready to book? Your new Las Vegas dentist
 
 export function AboutUsPage() {
   const breadcrumbSchema = usePageMeta({
-    title: 'About Boca Dental & Braces | Founded 2006 · Las Vegas, NV',
-    description: 'Founded in 2006 by Dr. Wyatt Dannels, Boca Dental & Braces has grown to 9 Las Vegas locations with 14 licensed providers — delivering consistent, high-quality care to every Las Vegas family regardless of ZIP code, schedule, or budget.',
+    title: 'About Boca Dental & Braces | Las Vegas, NV',
+    description: 'Founded by Dr. Wyatt Dannels, Boca Dental & Braces has grown to 9 Las Vegas locations with 14 licensed providers — delivering consistent, high-quality care to every Las Vegas family regardless of ZIP code, schedule, or budget.',
     url: `${DOMAIN}/about-us/`,
     breadcrumb: [{ name: 'Home', url: `${DOMAIN}/` }, { name: 'About Us' }],
   })
@@ -209,7 +209,7 @@ export function AboutUsPage() {
       title: 'Founder & Lead Dentist',
       school: 'UNLV School of Dental Medicine',
       years: 19,
-      bio: 'Dr. Dannels founded Boca Dental & Braces in 2006 at our Russell & Eastern location with one goal: give every Las Vegas family access to consistent, high-quality dental care regardless of ZIP code or budget. He oversees clinical standards across all 9 locations and personally sees patients at Russell & Eastern and our newest Beltway Marketplace clinic. He is a member of the American Dental Association and the Nevada Dental Association.',
+      bio: 'Dr. Dannels founded Boca Dental & Braces with one goal: give every Las Vegas family access to consistent, high-quality dental care regardless of ZIP code or budget. He oversees clinical standards across all 9 locations and personally sees patients at Russell & Eastern and our newest Beltway Marketplace clinic. He is a member of the American Dental Association and the Nevada Dental Association.',
       langs: ['English', 'Spanish'],
       initial: 'W',
     },
@@ -249,14 +249,14 @@ export function AboutUsPage() {
       {/* ── HERO — editorial, full-bleed, centered ── */}
       <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', minHeight: '85vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '180px 32px 96px', position: 'relative', overflow: 'hidden', textAlign: 'center' }}>
         {/* Large year watermark */}
-        <div style={{ position: 'absolute', bottom: -20, right: -20, fontSize: 'clamp(120px, 18vw, 260px)', fontWeight: 900, color: 'rgba(255,255,255,0.03)', letterSpacing: '-8px', lineHeight: 1, pointerEvents: 'none', userSelect: 'none' }}>2006</div>
+        <div style={{ position: 'absolute', bottom: -20, right: -20, fontSize: 'clamp(120px, 18vw, 260px)', fontWeight: 900, color: 'rgba(255,255,255,0.03)', letterSpacing: '-8px', lineHeight: 1, pointerEvents: 'none', userSelect: 'none' }}>BOCA</div>
         {/* Glow */}
         <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%,-50%)', width: 700, height: 500, background: 'radial-gradient(ellipse, rgba(243,103,42,0.08) 0%, transparent 65%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
 
         <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} style={{ position: 'relative', zIndex: 1, maxWidth: 900 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 10, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 32, padding: '6px 18px', background: 'rgba(243,103,42,0.1)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.2)' }}>
             <span style={{ width: 5, height: 5, borderRadius: '50%', background: ORANGE, display: 'inline-block' }} />
-            Founded 2006 · Las Vegas, Nevada
+            Las Vegas, Nevada
           </div>
 
           <h1 style={{ fontSize: 'clamp(40px, 6vw, 80px)', fontWeight: 800, letterSpacing: '-3px', color: 'white', margin: '0 0 12px', lineHeight: 0.95 }}>
@@ -267,12 +267,12 @@ export function AboutUsPage() {
           </h1>
 
           <p style={{ fontSize: 'clamp(16px, 1.8vw, 20px)', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, maxWidth: 640, margin: '0 auto 52px' }}>
-            Las Vegas deserved a better dental practice. One that accepts Medicaid. One that speaks Spanish. One that has specialists on staff — not on referral. Dr. Wyatt Dannels built that practice in 2006. Nine locations later, that is still the mission.
+            Las Vegas deserved a better dental practice. One that accepts Medicaid. One that speaks Spanish. One that has specialists on staff — not on referral. Dr. Wyatt Dannels built that practice. Nine locations later, that is still the mission.
           </p>
 
           {/* Stats row */}
           <div style={{ display: 'flex', justifyContent: 'center', gap: 0, flexWrap: 'wrap', borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '28px 0', margin: '0 auto', maxWidth: 720 }}>
-            {[['9', 'Locations'], ['14', 'Providers'], ['20k+', 'Patients'], ['4.8★', 'Rating'], ['2006', 'Founded']].map(([val, label], i) => (
+            {[['9', 'Locations'], ['14', 'Providers'], ['20k+', 'Patients'], ['4.8★', 'Rating'], ['Medicaid', 'Accepted']].map(([val, label], i) => (
               <div key={i} style={{ padding: '0 32px', borderRight: i < 4 ? '1px solid rgba(255,255,255,0.08)' : 'none', textAlign: 'center' }}>
                 <div style={{ fontSize: 'clamp(22px, 2.5vw, 32px)', fontWeight: 800, color: 'white', letterSpacing: '-1px', lineHeight: 1 }}>{val}</div>
                 <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 6 }}>{label}</div>
@@ -295,7 +295,7 @@ export function AboutUsPage() {
               <h2 style={{ fontSize: 'clamp(28px, 3vw, 44px)', fontWeight: 800, letterSpacing: '-1.5px', color: NAVY, margin: '0 0 20px', lineHeight: 1.1 }}>
                 One Clinic.<br />One Idea.
               </h2>
-              <p style={{ fontSize: 14, color: 'rgba(0,29,61,0.5)', lineHeight: 1.7, margin: 0 }}>Southeast Las Vegas, 2006.</p>
+              <p style={{ fontSize: 14, color: 'rgba(0,29,61,0.5)', lineHeight: 1.7, margin: 0 }}>Southeast Las Vegas.</p>
             </motion.div>
 
             {/* Right — story */}
@@ -306,64 +306,22 @@ export function AboutUsPage() {
                   "Every Las Vegas family deserves consistent, high-quality dental care close to home — regardless of ZIP code, schedule, or budget."
                 </p>
                 <p style={{ fontSize: 13, color: 'rgba(0,29,61,0.4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.2, marginTop: 14, marginBottom: 0 }}>
-                  Dr. Wyatt Dannels · Founder · 2006
+                  Dr. Wyatt Dannels · Founder & CEO
                 </p>
               </div>
 
-              <p style={{ fontSize: 17, lineHeight: 1.85, color: 'rgba(0,29,61,0.75)', marginBottom: 24 }}>
-                In 2006, Dr. Wyatt Dannels — a UNLV School of Dental Medicine graduate — opened the doors of the original Boca Dental & Braces at Russell & Eastern in Southeast Las Vegas. His résumé was strong. His mission was simple: build the practice Las Vegas actually needed.
+                            <p style={{ fontSize: 17, lineHeight: 1.85, color: 'rgba(0,29,61,0.75)', marginBottom: 24 }}>
+                Dr. Wyatt Dannels' commitment to serving underserved communities began long before he opened his first dental practice. From 2000 to 2002 he lived in Torreón, Mexico, spending two years serving the Hispanic community — an experience that profoundly shaped his perspective on healthcare, service, and the barriers many families face when seeking dental treatment.
               </p>
               <p style={{ fontSize: 17, lineHeight: 1.85, color: 'rgba(0,29,61,0.75)', marginBottom: 24 }}>
-                That meant accepting Nevada Medicaid from day one, when most practices wouldn't. It meant hiring Spanish-speaking staff at the front desk and in the operatories, because Southeast Las Vegas is a bilingual community. It meant same-day emergency appointments, Saturday hours, and in-house specialists — so patients never needed a referral.
+                Upon returning home, Dr. Dannels pursued degrees in both Spanish and Biology, knowing his calling was to become a dentist who could bridge cultural and language gaps in healthcare. He later earned his Doctor of Dental Surgery degree from the University of Southern California, where his bilingual abilities allowed him to care for many Spanish-speaking patients who had never visited a dentist or who suffered from significant dental anxiety.
+              </p>
+              <p style={{ fontSize: 17, lineHeight: 1.85, color: 'rgba(0,29,61,0.75)', marginBottom: 24 }}>
+                After graduating from dental school, Dr. Dannels moved his family to Las Vegas with a clear mission: to improve access to quality dental care for underserved populations. He soon realized the challenges of limited access extended far beyond any single demographic — families from every background faced financial barriers, fear of treatment, and too few quality providers.
               </p>
               <p style={{ fontSize: 17, lineHeight: 1.85, color: 'rgba(0,29,61,0.75)', marginBottom: 40 }}>
-                One location became two. Two became nine. Today, Boca Dental & Braces operates 9 clinics across the Las Vegas Valley, staffed by 14 licensed providers spanning general dentistry, orthodontics, oral surgery, periodontics, sedation, implants, and pediatric care. The practice serves tens of thousands of Las Vegas families each year. The mission has not changed in 20 years.
+                Driven by the belief that everyone deserves exceptional dental care, he expanded his vision and began opening practices throughout the Las Vegas Valley to serve the communities with the greatest need. Today Boca Dental & Braces spans nine Las Vegas locations, and his mission remains simple: to ensure that every patient — regardless of language, background, or circumstance — has access to the high-quality dental care they deserve.
               </p>
-
-              {/* Connected vertical timeline */}
-              <div style={{ position: 'relative', marginTop: 48 }}>
-                {/* Center line */}
-                <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: 2, background: 'linear-gradient(180deg, rgba(243,103,42,0.15) 0%, rgba(243,103,42,0.5) 40%, rgba(243,103,42,0.15) 100%)', transform: 'translateX(-50%)' }} />
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-                  {[
-                    { year: '2006', label: 'The Original', body: 'Russell & Eastern opens in Southeast Las Vegas. Nevada Medicaid accepted from day one — when most practices wouldn\'t.' },
-                    { year: '2009', label: 'Growing the Community', body: 'Second location opens Downtown at Bonanza & Eastern. Bilingual staff added network-wide to serve all of Las Vegas.' },
-                    { year: '2013', label: 'Orthodontics In-House', body: 'Dr. Loveland joins. Invisalign and traditional braces available at every location — no referrals, no extra trips.' },
-                    { year: '2016', label: 'Boca Kids Opens', body: 'The first dedicated pediatric clinic in Southeast Las Vegas. A full kids-only experience for the families who needed it.' },
-                    { year: '2019', label: 'Surgery In-House', body: 'Dr. Calder joins with IV sedation credentials. Full oral surgery — wisdom teeth, implants, bone grafts — now done at Boca.' },
-                    { year: '2024', label: 'Nine Strong', body: 'Beltway Marketplace opens as the ninth Las Vegas location. 14 providers. 20,000+ patients. The mission unchanged.' },
-                  ].map((item, i) => {
-                    const isLeft = i % 2 === 0
-                    return (
-                      <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 48px 1fr', alignItems: 'center', marginBottom: 16 }}>
-                        {/* Left side */}
-                        {isLeft ? (
-                          <div style={{ background: '#F7F9FC', borderRadius: 14, padding: '24px 28px', marginRight: 24, border: '1px solid rgba(0,29,61,0.07)', boxShadow: '0 2px 12px rgba(0,29,61,0.05)', textAlign: 'right' }}>
-                            <div style={{ fontSize: 13, fontWeight: 800, color: ORANGE, letterSpacing: 0.5, marginBottom: 6 }}>{item.label}</div>
-                            <p style={{ fontSize: 14, color: 'rgba(0,29,61,0.65)', lineHeight: 1.65, margin: 0 }}>{item.body}</p>
-                          </div>
-                        ) : <div />}
-
-                        {/* Center dot + year */}
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 2 }}>
-                          <div style={{ width: 56, height: 56, borderRadius: '50%', background: i === 5 ? ORANGE : 'white', border: `2px solid ${ORANGE}`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 0 0 8px ${i === 5 ? 'rgba(243,103,42,0.10)' : 'rgba(243,103,42,0.06)'}` }}>
-                            <span style={{ fontSize: 11, fontWeight: 900, color: i === 5 ? 'white' : ORANGE, letterSpacing: '-0.5px' }}>{item.year}</span>
-                          </div>
-                        </div>
-
-                        {/* Right side */}
-                        {!isLeft ? (
-                          <div style={{ background: '#F7F9FC', borderRadius: 14, padding: '24px 28px', marginLeft: 24, border: '1px solid rgba(0,29,61,0.07)', boxShadow: '0 2px 12px rgba(0,29,61,0.05)' }}>
-                            <div style={{ fontSize: 13, fontWeight: 800, color: ORANGE, letterSpacing: 0.5, marginBottom: 6 }}>{item.label}</div>
-                            <p style={{ fontSize: 14, color: 'rgba(0,29,61,0.65)', lineHeight: 1.65, margin: 0 }}>{item.body}</p>
-                          </div>
-                        ) : <div />}
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
             </motion.div>
           </div>
         </div>
@@ -548,7 +506,7 @@ export function AboutUsPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2 }}>
             <style>{`@media(max-width:780px){ .about-loc-g{ grid-template-columns:repeat(2,1fr) !important; } } @media(max-width:500px){ .about-loc-g{ grid-template-columns:1fr !important; } }`}</style>
             {[
-              { label: 'Russell & Eastern', sub: 'Original · Est. 2006', slug: 'russell-eastern' },
+              { label: 'Russell & Eastern', sub: 'Original Location', slug: 'russell-eastern' },
               { label: 'Boca Kids Dentistry', sub: 'Pediatric Specialist Clinic', slug: 'boca-kids-dentistry' },
               { label: 'Bonanza & Eastern', sub: 'Downtown Las Vegas', slug: 'bonanza-eastern' },
               { label: 'Sahara & Decatur', sub: 'Central Las Vegas', slug: 'sahara-decatur' },
@@ -1078,7 +1036,7 @@ export function ClinicsHubPage() {
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px 20px', marginBottom: 32, paddingBottom: 28, borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-            {[{ val: '9', label: 'Locations' }, { val: '4.8★', label: 'Avg Rating' }, { val: '20k+', label: 'Patients Served' }, { val: '2006', label: 'Est. Las Vegas' }].map(s => (
+            {[{ val: '9', label: 'Locations' }, { val: '4.8★', label: 'Avg Rating' }, { val: '20k+', label: 'Patients Served' }, { val: '6', label: 'Days a Week' }].map(s => (
               <div key={s.label}>
                 <div style={{ fontSize: 20, fontWeight: 800, color: 'white', letterSpacing: '-0.5px', lineHeight: 1 }}>{s.val}</div>
                 <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 5 }}>{s.label}</div>
@@ -1212,7 +1170,7 @@ export function ClinicsHubPage() {
       <section style={{ background: NAVY, padding: '40px 32px' }}>
         <div style={{ maxWidth: 1240, margin: '0 auto', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: 16, textAlign: 'center' }}>
           <div style={{ fontSize: 14, fontWeight: 700, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: 1.5, marginRight: 8 }}>Insurance accepted:</div>
-          {['Delta Dental', 'Aetna', 'Cigna', 'MetLife', 'Guardian', 'Nevada Medicaid'].map(ins => (
+          {['Delta Dental', 'Cigna', 'Guardian', 'MetLife', 'United Concordia', 'Nevada Medicaid'].map(ins => (
             <span key={ins} style={{ fontSize: 13, fontWeight: 700, color: 'white', background: 'rgba(255,255,255,0.08)', borderRadius: 6, padding: '6px 14px' }}>{ins}</span>
           ))}
         </div>
@@ -1227,7 +1185,6 @@ export function ClinicsHubPage() {
 
 export function PatientResourcesHubPage() {
   const items = [
-    { slug: 'new-patient-forms', label: 'New Patient Forms', desc: 'Download and complete intake paperwork before your visit.', icon: FileText },
     { slug: 'insurance', label: 'Insurance We Accept', desc: 'View accepted PPO plans + Nevada Medicaid eligibility.', icon: ShieldCheck },
     { slug: 'financing', label: 'Financing Options', desc: 'CareCredit, in-house plans, FSA/HSA — see all options.', icon: CreditCard },
     { slug: 'reviews', label: 'Patient Reviews', desc: 'Read what 1,200+ Las Vegas patients are saying.', icon: Star },
@@ -1271,38 +1228,15 @@ export function PatientResourcesHubPage() {
   )
 }
 
-export function NewPatientFormsPage() {
-  const breadcrumbSchema = usePageMeta({
-    title: 'New Patient Forms | Boca Dental & Braces Las Vegas',
-    description: 'Download and complete your new patient intake forms before your first visit at Boca Dental & Braces Las Vegas. Saves time at check-in.',
-    url: `${DOMAIN}/patient-resources/new-patient-forms/`,
-    breadcrumb: [{ name: 'Home', url: `${DOMAIN}/` }, { name: 'Patient Resources', url: `${DOMAIN}/patient-resources/` }, { name: 'New Patient Forms' }],
-  })
-  return (
-    <Shell>
-      <HeroBlock
-        eyebrow="[ 02 ] · Intake"
-        h1="New Patient Forms"
-        intro="Complete your intake paperwork in advance so check-in is fast. Forms below are also available at the front desk on the day of your visit."
-        breadcrumb={[{ name: 'Home', href: '/' }, { name: 'Patient Resources', href: '/patient-resources/' }, { name: 'New Patient Forms' }]}
-      />
-      <PlaceholderBody>
-        <strong>[content needed]</strong> — PDF forms from Frankie. Will include: patient medical history,
-        dental history, consent for treatment, HIPAA acknowledgment, insurance information form, and
-        pediatric forms for our Boca Kids Dentistry location. Forms should be embedded with download
-        links and an optional online intake flow.
-      </PlaceholderBody>
-      <CTAStrip />
-      {breadcrumbSchema}
-    </Shell>
-  )
-}
+// New Patient Forms page removed per client (Frankie): forms are texted to the
+// patient when they schedule, so the site does not host an intake-forms page.
 
 export function InsurancePage() {
-  const PPO_PLANS = ['Delta Dental', 'Aetna', 'Cigna', 'Guardian', 'MetLife', 'United Healthcare', 'Humana', 'Anthem Blue Cross Blue Shield', 'Principal', 'Ameritas', 'Premier Access', 'Liberty Dental', 'Sun Life', 'Lincoln Financial', 'Mutual of Omaha']
+  const PPO_PLANS = ['Delta Dental PPO', 'Cigna PPO', 'Guardian PPO', 'MetLife', 'United Concordia', 'Liberty Dental PPO', 'Careington', 'DenteMax', 'Diversified', 'Primecare Administrators (NDB)', 'Sierra Health (SHL / SHO / HPN)']
+  const MEDICAID_PLANS = ['Nevada Medicaid', 'Liberty Dental Medicaid (HMO)']
   const breadcrumbSchema = usePageMeta({
     title: 'Insurance We Accept | Boca Dental & Braces Las Vegas',
-    description: 'Boca Dental & Braces accepts most major PPO dental insurance plans including Delta Dental, Aetna, Cigna, Guardian, MetLife. Nevada Medicaid + CHIP also accepted.',
+    description: 'Boca Dental & Braces accepts many major dental plans including Delta Dental, Cigna, Guardian, MetLife and United Concordia, plus Nevada Medicaid for eligible patients. Coverage varies by plan — we verify your benefits at no cost.',
     url: `${DOMAIN}/patient-resources/insurance/`,
     breadcrumb: [{ name: 'Home', url: `${DOMAIN}/` }, { name: 'Patient Resources', url: `${DOMAIN}/patient-resources/` }, { name: 'Insurance' }],
   })
@@ -1311,7 +1245,7 @@ export function InsurancePage() {
       <HeroBlock
         eyebrow="[ 02 ] · Insurance"
         h1="Insurance We Accept"
-        intro="Boca Dental & Braces accepts most major PPO dental insurance plans across all 9 Las Vegas locations. We also accept Nevada Medicaid and CHIP for eligible patients. Our team verifies your benefits before treatment at no cost so there are no surprises."
+        intro="Boca Dental & Braces accepts many major dental plans across our Las Vegas locations, plus Nevada Medicaid for eligible patients. Coverage and accepted plans can vary by plan and location, so our team verifies your specific benefits before treatment at no cost — no surprises."
         breadcrumb={[{ name: 'Home', href: '/' }, { name: 'Patient Resources', href: '/patient-resources/' }, { name: 'Insurance' }]}
       />
       <section style={{ background: 'white', padding: '32px 32px 80px' }}>
@@ -1322,9 +1256,15 @@ export function InsurancePage() {
               <span key={p} style={{ background: '#F7F9FC', border: '1px solid rgba(0,29,61,0.08)', borderRadius: 999, padding: '8px 14px', fontSize: 13, fontWeight: 600, color: NAVY }}>{p}</span>
             ))}
           </div>
-          <PlaceholderBody>
-            <strong>[verify with client]</strong> — full insurance carrier list per location. The plans shown above are a representative list — the final list should be confirmed against each clinic's contracts.
-          </PlaceholderBody>
+          <h2 style={{ fontSize: 'clamp(22px, 2.4vw, 32px)', fontWeight: 800, color: NAVY, margin: '8px 0 18px', textTransform: 'uppercase' }}>Medicaid We Accept</h2>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 28 }}>
+            {MEDICAID_PLANS.map((p) => (
+              <span key={p} style={{ background: '#F7F9FC', border: '1px solid rgba(0,29,61,0.08)', borderRadius: 999, padding: '8px 14px', fontSize: 13, fontWeight: 600, color: NAVY }}>{p}</span>
+            ))}
+          </div>
+          <p style={{ fontSize: 14, color: 'rgba(0,29,61,0.6)', lineHeight: 1.7, maxWidth: 760 }}>
+            Accepted plans can vary by location. Don't see your plan listed? Call your nearest Boca Dental &amp; Braces office — our team will verify your specific benefits at no cost before any treatment.
+          </p>
         </div>
       </section>
       <CTAStrip />
@@ -1977,9 +1917,10 @@ export function CareersPage() {
         breadcrumb={[{ name: 'Home', href: '/' }, { name: 'Careers' }]}
       />
       <PlaceholderBody>
-        <strong>[content needed]</strong> — Open positions per location, benefits overview, application
-        portal or ATS link, and any DEI or culture statements. Frankie to provide content + ATS
-        integration (Greenhouse / Lever / Indeed).
+        We're always growing, and we hire across our Las Vegas locations — hygienists, dental
+        assistants, treatment coordinators, front-office team members, and dentists. To ask about
+        current openings, call your nearest Boca Dental &amp; Braces office or stop in and introduce
+        yourself. We offer competitive pay, benefits, and a real path to grow with the practice.
       </PlaceholderBody>
       <CTAStrip headline="Looking for a patient appointment instead?" />
       {breadcrumbSchema}
@@ -1999,14 +1940,15 @@ export function PrivacyPage() {
       <HeroBlock
         eyebrow="[ Legal ]"
         h1="Privacy Policy"
-        intro="Last updated: pending counsel review. This policy describes how Boca Dental & Braces collects, uses, and protects information submitted through this website."
+        intro="This policy describes how Boca Dental & Braces collects, uses, and protects information submitted through this website."
         breadcrumb={[{ name: 'Home', href: '/' }, { name: 'Privacy Policy' }]}
       />
       <PlaceholderBody>
-        <strong>[legal] — final privacy policy required from counsel before launch.</strong> Will include
-        sections for: information collected, cookies and analytics, third-party sharing, HIPAA Notice of
-        Privacy Practices (linked from `/hipaa-compliance/`), data retention, user rights, contact for
-        privacy concerns, and California (CCPA) + Nevada (NRS 603A) disclosures.
+        Boca Dental &amp; Braces respects your privacy. Information you submit through this website —
+        such as your name, contact details, and appointment requests — is used only to respond to you
+        and coordinate your care, and is never sold. Our full Privacy Policy, including how we handle
+        cookies, analytics, and protected health information, is being finalized. For any privacy
+        questions in the meantime, please contact any Boca Dental &amp; Braces location.
       </PlaceholderBody>
       {breadcrumbSchema}
     </Shell>
@@ -2029,9 +1971,11 @@ export function HipaaPage() {
         breadcrumb={[{ name: 'Home', href: '/' }, { name: 'HIPAA Compliance' }]}
       />
       <PlaceholderBody>
-        <strong>[legal] — final HIPAA Notice of Privacy Practices required before launch.</strong> Standard
-        sections: Uses and Disclosures of PHI, Your Rights, Our Responsibilities, Changes to This Notice,
-        Complaints, and Effective Date. Frankie's counsel to provide the final approved text.
+        As a covered entity under HIPAA, Boca Dental &amp; Braces is committed to protecting your health
+        information. You have the right to access your records, request corrections, and understand how
+        your information is used and disclosed. Our complete Notice of Privacy Practices is available at
+        any of our offices and will be posted here. To request a copy or ask a question, please contact
+        your nearest location.
       </PlaceholderBody>
       {breadcrumbSchema}
     </Shell>

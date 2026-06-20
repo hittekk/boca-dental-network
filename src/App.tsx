@@ -70,7 +70,6 @@ import {
   ClinicsHubPage,
   ServicesHubPage,
   PatientResourcesHubPage,
-  NewPatientFormsPage,
   InsurancePage,
   FinancingPage,
   ReviewsPage,
@@ -190,8 +189,6 @@ function App() {
         {/* Patient Resources */}
         <Route path="/patient-resources/" element={<PatientResourcesHubPage />} />
         <Route path="/patient-resources" element={<PatientResourcesHubPage />} />
-        <Route path="/patient-resources/new-patient-forms/" element={<NewPatientFormsPage />} />
-        <Route path="/patient-resources/new-patient-forms" element={<NewPatientFormsPage />} />
         <Route path="/patient-resources/insurance/" element={<InsurancePage />} />
         <Route path="/patient-resources/insurance" element={<InsurancePage />} />
         <Route path="/patient-resources/financing/" element={<FinancingPage />} />

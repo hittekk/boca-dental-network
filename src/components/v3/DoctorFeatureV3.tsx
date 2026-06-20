@@ -218,7 +218,7 @@ export function DoctorFeatureV3() {
                   maxWidth: 520,
                 }}
               >
-                Dr. Dannels opened Boca's first office on Eastern in 2006. Today
+                Dr. Dannels opened Boca's first office on Eastern. Today
                 he leads a team of 14 dentists across nine LV-area locations —
                 still seeing patients every week, still personally reviewing
                 treatment plans for the most complex cases.

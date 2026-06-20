@@ -36,7 +36,7 @@ const PROVIDERS: Provider[] = [
     initials: 'WD',
     name: 'Dr. Wyatt Dannels',
     title: 'General Dentist · Founder',
-    credential: 'Founded Boca in 2006 · 20 years in practice',
+    credential: 'Founder of Boca Dental & Braces',
     slug: 'dr-wyatt-dannels',
     accent: '#F3672A',
   },

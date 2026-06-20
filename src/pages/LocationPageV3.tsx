@@ -507,7 +507,7 @@ function LocationHero({
               >
                 Modern dental care{' '}
                 {location.kids ? 'built just for kids' : 'for the whole family'} —
-                serving {location.neighborhood} since 2006. Same-day appointments,
+                serving {location.neighborhood}. Same-day appointments,
                 most insurance accepted, and a team that actually picks up the phone.
               </p>
 
@@ -618,7 +618,7 @@ function LocationHero({
                 <span>Office #{officeNumber}</span>
                 <span style={{ opacity: 0.3 }}>·</span>
                 <span style={{ color: ORANGE }}>
-                  Est. {location.id === 9 ? '2024' : '2006'}
+                  Las Vegas, NV
                 </span>
               </div>
 

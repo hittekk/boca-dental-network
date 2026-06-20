@@ -29,7 +29,7 @@ function getSteps(lang: import('../../lib/lang').Lang): Step[] { return [
   {
     number: '02',
     title: t(lang, 'Complete Your Forms', 'Completa Tu Documentación'),
-    body: t(lang, 'Download and complete your new patient forms before your visit to save time. We accept most insurance plans.', 'Descarga y completa tus formularios antes de la visita para ahorrar tiempo. Aceptamos la mayoría de los seguros.'),
+    body: t(lang, 'When you book, we text your new patient forms straight to your phone — complete them in minutes before you arrive. We accept most insurance plans.', 'Al reservar, te enviamos tus formularios por mensaje de texto — complétalos en minutos antes de llegar. Aceptamos la mayoría de los seguros.'),
     icon: FileText,
     duration: t(lang, '~ 10 min', '~ 10 min'),
   },

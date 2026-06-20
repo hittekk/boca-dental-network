@@ -117,14 +117,9 @@ export function DentistPage() {
               {content.photo ? (
                 <img src={content.photo} alt={`${nameShort} at Boca Dental & Braces Las Vegas`} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 20%' }} />
               ) : (
-                <>
-                  <div style={{ fontFamily: MONO, fontSize: 'clamp(56px, 7vw, 96px)', fontWeight: 800, color: 'rgba(0,29,61,0.85)', letterSpacing: '-2px' }}>
-                    {initials}
-                  </div>
-                  <span style={{ position: 'absolute', top: 14, left: 14, padding: '4px 9px', background: ORANGE, color: 'white', borderRadius: 4, fontFamily: MONO, fontSize: 10, fontWeight: 800, letterSpacing: 1.2, textTransform: 'uppercase' }}>
-                    Headshot [content]
-                  </span>
-                </>
+                <div style={{ fontFamily: MONO, fontSize: 'clamp(56px, 7vw, 96px)', fontWeight: 800, color: 'rgba(0,29,61,0.85)', letterSpacing: '-2px' }}>
+                  {initials}
+                </div>
               )}
             </div>
 

@@ -374,7 +374,7 @@ function Hero({
             >
               {intro} Serving {location.neighborhood}{' '}
               <span style={{ fontWeight: 700, color: INK }}>
-                since 2006.
+               .
               </span>
             </p>
 
@@ -497,7 +497,7 @@ function Hero({
                   color: 'rgba(26,20,16,0.55)',
                 }}
               >
-                — Boca Dental, Est. 2006
+                — Boca Dental & Braces
               </footer>
             </blockquote>
           </motion.div>

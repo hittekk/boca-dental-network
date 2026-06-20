@@ -442,7 +442,7 @@ function Hero({
               {location.kids
                 ? 'designed just for kids and teens'
                 : 'for the whole family'}{' '}
-              — serving {location.neighborhood} since 2006. Same-day
+              — serving {location.neighborhood}. Same-day
               appointments, most insurance accepted.
             </p>
 
@@ -1630,7 +1630,7 @@ function DoctorsHere({
   doctors,
   location,
 }: {
-  doctors: { slug: string; name: string; title: string }[]
+  doctors: { slug: string; name: string; title: string; photo?: string }[]
   location: Location
 }) {
   // Pull initials from name like "Dr. Wyatt Dannels, DDS" → "WD"
@@ -1725,43 +1725,35 @@ function DoctorsHere({
                     pointerEvents: 'none',
                   }}
                 />
-                {/* Initials */}
-                <span
-                  style={{
-                    position: 'relative',
-                    fontSize: 'clamp(48px, 7vw, 88px)',
-                    fontWeight: 800,
-                    letterSpacing: '-2.5px',
-                    color: NAVY,
-                    opacity: 0.85,
-                    lineHeight: 1,
-                  }}
-                >
-                  {initials(d.name)}
-                </span>
-                {/* Stethoscope badge */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: 12,
-                    left: 12,
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 6,
-                    background: 'white',
-                    borderRadius: 999,
-                    padding: '5px 10px',
-                    fontSize: 9,
-                    fontWeight: 800,
-                    letterSpacing: 1.5,
-                    textTransform: 'uppercase',
-                    color: NAVY,
-                    boxShadow: '0 4px 12px rgba(0,29,61,0.1)',
-                  }}
-                >
-                  <Stethoscope size={11} color={ORANGE} />
-                  DDS
-                </div>
+                {/* Real headshot when available, otherwise initials */}
+                {d.photo ? (
+                  <img
+                    src={d.photo}
+                    alt={d.name}
+                    loading="lazy"
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                  />
+                ) : (
+                  <span
+                    style={{
+                      position: 'relative',
+                      fontSize: 'clamp(48px, 7vw, 88px)',
+                      fontWeight: 800,
+                      letterSpacing: '-2.5px',
+                      color: NAVY,
+                      opacity: 0.85,
+                      lineHeight: 1,
+                    }}
+                  >
+                    {initials(d.name)}
+                  </span>
+                )}
                 {/* Star rating badge */}
                 <div
                   style={{

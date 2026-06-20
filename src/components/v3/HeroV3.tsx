@@ -178,7 +178,7 @@ export function HeroV3({ brand }: HeroV3Props) {
                 marginBottom: 22,
               }}
             >
-              Boca Dental + Braces · Est. 2006
+              Boca Dental + Braces · Las Vegas
             </motion.div>
 
             <motion.h1
@@ -427,7 +427,7 @@ export function HeroV3({ brand }: HeroV3Props) {
                 value: '20',
                 suffix: 'yrs',
                 label: 'Family-owned',
-                sub: 'Same team, since 2006',
+                sub: 'Same trusted team, every neighborhood',
               },
             ].map((stat, i) => (
               <div

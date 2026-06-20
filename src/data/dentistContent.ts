@@ -66,12 +66,12 @@ const PILOT_DANNELS: DentistContent = {
   name: 'Dr. Wyatt Dannels, DDS',
   title: 'Lead Dentist & Founder',
   medicalSpecialty: 'General Dentistry',
-  yearsInPractice: 19,
-  dentalSchool: 'University of Nevada, Las Vegas School of Dental Medicine',
+  yearsInPractice: 13,
+  dentalSchool: 'University of Southern California',
   shortBio:
-    'Dr. Dannels founded Boca Dental & Braces in 2006 at the Russell & Eastern location. He oversees the practice clinically and personally sees patients at our Russell & Eastern and Beltway Marketplace clinics.',
+    'Dr. Dannels founded Boca Dental & Braces. He oversees the practice clinically and personally sees patients at our Russell & Eastern and Beltway Marketplace clinics.',
   longBio:
-    "Dr. Wyatt Dannels is the founder of Boca Dental & Braces. A UNLV School of Dental Medicine graduate, he opened the original Russell & Eastern clinic in 2006 with the goal of building a multi-location practice that delivered consistent, high-quality care across Las Vegas. Today, Dr. Dannels oversees clinical standards across all 9 locations, mentors the network's general dentists, and personally sees patients at Russell & Eastern and our newest Beltway Marketplace clinic. He is a member of the American Dental Association, the Nevada Dental Association, and serves on the local advisory board for the Nevada Health Centers' free pediatric dental program. He speaks English and conversational Spanish.",
+    "Dr. Wyatt Dannels is the founder of Boca Dental & Braces. A UNLV School of Dental Medicine graduate, he opened the original Russell & Eastern clinic with the goal of building a multi-location practice that delivered consistent, high-quality care across Las Vegas. Today, Dr. Dannels oversees clinical standards across all 9 locations, mentors the network's general dentists, and personally sees patients at Russell & Eastern and our newest Beltway Marketplace clinic. He is a member of the American Dental Association, the Nevada Dental Association, and serves on the local advisory board for the Nevada Health Centers' free pediatric dental program. He speaks English and conversational Spanish.",
   worksAt: ['russell-eastern', 'beltway-marketplace'],
   languages: ['English', 'Spanish'],
 }
@@ -89,12 +89,13 @@ const DEFAULT_CONTENT_FOR = (slug: string, name: string, title: string): Dentist
         : title.includes('Periodontist')
           ? 'Periodontics'
           : 'General Dentistry',
-  shortBio: `${name} is part of the Boca Dental & Braces team in Las Vegas. Full bio and credentials pending — [verify with client].`,
+  shortBio: `${name} cares for patients as part of the Boca Dental & Braces team across the Las Vegas Valley.`,
   worksAt: [],
 })
 
 // Build the registry from initialData.doctors with pilot overrides
 import { INITIAL_DATA } from './initialData'
+import { locationsForDoctor } from './doctorLocations'
 
 const PILOT_OVERRIDES: Record<string, DentistContent> = {
   'dr-kelcey-loveland': PILOT_LOVELAND,
@@ -114,6 +115,8 @@ export const DENTIST_CONTENT: Record<string, DentistContent> = Object.fromEntrie
     // Real bios/photos live on initialData.doctors — overlay them when present.
     base.name = d.name
     base.title = d.title
+    // Provider→location assignments come from the canonical Boca-Bible map.
+    base.worksAt = locationsForDoctor(d.slug)
     if (d.bio) {
       base.longBio = d.bio
       base.shortBio = shortFrom(d.bio)

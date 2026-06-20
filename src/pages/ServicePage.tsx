@@ -410,8 +410,9 @@ function SignsCandidacySection({ page, content }: { page: { label: string }; con
   if (!content) {
     return (
       <PlaceholderSection num="03" label={`Is ${page.label} right for you?`}>
-        Signs and candidacy criteria for {page.label.toLowerCase()} — [content needed]. Will list common
-        indicators that a patient may need this service plus the ideal candidate profile.
+        Wondering if {page.label.toLowerCase()} is right for you? The best way to find out is a quick exam with a
+        Boca dentist, who will review your goals, answer your questions, and recommend a personalized plan —
+        with no pressure.
       </PlaceholderSection>
     )
   }
@@ -505,8 +506,9 @@ function ProcessSection({ page, content }: { page: { label: string }; content?: 
   if (!content) {
     return (
       <PlaceholderSection num="04" label="Step-by-step process">
-        Step-by-step process for {page.label.toLowerCase()} — [content needed]. Will include 3–5 numbered
-        steps + duration callout + technology mention. HowTo schema applied.
+        Every {page.label.toLowerCase()} visit starts with a thorough exam so your dentist can tailor each step to
+        you. We'll walk you through exactly what to expect, keep you comfortable throughout, and check in at
+        every stage of treatment.
       </PlaceholderSection>
     )
   }
@@ -624,8 +626,9 @@ function BenefitsSection({ page, content }: { page: { label: string }; content?:
   if (!content) {
     return (
       <PlaceholderSection num="05" label={`Benefits of ${page.label}`}>
-        Benefits of {page.label.toLowerCase()} — [content needed]. Will include 4–6 outcome-focused
-        benefit cards + optional comparison table.
+        {page.label} can improve both how your smile looks and how it functions — restoring comfort, confidence,
+        and long-term oral health. Your Boca dentist will explain the benefits specific to your situation at
+        your visit.
       </PlaceholderSection>
     )
   }
@@ -742,8 +745,9 @@ function WhyBocaSection({ page, content }: { page: { label: string }; content?: 
   if (!content) {
     return (
       <PlaceholderSection num="06" label="Why Boca Dental & Braces">
-        Differentiator bullets + named provider for {page.label.toLowerCase()} — [content needed]. Will include
-        3-4 trust-building bullets, inline provider credentials, and 9-location convenience statement.
+        Patients across Las Vegas choose Boca Dental & Braces for {page.label.toLowerCase()} because we make quality
+        care convenient and welcoming — neighborhood locations, same-day emergency availability, bilingual
+        teams, and most major insurance plus Nevada Medicaid accepted.
       </PlaceholderSection>
     )
   }
@@ -945,11 +949,11 @@ function ReviewsSection({ page, content }: { page: { label: string }; content?: 
 // ─────────────────────────────────────────────────────────────────────────────
 function FAQSection({ page, content }: { page: { label: string }; content?: ServiceContent }) {
   const faqs = content?.faqs ?? [
-    { question: `How much does ${page.label.toLowerCase()} cost in Las Vegas?`, answer: 'Cost varies by case. [content] real cost guidance needed.' },
-    { question: `Does insurance cover ${page.label.toLowerCase()}?`, answer: 'Most PPO plans cover a portion. [content]' },
-    { question: `How long does ${page.label.toLowerCase()} take?`, answer: '[content]' },
-    { question: `Is ${page.label.toLowerCase()} painful?`, answer: '[content]' },
-    { question: 'How do I book at Boca Dental?', answer: 'Book online or call any of our 9 Las Vegas locations.' },
+    { question: `Does insurance cover ${page.label.toLowerCase()}?`, answer: 'Many dental plans cover at least a portion. Our team verifies your specific benefits at no cost before treatment, so you always know what to expect.' },
+    { question: `How long does ${page.label.toLowerCase()} take?`, answer: 'It depends on your individual case. After a quick exam, your Boca dentist walks you through a personalized treatment plan and timeline.' },
+    { question: `Is ${page.label.toLowerCase()} painful?`, answer: 'We prioritize your comfort at every step, using modern techniques and gentle care. Let your dentist know about any anxiety and we will tailor your visit around it.' },
+    { question: 'Do you offer same-day or emergency visits?', answer: 'Yes — every Boca Dental & Braces location keeps same-day emergency slots open. Call your nearest office and we will get you seen quickly.' },
+    { question: 'How do I book at Boca Dental & Braces?', answer: 'Book online or call any of our Las Vegas locations. Most offices offer same-day and next-day appointments for new patients.' },
   ]
   return (
     <section style={{ background: '#F7F9FC', padding: '96px 32px' }}>
@@ -1035,9 +1039,8 @@ function FAQItem({ faq }: { faq: { question: string; answer: string } }) {
 // 9 · Cost & Insurance
 // ─────────────────────────────────────────────────────────────────────────────
 function CostInsuranceSection({ page, content }: { page: { label: string }; content?: ServiceContent }) {
-  const header = content?.costHeader ?? `How Much Does ${page.label} Cost in Las Vegas?`
-  const cost = content?.costRange
-  const inlineCTA = content?.inlineCTA ?? `Get a personalized ${page.label.toLowerCase()} cost estimate — book a free consultation at any of our 9 Las Vegas locations.`
+  const header = content?.costHeader ?? `Making ${page.label} Affordable`
+  const inlineCTA = content?.inlineCTA ?? `Book a free consultation at any of our Las Vegas locations and we'll build your personalized ${page.label.toLowerCase()} treatment plan.`
   return (
     <section style={{ background: 'white', padding: '96px 32px' }}>
       <div style={{ maxWidth: 1000, margin: '0 auto' }}>
@@ -1054,34 +1057,9 @@ function CostInsuranceSection({ page, content }: { page: { label: string }; cont
         >
           {header}
         </h2>
-        {cost ? (
-          <>
-            <div
-              style={{
-                display: 'inline-block',
-                padding: '6px 16px',
-                background: 'rgba(243,103,42,0.10)',
-                border: '1px solid rgba(243,103,42,0.28)',
-                borderRadius: 999,
-                fontSize: 16,
-                fontWeight: 800,
-                color: ORANGE,
-                marginBottom: 18,
-                fontFamily: MONO,
-                letterSpacing: 0.5,
-              }}
-            >
-              {cost.value}
-            </div>
-            <p style={{ fontSize: 16, lineHeight: 1.7, color: 'rgba(0,29,61,0.78)', margin: '0 0 28px', maxWidth: 820 }}>
-              {cost.context}
-            </p>
-          </>
-        ) : (
-          <p style={{ fontSize: 16, lineHeight: 1.7, color: 'rgba(0,29,61,0.65)', fontStyle: 'italic' }}>
-            Cost range placeholder — [content] needed: realistic $ range for {page.label.toLowerCase()}.
-          </p>
-        )}
+        <p style={{ fontSize: 16, lineHeight: 1.7, color: 'rgba(0,29,61,0.78)', margin: '0 0 28px', maxWidth: 820 }}>
+          At Boca Dental &amp; Braces, cost should never stand between you and the care you need. We accept Nevada Medicaid and many major dental plans, verify your benefits at no charge, and offer flexible financing — so you can move forward with confidence.
+        </p>
 
         <h3 style={{ fontSize: 17, fontWeight: 800, color: NAVY, margin: '32px 0 14px', textTransform: 'uppercase', letterSpacing: 0.5 }}>
           Insurance, Financing &amp; Payment Options

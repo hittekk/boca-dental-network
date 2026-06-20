@@ -31,7 +31,6 @@ const staticPaths = [
   '/about-us/',
   '/about-us/dentists/',
   '/patient-resources/',
-  '/patient-resources/new-patient-forms/',
   '/patient-resources/insurance/',
   '/patient-resources/financing/',
   '/patient-resources/reviews/',
