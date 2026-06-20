@@ -130,7 +130,7 @@ function masthead(routePath, routeTitle) {
   │                                                                      │
   │    BOCA  DENTAL  &  BRACES                                           │
   │    Family · Cosmetic · Orthodontic · Specialty Dental Care           │
-  │    Las Vegas, Nevada — Est. 2006                                     │
+  │    Las Vegas, Nevada                                                 │
   │                                                                      │
   │    ★ 4.9 · 1,200+ Verified Google Reviews                            │
   │    9 LV Locations · Same-day Emergencies · Bilingual                 │
