@@ -11,6 +11,7 @@ type BlogRow = {
   slug: string;
   title: string;
   status: 'draft' | 'published';
+  category: string | null;
   updated_at: string;
   published_at: string | null;
 };
@@ -24,7 +25,7 @@ export default function BlogListPage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('blog_posts')
-        .select('id, slug, title, status, updated_at, published_at')
+        .select('id, slug, title, status, category, updated_at, published_at')
         .order('updated_at', { ascending: false });
       if (error) throw error;
       return (data ?? []) as BlogRow[];
@@ -121,15 +122,24 @@ export default function BlogListPage() {
                   <td className="px-4 py-3">
                     <Link to={`/dental-admin/blog/${post.id}`} className="block">
                       <div className="font-semibold text-sm" style={{ color: DARK_NAVY }}>{post.title}</div>
-                      <div className="text-xs text-slate-400 font-mono mt-0.5">/blog/{post.slug}</div>
+                      <div className="text-xs text-slate-400 font-mono mt-0.5">/blog/{post.slug}{post.category ? ` · ${post.category}` : ''}</div>
                     </Link>
                   </td>
                   <td className="px-4 py-3">
-                    <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded"
-                      style={post.status === 'published' ? { background: '#DCFCE7', color: '#15803D' } : { background: '#FEF3C7', color: '#B45309' }}>
-                      {post.status === 'published' ? <Eye className="h-3 w-3" /> : <EyeOff className="h-3 w-3" />}
-                      {post.status}
-                    </span>
+                    {(() => {
+                      const scheduled = post.status === 'published' && post.published_at && new Date(post.published_at) > new Date();
+                      const cfg = scheduled
+                        ? { bg: '#DBEAFE', color: '#1D4ED8', label: 'scheduled' }
+                        : post.status === 'published'
+                          ? { bg: '#DCFCE7', color: '#15803D', label: 'published' }
+                          : { bg: '#FEF3C7', color: '#B45309', label: 'draft' };
+                      return (
+                        <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded" style={{ background: cfg.bg, color: cfg.color }}>
+                          {scheduled ? '📅' : post.status === 'published' ? <Eye className="h-3 w-3" /> : <EyeOff className="h-3 w-3" />}
+                          {cfg.label}
+                        </span>
+                      );
+                    })()}
                   </td>
                   <td className="px-4 py-3 text-xs text-slate-400">{new Date(post.updated_at).toLocaleDateString()}</td>
                   <td className="px-4 py-3">

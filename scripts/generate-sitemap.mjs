@@ -86,6 +86,28 @@ try {
   console.warn('⚠ sitemap: could not load DB custom pages:', err.message)
 }
 
+// Blog — only when the blog section is enabled. RLS hides future-scheduled
+// posts from the anon key, so only live posts appear. Non-fatal if unavailable.
+let blogPaths = []
+try {
+  const SB_URL = process.env.VITE_SUPABASE_URL
+  const SB_KEY = process.env.VITE_SUPABASE_ANON_KEY
+  if (SB_URL && SB_KEY) {
+    const h = { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` }
+    const setRes = await fetch(`${SB_URL}/rest/v1/site_settings?select=value&key=eq.blog`, { headers: h })
+    const enabled = setRes.ok ? (((await setRes.json())[0]?.value)?.enabled === true) : false
+    if (enabled) {
+      const res = await fetch(`${SB_URL}/rest/v1/blog_posts?select=slug&status=eq.published`, { headers: h })
+      if (res.ok) {
+        const rows = await res.json()
+        blogPaths = ['/blog/', ...rows.map((r) => `/blog/${r.slug}/`)]
+      }
+    }
+  }
+} catch (err) {
+  console.warn('⚠ sitemap: could not load blog:', err.message)
+}
+
 const urls = [...new Set([
   ...staticPaths,
   ...clinicPaths,
@@ -94,6 +116,7 @@ const urls = [...new Set([
   ...servicePaths,
   ...dbServicePaths,
   ...dbCustomPagePaths,
+  ...blogPaths,
 ])]
 
 const today = new Date().toISOString().slice(0, 10)
