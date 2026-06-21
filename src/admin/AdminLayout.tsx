@@ -15,6 +15,7 @@ import {
   UserCog,
   Images,
   BarChart3,
+  History,
 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
@@ -120,6 +121,7 @@ export default function AdminLayout({ session }: { session: Session }) {
           <NavItem to="/dental-admin/analytics" icon={BarChart3} label="Analytics" />
           <SectionLabel>Site</SectionLabel>
           <NavItem to="/dental-admin/team" icon={Users} label="Team" />
+          <NavItem to="/dental-admin/deploys" icon={History} label="Deploys" />
           <NavItem to="/dental-admin/settings" icon={Settings} label="Settings" />
         </nav>
 

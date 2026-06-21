@@ -27,6 +27,7 @@ import ServicePagesListPage from './pages/ServicePagesListPage';
 import ServicePageEditPage from './pages/ServicePageEditPage';
 import UsersPage from './pages/UsersPage';
 import AnalyticsPage from './pages/AnalyticsPage';
+import DeploysPage from './pages/DeploysPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -100,6 +101,7 @@ export default function AdminApp() {
           <Route path="transformations/:id" element={<TransformationEditPage />} />
           <Route path="team" element={<UsersPage />} />
           <Route path="analytics" element={<AnalyticsPage />} />
+          <Route path="deploys" element={<DeploysPage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>
       </Routes>
