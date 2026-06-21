@@ -273,10 +273,17 @@ export function AboutUsPage() {
           </p>
 
           {/* Stats row */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 0, flexWrap: 'wrap', borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '28px 0', margin: '0 auto', maxWidth: 920 }}>
+          <div className="about-hero-stats" style={{ borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '28px 0', margin: '0 auto', maxWidth: 860 }}>
+            <style>{`
+              .about-hero-stats{ display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); align-items:center; }
+              .about-hero-stats > div{ position:relative; text-align:center; padding:6px 10px; }
+              .about-hero-stats > div + div::before{ content:''; position:absolute; left:0; top:50%; transform:translateY(-50%); height:34px; width:1px; background:rgba(255,255,255,0.1); }
+              @media(max-width:760px){ .about-hero-stats{ grid-template-columns:repeat(3, minmax(0,1fr)); row-gap:26px; } .about-hero-stats > div + div::before{ display:none; } }
+              @media(max-width:440px){ .about-hero-stats{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
+            `}</style>
             {[['9', 'Locations'], ['14', 'Providers'], ['20k+', 'Patients'], ['4.8★', 'Rating'], ['Medicaid', 'Accepted']].map(([val, label], i) => (
-              <div key={i} style={{ padding: '0 22px', borderRight: i < 4 ? '1px solid rgba(255,255,255,0.08)' : 'none', textAlign: 'center' }}>
-                <div style={{ fontSize: 'clamp(20px, 2.2vw, 30px)', fontWeight: 800, color: 'white', letterSpacing: '-1px', lineHeight: 1, whiteSpace: 'nowrap' }}>{val}</div>
+              <div key={i}>
+                <div style={{ fontSize: 'clamp(18px, 2vw, 28px)', fontWeight: 800, color: 'white', letterSpacing: '-0.5px', lineHeight: 1.05, whiteSpace: 'nowrap' }}>{val}</div>
                 <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 6 }}>{label}</div>
               </div>
             ))}
