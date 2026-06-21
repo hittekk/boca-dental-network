@@ -436,7 +436,7 @@ export function BocaKids() {
               }}
             >
               <img
-                src="/locations/boca-kids-dentistry/04-waiting-room.webp"
+                src="/locations/boca-kids-dentistry/04.webp"
                 alt="The colorful Boca Kids waiting area in Las Vegas with a Boca-branded kids bench and playful movie posters"
                 style={{
                   width: '100%',

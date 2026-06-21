@@ -305,7 +305,7 @@ export function Hero({ brand }: HeroProps) {
           }}
         >
           <img
-            src="/locations/flamingo-torrey/01-reception.webp"
+            src="/locations/flamingo-torrey/01.webp"
             alt="The bright, modern reception and front desk at Boca Dental and Braces in Las Vegas, with the Boca logo on a navy accent wall"
             width={1600}
             height={1067}
