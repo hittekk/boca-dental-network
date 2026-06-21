@@ -327,7 +327,7 @@ export function HeroV2({ brand }: HeroV2Props) {
                   lineHeight: 1.15,
                 }}
               >
-                Open 7 days
+                Open Mon–Sat
                 <br />
                 a week
               </div>

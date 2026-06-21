@@ -188,7 +188,7 @@ function BocaKidsHero() {
     <section className="relative overflow-hidden" style={{ paddingTop: 180, paddingBottom: 96 }}>
 
       {/* Full-bleed photo */}
-      <img src="/locations/boca-kids-dentistry/02.webp" alt="Boca Kids Dentistry space-themed pediatric operatory with a green alien mural and glow-in-the-dark stars, Southeast Las Vegas"
+      <img src="/locations/boca-kids-dentistry/09.webp" alt="Boca Kids Dentistry space-themed pediatric operatory with a green alien mural and glow-in-the-dark stars, Southeast Las Vegas"
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 40%' }} />
 
       {/* Solid navy left → fades right so photo shows through on right side */}
@@ -809,7 +809,7 @@ function TrustStrip({ location }: { location: Location }) {
       accent: '#10b981',
     },
     {
-      value: '7',
+      value: '6',
       label: 'Days a week open',
       Icon: Calendar,
       accent: '#162E7A',

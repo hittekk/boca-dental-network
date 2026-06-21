@@ -1007,7 +1007,7 @@ export function LocationsMapV3() {
           {[
             { value: '9', label: 'Las Vegas clinics' },
             { value: '07', label: 'Neighborhoods covered' },
-            { value: '7', label: 'Days a week open' },
+            { value: '6', label: 'Days a week open' },
             { value: '4.9★', label: 'Avg patient rating' },
           ].map((s, i) => (
             <div

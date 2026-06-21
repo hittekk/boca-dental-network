@@ -15,7 +15,7 @@ const ITEMS = [
     value: '9',
     suffix: '',
     label: 'Las Vegas locations',
-    sub: 'Open 7 days',
+    sub: 'Open Mon–Sat',
   },
   {
     icon: <CreditCard size={18} style={{ color: '#F3672A' }} />,

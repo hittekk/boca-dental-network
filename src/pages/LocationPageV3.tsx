@@ -930,7 +930,7 @@ function TrustStrip({ location }: { location: Location }) {
       bars: [0.3, 0.42, 0.5, 0.55, 0.7, 0.82, 1.0],
     },
     {
-      value: '7',
+      value: '6',
       label: 'Days a week open',
       Icon: Calendar,
       note: 'Sun by emergency',

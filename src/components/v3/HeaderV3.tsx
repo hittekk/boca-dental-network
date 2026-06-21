@@ -243,7 +243,7 @@ export function HeaderV3({ brand, announcement }: HeaderV3Props) {
                 <strong style={{ color: 'white', fontWeight: 800 }}>9</strong>{' '}
                 LV offices
                 <span style={{ color: 'rgba(255,255,255,0.4)' }}> · </span>
-                Open 7 days
+                Open Mon–Sat
               </TickerLabel>
             </TickerSegment>
 

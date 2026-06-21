@@ -778,7 +778,7 @@ function TrustStrip({ location }: { location: Location }) {
       accent: ORANGE,
     },
     {
-      value: '7',
+      value: '6',
       label: 'Days a week open',
       Icon: Calendar,
       accent: ORANGE,
