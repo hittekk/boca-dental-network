@@ -825,4 +825,10 @@ export const ES: Record<string, string> = {
   "Do you accept Medicaid at the Russell & Eastern office?": "¿Aceptan Medicaid en la clínica de Russell & Eastern?",
   "Yes. Our Russell & Eastern location accepts Nevada Medicaid and CHIP for qualifying patients including children.": "Sí. Nuestra clínica de Russell & Eastern acepta Nevada Medicaid y CHIP para pacientes que califiquen, incluyendo niños.",
   "Visit us": "Visítanos",
+
+  // Single-quoted location reviews
+  "The team here is incredible. Dr. and the staff took the time to explain everything and made my whole family feel at home. We have been coming for years.": "El equipo aquí es increíble. El doctor y el personal se tomaron el tiempo de explicar todo e hicieron que toda mi familia se sintiera como en casa. Llevamos años viniendo.",
+  "Had a dental emergency on a Saturday and they got me in same-day. Super convenient location and the team is genuinely caring.": "Tuve una urgencia dental un sábado y me atendieron el mismo día. Ubicación muy conveniente y el equipo realmente se preocupa.",
+  "Dr. Fahim took the time to explain everything before she started. My whole family comes here now. The team at Russell & Eastern is always friendly and the wait times are short.": "La Dra. Fahim se tomó el tiempo de explicar todo antes de empezar. Ahora toda mi familia viene aquí. El equipo de Russell & Eastern siempre es amable y los tiempos de espera son cortos.",
+  "I had a dental emergency and they got me in the same day. The Russell & Eastern location is right off the 215 — super convenient. Will definitely be coming back for regular cleanings.": "Tuve una urgencia dental y me atendieron el mismo día. La clínica de Russell & Eastern está justo al lado de la 215 — súper conveniente. Definitivamente volveré para limpiezas regulares.",
 }
