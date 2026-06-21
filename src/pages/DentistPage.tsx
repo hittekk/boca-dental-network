@@ -228,14 +228,18 @@ export function DentistPage() {
               Training &amp; Experience
             </h2>
             {content.familyPhoto ? (
-              <div
-                className="dent-about-grid"
-                style={{ display: 'grid', gridTemplateColumns: '1.15fr 0.85fr', gap: 44, alignItems: 'start' }}
-              >
-                <style>{`@media (max-width: 880px){ .dent-about-grid{ grid-template-columns: 1fr !important; gap: 28px !important; } .dent-about-photo{ max-width: 420px; } }`}</style>
-                <p style={{ fontSize: 17, lineHeight: 1.8, color: 'rgba(0,29,61,0.78)', margin: 0 }}>
-                  {content.longBio}
-                </p>
+              <div className="dent-about-flow">
+                <style>{`
+                  .dent-about-flow::after { content: ''; display: block; clear: both; }
+                  .dent-about-flow p { font-size: 17px; line-height: 1.8; color: rgba(0,29,61,0.78); margin: 0 0 18px; }
+                  .dent-about-flow p:last-of-type { margin-bottom: 0; }
+                  .dent-about-flow p:first-of-type::first-letter { float: left; font-size: 56px; line-height: 0.8; font-weight: 800; color: ${ORANGE}; margin: 7px 12px 0 0; }
+                  .dent-about-photo { float: right; width: 40%; max-width: 360px; margin: 10px 8px 34px 56px; }
+                  @media (max-width: 720px){
+                    .dent-about-photo { float: none; width: 100%; max-width: 460px; margin: 0 auto 26px; }
+                    .dent-about-flow p:first-of-type::first-letter { font-size: 46px; }
+                  }
+                `}</style>
                 <figure className="dent-about-photo" style={{ margin: 0 }}>
                   <div
                     style={{
@@ -262,6 +266,10 @@ export function DentistPage() {
                     </div>
                   </figcaption>
                 </figure>
+                {content.longBio.split(/\n{2,}/).map((para, i) => {
+                  const t = para.trim()
+                  return t ? <p key={i}>{t}</p> : null
+                })}
               </div>
             ) : (
               <p style={{ fontSize: 17, lineHeight: 1.8, color: 'rgba(0,29,61,0.78)' }}>
