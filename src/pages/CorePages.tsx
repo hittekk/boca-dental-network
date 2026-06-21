@@ -273,10 +273,10 @@ export function AboutUsPage() {
           </p>
 
           {/* Stats row */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 0, flexWrap: 'wrap', borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '28px 0', margin: '0 auto', maxWidth: 720 }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 0, flexWrap: 'wrap', borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '28px 0', margin: '0 auto', maxWidth: 920 }}>
             {[['9', 'Locations'], ['14', 'Providers'], ['20k+', 'Patients'], ['4.8★', 'Rating'], ['Medicaid', 'Accepted']].map(([val, label], i) => (
-              <div key={i} style={{ padding: '0 32px', borderRight: i < 4 ? '1px solid rgba(255,255,255,0.08)' : 'none', textAlign: 'center' }}>
-                <div style={{ fontSize: 'clamp(22px, 2.5vw, 32px)', fontWeight: 800, color: 'white', letterSpacing: '-1px', lineHeight: 1 }}>{val}</div>
+              <div key={i} style={{ padding: '0 22px', borderRight: i < 4 ? '1px solid rgba(255,255,255,0.08)' : 'none', textAlign: 'center' }}>
+                <div style={{ fontSize: 'clamp(20px, 2.2vw, 30px)', fontWeight: 800, color: 'white', letterSpacing: '-1px', lineHeight: 1, whiteSpace: 'nowrap' }}>{val}</div>
                 <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 6 }}>{label}</div>
               </div>
             ))}
