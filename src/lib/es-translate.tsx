@@ -54,6 +54,7 @@ const PATTERNS: Array<[RegExp, (m: RegExpMatchArray) => string]> = [
   [/^Questions about (.+)\.$/, (m) => `Preguntas sobre ${m[1]}.`],
   [/^Boca Dental & Braces at (.+)$/, (m) => `Boca Dental and Braces en ${m[1]}`],
   [/^([\d.]+) · (\d+\+?) reviews$/, (m) => `${m[1]} · ${m[2]} reseñas`],
+  [/^(.+) · Google review$/, (m) => `${m[1]} · Reseña de Google`],
   [/^Reviews from real patients who specifically mention this clinic, a provider here, or a nearby neighborhood\. Aggregated from (.+) verified Google reviews\.$/,
     (m) => `Reseñas de pacientes reales que mencionan específicamente esta clínica, un proveedor de aquí o un vecindario cercano. Recopiladas de ${m[1]} reseñas verificadas de Google.`],
 ]

@@ -780,4 +780,15 @@ export const ES: Record<string, string> = {
   "We recommend a child's first dental visit by age 1, or within 6 months of their first tooth appearing.": "Recomendamos la primera visita dental de un niño al año de edad, o dentro de los 6 meses de la aparición de su primer diente.",
   "Does Boca Kids accept Medicaid for children?": "¿Boca Kids acepta Medicaid para niños?",
   "Yes. Boca Kids accepts Nevada Medicaid and CHIP. We believe every child deserves quality dental care regardless of budget.": "Sí. Boca Kids acepta Nevada Medicaid y CHIP. Creemos que cada niño merece atención dental de calidad sin importar el presupuesto.",
+
+  // Homepage testimonials + shared labels (Vegas)
+  "Lead Dentist & Founder": "Dentista Principal y Fundador",
+  "Boca Dental & Braces at": "Boca Dental and Braces en",
+  "Other Boca offices": "Otras clínicas Boca",
+  "Boca Dental and Braces. All rights reserved.": "Boca Dental and Braces. Todos los derechos reservados.",
+  "Invisalign + braces · teen and adult ortho": "Invisalign + frenos · ortodoncia para adolescentes y adultos",
+  "Founder of Boca Dental & Braces": "Fundador de Boca Dental and Braces",
+  "Started Invisalign here 8 months ago and my smile is already transformed. The financing through Sunbit made it actually affordable. Front desk is amazing and patient with all my questions.": "Comencé con Invisalign hace 8 meses y mi sonrisa ya está transformada. El financiamiento con Sunbit lo hizo realmente accesible. La recepción es increíble y paciente con todas mis preguntas.",
+  "My 4-year-old was terrified of the dentist. The Boca Kids team turned it into a fun visit — she now ASKS to go back. They accept Medicaid which made it possible for us. Forever grateful.": "Mi hija de 4 años le tenía terror al dentista. El equipo de Boca Kids lo convirtió en una visita divertida — ahora PIDE volver. Aceptan Medicaid, lo que lo hizo posible para nosotros. Eternamente agradecida.",
+  "Brought my whole family to the Jones & I-95 location for cleanings. Took our Aetna insurance, no surprises at checkout. The hygienist was gentle and thorough. Highly recommend if you are looking for a real family dentist on the west side.": "Llevé a toda mi familia a la clínica de Jones & I-95 para limpiezas. Aceptaron nuestro seguro Aetna, sin sorpresas al pagar. La higienista fue gentil y minuciosa. Muy recomendado si buscas un verdadero dentista familiar en el lado oeste.",
 }
