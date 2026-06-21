@@ -10,6 +10,7 @@ import {
   LogOut,
   ExternalLink,
   FileText,
+  Newspaper,
   FileStack,
   UserCog,
   Images,
@@ -107,6 +108,7 @@ export default function AdminLayout({ session }: { session: Session }) {
           <NavItem to="/dental-admin" icon={LayoutDashboard} label="Dashboard" end />
           <SectionLabel>Content</SectionLabel>
           <NavItem to="/dental-admin/pages" icon={FileText} label="Pages" />
+          <NavItem to="/dental-admin/blog" icon={Newspaper} label="Blog" />
           <NavItem to="/dental-admin/locations" icon={MapPin} label="Locations" badge={counts?.locations} />
           <NavItem to="/dental-admin/services" icon={Sparkles} label="Services" badge={counts?.services} />
           <NavItem to="/dental-admin/service-pages" icon={FileStack} label="Service Pages" />

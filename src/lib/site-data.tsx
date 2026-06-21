@@ -23,6 +23,7 @@ import { SERVICE_CONTENT, type ServiceContent } from '../data/serviceContent';
 
 const SiteDataContext = createContext<InitialData>(INITIAL_DATA);
 const AnalyticsConfigContext = createContext<AnalyticsConfig>({});
+const BlogEnabledContext = createContext<boolean | undefined>(undefined);
 
 export type ServicePagesValue = {
   /** Full per-page content keyed by service slug (DB merged over static fallback). */
@@ -36,10 +37,11 @@ const ServicePagesContext = createContext<ServicePagesValue>(DEFAULT_SERVICE_PAG
 export function SiteDataProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<InitialData>(INITIAL_DATA);
   const [analytics, setAnalytics] = useState<AnalyticsConfig>({});
+  const [blogEnabled, setBlogEnabled] = useState<boolean | undefined>(undefined);
   const [servicePages, setServicePages] = useState<ServicePagesValue>(DEFAULT_SERVICE_PAGES);
 
   useEffect(() => {
-    if (!isSupabaseConfigured) return;
+    if (!isSupabaseConfigured) { setBlogEnabled(false); return; }
     let cancelled = false;
 
     (async () => {
@@ -267,6 +269,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
 
         setData(newData);
         setAnalytics(analyticsSettings);
+        setBlogEnabled(!!(settingsMap.blog as { enabled?: boolean } | undefined)?.enabled);
         setServicePages({
           content: { ...SERVICE_CONTENT, ...dbServiceContent },
           entries: dbServiceEntries,
@@ -284,9 +287,11 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
   return (
     <SiteDataContext.Provider value={data}>
       <AnalyticsConfigContext.Provider value={analytics}>
-        <ServicePagesContext.Provider value={servicePages}>
-          {children}
-        </ServicePagesContext.Provider>
+        <BlogEnabledContext.Provider value={blogEnabled}>
+          <ServicePagesContext.Provider value={servicePages}>
+            {children}
+          </ServicePagesContext.Provider>
+        </BlogEnabledContext.Provider>
       </AnalyticsConfigContext.Provider>
     </SiteDataContext.Provider>
   );
@@ -298,6 +303,11 @@ export function useSiteData(): InitialData {
 
 export function useAnalyticsConfigFromSettings(): AnalyticsConfig {
   return useContext(AnalyticsConfigContext);
+}
+
+/** Whether the blog section is on. `undefined` while the setting is still loading. */
+export function useBlogEnabled(): boolean | undefined {
+  return useContext(BlogEnabledContext);
 }
 
 export function useServicePages(): ServicePagesValue {

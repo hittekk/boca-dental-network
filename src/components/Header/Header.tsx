@@ -21,6 +21,7 @@ import { motion, AnimatePresence, useScroll } from 'framer-motion'
 import { Phone, X, ChevronRight, Calendar, MapPin } from 'lucide-react'
 import type { Brand, Announcement, NavLink } from '../../types'
 import { useLang, useSetLang, t } from '../../lib/lang'
+import { useBlogEnabled } from '../../lib/site-data'
 import { BocaLogo } from './BocaLogo'
 
 // ── Types ────────────────────────────────────────────────────────────────────
@@ -35,12 +36,13 @@ interface HeaderProps {
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-function getNavLinks(lang: ReturnType<typeof useLang>): NavLink[] { return [
+function getNavLinks(lang: ReturnType<typeof useLang>, blogEnabled = false): NavLink[] { return [
   { label: t(lang, 'Services', 'Servicios'), href: '/services/' },
   { label: t(lang, 'Locations', 'Ubicaciones'), href: '/clinics/' },
   { label: t(lang, 'Boca Kids', 'Boca Kids'), href: '/clinics/boca-kids-dentistry/' },
   { label: t(lang, 'About', 'Nosotros'), href: '/about-us/' },
   { label: t(lang, 'Reviews', 'Reseñas'), href: '/patient-resources/reviews/' },
+  ...(blogEnabled ? [{ label: t(lang, 'Blog', 'Blog'), href: '/blog/' }] : []),
 ]}
 
 const SCROLL_THRESHOLD = 10
@@ -230,7 +232,8 @@ function DesktopNav({
   logoMode?: 'white' | 'dark'
 }) {
   const lang = useLang()
-  const NAV_LINKS = getNavLinks(lang)
+  const blogEnabled = useBlogEnabled()
+  const NAV_LINKS = getNavLinks(lang, blogEnabled)
   const isDark = logoMode === 'dark'
   const idleColor = isDark ? 'rgba(0,29,61,0.85)' : 'rgba(255,255,255,0.85)'
   const hoverColor = isDark ? '#001D3D' : 'white'
@@ -385,7 +388,8 @@ function MobileMenu({
 }) {
   const lang = useLang()
   const setLang = useSetLang()
-  const NAV_LINKS = getNavLinks(lang)
+  const blogEnabled = useBlogEnabled()
+  const NAV_LINKS = getNavLinks(lang, blogEnabled)
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
@@ -556,7 +560,8 @@ function HamburgerBtn({
  */
 export function Header({ brand, announcement, activeSection, logoMode = 'white' }: HeaderProps) {
   const lang = useLang()
-  const NAV_LINKS = getNavLinks(lang)
+  const blogEnabled = useBlogEnabled()
+  const NAV_LINKS = getNavLinks(lang, blogEnabled)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 

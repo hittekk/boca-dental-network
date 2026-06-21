@@ -16,6 +16,8 @@ import SetupRequiredPage from './pages/SetupRequiredPage';
 import PagesListPage from './pages/PagesListPage';
 import PageNewPage from './pages/PageNewPage';
 import PageEditPage from './pages/PageEditPage';
+import BlogListPage from './pages/BlogListPage';
+import BlogEditPage from './pages/BlogEditPage';
 import TransformationsListPage from './pages/TransformationsListPage';
 import TransformationEditPage from './pages/TransformationEditPage';
 import ServiceEditPage from './pages/ServiceEditPage';
@@ -91,6 +93,9 @@ export default function AdminApp() {
           <Route path="pages" element={<PagesListPage />} />
           <Route path="pages/new" element={<PageNewPage />} />
           <Route path="pages/:id" element={<PageEditPage />} />
+          <Route path="blog" element={<BlogListPage />} />
+          <Route path="blog/new" element={<BlogEditPage isNew />} />
+          <Route path="blog/:id" element={<BlogEditPage />} />
           <Route path="transformations" element={<TransformationsListPage />} />
           <Route path="transformations/:id" element={<TransformationEditPage />} />
           <Route path="team" element={<UsersPage />} />

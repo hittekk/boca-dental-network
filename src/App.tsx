@@ -82,6 +82,7 @@ import {
 } from './pages/CorePages'
 import { VariantSwitcher, type Variant } from './components/VariantSwitcher'
 import { CustomPage, usePageBySlug } from './pages/CustomPage'
+import { BlogIndexPage, BlogPostPage } from './pages/BlogPage'
 import { useSiteData } from './lib/site-data'
 import { SERVICE_CATEGORIES } from './data/serviceCatalog'
 
@@ -213,6 +214,12 @@ function App() {
         <Route path="/privacy-policy" element={<PrivacyPage />} />
         <Route path="/hipaa-compliance/" element={<HipaaPage />} />
         <Route path="/hipaa-compliance" element={<HipaaPage />} />
+
+        {/* Blog (gated by the `blog` site setting — redirects home when off) */}
+        <Route path="/blog/" element={<BlogIndexPage />} />
+        <Route path="/blog" element={<BlogIndexPage />} />
+        <Route path="/blog/:slug/" element={<BlogPostPage />} />
+        <Route path="/blog/:slug" element={<BlogPostPage />} />
 
         {/* Catch-all fallback to homepage */}
         <Route path="*" element={<CatchAll />} />
