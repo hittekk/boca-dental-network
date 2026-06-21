@@ -16,6 +16,7 @@ import {
   Images,
   BarChart3,
   History,
+  Briefcase,
 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
@@ -118,6 +119,7 @@ export default function AdminLayout({ session }: { session: Session }) {
           <NavItem to="/dental-admin/transformations" icon={Images} label="Transformations" />
           <SectionLabel>Engagement</SectionLabel>
           <NavItem to="/dental-admin/leads" icon={Inbox} label="Leads" />
+          <NavItem to="/dental-admin/applications" icon={Briefcase} label="Applications" />
           <NavItem to="/dental-admin/analytics" icon={BarChart3} label="Analytics" />
           <SectionLabel>Site</SectionLabel>
           <NavItem to="/dental-admin/team" icon={Users} label="Team" />

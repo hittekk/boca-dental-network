@@ -27,7 +27,9 @@
 import React, { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Link, useSearchParams } from 'react-router-dom'
-import { ArrowRight, ArrowUpRight, MapPin, Phone, Clock, Star, Mail, Briefcase, FileText, ShieldCheck, CreditCard, MessageCircle, Globe } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, MapPin, Phone, Clock, Star, Mail, Briefcase, FileText, ShieldCheck, CreditCard, MessageCircle, Globe, HeartPulse, Palmtree, TrendingUp, GraduationCap, Plane, Upload, Loader2, CheckCircle2 } from 'lucide-react'
+import { useState } from 'react'
+import { supabase } from '../lib/supabase'
 import { Header } from '../components/Header/Header'
 import { Footer } from '../components/Footer/Footer'
 import { Services } from '../components/Services/Services'
@@ -1912,30 +1914,253 @@ export function RequestConsultationPage() {
   )
 }
 
+const CAREER_PERKS = [
+  { icon: HeartPulse, title: 'Thrive', text: 'Medical healthcare, plus dental, obviously. (We’d be a little embarrassed otherwise.)' },
+  { icon: Palmtree, title: 'Recharge', text: 'Competitive PTO, because the best version of you isn’t the burned-out one.' },
+  { icon: TrendingUp, title: 'Grow', text: 'Training, mentorship, and real paths to move up. We’d rather promote you than replace you.' },
+  { icon: GraduationCap, title: 'Learn', text: 'We have our own dental assisting school, Unity Dental Assisting, so you can build a career from the ground up.' },
+  { icon: Plane, title: 'Escape', text: 'Once a year, doctors can qualify for a company-paid trip somewhere warm and dreamy. Sunscreen not included, but strongly encouraged.' },
+]
+
+const CAREER_VALUES = [
+  'Creating a culture and environment in which employees are the highest asset to the company — one in which our employees enjoy coming to work and contribute to a positive atmosphere.',
+  'Our employees in turn treat our patients with the highest level of attention and care. To accomplish our mission, we do whatever it takes to provide the patient the care they need.',
+  'Our doctors are among the highest compensated in the industry, minimizing turnover. Doctors also recognize our employees as assets.',
+]
+
 export function CareersPage() {
   const breadcrumbSchema = usePageMeta({
-    title: 'Careers at Boca Dental & Braces Las Vegas',
-    description: 'Join the Boca Dental & Braces team — open positions across 9 Las Vegas locations for dental hygienists, dental assistants, front desk, treatment coordinators, and licensed dentists.',
+    title: 'Careers at Boca Dental & Braces — Las Vegas, Reno & Sparks',
+    description: 'Join Boca Dental and Braces — now hiring dentists, hygienists, assistants, coordinators, and office team across Las Vegas, Reno, and Sparks. Great pay, benefits, PTO, and real growth. Apply today.',
     url: `${DOMAIN}/careers`,
     breadcrumb: [{ name: 'Home', url: `${DOMAIN}/` }, { name: 'Careers' }],
   })
+  const photos = Array.from({ length: 33 }, (_, i) => `/careers/${String(i + 1).padStart(2, '0')}.webp`)
+
   return (
     <Shell>
-      <HeroBlock
-        eyebrow="[ 01 ] · Careers"
-        h1="Join the Boca Dental & Braces Team"
-        intro="We're a growing multi-location dental practice in Las Vegas hiring across all 9 of our clinics. Competitive pay, comprehensive benefits, and a real career path for hygienists, assistants, coordinators, and dentists."
-        breadcrumb={[{ name: 'Home', href: '/' }, { name: 'Careers' }]}
-      />
-      <PlaceholderBody>
-        We're always growing, and we hire across our Las Vegas locations — hygienists, dental
-        assistants, treatment coordinators, front-office team members, and dentists. To ask about
-        current openings, call your nearest Boca Dental &amp; Braces office or stop in and introduce
-        yourself. We offer competitive pay, benefits, and a real path to grow with the practice.
-      </PlaceholderBody>
-      <CTAStrip headline="Looking for a patient appointment instead?" />
+      {/* Hero */}
+      <section style={{ background: `linear-gradient(160deg, ${NAVY} 0%, #06224a 100%)`, padding: '150px 24px 90px', color: 'white', textAlign: 'center' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
+          <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 18 }}>Careers</div>
+          <h1 style={{ fontSize: 'clamp(34px, 5vw, 60px)', fontWeight: 800, letterSpacing: '-1.4px', lineHeight: 1.05, margin: 0 }}>
+            Come for the smiles. <span style={{ color: ORANGE }}>Stay for the people</span> behind them.
+          </h1>
+          <p style={{ fontSize: 'clamp(16px, 1.8vw, 20px)', lineHeight: 1.6, color: 'rgba(255,255,255,0.8)', maxWidth: 720, margin: '24px auto 36px' }}>
+            Boca Dental and Braces is growing across Las Vegas, Reno, and Sparks — and we’re looking for people who are as serious about great care as they are about having a good time doing it.
+          </p>
+          <a href="#apply" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: ORANGE, color: 'white', borderRadius: 12, padding: '16px 34px', fontSize: 16, fontWeight: 800, textDecoration: 'none', boxShadow: '0 14px 36px rgba(243,103,42,0.4)' }}>
+            Apply Today <ArrowRight size={18} />
+          </a>
+        </div>
+      </section>
+
+      {/* Yes! Company — vision / mission / values */}
+      <section style={{ background: 'white', padding: '84px 24px' }}>
+        <div style={{ maxWidth: 1080, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 12 }}>Who we are</div>
+            <h2 style={{ fontSize: 'clamp(28px, 3.6vw, 44px)', fontWeight: 800, letterSpacing: '-1px', color: NAVY, margin: 0 }}>We’re the Yes! Company</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24, marginBottom: 40 }}>
+            <div style={{ background: '#F7F9FC', border: '1px solid rgba(0,29,61,0.08)', borderRadius: 18, padding: '32px 30px' }}>
+              <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: 1.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 10 }}>Our Vision</div>
+              <p style={{ fontSize: 18, lineHeight: 1.6, color: NAVY, fontWeight: 600, margin: 0 }}>We do whatever it takes to make our patients happy and healthy for life. We are the Yes! Company!</p>
+            </div>
+            <div style={{ background: NAVY, borderRadius: 18, padding: '32px 30px' }}>
+              <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: 1.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 10 }}>Our Mission</div>
+              <p style={{ fontSize: 18, lineHeight: 1.6, color: 'white', fontWeight: 500, margin: 0 }}>To say Yes! by creating a dental brand where patients can have their dental needs met by eliminating as many obstacles as possible. We do whatever it takes.</p>
+            </div>
+          </div>
+          <div>
+            <h3 style={{ fontSize: 22, fontWeight: 800, color: NAVY, textAlign: 'center', marginBottom: 8 }}>What we stand for</h3>
+            <p style={{ textAlign: 'center', color: 'rgba(0,29,61,0.6)', marginBottom: 28 }}>Everything we do comes back to three things.</p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+              {CAREER_VALUES.map((v, i) => (
+                <div key={i} style={{ background: 'white', border: '1px solid rgba(0,29,61,0.1)', borderRadius: 16, padding: '26px 24px' }}>
+                  <div style={{ fontSize: 30, fontWeight: 800, color: `${ORANGE}`, lineHeight: 1, marginBottom: 12 }}>{String(i + 1).padStart(2, '0')}</div>
+                  <p style={{ fontSize: 15, lineHeight: 1.65, color: 'rgba(0,29,61,0.8)', margin: 0 }}>{v}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Perks */}
+      <section style={{ background: '#F7F9FC', padding: '84px 24px' }}>
+        <div style={{ maxWidth: 1080, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 44 }}>
+            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 12 }}>Benefits</div>
+            <h2 style={{ fontSize: 'clamp(28px, 3.6vw, 44px)', fontWeight: 800, letterSpacing: '-1px', color: NAVY, margin: 0 }}>Perks worth smiling about</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 20 }}>
+            {CAREER_PERKS.map((p) => {
+              const Icon = p.icon
+              return (
+                <div key={p.title} style={{ background: 'white', border: '1px solid rgba(0,29,61,0.08)', borderRadius: 16, padding: '28px 24px', boxShadow: '0 6px 18px rgba(0,29,61,0.04)' }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 12, background: `${ORANGE}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+                    <Icon size={24} color={ORANGE} />
+                  </div>
+                  <div style={{ fontSize: 18, fontWeight: 800, color: NAVY, marginBottom: 8 }}>{p.title}</div>
+                  <p style={{ fontSize: 14, lineHeight: 1.6, color: 'rgba(0,29,61,0.7)', margin: 0 }}>{p.text}</p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Culture gallery */}
+      <section style={{ background: 'white', padding: '84px 24px' }}>
+        <div style={{ maxWidth: 1180, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 12 }}>Life at Boca</div>
+            <h2 style={{ fontSize: 'clamp(28px, 3.6vw, 44px)', fontWeight: 800, letterSpacing: '-1px', color: NAVY, margin: 0 }}>The people behind the smiles</h2>
+          </div>
+          <div style={{ columnWidth: 230, columnGap: 14 }}>
+            {photos.map((src, i) => (
+              <img key={src} src={src} loading="lazy" alt="Boca Dental and Braces team and culture in Las Vegas, Reno, and Sparks"
+                style={{ width: '100%', marginBottom: 14, borderRadius: 14, display: 'block', breakInside: 'avoid', border: '1px solid rgba(0,29,61,0.06)' }}
+                {...(i < 4 ? {} : {})} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Find your seat at the table */}
+      <section style={{ background: NAVY, padding: '84px 24px', color: 'white' }}>
+        <div style={{ maxWidth: 980, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 44 }}>
+            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 12 }}>Open roles</div>
+            <h2 style={{ fontSize: 'clamp(28px, 3.6vw, 44px)', fontWeight: 800, letterSpacing: '-1px', margin: 0 }}>Find your seat at the table</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
+            <div style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 18, padding: '30px' }}>
+              <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase', color: ORANGE, marginBottom: 16 }}>In our offices</div>
+              <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                {['Dentists', 'Orthodontists', 'Hygienists', 'Dental Assistants', 'Office Managers', 'Patient Coordinators'].map((r) => (
+                  <li key={r} style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 999, padding: '8px 16px', fontSize: 14, fontWeight: 600 }}>{r}</li>
+                ))}
+              </ul>
+            </div>
+            <div style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 18, padding: '30px' }}>
+              <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase', color: ORANGE, marginBottom: 16 }}>Behind the scenes</div>
+              <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                {['Billing & Credentialing', 'Finance', 'Business Development', 'Human Resources', 'Marketing & More'].map((r) => (
+                  <li key={r} style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 999, padding: '8px 16px', fontSize: 14, fontWeight: 600 }}>{r}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Apply form */}
+      <section id="apply" style={{ background: '#F7F9FC', padding: '84px 24px', scrollMarginTop: 80 }}>
+        <div style={{ maxWidth: 620, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 32 }}>
+            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 12 }}>Apply Today</div>
+            <h2 style={{ fontSize: 'clamp(26px, 3.4vw, 40px)', fontWeight: 800, letterSpacing: '-1px', color: NAVY, margin: '0 0 10px' }}>Send us your resume</h2>
+            <p style={{ fontSize: 16, color: 'rgba(0,29,61,0.65)', margin: 0 }}>Tell us a little about yourself and attach your resume. We’ll be in touch.</p>
+          </div>
+          <CareerApplyForm />
+        </div>
+      </section>
+
       {breadcrumbSchema}
     </Shell>
+  )
+}
+
+function CareerApplyForm() {
+  const [first, setFirst] = useState('')
+  const [last, setLast] = useState('')
+  const [comments, setComments] = useState('')
+  const [file, setFile] = useState<File | null>(null)
+  const [submitting, setSubmitting] = useState(false)
+  const [done, setDone] = useState(false)
+  const [err, setErr] = useState('')
+
+  function pickFile(f: File | null) {
+    setErr('')
+    if (!f) { setFile(null); return }
+    if (f.size > 10 * 1024 * 1024) { setErr('That file is over 10MB — please attach a smaller resume.'); return }
+    if (!/\.(pdf|docx?|rtf|txt|pages)$/i.test(f.name)) { setErr('Please attach a PDF or Word document.'); return }
+    setFile(f)
+  }
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!first.trim() || !last.trim()) { setErr('Please add your first and last name.'); return }
+    setErr('')
+    setSubmitting(true)
+    try {
+      let resume_path: string | null = null
+      let resume_name: string | null = null
+      if (file) {
+        const ext = (file.name.split('.').pop() || 'pdf').toLowerCase()
+        const path = `applications/${crypto.randomUUID()}.${ext}`
+        const { error: upErr } = await supabase.storage.from('resumes').upload(path, file, { upsert: false, contentType: file.type || undefined })
+        if (upErr) throw upErr
+        resume_path = path
+        resume_name = file.name
+      }
+      // No .select() — anon can INSERT but not read back (members-only SELECT policy).
+      const { error } = await supabase.from('career_applications').insert({
+        first_name: first.trim(), last_name: last.trim(), comments: comments.trim() || null, resume_path, resume_name,
+      })
+      if (error) throw error
+      setDone(true)
+    } catch {
+      setErr('Something went wrong sending your application. Please try again, or call us at any Boca location.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  const inputStyle: React.CSSProperties = { width: '100%', padding: '13px 15px', borderRadius: 10, border: '1px solid rgba(0,29,61,0.15)', fontSize: 15, color: NAVY, fontFamily: 'inherit', boxSizing: 'border-box', background: 'white' }
+
+  if (done) {
+    return (
+      <div style={{ background: 'white', border: '1px solid rgba(0,29,61,0.1)', borderRadius: 18, padding: '48px 32px', textAlign: 'center' }}>
+        <CheckCircle2 size={44} color="#15803D" style={{ margin: '0 auto 14px' }} />
+        <div style={{ fontSize: 22, fontWeight: 800, color: NAVY, marginBottom: 8 }}>Thanks — we’ve got it!</div>
+        <p style={{ fontSize: 15, color: 'rgba(0,29,61,0.65)', margin: 0 }}>Our team will review your application and reach out if there’s a fit. We’re glad you want to say Yes! with us.</p>
+      </div>
+    )
+  }
+
+  return (
+    <form onSubmit={submit} style={{ background: 'white', border: '1px solid rgba(0,29,61,0.1)', borderRadius: 18, padding: '32px', boxShadow: '0 10px 30px rgba(0,29,61,0.05)', display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16 }}>
+        <div>
+          <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: NAVY, marginBottom: 6 }}>First name</label>
+          <input style={inputStyle} value={first} onChange={(e) => setFirst(e.target.value)} placeholder="First name" />
+        </div>
+        <div>
+          <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: NAVY, marginBottom: 6 }}>Last name</label>
+          <input style={inputStyle} value={last} onChange={(e) => setLast(e.target.value)} placeholder="Last name" />
+        </div>
+      </div>
+      <div>
+        <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: NAVY, marginBottom: 6 }}>Anything you’d like us to know</label>
+        <textarea style={{ ...inputStyle, minHeight: 110, resize: 'vertical' }} value={comments} onChange={(e) => setComments(e.target.value)} placeholder="Tell us about the role you’re interested in, your experience, availability…" />
+      </div>
+      <div>
+        <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: NAVY, marginBottom: 6 }}>Resume</label>
+        <label style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 16px', borderRadius: 10, border: `1.5px dashed ${file ? ORANGE : 'rgba(0,29,61,0.2)'}`, cursor: 'pointer', background: file ? `${ORANGE}08` : '#FAFBFC' }}>
+          <Upload size={18} color={ORANGE} />
+          <span style={{ fontSize: 14, color: file ? NAVY : 'rgba(0,29,61,0.6)', fontWeight: file ? 700 : 500 }}>{file ? file.name : 'Upload your resume (PDF or Word)'}</span>
+          <input type="file" accept=".pdf,.doc,.docx,.rtf,.txt,.pages" hidden onChange={(e) => pickFile(e.target.files?.[0] ?? null)} />
+        </label>
+      </div>
+      {err && <div style={{ fontSize: 13, color: '#b91c1c', background: '#fef2f2', borderRadius: 8, padding: '10px 12px' }}>{err}</div>}
+      <button type="submit" disabled={submitting} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 9, background: ORANGE, color: 'white', border: 'none', borderRadius: 11, padding: '15px', fontSize: 16, fontWeight: 800, cursor: 'pointer', opacity: submitting ? 0.6 : 1 }}>
+        {submitting ? <><Loader2 size={18} className="animate-spin" /> Sending…</> : <>Submit Application <ArrowRight size={18} /></>}
+      </button>
+      <p style={{ fontSize: 12, color: 'rgba(0,29,61,0.45)', textAlign: 'center', margin: 0 }}>Your information is sent securely to our hiring team and never shared.</p>
+    </form>
   )
 }
 
