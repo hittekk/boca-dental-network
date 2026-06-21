@@ -145,7 +145,12 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
           narrative: l.narrative ?? '',
           gbp_id: l.gbp_id ?? '',
           languages: l.languages ?? ['English'],
-          gallery: Array.isArray(l.gallery) && l.gallery.length > 0 ? l.gallery : undefined,
+          // DB gallery/heroImage aren't populated yet — fall back to the static
+          // clinic photos (files live in /public/locations/<slug>/).
+          gallery: Array.isArray(l.gallery) && l.gallery.length > 0
+            ? l.gallery
+            : INITIAL_DATA.locations.find((s) => s.slug === l.slug)?.gallery,
+          heroImage: INITIAL_DATA.locations.find((s) => s.slug === l.slug)?.heroImage,
           reviews: reviewsByLocation.get(l.id) ?? [],
           faqs: faqsByLocation.get(l.id) ?? [],
         }));
