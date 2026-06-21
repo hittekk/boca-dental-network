@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { History, RotateCcw, ExternalLink, RefreshCw, CheckCircle2, AlertTriangle, Loader2 } from 'lucide-react';
+import { History, RotateCcw, ExternalLink, RefreshCw, CheckCircle2, AlertTriangle, Loader2, Rocket } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
 const ORANGE = '#F3672A';
@@ -58,6 +58,20 @@ export default function DeploysPage() {
     onError: (e) => setNotice({ kind: 'err', text: (e as Error)?.message ?? 'Rollback failed.' }),
   });
 
+  const deployNow = useMutation({
+    mutationFn: async () => {
+      const { data, error } = await supabase.functions.invoke('netlify-deploys', { body: { action: 'deploy' } });
+      if (error) throw error;
+      if ((data as { error?: string })?.error) throw new Error((data as { detail?: string }).detail || (data as { error: string }).error);
+      return data;
+    },
+    onSuccess: () => {
+      setNotice({ kind: 'ok', text: 'Build started. It’ll appear below as “Building” and go live in a few minutes.' });
+      setTimeout(() => qc.invalidateQueries({ queryKey: ['admin', 'deploys'] }), 4000);
+    },
+    onError: (e) => setNotice({ kind: 'err', text: (e as Error)?.message ?? 'Could not start a build.' }),
+  });
+
   const notConfigured = data?.error === 'not_configured';
   const deploys = data?.deploys ?? [];
 
@@ -70,10 +84,19 @@ export default function DeploysPage() {
           </h1>
           <p className="text-sm text-slate-500 mt-1">Every publish is saved as a version. Roll the live site back to any previous one in a click.</p>
         </div>
-        <button onClick={() => qc.invalidateQueries({ queryKey: ['admin', 'deploys'] })}
-          className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50">
-          <RefreshCw className={`h-4 w-4 ${isFetching ? 'animate-spin' : ''}`} /> Refresh
-        </button>
+        <div className="flex items-center gap-2">
+          <button onClick={() => qc.invalidateQueries({ queryKey: ['admin', 'deploys'] })}
+            className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50">
+            <RefreshCw className={`h-4 w-4 ${isFetching ? 'animate-spin' : ''}`} /> Refresh
+          </button>
+          {!notConfigured && (
+            <button onClick={() => { if (confirm('Rebuild and publish the latest version of the site now?')) deployNow.mutate(); }}
+              disabled={deployNow.isPending}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-white disabled:opacity-60" style={{ background: ORANGE }}>
+              {deployNow.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Rocket className="h-4 w-4" />} Deploy now
+            </button>
+          )}
+        </div>
       </div>
 
       {notice && (

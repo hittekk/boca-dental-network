@@ -7,6 +7,7 @@ import RichTextEditor from '../components/RichTextEditor';
 const ORANGE = '#F3672A';
 const DARK_NAVY = '#001D3D';
 const SITE = 'https://bocadentalandbraces.com';
+const BRAND = 'Boca Dental and Braces';
 const MAX_IMG_BYTES = 5 * 1024 * 1024;
 
 const CATEGORIES = [
@@ -44,7 +45,6 @@ export default function BlogEditPage({ isNew = false }: { isNew?: boolean }) {
   const [slug, setSlug] = useState('');
   const [slugTouched, setSlugTouched] = useState(false);
   const [excerpt, setExcerpt] = useState('');
-  const [author, setAuthor] = useState('');
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [metaTitle, setMetaTitle] = useState('');
   const [metaDescription, setMetaDescription] = useState('');
@@ -81,7 +81,6 @@ export default function BlogEditPage({ isNew = false }: { isNew?: boolean }) {
       setSlug(existing.slug ?? '');
       setSlugTouched(true);
       setExcerpt(existing.excerpt ?? '');
-      setAuthor(existing.author ?? '');
       setCategory(existing.category ?? CATEGORIES[0]);
       setMetaTitle(existing.meta_title ?? '');
       setMetaDescription(existing.meta_description ?? '');
@@ -136,7 +135,7 @@ export default function BlogEditPage({ isNew = false }: { isNew?: boolean }) {
     if (publishAt) publishedAtValue = new Date(publishAt).toISOString();
     else if (useStatus === 'published' && !publishedAtValue) publishedAtValue = new Date().toISOString();
     const row: Record<string, unknown> = {
-      title: title.trim(), slug: effectiveSlug, excerpt: excerpt || null, author: author || null,
+      title: title.trim(), slug: effectiveSlug, excerpt: excerpt || null, author: BRAND,
       category: category || null, meta_title: metaTitle || null, meta_description: metaDescription || null,
       cover_image_url: cover || null, image_alt: imageAlt || null, tags, faq_items: faqItems,
       noindex, canonical_url: `${SITE}/blog/${effectiveSlug}/`,
@@ -248,8 +247,8 @@ export default function BlogEditPage({ isNew = false }: { isNew?: boolean }) {
                 {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
             </Field>
-            <Field label="Author (optional)">
-              <input className="bi" value={author} placeholder="Boca Dental and Braces" onChange={(e) => setAuthor(e.target.value)} />
+            <Field label="Author">
+              <input className="bi bg-slate-50 text-slate-500" value={BRAND} readOnly />
             </Field>
           </div>
 
