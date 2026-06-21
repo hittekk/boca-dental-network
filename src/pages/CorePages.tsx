@@ -1967,7 +1967,7 @@ export function CareersPage() {
               <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: 1.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 10 }}>Our Vision</div>
               <p style={{ fontSize: 18, lineHeight: 1.6, color: NAVY, fontWeight: 600, margin: 0 }}>We do whatever it takes to make our patients happy and healthy for life. We are the Yes! Company!</p>
             </div>
-            <div style={{ background: NAVY, borderRadius: 18, padding: '32px 30px' }}>
+            <div style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', borderRadius: 18, padding: '32px 30px' }}>
               <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: 1.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 10 }}>Our Mission</div>
               <p style={{ fontSize: 18, lineHeight: 1.6, color: 'white', fontWeight: 500, margin: 0 }}>To say Yes! by creating a dental brand where patients can have their dental needs met by eliminating as many obstacles as possible. We do whatever it takes.</p>
             </div>
@@ -2029,7 +2029,7 @@ export function CareersPage() {
       </section>
 
       {/* Find your seat at the table */}
-      <section style={{ background: NAVY, padding: '84px 24px', color: 'white' }}>
+      <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '84px 24px', color: 'white' }}>
         <div style={{ maxWidth: 980, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 44 }}>
             <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 2.5, textTransform: 'uppercase', color: ORANGE, marginBottom: 12 }}>Open roles</div>
