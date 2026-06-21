@@ -640,7 +640,7 @@ function Hero({
                     </span>
                   </div>
                   <a
-                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Boca Dental ${location.label} Las Vegas`)}`}
+                    href={location.gbp_id ? `https://www.google.com/maps?cid=${location.gbp_id}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Boca Dental ${location.label} Las Vegas`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{

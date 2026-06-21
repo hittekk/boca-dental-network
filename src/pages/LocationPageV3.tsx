@@ -726,7 +726,7 @@ function LocationHero({
               </div>
 
               <a
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Boca Dental ${location.label} Las Vegas`)}`}
+                href={location.gbp_id ? `https://www.google.com/maps?cid=${location.gbp_id}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Boca Dental ${location.label} Las Vegas`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
@@ -1711,7 +1711,7 @@ function SinglePinMap({
           </div>
           {/* Open in Maps button */}
           <a
-            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Boca Dental ${location.label} Las Vegas`)}`}
+            href={location.gbp_id ? `https://www.google.com/maps?cid=${location.gbp_id}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Boca Dental ${location.label} Las Vegas`)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="findus-open-btn-v3"

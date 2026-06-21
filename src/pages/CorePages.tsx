@@ -1573,7 +1573,7 @@ export function ReviewsPage() {
                     </div>
                     <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', marginTop: 3, fontWeight: 600 }}>{loc.review_count}+ verified reviews</div>
                   </div>
-                  <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Boca Dental ${loc.label} Las Vegas`)}`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.1)', color: 'white', borderRadius: 10, padding: '10px 18px', fontSize: 12, fontWeight: 800, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.15)', whiteSpace: 'nowrap', transition: 'background 0.2s' }}>
+                  <a href={loc.gbp_id ? `https://www.google.com/maps?cid=${loc.gbp_id}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Boca Dental ${loc.label} Las Vegas`)}`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,255,255,0.1)', color: 'white', borderRadius: 10, padding: '10px 18px', fontSize: 12, fontWeight: 800, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.15)', whiteSpace: 'nowrap', transition: 'background 0.2s' }}>
                     <ArrowUpRight size={13} /> Google Maps
                   </a>
                 </div>
