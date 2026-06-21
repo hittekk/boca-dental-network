@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase, uploadMedia } from '../../lib/supabase';
+import RichTextEditor from '../components/RichTextEditor';
 
 const ORANGE = '#F3672A';
 const DARK_NAVY = '#001D3D';
@@ -60,14 +61,11 @@ export default function BlogEditPage({ isNew = false }: { isNew?: boolean }) {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
-  const [showHtml, setShowHtml] = useState(false);
   const [error, setError] = useState('');
 
-  const bodyRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-  const editorInitedRef = useRef(false);
 
-  const { data: existing, isLoading } = useQuery({
+  const { data: existing } = useQuery({
     queryKey: ['admin', 'blog_post', editingId],
     queryFn: async () => {
       const { data, error } = await supabase.from('blog_posts').select('*').eq('id', editingId).maybeSingle();
@@ -99,23 +97,6 @@ export default function BlogEditPage({ isNew = false }: { isNew?: boolean }) {
   }, [existing]);
 
   const effectiveSlug = slugTouched ? slug : slugify(title);
-
-  // Seed the contentEditable area once content is available; re-seed when
-  // flipping back from HTML view. (Avoids clobbering keystrokes.)
-  useEffect(() => {
-    if (showHtml || editorInitedRef.current || !bodyRef.current) return;
-    bodyRef.current.innerHTML = content || '';
-    editorInitedRef.current = true;
-  }, [content, showHtml, isLoading]);
-
-  function exec(command: string, value?: string) {
-    bodyRef.current?.focus();
-    document.execCommand(command, false, value);
-    if (bodyRef.current) setContent(bodyRef.current.innerHTML);
-  }
-  function formatBlock(tag: string) { exec('formatBlock', tag); }
-  function insertLink() { const url = prompt('Link URL:'); if (url) exec('createLink', url); }
-  function toggleHtml() { setShowHtml((v) => { const next = !v; if (!next) editorInitedRef.current = false; return next; }); }
 
   async function handleFile(file: File) {
     if (!file) return;
@@ -258,33 +239,7 @@ export default function BlogEditPage({ isNew = false }: { isNew?: boolean }) {
           </Field>
 
           <Field label="Post body">
-            <div className="border border-slate-200 rounded-lg overflow-hidden">
-              <div className="flex flex-wrap gap-1 p-2 bg-slate-50 border-b border-slate-200">
-                <Tb onClick={() => exec('bold')} title="Bold"><b>B</b></Tb>
-                <Tb onClick={() => exec('italic')} title="Italic"><i>I</i></Tb>
-                <Tb onClick={() => formatBlock('p')} title="Paragraph">P</Tb>
-                <Tb onClick={() => formatBlock('h2')} title="Heading 2">H2</Tb>
-                <Tb onClick={() => formatBlock('h3')} title="Heading 3">H3</Tb>
-                <Tb onClick={() => exec('insertUnorderedList')} title="Bullet list">• List</Tb>
-                <Tb onClick={() => exec('insertOrderedList')} title="Numbered list">1. List</Tb>
-                <Tb onClick={insertLink} title="Link">🔗 Link</Tb>
-                <Tb onClick={() => exec('unlink')} title="Unlink">⌀ Unlink</Tb>
-                <Tb onClick={() => formatBlock('blockquote')} title="Quote">❝ Quote</Tb>
-                <Tb onClick={() => exec('removeFormat')} title="Clear formatting">⌫ Clear</Tb>
-                <div className="ml-auto" />
-                <Tb onClick={toggleHtml} title="Toggle HTML source">{showHtml ? '◧ Visual' : '</> HTML'}</Tb>
-              </div>
-              {showHtml ? (
-                <textarea className="w-full min-h-[420px] p-4 font-mono text-xs outline-none" style={{ color: DARK_NAVY }}
-                  value={content} onChange={(e) => setContent(e.target.value)} />
-              ) : (
-                <div ref={bodyRef} contentEditable suppressContentEditableWarning
-                  onInput={(e) => setContent((e.currentTarget as HTMLDivElement).innerHTML)}
-                  onBlur={(e) => setContent((e.currentTarget as HTMLDivElement).innerHTML)}
-                  className="w-full min-h-[420px] p-4 text-sm outline-none prose max-w-none"
-                  style={{ color: DARK_NAVY }} />
-              )}
-            </div>
+            <RichTextEditor value={content} onChange={setContent} placeholder="Write your post…" />
           </Field>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -393,17 +348,5 @@ function Field({ label, counter, children }: { label: string; counter?: React.Re
       </div>
       {children}
     </label>
-  );
-}
-
-function Tb({ onClick, title, children }: { onClick: () => void; title: string; children: React.ReactNode }) {
-  return (
-    <button type="button" onClick={onClick} title={title}
-      className="px-2.5 py-1 text-xs font-semibold bg-white border border-slate-200 rounded hover:text-white transition-colors"
-      style={{ color: DARK_NAVY }}
-      onMouseEnter={(e) => { e.currentTarget.style.background = DARK_NAVY; e.currentTarget.style.color = 'white'; }}
-      onMouseLeave={(e) => { e.currentTarget.style.background = 'white'; e.currentTarget.style.color = DARK_NAVY; }}>
-      {children}
-    </button>
   );
 }
