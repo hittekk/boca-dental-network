@@ -18,6 +18,8 @@ import { Footer } from '../components/Footer/Footer'
 import { INITIAL_DATA } from '../data/initialData'
 import { dentistContentFor } from '../data/dentistContent'
 import { useDoctors, useDoctorBySlug, useSiteData } from '../lib/site-data'
+import { useLang } from '../lib/lang'
+import { tr } from '../lib/es-translate'
 
 const ORANGE = '#F3672A'
 const NAVY = '#001D3D'
@@ -38,6 +40,7 @@ export function DentistPage() {
   const { slug } = useParams<{ slug: string }>()
   const siteData = useSiteData()
   const dbDoc = useDoctorBySlug(slug)
+  const lang = useLang()
 
   // Merge admin-editable DB fields (name/title/bio/photo/locations) over the
   // static schema content. Falls back to a sensible default for brand-new
@@ -102,6 +105,11 @@ export function DentistPage() {
     .map((w) => w[0])
     .slice(0, 2)
     .join('')
+
+  // Spanish: translate the bio via the dictionary, then derive the short intro
+  // from the translated text so both the hero summary and full bio are Spanish.
+  const longBioEs = tr(content.longBio, lang)
+  const shortBioEs = lang === 'es' ? firstSentences(longBioEs, 2) : content.shortBio
 
   return (
     <div style={{ background: 'white', color: NAVY, fontFamily: 'inherit' }}>
@@ -176,7 +184,7 @@ export function DentistPage() {
                 {content.title}
               </div>
               <p style={{ fontSize: 17, lineHeight: 1.7, color: 'rgba(0,29,61,0.78)', margin: '0 0 24px', maxWidth: 640 }}>
-                {content.shortBio}
+                {shortBioEs}
               </p>
 
               {/* Quick facts */}
@@ -266,14 +274,14 @@ export function DentistPage() {
                     </div>
                   </figcaption>
                 </figure>
-                {content.longBio.split(/\n{2,}/).map((para, i) => {
+                {longBioEs.split(/\n{2,}/).map((para, i) => {
                   const t = para.trim()
                   return t ? <p key={i}>{t}</p> : null
                 })}
               </div>
             ) : (
               <p style={{ fontSize: 17, lineHeight: 1.8, color: 'rgba(0,29,61,0.78)' }}>
-                {content.longBio}
+                {longBioEs}
               </p>
             )}
           </div>

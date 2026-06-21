@@ -41,6 +41,9 @@ const PATTERNS: Array<[RegExp, (m: RegExpMatchArray) => string]> = [
   [/^Is (.+) painful\?$/, (m) => `¿Es doloroso ${term(m[1])}?`],
   [/^(.+) in Las Vegas$/, (m) => `${term(m[1])} en Las Vegas`],
   [/^(.+) in Reno$/, (m) => `${term(m[1])} en Reno`],
+  [/^\[ 0(\d) \] · About (.+)$/, (m) => `[ 0${m[1]} ] · Sobre ${m[2]}`],
+  [/^(.+) and family\.$/, (m) => `${m[1]} y familia.`],
+  [/^(.+) Practices At$/, (m) => `Dónde atiende ${m[1]}`],
 ]
 
 function patternTranslate(key: string): string | null {
@@ -49,6 +52,17 @@ function patternTranslate(key: string): string | null {
     if (m) return fn(m)
   }
   return null
+}
+
+/**
+ * Translate a single string via the dictionary — for components that build the
+ * DOM in a way the node-walker can't catch cleanly (e.g. a JS drop-cap split).
+ * Returns the original when not 'es' or no match.
+ */
+export function tr(en: string, lang: string): string {
+  if (lang !== 'es' || !en) return en
+  const key = en.trim()
+  return ES[key] ?? patternTranslate(key) ?? en
 }
 
 function translateTextNodes(root: HTMLElement, toEs: boolean) {

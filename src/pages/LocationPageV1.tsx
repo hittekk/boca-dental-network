@@ -28,6 +28,8 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import { Header } from '../components/Header/Header'
 import { Footer } from '../components/Footer/Footer'
 import { CTA } from '../components/CTA/CTA'
+import { useLang } from '../lib/lang'
+import { tr } from '../lib/es-translate'
 import {
   ClinicInfoSection,
   ServiceAvailabilityNote,
@@ -953,11 +955,13 @@ function landmarkIcon(landmark: string): LucideIcon {
 }
 
 function NeighborhoodNarrative({ location }: { location: Location }) {
+  const lang = useLang()
+  const narrative = tr(location.narrative, lang)
   const languages = LOCATION_LANGUAGES[location.slug] ?? ['English']
   const parking   = LOCATION_PARKING[location.slug] ?? 'Free on-site parking'
   const landmarks = LOCATION_LANDMARKS[location.slug] ?? []
-  const firstLetter = location.narrative.charAt(0)
-  const restOfNarrative = location.narrative.slice(1)
+  const firstLetter = narrative.charAt(0)
+  const restOfNarrative = narrative.slice(1)
 
   // Image gallery (data-driven — maps to the backend wp_options JSON; editable per-location with no code changes)
   const galleryImages = (location.gallery && location.gallery.length > 0) ? location.gallery : []
