@@ -66,6 +66,8 @@ export function usePageMeta(opts: {
     setMeta('og:title', opts.title, 'property')
     setMeta('og:description', opts.description, 'property')
     setMeta('og:url', opts.url, 'property')
+    setMeta('twitter:title', opts.title, 'name')
+    setMeta('twitter:description', opts.description, 'name')
     setLink('canonical', opts.url)
   }, [opts.title, opts.description, opts.url])
   if (!opts.breadcrumb) return null

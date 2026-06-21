@@ -257,9 +257,31 @@ async function capture(routePath, routeTitle, isHomepage) {
   return html
 }
 
+// Blog posts — prerender only when the blog section is enabled. RLS hides
+// future-scheduled posts from the anon key, so only live posts render. Guarded.
+let blogRoutes = []
+try {
+  const SB_URL = process.env.VITE_SUPABASE_URL
+  const SB_KEY = process.env.VITE_SUPABASE_ANON_KEY
+  if (SB_URL && SB_KEY) {
+    const h = { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` }
+    const setRes = await fetch(`${SB_URL}/rest/v1/site_settings?select=value&key=eq.blog`, { headers: h })
+    const enabled = setRes.ok ? (((await setRes.json())[0]?.value)?.enabled === true) : false
+    if (enabled) {
+      const res = await fetch(`${SB_URL}/rest/v1/blog_posts?select=slug,title&status=eq.published`, { headers: h })
+      if (res.ok) {
+        const rows = await res.json()
+        blogRoutes = [{ path: '/blog/', title: 'Blog' }, ...rows.map((r) => ({ path: `/blog/${r.slug}/`, title: r.title }))]
+      }
+    }
+  }
+} catch (err) {
+  console.warn('⚠ prerender: could not load blog:', err.message)
+}
+
 // ── Walk every route + write to its own dist file ─────────────────────────
 const t0 = Date.now()
-for (const route of ROUTES) {
+for (const route of [...ROUTES, ...blogRoutes]) {
   const isHome = route.path === '/'
   const html = await capture(route.path, route.title, isHome)
 
@@ -278,7 +300,7 @@ for (const route of ROUTES) {
   )
 }
 const dt = ((Date.now() - t0) / 1000).toFixed(1)
-console.log(`✓ Prerendered ${ROUTES.length} routes in ${dt}s`)
+console.log(`✓ Prerendered ${ROUTES.length + blogRoutes.length} routes (${blogRoutes.length} blog) in ${dt}s`)
 
 // ── Cleanup ───────────────────────────────────────────────────────────────
 await browser.close()

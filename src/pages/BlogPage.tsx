@@ -5,7 +5,7 @@
 // `blog` site setting (admin → Blog → on/off): when off, these routes redirect
 // home and no "Blog" nav link is shown.
 // ─────────────────────────────────────────────────────────────────────────────
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { Shell, CTAStrip, usePageMeta } from './CorePages'
 import { supabase } from '../lib/supabase'
@@ -71,6 +71,37 @@ function usePostBySlug(slug: string | undefined) {
     return () => { cancelled = true }
   }, [slug])
   return state
+}
+
+function anchorId(s: string): string {
+  return s.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60)
+}
+
+// Parse the post HTML: add anchor ids to H2s, build a table of contents, count
+// words, and auto-detect FAQ Q&A (H2/H3 ending in "?" + following text) for
+// FAQPage schema — per the DSL blog playbook.
+function parseArticle(html: string): { html: string; toc: { id: string; text: string }[]; faqs: { q: string; a: string }[]; words: number } {
+  if (typeof window === 'undefined' || !html) return { html, toc: [], faqs: [], words: 0 }
+  const doc = new DOMParser().parseFromString(html, 'text/html')
+  const toc: { id: string; text: string }[] = []
+  doc.querySelectorAll('h2').forEach((h) => {
+    const text = (h.textContent || '').trim()
+    if (!text) return
+    const id = anchorId(text) || `s-${toc.length + 1}`
+    h.setAttribute('id', id)
+    toc.push({ id, text })
+  })
+  const faqs: { q: string; a: string }[] = []
+  doc.querySelectorAll('h2, h3').forEach((h) => {
+    const q = (h.textContent || '').trim()
+    if (!q.endsWith('?')) return
+    let a = ''
+    let n = h.nextElementSibling
+    while (n && !/^H[1-6]$/.test(n.tagName)) { a += (n.textContent || '') + ' '; n = n.nextElementSibling }
+    if (a.trim()) faqs.push({ q, a: a.trim() })
+  })
+  const words = (doc.body.textContent || '').trim().split(/\s+/).filter(Boolean).length
+  return { html: doc.body.innerHTML, toc, faqs, words }
 }
 
 function setMetaTag(name: string, content: string, attr: 'name' | 'property') {
@@ -178,6 +209,7 @@ export function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>()
   const { loading, post } = usePostBySlug(slug)
   const related = useRelatedPosts(post?.category, slug)
+  const parsed = useMemo(() => parseArticle(post?.content || ''), [post?.content])
   const origin = typeof window !== 'undefined' ? window.location.origin : ''
   const metaDesc = post?.meta_description || post?.excerpt || 'Boca Dental and Braces blog.'
   const schema = usePageMeta({
@@ -213,6 +245,13 @@ export function BlogPostPage() {
     ...(post.category ? { articleSection: post.category } : {}),
   } : null
 
+  // FAQPage JSON-LD — auto-built from Q&A headings in the post (playbook).
+  const faqLd = post && parsed.faqs.length > 0 ? {
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: parsed.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  } : null
+  const showToc = parsed.words >= 1000 && parsed.toc.length >= 2
+
   return (
     <Shell>
       <section style={{ background: 'linear-gradient(180deg, #F7F9FC 0%, white 70%)', padding: '160px 32px 32px' }}>
@@ -241,15 +280,23 @@ export function BlogPostPage() {
         <article style={{ background: 'white', padding: '8px 32px 72px' }}>
           <div style={{ maxWidth: 820, margin: '0 auto' }}>
             {post.cover_image_url && (
-              <img src={post.cover_image_url} alt={post.title} style={{ width: '100%', borderRadius: 16, margin: '8px 0 32px', display: 'block' }} />
+              <img src={post.cover_image_url} alt={post.title} loading="eager" style={{ width: '100%', borderRadius: 16, margin: '8px 0 32px', display: 'block' }} />
+            )}
+            {showToc && (
+              <nav aria-label="Table of contents" style={{ background: '#F7F9FC', border: '1px solid rgba(0,29,61,0.08)', borderRadius: 12, padding: '18px 22px', margin: '0 0 32px' }}>
+                <div style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1.5, color: ORANGE, marginBottom: 10 }}>In this article</div>
+                <ol style={{ margin: 0, paddingLeft: 18, fontSize: 15, lineHeight: 1.9, color: NAVY }}>
+                  {parsed.toc.map((h) => (<li key={h.id}><a href={`#${h.id}`} style={{ color: NAVY, textDecoration: 'none' }}>{h.text}</a></li>))}
+                </ol>
+              </nav>
             )}
             <div
               className="blog-prose"
               style={{ fontSize: 17, lineHeight: 1.8, color: 'rgba(0,29,61,0.85)' }}
-              dangerouslySetInnerHTML={{ __html: post.content || '' }}
+              dangerouslySetInnerHTML={{ __html: parsed.html || post.content || '' }}
             />
             <style>{`
-              .blog-prose h2{ font-size:26px; font-weight:800; color:${NAVY}; margin:36px 0 14px; letter-spacing:-0.5px; }
+              .blog-prose h2{ font-size:26px; font-weight:800; color:${NAVY}; margin:36px 0 14px; letter-spacing:-0.5px; scroll-margin-top:90px; }
               .blog-prose h3{ font-size:20px; font-weight:800; color:${NAVY}; margin:28px 0 10px; }
               .blog-prose p{ margin:0 0 18px; }
               .blog-prose ul,.blog-prose ol{ margin:0 0 18px; padding-left:24px; }
@@ -257,6 +304,16 @@ export function BlogPostPage() {
               .blog-prose a{ color:${ORANGE}; font-weight:600; }
               .blog-prose img{ max-width:100%; height:auto; border-radius:12px; margin:18px 0; }
             `}</style>
+            {/* Author bio (E-E-A-T) */}
+            <div style={{ marginTop: 44, paddingTop: 28, borderTop: '1px solid rgba(0,29,61,0.1)', display: 'flex', gap: 16, alignItems: 'center' }}>
+              <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'linear-gradient(135deg, rgba(243,103,42,0.2), rgba(22,46,122,0.15))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: NAVY, flexShrink: 0 }}>
+                {(post.author || 'Boca').split(/\s+/).map((w) => w[0]).slice(0, 2).join('')}
+              </div>
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 800, color: NAVY }}>{post.author || 'Boca Dental and Braces'}</div>
+                <div style={{ fontSize: 13, color: 'rgba(0,29,61,0.6)', lineHeight: 1.5 }}>Comprehensive family, cosmetic, orthodontic, and specialty dental care across Las Vegas.</div>
+              </div>
+            </div>
           </div>
         </article>
       )}
@@ -276,6 +333,7 @@ export function BlogPostPage() {
         </section>
       )}
       {blogLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogLd) }} />}
+      {faqLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />}
       <CTAStrip />
       {schema}
     </Shell>
