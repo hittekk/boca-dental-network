@@ -48,6 +48,14 @@ const PATTERNS: Array<[RegExp, (m: RegExpMatchArray) => string]> = [
     (m) => `${term(m[1])} es un servicio que ofrece Boca Dental and Braces en las 9 clínicas de Las Vegas. El contenido clínico completo de esta página está pendiente.`],
   [/^My daughter did (.+) here and the whole family was impressed\..*$/,
     () => 'Mi hija se atendió aquí y toda la familia quedó impresionada. Las citas fueron rápidas, el personal fue muy paciente con ella y sus resultados son increíbles. Muy recomendado Boca Dental and Braces.'],
+  // Per-clinic composed headings (clinic name kept as proper noun)
+  [/^What we do at (.+)$/, (m) => `Lo que hacemos en ${m[1]}`],
+  [/^The dentists at (.+)\.$/, (m) => `Los dentistas en ${m[1]}.`],
+  [/^Questions about (.+)\.$/, (m) => `Preguntas sobre ${m[1]}.`],
+  [/^Boca Dental & Braces at (.+)$/, (m) => `Boca Dental and Braces en ${m[1]}`],
+  [/^([\d.]+) · (\d+\+?) reviews$/, (m) => `${m[1]} · ${m[2]} reseñas`],
+  [/^Reviews from real patients who specifically mention this clinic, a provider here, or a nearby neighborhood\. Aggregated from (.+) verified Google reviews\.$/,
+    (m) => `Reseñas de pacientes reales que mencionan específicamente esta clínica, un proveedor de aquí o un vecindario cercano. Recopiladas de ${m[1]} reseñas verificadas de Google.`],
 ]
 
 function patternTranslate(key: string): string | null {
