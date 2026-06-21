@@ -1938,7 +1938,7 @@ export function CareersPage() {
   const photos = Array.from({ length: 33 }, (_, i) => `/careers/${String(i + 1).padStart(2, '0')}.webp`)
 
   return (
-    <Shell>
+    <Shell logoMode="white">
       {/* Hero */}
       <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '150px 24px 90px', color: 'white', textAlign: 'center' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
