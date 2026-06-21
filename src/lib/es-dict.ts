@@ -831,4 +831,14 @@ export const ES: Record<string, string> = {
   "Had a dental emergency on a Saturday and they got me in same-day. Super convenient location and the team is genuinely caring.": "Tuve una urgencia dental un sábado y me atendieron el mismo día. Ubicación muy conveniente y el equipo realmente se preocupa.",
   "Dr. Fahim took the time to explain everything before she started. My whole family comes here now. The team at Russell & Eastern is always friendly and the wait times are short.": "La Dra. Fahim se tomó el tiempo de explicar todo antes de empezar. Ahora toda mi familia viene aquí. El equipo de Russell & Eastern siempre es amable y los tiempos de espera son cortos.",
   "I had a dental emergency and they got me in the same day. The Russell & Eastern location is right off the 215 — super convenient. Will definitely be coming back for regular cleanings.": "Tuve una urgencia dental y me atendieron el mismo día. La clínica de Russell & Eastern está justo al lado de la 215 — súper conveniente. Definitivamente volveré para limpiezas regulares.",
+
+  // Clinics hub (map page)
+  "9 Las Vegas Locations": "9 Clínicas en Las Vegas",
+  "nearest Boca.": "Boca Más Cercana.",
+  "Nine clinics across greater Las Vegas — general, cosmetic, orthodontics, pediatric, and emergency care. Click any pin on the map.": "Nueve clínicas en el área metropolitana de Las Vegas — atención general, estética, ortodoncia, pediátrica y de urgencias. Haz clic en cualquier punto del mapa.",
+  "Avg Rating": "Calificación Promedio",
+  "Patients Served": "Pacientes Atendidos",
+  "Days a Week": "Días a la Semana",
+  "Click a pin": "Haz clic en un punto",
+  "9 Clinics Across Las Vegas": "9 Clínicas en Las Vegas",
 }
