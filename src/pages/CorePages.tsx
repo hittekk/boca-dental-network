@@ -1940,7 +1940,7 @@ export function CareersPage() {
   return (
     <Shell>
       {/* Hero */}
-      <section style={{ background: `linear-gradient(160deg, ${NAVY} 0%, #06224a 100%)`, padding: '150px 24px 90px', color: 'white', textAlign: 'center' }}>
+      <section style={{ background: 'linear-gradient(135deg, #001D3D 0%, #162E7A 60%, #1a3a8f 100%)', padding: '150px 24px 90px', color: 'white', textAlign: 'center' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 18 }}>Careers</div>
           <h1 style={{ fontSize: 'clamp(34px, 5vw, 60px)', fontWeight: 800, letterSpacing: '-1.4px', lineHeight: 1.05, margin: 0 }}>
