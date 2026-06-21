@@ -5,6 +5,7 @@ import { useSiteData } from '../lib/site-data'
 import { LocationPageV1 } from './LocationPageV1'
 import { LocationPageMeta } from '../components/shared/LocationPageMeta'
 import { LocationPageSchema } from '../components/shared/LocationPageSchema'
+import { COORDS_BY_LOCATION as COORDS } from '../data/doctorLocations'
 
 // Service slugs available at each location. Per the Boca Bible (tab 3) every
 // service is offered network-wide EXCEPT sedation dentistry, which is only at
@@ -101,7 +102,7 @@ export function LocationPage() {
   return (
     <>
       <LocationPageMeta location={location} />
-      <LocationPageSchema location={location} />
+      <LocationPageSchema location={location} coords={COORDS[location.slug]} />
       <LocationPageV1 location={location} />
     </>
   )

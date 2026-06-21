@@ -16,9 +16,11 @@ import type { Location } from '../../types'
  */
 const DOMAIN = 'https://bocadentalandbraces.com'
 
-function buildLocationGraph(location: Location) {
+function buildLocationGraph(location: Location, coords?: [number, number]) {
   const url = `${DOMAIN}/clinics/${location.slug}/`
   const businessType = location.kids ? 'DentalSpecialty' : 'Dentist'
+  // gbp_id is a Google CID (numeric) → cid=… is the resolvable map URL form.
+  const gbpUrl = location.gbp_id ? `https://www.google.com/maps?cid=${location.gbp_id}` : undefined
 
   const localBusiness = {
     '@type': businessType,
@@ -48,6 +50,8 @@ function buildLocationGraph(location: Location) {
     areaServed: { '@type': 'City', name: 'Las Vegas' },
     parentOrganization: { '@id': `${DOMAIN}/#organization` },
     isPartOf: { '@id': `${DOMAIN}/#practice` },
+    ...(coords ? { geo: { '@type': 'GeoCoordinates', latitude: coords[1], longitude: coords[0] } } : {}),
+    ...(gbpUrl ? { hasMap: gbpUrl, sameAs: [gbpUrl] } : {}),
     ...(location.kids ? { medicalSpecialty: 'Pediatric Dentistry' } : {}),
   }
 
@@ -99,22 +103,22 @@ function buildLocationGraph(location: Location) {
   }
 }
 
-export function LocationPageSchema({ location }: { location: Location }) {
+export function LocationPageSchema({ location, coords }: { location: Location; coords?: [number, number] }) {
   useEffect(() => {
     const id = `boca-location-schema-${location.slug}`
     if (document.getElementById(id)) return
     const script = document.createElement('script')
     script.type = 'application/ld+json'
     script.id = id
-    script.text = JSON.stringify(buildLocationGraph(location))
+    script.text = JSON.stringify(buildLocationGraph(location, coords))
     document.head.appendChild(script)
     return () => {
       const s = document.getElementById(id)
       if (s) s.remove()
     }
-  }, [location])
+  }, [location, coords])
 
-  const graph = buildLocationGraph(location)
+  const graph = buildLocationGraph(location, coords)
   return (
     <script
       type="application/ld+json"
