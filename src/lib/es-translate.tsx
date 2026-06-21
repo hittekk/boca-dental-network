@@ -44,6 +44,10 @@ const PATTERNS: Array<[RegExp, (m: RegExpMatchArray) => string]> = [
   [/^\[ 0(\d) \] · About (.+)$/, (m) => `[ 0${m[1]} ] · Sobre ${m[2]}`],
   [/^(.+) and family\.$/, (m) => `${m[1]} y familia.`],
   [/^(.+) Practices At$/, (m) => `Dónde atiende ${m[1]}`],
+  [/^(.+) is a service offered by Boca Dental & Braces at all 9 of our Las Vegas clinics\. Full clinical content for this page is pending.*$/,
+    (m) => `${term(m[1])} es un servicio que ofrece Boca Dental and Braces en las 9 clínicas de Las Vegas. El contenido clínico completo de esta página está pendiente.`],
+  [/^My daughter did (.+) here and the whole family was impressed\..*$/,
+    () => 'Mi hija se atendió aquí y toda la familia quedó impresionada. Las citas fueron rápidas, el personal fue muy paciente con ella y sus resultados son increíbles. Muy recomendado Boca Dental and Braces.'],
 ]
 
 function patternTranslate(key: string): string | null {
