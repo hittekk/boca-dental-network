@@ -59,6 +59,7 @@ import { AudienceRouting } from './components/shared/AudienceRouting'
 import { MeetTheTeam } from './components/shared/MeetTheTeam'
 import { LocationsMap } from './components/shared/LocationsMap'
 import { MobileStickyCTA } from './components/shared/MobileStickyCTA'
+import { AutoTranslate } from './lib/es-translate'
 import { SmileTransformations } from './components/shared/SmileTransformations'
 
 import { LocationPage } from './pages/LocationPage'
@@ -162,6 +163,7 @@ function App() {
 
   return (
     <>
+      <AutoTranslate />
       <Routes>
         {/* Home */}
         <Route path="/" element={<Homepage />} />
