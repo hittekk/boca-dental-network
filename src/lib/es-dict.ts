@@ -699,4 +699,10 @@ export const ES: Record<string, string> = {
   "Near You — 9 Boca Dental & Braces Locations Across Las Vegas": "Cerca de Ti — 9 Clínicas Boca en Las Vegas",
   "Choose your nearest Boca location and we’ll confirm within one business hour. Same-day and next-day appointments available.": "Elige tu clínica Boca más cercana y te confirmaremos en una hora hábil. Citas el mismo día y al día siguiente disponibles.",
   "? Book your appointment online or call your nearest Boca Dental & Braces location today.": "? Reserva tu cita en línea o llama hoy a tu clínica Boca más cercana.",
+
+  // straight-apostrophe variants
+  "visit starts with a thorough exam so your dentist can tailor each step to you. We'll walk you through exactly what to expect, keep you comfortable throughout, and check in at every stage of treatment.": "comienza con un examen completo para que tu dentista pueda adaptar cada paso a ti. Te explicaremos exactamente qué esperar, te mantendremos cómodo en todo momento y estaremos pendientes en cada etapa del tratamiento.",
+  "I went in for a free consultation not knowing what to expect. They scanned my teeth, showed me what my smile would look like at the end, and I was sold. 14 months later and I couldn't be happier.": "Fui a una consulta gratis sin saber qué esperar. Escanearon mis dientes, me mostraron cómo se vería mi sonrisa al final y quedé convencido. 14 meses después y no podría estar más feliz.",
+  "Book a free consultation at any of our Las Vegas locations and we'll build your personalized dental exams & cleanings treatment plan.": "Reserva una consulta gratis en cualquiera de nuestras clínicas de Las Vegas y crearemos tu plan de tratamiento personalizado.",
+  "Choose your nearest Boca location and we'll confirm within one business hour. Same-day and next-day appointments available.": "Elige tu clínica Boca más cercana y te confirmaremos en una hora hábil. Citas el mismo día y al día siguiente disponibles.",
 }
