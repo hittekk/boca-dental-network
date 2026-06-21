@@ -20,7 +20,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence, useScroll } from 'framer-motion'
 import { Phone, X, ChevronRight, Calendar, MapPin } from 'lucide-react'
 import type { Brand, Announcement, NavLink } from '../../types'
-import { useLang, t } from '../../lib/lang'
+import { useLang, useSetLang, t } from '../../lib/lang'
 import { BocaLogo } from './BocaLogo'
 
 // ── Types ────────────────────────────────────────────────────────────────────
@@ -295,6 +295,7 @@ function DesktopNav({
 
 function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: 'white' | 'dark' }) {
   const lang = useLang()
+  const setLang = useSetLang()
   const isDark = logoMode === 'dark'
   const subtleColor = isDark ? 'rgba(0,29,61,0.6)' : 'rgba(255,255,255,0.6)'
   const phoneIdle = isDark ? 'rgba(0,29,61,0.75)' : 'rgba(255,255,255,0.75)'
@@ -307,15 +308,19 @@ function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: '
         gap: 16,
       }}
     >
-      <a
-        href={lang === 'es' ? '/' : '/oficina-de-habla-hispana/'}
+      <button
+        type="button"
+        onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
+        aria-label={lang === 'es' ? 'Switch to English' : 'Cambiar a Español'}
         style={{
           color: subtleColor,
+          background: 'transparent',
+          cursor: 'pointer',
+          fontFamily: 'inherit',
           fontSize: 11,
           fontWeight: 700,
           textTransform: 'uppercase',
           letterSpacing: '0.05em',
-          textDecoration: 'none',
           transition: 'color 0.2s ease',
           display: 'inline-flex',
           alignItems: 'center',
@@ -332,7 +337,7 @@ function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: '
         }
       >
         🌐 {lang === 'es' ? 'English' : 'Se Habla Español'}
-      </a>
+      </button>
 
 
 
@@ -379,6 +384,7 @@ function MobileMenu({
   phone: string
 }) {
   const lang = useLang()
+  const setLang = useSetLang()
   const NAV_LINKS = getNavLinks(lang)
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : ''
@@ -454,13 +460,14 @@ function MobileMenu({
           >
             <Phone size={15} /> {phone}
           </a>
-          <a
-            href={lang === 'es' ? '/' : '/oficina-de-habla-hispana/'}
-            onClick={onClose}
-            style={{ textAlign: 'center', color: 'rgba(255,255,255,0.5)', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 8, textDecoration: 'none', display: 'block' }}
+          <button
+            type="button"
+            onClick={() => { setLang(lang === 'es' ? 'en' : 'es'); onClose() }}
+            aria-label={lang === 'es' ? 'Switch to English' : 'Cambiar a Español'}
+            style={{ width: '100%', textAlign: 'center', color: 'rgba(255,255,255,0.5)', background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 8, display: 'block' }}
           >
             🌐 {lang === 'es' ? 'English' : 'Se Habla Español'}
-          </a>
+          </button>
         </div>
       </div>
     </div>

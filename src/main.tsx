@@ -4,6 +4,7 @@ import { Component, type ReactNode } from "react";
 import App from "./App.tsx";
 import { SiteDataProvider } from "./lib/site-data";
 import { AnalyticsProvider } from "./lib/analytics";
+import { LangProvider } from "./lib/lang";
 import "./index.css";
 
 class ErrorBoundary extends Component<
@@ -75,11 +76,13 @@ class ErrorBoundary extends Component<
 createRoot(document.getElementById("root")!).render(
   <ErrorBoundary>
     <BrowserRouter>
-      <SiteDataProvider>
-        <AnalyticsProvider>
-          <App />
-        </AnalyticsProvider>
-      </SiteDataProvider>
+      <LangProvider>
+        <SiteDataProvider>
+          <AnalyticsProvider>
+            <App />
+          </AnalyticsProvider>
+        </SiteDataProvider>
+      </LangProvider>
     </BrowserRouter>
   </ErrorBoundary>
 );
