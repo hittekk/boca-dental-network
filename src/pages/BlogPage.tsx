@@ -15,6 +15,8 @@ const ORANGE = '#F3672A'
 const NAVY = '#162E7A'
 const DARK = '#001D3D'
 
+export type FaqItem = { question: string; answer: string }
+
 export type BlogPost = {
   id: string
   slug: string
@@ -22,10 +24,15 @@ export type BlogPost = {
   excerpt: string | null
   content: string | null
   cover_image_url: string | null
+  image_alt?: string | null
   author: string | null
   category: string | null
+  tags?: string[] | null
+  faq_items?: FaqItem[] | null
   meta_title?: string | null
   meta_description?: string | null
+  noindex?: boolean | null
+  canonical_url?: string | null
   published_at: string | null
   updated_at?: string | null
 }
@@ -42,7 +49,7 @@ function usePublishedPosts() {
     ;(async () => {
       const { data } = await supabase
         .from('blog_posts')
-        .select('id, slug, title, excerpt, cover_image_url, author, category, published_at')
+        .select('id, slug, title, excerpt, cover_image_url, image_alt, author, category, published_at')
         .eq('status', 'published')
         .order('published_at', { ascending: false, nullsFirst: false })
         .order('created_at', { ascending: false })
@@ -62,7 +69,7 @@ function usePostBySlug(slug: string | undefined) {
     ;(async () => {
       const { data } = await supabase
         .from('blog_posts')
-        .select('id, slug, title, excerpt, content, cover_image_url, author, category, meta_title, meta_description, published_at, updated_at')
+        .select('id, slug, title, excerpt, content, cover_image_url, image_alt, author, category, tags, faq_items, meta_title, meta_description, noindex, canonical_url, published_at, updated_at')
         .eq('slug', slug)
         .eq('status', 'published')
         .maybeSingle()
@@ -181,7 +188,7 @@ export function BlogIndexPage() {
                 <Link key={p.id} to={`/blog/${p.slug}/`} style={{ textDecoration: 'none', color: DARK, background: 'white', border: '1px solid rgba(0,29,61,0.08)', borderRadius: 16, overflow: 'hidden', display: 'flex', flexDirection: 'column', boxShadow: '0 6px 18px rgba(0,29,61,0.04)' }}>
                   {p.cover_image_url ? (
                     <div style={{ aspectRatio: '16 / 9', overflow: 'hidden' }}>
-                      <img src={p.cover_image_url} alt={p.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                      <img src={p.cover_image_url} alt={p.image_alt || p.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                     </div>
                   ) : (
                     <div style={{ aspectRatio: '16 / 9', background: 'linear-gradient(135deg, rgba(243,103,42,0.18), rgba(22,46,122,0.12))' }} />
@@ -212,10 +219,11 @@ export function BlogPostPage() {
   const parsed = useMemo(() => parseArticle(post?.content || ''), [post?.content])
   const origin = typeof window !== 'undefined' ? window.location.origin : ''
   const metaDesc = post?.meta_description || post?.excerpt || 'Boca Dental and Braces blog.'
+  const canonicalUrl = post?.canonical_url || `${origin}/blog/${slug}/`
   const schema = usePageMeta({
     title: post ? `${post.meta_title || post.title} | Boca Dental and Braces` : 'Blog | Boca Dental and Braces',
     description: metaDesc,
-    url: `${origin}/blog/${slug}/`,
+    url: canonicalUrl,
     breadcrumb: [{ name: 'Home', url: `${origin}/` }, { name: 'Blog', url: `${origin}/blog/` }, { name: post?.title ?? 'Post' }],
   })
   // Article-specific OG/Twitter tags (playbook: og:image, article:* times, card)
@@ -227,6 +235,7 @@ export function BlogPostPage() {
     if (post.published_at) setMetaTag('article:published_time', post.published_at, 'property')
     if (post.updated_at || post.published_at) setMetaTag('article:modified_time', (post.updated_at || post.published_at) as string, 'property')
     if (post.author) setMetaTag('article:author', post.author, 'property')
+    setMetaTag('robots', post.noindex ? 'noindex, nofollow' : 'index, follow', 'name')
   }, [post])
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior }) }, [slug])
   if (blogEnabled === undefined) return null
@@ -245,10 +254,15 @@ export function BlogPostPage() {
     ...(post.category ? { articleSection: post.category } : {}),
   } : null
 
-  // FAQPage JSON-LD — auto-built from Q&A headings in the post (playbook).
-  const faqLd = post && parsed.faqs.length > 0 ? {
+  // FAQs: prefer the manually-entered faq_items; otherwise auto-detect Q&A
+  // headings from the body. Drives both the on-page FAQ and FAQPage schema.
+  const manualFaqs = (post?.faq_items ?? []).filter((f) => f?.question?.trim() && f?.answer?.trim())
+  const effectiveFaqs: { q: string; a: string }[] = manualFaqs.length > 0
+    ? manualFaqs.map((f) => ({ q: f.question, a: f.answer }))
+    : parsed.faqs
+  const faqLd = post && effectiveFaqs.length > 0 ? {
     '@context': 'https://schema.org', '@type': 'FAQPage',
-    mainEntity: parsed.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+    mainEntity: effectiveFaqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
   } : null
   const showToc = parsed.words >= 1000 && parsed.toc.length >= 2
 
@@ -280,7 +294,7 @@ export function BlogPostPage() {
         <article style={{ background: 'white', padding: '8px 32px 72px' }}>
           <div style={{ maxWidth: 820, margin: '0 auto' }}>
             {post.cover_image_url && (
-              <img src={post.cover_image_url} alt={post.title} loading="eager" style={{ width: '100%', borderRadius: 16, margin: '8px 0 32px', display: 'block' }} />
+              <img src={post.cover_image_url} alt={post.image_alt || post.title} loading="eager" style={{ width: '100%', borderRadius: 16, margin: '8px 0 32px', display: 'block' }} />
             )}
             {showToc && (
               <nav aria-label="Table of contents" style={{ background: '#F7F9FC', border: '1px solid rgba(0,29,61,0.08)', borderRadius: 12, padding: '18px 22px', margin: '0 0 32px' }}>
@@ -314,6 +328,31 @@ export function BlogPostPage() {
                 <div style={{ fontSize: 13, color: 'rgba(0,29,61,0.6)', lineHeight: 1.5 }}>Comprehensive family, cosmetic, orthodontic, and specialty dental care across Las Vegas.</div>
               </div>
             </div>
+
+            {/* On-page FAQ (from manually-entered FAQ items) */}
+            {manualFaqs.length > 0 && (
+              <div style={{ marginTop: 44 }}>
+                <h2 style={{ fontSize: 26, fontWeight: 800, color: NAVY, letterSpacing: '-0.5px', margin: '0 0 16px' }}>Frequently asked questions</h2>
+                <div style={{ border: '1px solid rgba(0,29,61,0.1)', borderRadius: 16, overflow: 'hidden' }}>
+                  {manualFaqs.map((f, i) => (
+                    <details key={i} style={{ borderTop: i === 0 ? 'none' : '1px solid rgba(0,29,61,0.08)' }}>
+                      <summary style={{ cursor: 'pointer', listStyle: 'none', padding: '18px 22px', fontSize: 16, fontWeight: 800, color: NAVY }}>{f.question}</summary>
+                      <div style={{ padding: '0 22px 18px', fontSize: 15, lineHeight: 1.7, color: 'rgba(0,29,61,0.75)' }}>{f.answer}</div>
+                    </details>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Tags */}
+            {post.tags && post.tags.length > 0 && (
+              <div style={{ marginTop: 36, display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
+                <span style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1, color: 'rgba(0,29,61,0.45)', marginRight: 4 }}>Tags</span>
+                {post.tags.map((t) => (
+                  <span key={t} style={{ fontSize: 12, fontWeight: 600, color: NAVY, background: '#F7F9FC', border: '1px solid rgba(0,29,61,0.1)', borderRadius: 999, padding: '5px 12px' }}>{t}</span>
+                ))}
+              </div>
+            )}
           </div>
         </article>
       )}

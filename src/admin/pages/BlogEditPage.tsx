@@ -1,12 +1,26 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { ArrowLeft, Save, Upload, Loader2 } from 'lucide-react';
 import { supabase, uploadMedia } from '../../lib/supabase';
-import RichTextEditor from '../components/RichTextEditor';
 
 const ORANGE = '#F3672A';
 const DARK_NAVY = '#001D3D';
+const SITE = 'https://bocadentalandbraces.com';
+const MAX_IMG_BYTES = 5 * 1024 * 1024;
+
+const CATEGORIES = [
+  'Dental Tips',
+  'Kids Dentistry',
+  'Orthodontics',
+  'Cosmetic Dentistry',
+  'Oral Health',
+  'Preventive Care',
+  'Dental Implants',
+  'Emergency Dentistry',
+  'Practice News',
+];
+
+type FaqItem = { question: string; answer: string };
 
 function slugify(s: string) {
   return s.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
@@ -19,8 +33,6 @@ function toLocalInput(iso: string): string {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
-const CATEGORY_SUGGESTIONS = ['Dental Tips', 'Kids Dentistry', 'Orthodontics', 'Cosmetic Dentistry', 'Oral Health', 'Practice News'];
-
 export default function BlogEditPage({ isNew = false }: { isNew?: boolean }) {
   const navigate = useNavigate();
   const qc = useQueryClient();
@@ -32,18 +44,30 @@ export default function BlogEditPage({ isNew = false }: { isNew?: boolean }) {
   const [slugTouched, setSlugTouched] = useState(false);
   const [excerpt, setExcerpt] = useState('');
   const [author, setAuthor] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState(CATEGORIES[0]);
   const [metaTitle, setMetaTitle] = useState('');
   const [metaDescription, setMetaDescription] = useState('');
   const [publishAt, setPublishAt] = useState(''); // datetime-local value
   const [cover, setCover] = useState('');
+  const [imageAlt, setImageAlt] = useState('');
+  const [imgDims, setImgDims] = useState<{ w: number; h: number } | null>(null);
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState('');
+  const [faqItems, setFaqItems] = useState<FaqItem[]>([]);
   const [content, setContent] = useState('');
   const [status, setStatus] = useState<'draft' | 'published'>('draft');
+  const [noindex, setNoindex] = useState(false);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
+  const [showHtml, setShowHtml] = useState(false);
   const [error, setError] = useState('');
 
-  const { data: existing } = useQuery({
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const editorInitedRef = useRef(false);
+
+  const { data: existing, isLoading } = useQuery({
     queryKey: ['admin', 'blog_post', editingId],
     queryFn: async () => {
       const { data, error } = await supabase.from('blog_posts').select('*').eq('id', editingId).maybeSingle();
@@ -60,41 +84,82 @@ export default function BlogEditPage({ isNew = false }: { isNew?: boolean }) {
       setSlugTouched(true);
       setExcerpt(existing.excerpt ?? '');
       setAuthor(existing.author ?? '');
-      setCategory(existing.category ?? '');
+      setCategory(existing.category ?? CATEGORIES[0]);
       setMetaTitle(existing.meta_title ?? '');
       setMetaDescription(existing.meta_description ?? '');
       setPublishAt(existing.published_at ? toLocalInput(existing.published_at) : '');
       setCover(existing.cover_image_url ?? '');
+      setImageAlt(existing.image_alt ?? '');
+      setTags(Array.isArray(existing.tags) ? existing.tags : []);
+      setFaqItems(Array.isArray(existing.faq_items) ? (existing.faq_items as FaqItem[]) : []);
       setContent(existing.content ?? '');
       setStatus((existing.status as 'draft' | 'published') ?? 'draft');
+      setNoindex(!!existing.noindex);
     }
   }, [existing]);
 
   const effectiveSlug = slugTouched ? slug : slugify(title);
 
-  async function onCover(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    e.target.value = '';
+  // Seed the contentEditable area once content is available; re-seed when
+  // flipping back from HTML view. (Avoids clobbering keystrokes.)
+  useEffect(() => {
+    if (showHtml || editorInitedRef.current || !bodyRef.current) return;
+    bodyRef.current.innerHTML = content || '';
+    editorInitedRef.current = true;
+  }, [content, showHtml, isLoading]);
+
+  function exec(command: string, value?: string) {
+    bodyRef.current?.focus();
+    document.execCommand(command, false, value);
+    if (bodyRef.current) setContent(bodyRef.current.innerHTML);
+  }
+  function formatBlock(tag: string) { exec('formatBlock', tag); }
+  function insertLink() { const url = prompt('Link URL:'); if (url) exec('createLink', url); }
+  function toggleHtml() { setShowHtml((v) => { const next = !v; if (!next) editorInitedRef.current = false; return next; }); }
+
+  async function handleFile(file: File) {
     if (!file) return;
+    if (file.size > MAX_IMG_BYTES) { setError('Image too large — max 5MB.'); return; }
+    if (!/^image\/(webp|jpeg|jpg|png)$/.test(file.type)) { setError('Use WebP, JPG, or PNG.'); return; }
+    setError('');
     setUploading(true);
-    try { setCover(await uploadMedia(file, 'blog')); } catch { setError('Image upload failed.'); } finally { setUploading(false); }
+    try {
+      const url = await uploadMedia(file, 'blog');
+      setCover(url);
+      const img = new Image();
+      img.onload = () => setImgDims({ w: img.naturalWidth, h: img.naturalHeight });
+      img.src = url;
+    } catch {
+      setError('Image upload failed.');
+    } finally {
+      setUploading(false);
+    }
   }
 
-  async function save() {
+  function addTag() {
+    const t = tagInput.trim().replace(/,$/, '');
+    if (t && !tags.includes(t)) setTags([...tags, t]);
+    setTagInput('');
+  }
+
+  async function save(nextStatus?: 'draft' | 'published') {
     setError('');
+    const useStatus = nextStatus ?? status;
     if (!title.trim()) { setError('Add a title.'); return; }
     if (!effectiveSlug) { setError('Add a slug.'); return; }
     setSaving(true);
+    setStatus(useStatus);
     // Publish/schedule timing: an explicit date wins; otherwise publishing now
     // stamps now; a future date schedules it (RLS keeps it hidden until then).
     let publishedAtValue: string | null = existing?.published_at ?? null;
     if (publishAt) publishedAtValue = new Date(publishAt).toISOString();
-    else if (status === 'published' && !publishedAtValue) publishedAtValue = new Date().toISOString();
+    else if (useStatus === 'published' && !publishedAtValue) publishedAtValue = new Date().toISOString();
     const row: Record<string, unknown> = {
       title: title.trim(), slug: effectiveSlug, excerpt: excerpt || null, author: author || null,
       category: category || null, meta_title: metaTitle || null, meta_description: metaDescription || null,
-      cover_image_url: cover || null, content, status, published_at: publishedAtValue,
-      updated_at: new Date().toISOString(),
+      cover_image_url: cover || null, image_alt: imageAlt || null, tags, faq_items: faqItems,
+      noindex, canonical_url: `${SITE}/blog/${effectiveSlug}/`,
+      content, status: useStatus, published_at: publishedAtValue, updated_at: new Date().toISOString(),
     };
     try {
       if (editingId) {
@@ -113,102 +178,232 @@ export default function BlogEditPage({ isNew = false }: { isNew?: boolean }) {
     }
   }
 
+  async function deletePost() {
+    if (!editingId) return;
+    if (!confirm(`Delete "${title}"? This can't be undone.`)) return;
+    const { error } = await supabase.from('blog_posts').delete().eq('id', editingId);
+    if (error) { setError(error.message); return; }
+    qc.invalidateQueries({ queryKey: ['admin', 'blog_posts'] });
+    navigate('/dental-admin/blog');
+  }
+
+  const scheduled = status === 'published' && publishAt && new Date(publishAt) > new Date();
+  const metaTitleLen = (metaTitle || title).length;
+  const metaDescLen = (metaDescription || excerpt).length;
+  const metaTitleOver = metaTitleLen > 60;
+  const metaDescBad = metaDescLen > 0 && (metaDescLen < 140 || metaDescLen > 165);
+
   return (
-    <div className="p-8 max-w-3xl mx-auto">
-      <button onClick={() => navigate('/dental-admin/blog')} className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-800 mb-5">
-        <ArrowLeft className="h-4 w-4" /> Back to blog
-      </button>
-      <h1 className="text-3xl font-extrabold tracking-tight mb-6" style={{ color: DARK_NAVY }}>{editingId ? 'Edit post' : 'New post'}</h1>
+    <div className="p-8 max-w-7xl mx-auto">
+      <div className="flex items-center gap-3 mb-6 flex-wrap">
+        <Link to="/dental-admin/blog" className="text-sm font-semibold text-slate-500 hover:text-slate-800">← Back to posts</Link>
+        <span className="text-slate-300">/</span>
+        <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight" style={{ color: DARK_NAVY }}>{editingId ? 'Edit Post' : 'New Post'}</h1>
+      </div>
 
       {error && <div className="mb-4 px-4 py-3 rounded-lg bg-red-50 text-red-700 text-sm">{error}</div>}
 
-      <div className="space-y-5">
-        <Field label="Title">
-          <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="5 tips for a healthier smile"
-            className="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-orange-500" />
-        </Field>
-
-        <Field label="URL slug" hint={`/blog/${effectiveSlug || '…'}`}>
-          <input value={effectiveSlug} onChange={(e) => { setSlugTouched(true); setSlug(slugify(e.target.value)); }}
-            className="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-sm font-mono focus:outline-none focus:border-orange-500" />
-        </Field>
-
-        <Field label="Excerpt" hint="Short summary shown on the blog index card.">
-          <textarea value={excerpt} onChange={(e) => setExcerpt(e.target.value)} rows={2}
-            className="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-orange-500" />
-        </Field>
-
-        <Field label="Author (optional)">
-          <input value={author} onChange={(e) => setAuthor(e.target.value)} placeholder="Boca Dental and Braces"
-            className="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-orange-500" />
-        </Field>
-
-        <Field label="Category" hint="Groups posts on the blog (e.g. Dental Tips, Kids Dentistry).">
-          <input value={category} onChange={(e) => setCategory(e.target.value)} list="blog-categories" placeholder="Dental Tips"
-            className="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-orange-500" />
-          <datalist id="blog-categories">{CATEGORY_SUGGESTIONS.map((c) => <option key={c} value={c} />)}</datalist>
-        </Field>
-
-        <Field label="Cover image">
-          <div className="flex items-center gap-4">
-            {cover ? <img src={cover} alt="" className="h-16 w-28 object-cover rounded-lg border border-slate-200" /> : <div className="h-16 w-28 rounded-lg bg-slate-100 border border-dashed border-slate-300" />}
-            <label className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 text-sm cursor-pointer hover:bg-slate-50">
-              {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />} {cover ? 'Replace' : 'Upload'}
-              <input type="file" accept="image/*" hidden onChange={onCover} />
-            </label>
-            {cover && <button onClick={() => setCover('')} className="text-xs text-slate-400 hover:text-red-600">Remove</button>}
-          </div>
-        </Field>
-
-        <Field label="Content">
-          <RichTextEditor value={content} onChange={setContent} placeholder="Write your post…" />
-        </Field>
-
-        <Field label="SEO title" hint={`${(metaTitle || title).length} chars · aim for 50–60. Falls back to the post title.`}>
-          <input value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} placeholder={title || 'Search-engine title'}
-            className="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-orange-500" />
-        </Field>
-
-        <Field label="SEO description" hint={`${(metaDescription || excerpt).length} chars · aim for 150–160. Falls back to the excerpt.`}>
-          <textarea value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} rows={2} placeholder={excerpt || 'Search-engine description'}
-            className="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-orange-500" />
-        </Field>
-
-        <div className="flex flex-wrap gap-6">
-          <Field label="Status">
-            <select value={status} onChange={(e) => setStatus(e.target.value as 'draft' | 'published')}
-              className="px-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-orange-500">
-              <option value="draft">Draft (not on the site)</option>
-              <option value="published">Published</option>
-            </select>
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start">
+        {/* LEFT — content */}
+        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
+          <Field label="Post title (reader-facing, can be punchy)">
+            <input className="bi" value={title} maxLength={200}
+              onChange={(e) => { setTitle(e.target.value); if (!slugTouched) setSlug(slugify(e.target.value)); }} />
           </Field>
-          <Field label="Publish date & time" hint="Leave blank to publish now. Set a future time to schedule — it goes live automatically.">
-            <input type="datetime-local" value={publishAt} onChange={(e) => setPublishAt(e.target.value)}
-              className="px-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-orange-500" />
+
+          <Field label="SEO title (≤60 chars — Google result)" counter={<span className={metaTitleOver ? 'text-red-600 font-semibold' : 'text-slate-400'}>{metaTitleLen}/60</span>}>
+            <input className="bi" value={metaTitle} maxLength={120} placeholder={title || 'Search-engine title'} onChange={(e) => setMetaTitle(e.target.value)} />
+          </Field>
+
+          <Field label="URL slug">
+            <input className="bi font-mono" value={effectiveSlug} maxLength={80}
+              onChange={(e) => { setSlugTouched(true); setSlug(e.target.value.toLowerCase()); }}
+              onBlur={() => setSlug(slugify(effectiveSlug))} />
+            <p className="text-xs text-slate-400 mt-1.5">Preview: bocadentalandbraces.com/blog/<span className="text-slate-700">{effectiveSlug || 'your-slug'}</span></p>
+          </Field>
+
+          <Field label="SEO / excerpt description (150–160 chars)" counter={<span className={metaDescBad ? 'text-red-600 font-semibold' : 'text-slate-400'}>{metaDescLen} chars</span>}>
+            <textarea className="bi min-h-[70px]" value={metaDescription || excerpt} maxLength={300}
+              onChange={(e) => { setMetaDescription(e.target.value); setExcerpt(e.target.value); }} />
+            <p className="text-xs text-slate-400 mt-1">Used as the search snippet and the blog-card summary.</p>
+          </Field>
+
+          <Field label="Featured image">
+            <div
+              onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+              onDragLeave={() => setDragOver(false)}
+              onDrop={(e) => { e.preventDefault(); setDragOver(false); const f = e.dataTransfer.files?.[0]; if (f) handleFile(f); }}
+              onClick={() => fileRef.current?.click()}
+              className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${dragOver ? 'border-orange-500 bg-orange-50' : 'border-slate-300 hover:border-orange-400'}`}
+            >
+              {cover ? (
+                <div className="space-y-3">
+                  <img src={cover} alt="Featured" className="max-h-56 mx-auto rounded border border-slate-200"
+                    onLoad={(e) => setImgDims({ w: e.currentTarget.naturalWidth, h: e.currentTarget.naturalHeight })} />
+                  <p className="text-xs text-slate-400">{imgDims ? `${imgDims.w}×${imgDims.h}` : 'Loaded'} · target 1200×630</p>
+                  <button type="button" onClick={(e) => { e.stopPropagation(); fileRef.current?.click(); }} className="text-sm font-semibold" style={{ color: ORANGE }}>Replace image</button>
+                </div>
+              ) : (
+                <div className="text-sm text-slate-500">
+                  {uploading ? 'Uploading…' : (<><p className="font-semibold mb-1" style={{ color: DARK_NAVY }}>Drop image here or click to browse</p><p>WebP, JPG, PNG · Max 5MB · 1200×630 recommended</p></>)}
+                </div>
+              )}
+              <input ref={fileRef} type="file" accept="image/webp,image/jpeg,image/png" className="hidden"
+                onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); e.target.value = ''; }} />
+            </div>
+          </Field>
+
+          <Field label="Image alt text (descriptive + keyword)">
+            <input className="bi" value={imageAlt} maxLength={200} onChange={(e) => setImageAlt(e.target.value)} />
+          </Field>
+
+          <Field label="Post body">
+            <div className="border border-slate-200 rounded-lg overflow-hidden">
+              <div className="flex flex-wrap gap-1 p-2 bg-slate-50 border-b border-slate-200">
+                <Tb onClick={() => exec('bold')} title="Bold"><b>B</b></Tb>
+                <Tb onClick={() => exec('italic')} title="Italic"><i>I</i></Tb>
+                <Tb onClick={() => formatBlock('p')} title="Paragraph">P</Tb>
+                <Tb onClick={() => formatBlock('h2')} title="Heading 2">H2</Tb>
+                <Tb onClick={() => formatBlock('h3')} title="Heading 3">H3</Tb>
+                <Tb onClick={() => exec('insertUnorderedList')} title="Bullet list">• List</Tb>
+                <Tb onClick={() => exec('insertOrderedList')} title="Numbered list">1. List</Tb>
+                <Tb onClick={insertLink} title="Link">🔗 Link</Tb>
+                <Tb onClick={() => exec('unlink')} title="Unlink">⌀ Unlink</Tb>
+                <Tb onClick={() => formatBlock('blockquote')} title="Quote">❝ Quote</Tb>
+                <Tb onClick={() => exec('removeFormat')} title="Clear formatting">⌫ Clear</Tb>
+                <div className="ml-auto" />
+                <Tb onClick={toggleHtml} title="Toggle HTML source">{showHtml ? '◧ Visual' : '</> HTML'}</Tb>
+              </div>
+              {showHtml ? (
+                <textarea className="w-full min-h-[420px] p-4 font-mono text-xs outline-none" style={{ color: DARK_NAVY }}
+                  value={content} onChange={(e) => setContent(e.target.value)} />
+              ) : (
+                <div ref={bodyRef} contentEditable suppressContentEditableWarning
+                  onInput={(e) => setContent((e.currentTarget as HTMLDivElement).innerHTML)}
+                  onBlur={(e) => setContent((e.currentTarget as HTMLDivElement).innerHTML)}
+                  className="w-full min-h-[420px] p-4 text-sm outline-none prose max-w-none"
+                  style={{ color: DARK_NAVY }} />
+              )}
+            </div>
+          </Field>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Field label="Category">
+              <select className="bi" value={category} onChange={(e) => setCategory(e.target.value)}>
+                {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+              </select>
+            </Field>
+            <Field label="Author (optional)">
+              <input className="bi" value={author} placeholder="Boca Dental and Braces" onChange={(e) => setAuthor(e.target.value)} />
+            </Field>
+          </div>
+
+          <Field label="Tags">
+            <div className="flex flex-wrap gap-2 p-2 border border-slate-200 rounded-lg min-h-[44px] bg-white">
+              {tags.map((t) => (
+                <span key={t} className="inline-flex items-center gap-1 bg-slate-100 text-slate-700 text-xs font-semibold px-2 py-1 rounded">
+                  {t}
+                  <button type="button" onClick={() => setTags(tags.filter((x) => x !== t))} className="text-slate-400 hover:text-red-600" aria-label={`Remove ${t}`}>×</button>
+                </span>
+              ))}
+              <input className="flex-1 min-w-[140px] outline-none text-sm" value={tagInput} placeholder="Type and press Enter…"
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); addTag(); }
+                  else if (e.key === 'Backspace' && !tagInput && tags.length) setTags(tags.slice(0, -1));
+                }}
+                onBlur={addTag} />
+            </div>
+          </Field>
+
+          <Field label="FAQ items (optional — adds FAQPage schema + an on-page FAQ)">
+            <div className="space-y-3">
+              {faqItems.map((item, idx) => (
+                <div key={idx} className="bg-slate-50 border border-slate-200 rounded-lg p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">FAQ #{idx + 1}</span>
+                    <button type="button" onClick={() => setFaqItems(faqItems.filter((_, i) => i !== idx))} className="text-xs text-red-600 hover:underline">Remove</button>
+                  </div>
+                  <input className="bi" placeholder="Question" value={item.question}
+                    onChange={(e) => { const next = [...faqItems]; next[idx] = { ...next[idx], question: e.target.value }; setFaqItems(next); }} />
+                  <textarea className="bi min-h-[70px]" placeholder="Answer" value={item.answer}
+                    onChange={(e) => { const next = [...faqItems]; next[idx] = { ...next[idx], answer: e.target.value }; setFaqItems(next); }} />
+                </div>
+              ))}
+              <button type="button" onClick={() => setFaqItems([...faqItems, { question: '', answer: '' }])} className="text-sm font-semibold" style={{ color: ORANGE }}>+ Add FAQ</button>
+            </div>
           </Field>
         </div>
-        {status === 'published' && publishAt && new Date(publishAt) > new Date() && (
-          <div className="px-4 py-2.5 rounded-lg bg-blue-50 text-blue-700 text-sm">
-            📅 Scheduled — this post will appear automatically on {new Date(publishAt).toLocaleString()}.
-          </div>
-        )}
 
-        <div className="pt-2">
-          <button onClick={save} disabled={saving} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm text-white disabled:opacity-50" style={{ background: ORANGE }}>
-            {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Save post
-          </button>
-        </div>
+        {/* RIGHT — publish panel */}
+        <aside className="lg:sticky lg:top-6 bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
+          <h3 className="font-bold" style={{ color: DARK_NAVY }}>Publish</h3>
+
+          <div>
+            <span className="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Status</span>
+            <div className="flex rounded-lg border border-slate-200 overflow-hidden">
+              <button type="button" onClick={() => setStatus('draft')} className={`flex-1 py-2 text-sm font-semibold transition-colors ${status === 'draft' ? 'bg-slate-200 text-slate-800' : 'bg-white text-slate-400'}`}>Draft</button>
+              <button type="button" onClick={() => setStatus('published')} className={`flex-1 py-2 text-sm font-semibold transition-colors ${status === 'published' ? 'bg-green-100 text-green-700' : 'bg-white text-slate-400'}`}>Published</button>
+            </div>
+          </div>
+
+          <Field label="Publish date & time">
+            <input type="datetime-local" className="bi" value={publishAt} onChange={(e) => setPublishAt(e.target.value)} />
+            <p className="text-xs text-slate-400 mt-1">Leave blank to publish now. A future time schedules it — it goes live automatically.</p>
+          </Field>
+
+          {scheduled && (
+            <div className="px-3 py-2 rounded-lg bg-blue-50 text-blue-700 text-xs">📅 Scheduled for {new Date(publishAt).toLocaleString()}.</div>
+          )}
+
+          <label className="flex items-start gap-2 text-sm cursor-pointer">
+            <input type="checkbox" checked={noindex} onChange={(e) => setNoindex(e.target.checked)} className="mt-0.5" />
+            <span style={{ color: DARK_NAVY }}>Hide from search engines (noindex)</span>
+          </label>
+
+          <div>
+            <span className="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Canonical URL</span>
+            <p className="text-xs break-all bg-slate-50 px-2.5 py-2 rounded border border-slate-200" style={{ color: DARK_NAVY }}>{SITE}/blog/{effectiveSlug || 'your-slug'}/</p>
+          </div>
+
+          <div className="space-y-2 pt-2 border-t border-slate-200">
+            <button type="button" disabled={saving} onClick={() => save('published')} className="w-full font-semibold text-white py-2.5 rounded-md transition-colors disabled:opacity-60" style={{ background: ORANGE }}>{saving ? 'Saving…' : 'Publish'}</button>
+            <button type="button" disabled={saving} onClick={() => save('draft')} className="w-full font-semibold border border-slate-200 py-2.5 rounded-md hover:bg-slate-50 transition-colors disabled:opacity-60" style={{ color: DARK_NAVY }}>Save Draft</button>
+            {editingId && (
+              <button type="button" onClick={deletePost} className="w-full font-semibold border border-red-200 text-red-700 py-2.5 rounded-md hover:bg-red-50 transition-colors">Delete Post</button>
+            )}
+          </div>
+        </aside>
       </div>
+
+      <style>{`
+        .bi { width:100%; border:1px solid #e2e8f0; border-radius:8px; padding:10px 12px; font-size:14px; background:white; color:#0f172a; font-family:inherit; }
+        .bi:focus { outline:none; border-color:${ORANGE}; box-shadow:0 0 0 3px rgba(243,103,42,0.15); }
+      `}</style>
     </div>
   );
 }
 
-function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
+function Field({ label, counter, children }: { label: string; counter?: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div>
-      <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">{label}</label>
+    <label className="block">
+      <div className="flex items-end justify-between mb-1.5 gap-2">
+        <span className="block text-[11px] font-semibold uppercase tracking-wider text-slate-400">{label}</span>
+        {counter && <span className="text-[11px]">{counter}</span>}
+      </div>
       {children}
-      {hint && <div className="text-xs text-slate-400 mt-1 font-mono">{hint}</div>}
-    </div>
+    </label>
+  );
+}
+
+function Tb({ onClick, title, children }: { onClick: () => void; title: string; children: React.ReactNode }) {
+  return (
+    <button type="button" onClick={onClick} title={title}
+      className="px-2.5 py-1 text-xs font-semibold bg-white border border-slate-200 rounded hover:text-white transition-colors"
+      style={{ color: DARK_NAVY }}
+      onMouseEnter={(e) => { e.currentTarget.style.background = DARK_NAVY; e.currentTarget.style.color = 'white'; }}
+      onMouseLeave={(e) => { e.currentTarget.style.background = 'white'; e.currentTarget.style.color = DARK_NAVY; }}>
+      {children}
+    </button>
   );
 }
