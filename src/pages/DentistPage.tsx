@@ -246,7 +246,7 @@ export function DentistPage() {
                   .dent-about-flow p { font-size: 17px; line-height: 1.8; color: rgba(0,29,61,0.78); margin: 0 0 18px; }
                   .dent-about-flow p:last-of-type { margin-bottom: 0; }
                   .dent-about-flow p:first-of-type::first-letter { float: left; font-size: 56px; line-height: 0.8; font-weight: 800; color: ${ORANGE}; margin: 7px 12px 0 0; }
-                  .dent-about-photo { float: right; width: 40%; max-width: 360px; margin: 10px 8px 34px 56px; }
+                  .dent-about-photo { float: right; width: 38%; max-width: 340px; margin: 10px 0 34px 72px; }
                   @media (max-width: 720px){
                     .dent-about-photo { float: none; width: 100%; max-width: 460px; margin: 0 auto 26px; }
                     .dent-about-flow p:first-of-type::first-letter { font-size: 46px; }
