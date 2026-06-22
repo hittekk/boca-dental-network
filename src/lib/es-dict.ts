@@ -841,4 +841,43 @@ export const ES: Record<string, string> = {
   "Days a Week": "Días a la Semana",
   "Click a pin": "Haz clic en un punto",
   "9 Clinics Across Las Vegas": "9 Clínicas en Las Vegas",
+
+  // Services hub — hero stat cards (missing translations)
+  "One Practice.": "Una Sola Práctica.",
+  "9 Locations · Every Specialist In-House · No Referrals": "9 Clínicas · Cada Especialista en Casa · Sin Referencias",
+  "General, cosmetic, orthodontics, implants, oral surgery, pediatric care and more — every specialist on staff at all 9 Las Vegas locations.": "Odontología general, estética, ortodoncia, implantes, cirugía oral, atención pediátrica y más — cada especialista en el equipo en las 9 clínicas de Las Vegas.",
+  "Treatments": "Tratamientos",
+  "Specialties": "Especialidades",
+  "Locations": "Clínicas",
+  "Referrals": "Referencias",
+  "Needed": "Requeridas",
+  "Most Requested": "Más Solicitados",
+  "The treatments our patients ask for most — all done in-house by Boca specialists.": "Los tratamientos que nuestros pacientes solicitan más — todos realizados en casa por especialistas de Boca.",
+  "Every specialist on staff. Select a category to explore all available treatments.": "Cada especialista en el equipo. Selecciona una categoría para explorar todos los tratamientos disponibles.",
+  "All Services": "Todos los Servicios",
+  "Complete Care Under One Roof.": "Atención Completa Bajo un Mismo Techo.",
+
+  // Services hub — Boca Difference section (missing translations)
+  "The Boca Difference": "La Diferencia Boca",
+  "Zero Outside": "Cero Referencias",
+  "Referrals.": "Externas.",
+  " Ever.": " Jamás.",
+  "Most practices send you out for surgery, implants, or ortho. Every Boca specialist is on staff. Your full treatment stays in one place.": "La mayoría de las clínicas te mandan a otra parte para cirugía, implantes u ortodoncia. Cada especialista de Boca está en el equipo. Tu tratamiento completo se queda en un solo lugar.",
+  "No Referral Delays": "Sin Demoras por Referidos",
+  "One Patient Record": "Un Solo Expediente",
+  "Medicaid & Most PPOs": "Medicaid y Mayoría de PPOs",
+  "9 Locations, One Standard": "9 Clínicas, Un Estándar",
+  "Nevada Medicaid, CHIP, and most major PPO plans accepted at all 9 locations.": "Nevada Medicaid, CHIP y la mayoría de los planes PPO principales aceptados en las 9 clínicas.",
+  "Same clinical protocols at every clinic. Go to whichever is closest.": "Los mismos protocolos clínicos en cada clínica. Ve a la que esté más cerca.",
+
+  // Reviews page hero (missing translations)
+  "Verified Google Reviews": "Reseñas Verificadas de Google",
+  "What Las Vegas patients": "Lo que los Pacientes de Las Vegas",
+  "say about Boca.": "dicen sobre Boca.",
+  "Real reviews from real patients. We never pay for reviews — every star is earned at one of our 9 Las Vegas clinics.": "Reseñas reales de pacientes reales. Nunca pagamos por reseñas — cada estrella se gana en una de nuestras 9 clínicas en Las Vegas.",
+  "Average rating": "Calificación promedio",
+  "Google reviews": "Reseñas de Google",
+  "LV locations": "Clínicas en LV",
+  "Based on 1,534+ verified reviews": "Basado en más de 1,534 reseñas verificadas",
+  "Boca Dental & Braces · Las Vegas": "Boca Dental and Braces · Las Vegas",
 }
