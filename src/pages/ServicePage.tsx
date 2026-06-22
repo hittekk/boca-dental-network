@@ -71,6 +71,7 @@ export function ServicePage({ categorySlugProp }: { categorySlugProp?: string } 
     setMetaTag('og:description', desc, 'property')
     setMetaTag('og:url', url, 'property')
     setMetaTag('og:type', 'article', 'property')
+    setMetaTag('og:image', `${DOMAIN}/boca-logo-color.png`, 'property')
     setLink('canonical', url)
     return () => { document.title = prevTitle }
   }, [pageEntry, content, category, service])
