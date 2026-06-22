@@ -68,6 +68,8 @@ export function usePageMeta(opts: {
     setMeta('og:title', opts.title, 'property')
     setMeta('og:description', opts.description, 'property')
     setMeta('og:url', opts.url, 'property')
+    setMeta('og:type', 'website', 'property')
+    setMeta('og:image', 'https://bocadentalandbraces.com/boca-logo-color.png', 'property')
     setMeta('twitter:title', opts.title, 'name')
     setMeta('twitter:description', opts.description, 'name')
     setLink('canonical', opts.url)

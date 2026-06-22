@@ -99,7 +99,8 @@ const lvLocations = INITIAL_DATA.locations.filter(
   (loc) => loc.city === 'Las Vegas',
 )
 const locationsGraph = lvLocations.map((loc) => ({
-  '@type': loc.kids ? 'DentalSpecialty' : 'Dentist',
+  '@type': 'Dentist',
+  ...(loc.kids && { medicalSpecialty: 'Pediatric Dentistry' }),
   '@id': `${DOMAIN}/clinics/${loc.slug}/#localbusiness`,
   name: `Boca Dental & Braces — ${loc.label}`,
   url: `${DOMAIN}/clinics/${loc.slug}/`,

@@ -75,6 +75,10 @@ export function ServiceCategoryPage({ categorySlugProp }: { categorySlugProp?: s
     if (!cat) return
     document.title = `${cat.label} in Las Vegas | Boca Dental & Braces`
     setMeta('description', cat.longDesc ?? cat.desc ?? '', 'name')
+    setMeta('og:title', `${cat.label} in Las Vegas | Boca Dental & Braces`, 'property')
+    setMeta('og:description', cat.longDesc ?? cat.desc ?? '', 'property')
+    setMeta('og:type', 'website', 'property')
+    setMeta('og:image', `${DOMAIN}/boca-logo-color.png`, 'property')
     setLink('canonical', `${DOMAIN}/${cat.slug}/`)
   }, [cat])
 

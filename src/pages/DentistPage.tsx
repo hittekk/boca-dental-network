@@ -79,6 +79,10 @@ export function DentistPage() {
       `${content.shortBio} Meet ${namePart} at Boca Dental & Braces in Las Vegas.`,
       'name',
     )
+    setMeta('og:title', `${namePart} | ${content.medicalSpecialty ?? 'Dentist'} at Boca Dental & Braces Las Vegas`, 'property')
+    setMeta('og:description', `${content.shortBio} Meet ${namePart} at Boca Dental & Braces in Las Vegas.`, 'property')
+    setMeta('og:type', 'profile', 'property')
+    setMeta('og:image', content.photo ?? `${DOMAIN}/boca-logo-color.png`, 'property')
     setLink('canonical', `${DOMAIN}/about-us/dentists/${content.slug}/`)
   }, [content])
 
