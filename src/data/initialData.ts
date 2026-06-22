@@ -45,6 +45,7 @@ export const INITIAL_DATA: InitialData = {
       narrative:
         `This South Eastern Avenue practice sits in the heart of Paradise, the bustling community that wraps around the southern end of the Las Vegas Strip. The 89119 ZIP is one of the valley's busiest crossroads, just minutes from Harry Reid International Airport and the sprawling green expanse of Sunset Park, where ponds, walking paths, and shaded picnic areas draw residents from across the southeast valley. Eastern Avenue here is a major north-south artery lined with established neighborhoods, apartment communities, and the kind of everyday retail that keeps daily errands close to home. Many patients work in the nearby resort and hospitality corridor or live in the surrounding Paradise and Winchester neighborhoods, and the office's location makes it an easy stop on the commute. With fast access to the 215 Beltway, area business parks, and the Strip itself, the practice serves a broad cross-section of working families and professionals who appreciate convenient, centrally located care in one of Las Vegas's most connected districts.`,
       gbp_id:       '12480285319749977301',
+      place_id:     'ChIJaVct0mnFyIARdvyPBD0woKs',
       heroImage:    '/locations/russell-eastern/01.webp',
       gallery: [
         '/locations/russell-eastern/01.webp',
@@ -90,6 +91,7 @@ export const INITIAL_DATA: InitialData = {
       narrative:
         `Right in the Paradise community along South Eastern Avenue, this kids' practice is built for the young families that fill the surrounding 89119 neighborhoods. One of the area's biggest draws sits just down the road: Sunset Park, where playgrounds, duck ponds, open fields, and shaded picnic areas make it a weekend favorite for parents and children across the southeast valley. The blocks around the office mix established family neighborhoods with local schools, everyday shopping, and the kind of close-to-home conveniences busy parents count on. With Harry Reid International Airport and the 215 Beltway nearby, the location is easy to reach whether families are coming from Paradise, Winchester, or the communities along the southern Strip corridor. The neighborhood's diverse, family-centered character makes it a natural home for a practice focused on kids, from first checkups to braces. For local parents looking for a welcoming, convenient place to care for their children's smiles, this South Eastern Boca Kids location keeps pediatric and orthodontic care close to the parks, schools, and homes families already know.`,
       gbp_id:       '713698969307195759',
+      place_id:     'ChIJ-bMRw37FyIARUkTRR70_N1I',
       heroImage:    '/locations/boca-kids-dentistry/01.webp',
       gallery: [
         '/locations/boca-kids-dentistry/01.webp',
@@ -135,6 +137,7 @@ export const INITIAL_DATA: InitialData = {
       narrative:
         `Tucked just east of downtown Las Vegas, this office anchors one of the city's oldest and most storied corridors. Eastern Avenue in the 89101 ZIP threads through a dense, walkable patchwork of longtime residential blocks, family-run businesses, and the cultural energy radiating from the nearby Fremont Street Experience and East Fremont entertainment district. Patients here are minutes from the Las Vegas Medical District and the galleries and restaurants of the Arts District, making the practice a natural fit for the families who live, work, and study downtown. The surrounding neighborhood is proudly diverse and multigenerational, with bilingual households and independent shops lining the Charleston and Eastern corridors. Quick connections to US-95 and Interstate 515 bring in patients from Winchester, the historic John S. Park district, and the broader downtown core without a long drive. For residents who value being close to the heart of the city, this Eastern Avenue location offers approachable, neighborhood-rooted dental care right where everyday life already happens.`,
       gbp_id:       '3771727813625151561',
+      place_id:     'ChIJkef_gkHDyIARCNVYfbgLbR0',
       heroImage:    '/locations/bonanza-eastern/01.webp',
       gallery: [
         '/locations/bonanza-eastern/01.webp',
@@ -174,6 +177,7 @@ export const INITIAL_DATA: InitialData = {
       narrative:
         `Set along the busy West Sahara corridor just west of Interstate 15, this location places patients within easy reach of some of central Las Vegas's most distinctive neighborhoods. The 89102 ZIP borders the historic Scotch 80s, a leafy enclave of mid-century estates, and sits a short drive from the vibrant restaurants and markets of the Las Vegas Chinatown district along Spring Mountain Road. Families here are close to the Meadows Mall, the Springs Preserve's trails and gardens, and the resort corridor that anchors the regional economy. Sahara Avenue itself is a dependable east-west route that links the office to surrounding residential pockets, making appointments simple whether patients are coming from Strip-area workplaces or the established homes north and south of the corridor. The neighborhood blends longtime residents with newcomers drawn to its central position and walkable amenities. For a community that values being minutes from everything, this West Sahara practice offers accessible, full-service dental care without the sprawl of the outer suburbs.`,
       gbp_id:       '4235426973177644326',
+      place_id:     'ChIJua0XAMvByIARJ99Dm6vsyEg',
       heroImage:    '/locations/sahara-decatur/01.webp',
       gallery: [
         '/locations/sahara-decatur/01.webp',
@@ -213,6 +217,7 @@ export const INITIAL_DATA: InitialData = {
       narrative:
         `This Jones Boulevard practice sits in the heart of west-central Las Vegas, serving the established neighborhoods of the 89107 ZIP near the Charleston corridor. This is one of the city's classic mid-century residential areas, where longtime homes, mature trees, and neighborhood schools give the community a settled, lived-in character. Patients are close to the Meadows Mall, the Springs Preserve, and the shopping and dining that line Charleston and Decatur, with quick access to US-95 connecting the area to downtown and the wider valley. Jones Boulevard itself is a steady north-south route that keeps the office within easy reach of the surrounding homes and the Summerlin communities a short drive west. The neighborhood blends multigenerational families with newcomers drawn to its central location and affordability. For west-side residents who would rather find quality dental care in their own part of town than fight traffic across the valley, this Jones Boulevard location offers comprehensive, approachable treatment right where the community already lives and shops.`,
       gbp_id:       '2952933383164748156',
+      place_id:     'ChIJy56P-znByIARfEWcGsSEiho',
       heroImage:    '/locations/jones-i95/01.webp',
       gallery: [
         '/locations/jones-i95/01.webp',
@@ -250,6 +255,7 @@ export const INITIAL_DATA: InitialData = {
       narrative:
         `This East Charleston practice serves the Winchester neighborhood and the established east-side communities that define the 89104 ZIP. Charleston Boulevard is one of the valley's original arteries, and the blocks around the office carry the character of older, tree-lined Las Vegas, from the nearby Huntridge Historic Neighborhood to the working family homes that have anchored this part of the city for generations. Patients are close to Sunrise Hospital, the Boulevard Mall, and the local parks and schools that keep daily life within a short radius. The surrounding community is diverse and tight-knit, with bilingual households and longtime small businesses lining Charleston and the cross streets feeding into it. Convenient access to US-95 and Eastern Avenue connects the practice to downtown, the Medical District, and the wider east valley, so reaching an appointment rarely means a long trip. For residents who want familiar, dependable dental care rooted in their own neighborhood rather than across town, this Charleston location keeps quality care close to home.`,
       gbp_id:       '7831904157916677811',
+      place_id:     'ChIJWTQ5eEnbyIAR0xVpH64lRM4',
       heroImage:    '/locations/charleston-lamb/01.webp',
       gallery: [
         '/locations/charleston-lamb/01.webp',
@@ -288,6 +294,7 @@ export const INITIAL_DATA: InitialData = {
       narrative:
         `Located along West Flamingo Road in the thriving Spring Valley community, this office sits at one of the busiest residential crossroads on the west side of the valley. The 89103 ZIP is a dense, energetic mix of established single-family neighborhoods, modern apartment communities, and the everyday shopping that lines the Rainbow and Flamingo corridors. Patients are just north of the area's signature Chinatown dining along Spring Mountain Road and minutes from the 215 Beltway, which links Spring Valley to Summerlin, the Strip, and the southwest valley. Many residents here work in the nearby resort corridor or the growing commercial districts to the west, and the practice's position makes it an easy fit into a busy schedule. The neighborhood is one of the most diverse and fast-growing in the region, home to families from every corner of the world. For Spring Valley households looking for approachable, conveniently located dental care, this West Flamingo location delivers comprehensive treatment in the middle of where the community lives and works.`,
       gbp_id:       '2961798297587834846',
+      place_id:     'ChIJCZNPPHrHyIARtmeHq2dMriA',
       heroImage:    '/locations/flamingo-torrey/01.webp',
       gallery: [
         '/locations/flamingo-torrey/01.webp',
@@ -330,6 +337,7 @@ export const INITIAL_DATA: InitialData = {
       narrative:
         `This North Rainbow Boulevard practice anchors the Northwest Las Vegas neighborhoods that fill the 89108 ZIP, a largely residential stretch where the city eases toward the foothills of Lone Mountain. Rainbow Boulevard here is a key north-south route connecting family subdivisions, neighborhood parks, and the local schools that shape daily life in this part of the valley. Patients are minutes from the eastern edge of the Summerlin master-planned community and have quick access to US-95, which links the area to downtown and the central valley. The surrounding neighborhoods draw families and longtime residents who appreciate the quieter, established feel of the northwest while staying close to shopping along Cheyenne and Lake Mead. With Lone Mountain's trails and the open desert nearby, this is a part of Las Vegas defined by its room to breathe and its neighborly character. For households across the northwest who want dependable, easy-to-reach dental care close to home, this Rainbow Boulevard location keeps comprehensive treatment right in the community.`,
       gbp_id:       '15915592984048706361',
+      place_id:     'ChIJ-1sqoc3ryIARY1W_qLSoMh0',
       heroImage:    '/locations/cheyenne-commons/01.webp',
       gallery: [
         '/locations/cheyenne-commons/01.webp',
@@ -371,6 +379,7 @@ export const INITIAL_DATA: InitialData = {
       narrative:
         `At the far southern end of Eastern Avenue, this office serves the master-planned neighborhoods of Enterprise and the Silverado Ranch community in the 89123 ZIP. This is one of the valley's most family-oriented suburban districts, where newer subdivisions, neighborhood parks, and modern shopping centers line the corridors between Eastern and the 215 Beltway. Patients are minutes from the South Point Hotel and Casino, the St. Rose Parkway shopping districts, and the Henderson and Green Valley communities just to the east. The area has grown rapidly into a sought-after place for families drawn by its newer homes, strong schools, and easy freeway access to both the Strip and the southwest employment centers. Daily life here revolves around the convenient retail and recreation that fill the southern valley, and the practice fits naturally into that rhythm. For the growing households of Enterprise and Silverado Ranch who want comprehensive, conveniently located dental care without driving toward the city center, this South Eastern location keeps quality treatment close to the suburbs they call home.`,
       gbp_id:       '4459160964095275325',
+      place_id:     'ChIJJaBdhjXPyIAR6JNDkBh-XcU',
       heroImage:    '/locations/beltway-marketplace/01.webp',
       gallery: [
         '/locations/beltway-marketplace/01.webp',
