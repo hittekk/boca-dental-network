@@ -3,11 +3,9 @@ import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   ArrowRight,
-  ArrowUpRight,
   Check,
   ChevronDown,
   Phone,
-  Star,
   Eye,
   Sparkles,
   Smile,
@@ -306,10 +304,6 @@ function TrustBar() {
             {t}
           </span>
         ))}
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-          <Star size={13} color={ORANGE} fill={ORANGE} />
-          4.9 · 1,200+ Google Reviews
-        </span>
       </div>
     </section>
   )
@@ -838,114 +832,12 @@ function WhyBocaSection({ page, content }: { page: { label: string }; content?: 
 // 7 · Reviews (service-specific)
 // ─────────────────────────────────────────────────────────────────────────────
 function ReviewsSection({ page, content }: { page: { label: string }; content?: ServiceContent }) {
+  void page
   void content
-  // Pre-launch placeholder reviews — [content] needed: pull real service-specific Google reviews
-  const reviews = [
-    { author: 'Maria T.', area: 'Southwest Las Vegas', body: `Dr. Loveland's team made the whole process so easy. I was nervous about getting ${page.label.toLowerCase()} as an adult but they walked me through everything. My smile looks amazing and nobody even knew I was in treatment!` },
-    { author: 'Jason R.', area: 'Henderson, NV', body: `I went in for a free consultation not knowing what to expect. They scanned my teeth, showed me what my smile would look like at the end, and I was sold. 14 months later and I couldn't be happier.` },
-    { author: 'Priya S.', area: 'North Las Vegas', body: `My daughter did ${page.label} Teen here and the whole family was impressed. The appointments were quick, the staff was so patient with her, and her results are incredible. Highly recommend Boca Dental & Braces.` },
-  ]
-  return (
-    <section style={{ background: 'white', padding: '96px 32px' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <Eyebrow num="07" label="Social proof" />
-        <h2
-          style={{
-            fontSize: 'clamp(26px, 3vw, 42px)',
-            fontWeight: 800,
-            letterSpacing: '-0.6px',
-            color: NAVY,
-            margin: '0 0 32px',
-            textTransform: 'uppercase',
-            maxWidth: 820,
-          }}
-        >
-          What Our Patients Say About {page.label} at Boca Dental &amp; Braces
-        </h2>
-
-        <div
-          className="srv-reviews-grid"
-          style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}
-        >
-          <style>{`@media (max-width: 880px){ .srv-reviews-grid{ grid-template-columns: 1fr !important; } }`}</style>
-          {reviews.map((r, i) => (
-            <div
-              key={i}
-              style={{
-                background: 'white',
-                border: '1px solid rgba(0,29,61,0.08)',
-                borderTop: `2px solid ${ORANGE}`,
-                borderRadius: 12,
-                padding: '22px 24px',
-              }}
-            >
-              <div style={{ display: 'flex', gap: 2, marginBottom: 12 }}>
-                {Array.from({ length: 5 }).map((_, j) => <Star key={j} size={13} fill={ORANGE} color={ORANGE} />)}
-              </div>
-              <p style={{ fontSize: 14, color: NAVY, lineHeight: 1.55, margin: '0 0 14px', fontStyle: 'italic' }}>"{r.body}"</p>
-              <div style={{ fontSize: 13, fontWeight: 800, color: NAVY }}>{r.author}</div>
-              <div style={{ fontSize: 11, color: 'rgba(0,29,61,0.5)', marginTop: 2 }}>— {r.area}</div>
-            </div>
-          ))}
-        </div>
-
-        {/* Aggregate rating callout */}
-        <div
-          className="srv-rating-row"
-          style={{
-            marginTop: 36,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 18,
-            flexWrap: 'wrap',
-          }}
-        >
-          <div
-            style={{
-              background: NAVY,
-              color: 'white',
-              padding: '14px 22px',
-              borderRadius: 10,
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 12,
-            }}
-          >
-            <div style={{ display: 'flex', gap: 2 }}>
-              {Array.from({ length: 5 }).map((_, i) => <Star key={i} size={15} color={ORANGE} fill={ORANGE} />)}
-            </div>
-            <div>
-              <div style={{ fontSize: 18, fontWeight: 800 }}>4.9 out of 5</div>
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)' }}>Based on 1,200+ Google reviews across all locations</div>
-            </div>
-          </div>
-          <a
-            href="https://www.google.com/search?q=Boca+Dental+%26+Braces+Las+Vegas"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              color: ORANGE,
-              fontSize: 13,
-              fontWeight: 800,
-              letterSpacing: 1.2,
-              textTransform: 'uppercase',
-              textDecoration: 'none',
-              fontFamily: MONO,
-              borderBottom: `1px solid ${ORANGE}`,
-              paddingBottom: 4,
-            }}
-          >
-            Read our Google reviews
-            <ArrowUpRight size={12} />
-          </a>
-        </div>
-      </div>
-    </section>
-  )
+  // Reviews intentionally omitted — no fabricated content. No placeholder reviewers and no
+  // hardcoded aggregate rating are emitted. Wire real service-specific Google reviews from the
+  // reviews table here when they are available.
+  return null
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1472,13 +1364,6 @@ function ServiceSchema({
       })),
     })
   }
-  graph.push({
-    '@type': 'AggregateRating',
-    '@id': `${url}#rating`,
-    ratingValue: '4.9',
-    reviewCount: 1200,
-    itemReviewed: { '@id': `${url}#procedure` },
-  })
 
   const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })
   return (
