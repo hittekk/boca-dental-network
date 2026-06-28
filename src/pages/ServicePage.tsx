@@ -29,6 +29,7 @@ import {
   SERVICE_PAGES,
 } from '../data/serviceCatalog'
 import { serviceContentFor, type ServiceContent } from '../data/serviceContent'
+import { useServicePages } from '../lib/site-data'
 
 const ORANGE = '#F3672A'
 const NAVY = '#001D3D'
@@ -52,7 +53,9 @@ export function ServicePage({ categorySlugProp }: { categorySlugProp?: string } 
   const service = params.service
   const categoryEntry = category ? findCategory(category) : undefined
   const pageEntry = category && service ? findServicePage(category, service) : undefined
-  const content = service ? serviceContentFor(service) : undefined
+  // DB content (admin-editable) is the source of truth; static serviceContent is the fallback.
+  const { content: dbServiceContent } = useServicePages()
+  const content = service ? (dbServiceContent[service] ?? serviceContentFor(service)) : undefined
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })

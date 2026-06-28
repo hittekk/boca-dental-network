@@ -101,6 +101,41 @@ const ROUTES = [
   { path: '/hipaa-compliance/',                                 title: 'HIPAA Compliance' },
 ]
 
+// ── Append DB-managed service pages (from Supabase) ───────────────────────
+// Every published row in `service_pages` gets its own prerendered HTML, so
+// admin-created/edited pages are indexable. Non-fatal: if env/network is
+// unavailable we simply prerender the static routes above.
+try {
+  const SB_URL = process.env.VITE_SUPABASE_URL
+  const SB_KEY = process.env.VITE_SUPABASE_ANON_KEY
+  if (SB_URL && SB_KEY) {
+    const res = await fetch(
+      `${SB_URL}/rest/v1/service_pages?select=slug,category_slug,label&is_published=eq.true&order=category_slug.asc,slug.asc`,
+      { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } },
+    )
+    if (res.ok) {
+      const rows = await res.json()
+      const existing = new Set(ROUTES.map((r) => r.path))
+      let added = 0
+      for (const row of rows) {
+        const p = `/${row.category_slug}/${row.slug}/`
+        if (!existing.has(p)) {
+          ROUTES.push({ path: p, title: `${row.label} — Las Vegas` })
+          existing.add(p)
+          added++
+        }
+      }
+      console.log(`✓ Added ${added} DB service-page route(s) from Supabase`)
+    } else {
+      console.warn(`⚠ service_pages fetch returned ${res.status} — static routes only`)
+    }
+  } else {
+    console.warn('⚠ Supabase env not set — prerendering static routes only')
+  }
+} catch (err) {
+  console.warn(`⚠ service_pages prerender expansion skipped: ${err.message}`)
+}
+
 // ── Start a static server serving dist/ ───────────────────────────────────
 // SPA fallback rewrite — Vite produces a single index.html; React Router
 // handles every route from there. The `**` wildcard means any unknown URL
