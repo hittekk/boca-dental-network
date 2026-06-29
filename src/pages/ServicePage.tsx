@@ -14,6 +14,9 @@ import {
   Calendar,
   Languages,
   MapPin,
+  ShieldCheck,
+  CreditCard,
+  Wallet,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -937,9 +940,33 @@ function FAQItem({ faq }: { faq: { question: string; answer: string } }) {
 function CostInsuranceSection({ page, content }: { page: { label: string }; content?: ServiceContent }) {
   const header = content?.costHeader ?? `Making ${page.label} Affordable`
   const inlineCTA = content?.inlineCTA ?? `Book a free consultation at any of our Las Vegas locations and we'll build your personalized ${page.label.toLowerCase()} treatment plan.`
+
+  const options: { icon: LucideIcon; label: string; body: string }[] = [
+    {
+      icon: ShieldCheck,
+      label: 'Insurance',
+      body: 'Boca Dental & Braces accepts most major PPO dental insurance plans. Our team performs a complimentary benefits verification before treatment begins so you know your exact out-of-pocket cost.',
+    },
+    {
+      icon: CreditCard,
+      label: 'Financing',
+      body: 'We offer financing through CareCredit, Sunbit, and Alphaeon — spread your cost over 6, 12, 18, or 24 months. Apply in minutes at the front desk or online. Subject to credit approval.',
+    },
+    {
+      icon: Calendar,
+      label: 'In-house payment plans',
+      body: 'We also offer in-house payment plans to help make treatment affordable regardless of your insurance situation. Ask our team about monthly payment options at your free consultation.',
+    },
+    {
+      icon: Wallet,
+      label: 'FSA / HSA',
+      body: 'Flexible Spending Accounts (FSA) and Health Savings Accounts (HSA) can be used to pay for treatment, reducing your taxable out-of-pocket cost.',
+    },
+  ]
+
   return (
     <section style={{ background: 'white', padding: '96px 32px' }}>
-      <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         <Eyebrow num="09" label="Barrier removal" />
         <h2
           style={{
@@ -949,51 +976,146 @@ function CostInsuranceSection({ page, content }: { page: { label: string }; cont
             color: NAVY,
             margin: '0 0 24px',
             textTransform: 'uppercase',
+            maxWidth: 820,
           }}
         >
           {header}
         </h2>
-        <p style={{ fontSize: 16, lineHeight: 1.7, color: 'rgba(0,29,61,0.78)', margin: '0 0 28px', maxWidth: 820 }}>
+        <p style={{ fontSize: 16, lineHeight: 1.7, color: 'rgba(0,29,61,0.78)', margin: '0 0 40px', maxWidth: 820 }}>
           At Boca Dental &amp; Braces, cost should never stand between you and the care you need. We accept Nevada Medicaid and many major dental plans, verify your benefits at no charge, and offer flexible financing — so you can move forward with confidence.
         </p>
 
-        <h3 style={{ fontSize: 17, fontWeight: 800, color: NAVY, margin: '32px 0 14px', textTransform: 'uppercase', letterSpacing: 0.5 }}>
-          Insurance, Financing &amp; Payment Options
-        </h3>
-        <div style={{ display: 'grid', gridTemplateColumns: '170px 1fr', gap: 12, fontSize: 14, color: 'rgba(0,29,61,0.78)', lineHeight: 1.6, maxWidth: 880 }}>
-          <PaymentRow label="Insurance" body="Boca Dental & Braces accepts most major PPO dental insurance plans. Our team performs a complimentary benefits verification before treatment begins so you know your exact out-of-pocket cost." />
-          <PaymentRow label="CareCredit financing" body="We offer CareCredit financing, which lets you spread the cost over 6, 12, 18, or 24 months. Apply in minutes at our front desk or online. Subject to credit approval." />
-          <PaymentRow label="In-house payment plans" body="We also offer in-house payment plans to help make treatment affordable regardless of your insurance situation. Ask our team about monthly payment options at your free consultation." />
-          <PaymentRow label="FSA / HSA" body="Flexible Spending Accounts (FSA) and Health Savings Accounts (HSA) can be used to pay for treatment, reducing your taxable out-of-pocket cost." />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14, margin: '0 0 22px' }}>
+          <span
+            style={{
+              fontSize: 12,
+              fontWeight: 800,
+              color: ORANGE,
+              textTransform: 'uppercase',
+              letterSpacing: 2,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Insurance, Financing &amp; Payment Options
+          </span>
+          <span style={{ flex: 1, height: 1, background: 'rgba(0,29,61,0.10)' }} />
+        </div>
+
+        <div
+          className="srv-pay-grid"
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 18 }}
+        >
+          <style>{`
+            @media (max-width: 720px){ .srv-pay-grid{ grid-template-columns: 1fr !important; } }
+            .srv-pay-card{ transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+            .srv-pay-card:hover{ transform: translateY(-3px); border-color: rgba(243,103,42,0.35); box-shadow: 0 2px 4px rgba(0,29,61,0.05), 0 16px 40px rgba(243,103,42,0.10); }
+          `}</style>
+          {options.map((o) => (
+            <PaymentCard key={o.label} icon={o.icon} label={o.label} body={o.body} />
+          ))}
         </div>
 
         <div
           style={{
-            marginTop: 32,
-            padding: '18px 22px',
-            background: 'rgba(0,29,61,0.04)',
-            borderRadius: 8,
-            borderLeft: `3px solid ${ORANGE}`,
-            fontSize: 15,
-            color: 'rgba(0,29,61,0.78)',
-            lineHeight: 1.6,
+            marginTop: 28,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 18,
+            flexWrap: 'wrap',
+            padding: '24px 28px',
+            background: 'linear-gradient(135deg, rgba(243,103,42,0.10) 0%, rgba(243,103,42,0.04) 100%)',
+            border: '1px solid rgba(243,103,42,0.22)',
+            borderRadius: 14,
           }}
         >
-          {inlineCTA}
+          <div
+            style={{
+              flexShrink: 0,
+              width: 46,
+              height: 46,
+              borderRadius: 12,
+              background: ORANGE,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 6px 16px rgba(243,103,42,0.30)',
+            }}
+          >
+            <Calendar size={22} color="white" strokeWidth={2.4} />
+          </div>
+          <div style={{ fontSize: 16, color: NAVY, lineHeight: 1.6, fontWeight: 500, flex: 1, minWidth: 240 }}>{inlineCTA}</div>
+          <a
+            href={`tel:${INITIAL_DATA.brand.phone.replace(/\D/g, '')}`}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 10,
+              background: ORANGE,
+              color: 'white',
+              textDecoration: 'none',
+              fontWeight: 800,
+              fontSize: 16,
+              letterSpacing: 0.3,
+              padding: '14px 22px',
+              borderRadius: 12,
+              boxShadow: '0 6px 16px rgba(243,103,42,0.30)',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            <Phone size={20} color="white" strokeWidth={2.3} />
+            <span>
+              <span style={{ display: 'block', fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', opacity: 0.85, marginBottom: 1 }}>Call us</span>
+              <span style={{ fontSize: 18, lineHeight: 1 }}>{INITIAL_DATA.brand.phone}</span>
+            </span>
+          </a>
         </div>
       </div>
     </section>
   )
 }
 
-function PaymentRow({ label, body }: { label: string; body: string }) {
+function PaymentCard({ icon: Icon, label, body }: { icon: LucideIcon; label: string; body: string }) {
   return (
-    <>
-      <div style={{ fontWeight: 800, color: NAVY, fontSize: 13, textTransform: 'uppercase', letterSpacing: 0.6 }}>
-        {label}
+    <div
+      className="srv-pay-card"
+      style={{
+        background: 'white',
+        border: '1px solid rgba(0,29,61,0.09)',
+        borderRadius: 16,
+        padding: '26px 28px',
+        boxShadow: '0 1px 2px rgba(0,29,61,0.04), 0 10px 30px rgba(0,29,61,0.05)',
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+        <div
+          style={{
+            flexShrink: 0,
+            width: 46,
+            height: 46,
+            borderRadius: 12,
+            background: 'rgba(243,103,42,0.10)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Icon size={23} color={ORANGE} strokeWidth={2.1} />
+        </div>
+        <div
+          style={{
+            fontWeight: 800,
+            color: NAVY,
+            fontSize: 14,
+            textTransform: 'uppercase',
+            letterSpacing: 0.5,
+          }}
+        >
+          {label}
+        </div>
       </div>
-      <div>{body}</div>
-    </>
+      <div style={{ height: 1, background: 'rgba(0,29,61,0.07)', margin: '18px 0' }} />
+      <div style={{ fontSize: 14.5, color: 'rgba(0,29,61,0.70)', lineHeight: 1.7 }}>{body}</div>
+    </div>
   )
 }
 
