@@ -152,83 +152,120 @@ function Hero({
       <div aria-hidden style={{ position: 'absolute', top: '-10%', right: '-5%', width: 600, height: 600, background: 'radial-gradient(circle, rgba(243,103,42,0.1) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
       <div style={{ maxWidth: 1240, margin: '0 auto', position: 'relative', zIndex: 2 }}>
-        <Breadcrumb category={category} page={page} />
-
         <style>{`
           @media (max-width: 768px) { .srv-hero-ctas { flex-direction: column !important; align-items: stretch !important; }
             .srv-hero-ctas > a { width: 100% !important; justify-content: center !important; } }
+          @media (max-width: 920px) { .srv-hero-grid { grid-template-columns: 1fr !important; gap: 36px !important; } }
         `}</style>
 
-        {/* Category pill */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: ORANGE, marginBottom: 20, marginTop: 28, padding: '6px 14px', background: 'rgba(243,103,42,0.12)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.2)' }}>
-          {category.label}
-        </div>
+        <div className="srv-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.25fr 0.75fr', gap: 56, alignItems: 'center' }}>
+          {/* LEFT */}
+          <div>
+            <Breadcrumb category={category} page={page} />
 
-        <h1
-          style={{
-            fontSize: 'clamp(36px, 5.5vw, 72px)',
-            fontWeight: 900,
-            lineHeight: 0.95,
-            letterSpacing: '-2px',
-            color: 'white',
-            margin: '0 0 12px',
-            textTransform: 'uppercase',
-            maxWidth: 900,
-          }}
-        >
-          {h1.split('—')[0].trim()}
-        </h1>
-        {h1.includes('—') && (
-          <h2 style={{ fontSize: 'clamp(20px, 3vw, 36px)', fontWeight: 700, color: ORANGE, margin: '0 0 28px', letterSpacing: '-0.5px', textTransform: 'uppercase' }}>
-            {h1.split('—')[1]?.trim()}
-          </h2>
-        )}
-
-        <p style={{ fontSize: 17, lineHeight: 1.65, color: 'rgba(255,255,255,0.65)', margin: '0 0 40px', maxWidth: 580 }}>
-          {intro}
-        </p>
-
-        <div className="srv-hero-ctas" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 56 }}>
-          <Link
-            to="/request-consultation"
-            onClick={(e) => { e.preventDefault(); document.getElementById('request-consultation')?.scrollIntoView({ behavior: 'smooth' }) }}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              background: ORANGE, color: 'white', borderRadius: 8,
-              padding: '14px 28px', fontSize: 14, fontWeight: 800,
-              textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.6,
-              boxShadow: '0 12px 28px rgba(243,103,42,0.35)',
-            }}
-          >
-            Book a free consultation <ArrowRight size={14} />
-          </Link>
-          <a
-            href={`tel:${INITIAL_DATA.brand.phone.replace(/\D/g, '')}`}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              background: 'rgba(255,255,255,0.08)', color: 'white',
-              border: '1.5px solid rgba(255,255,255,0.18)', borderRadius: 8,
-              padding: '13px 24px', fontSize: 14, fontWeight: 700, textDecoration: 'none',
-            }}
-          >
-            <Phone size={14} color={ORANGE} />
-            {INITIAL_DATA.brand.phone}
-          </a>
-        </div>
-
-        {/* Stats bar */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 32, alignItems: 'center', paddingTop: 32, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-          {[
-            { val: '9', label: 'LV Locations' },
-            { val: '4.8★', label: 'Avg Rating' },
-            { val: '20k+', label: 'Patients Served' },
-            { val: 'Same Day', label: 'Appointments' },
-          ].map(s => (
-            <div key={s.label}>
-              <div style={{ fontSize: 22, fontWeight: 800, color: 'white', letterSpacing: '-0.5px', lineHeight: 1 }}>{s.val}</div>
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 4 }}>{s.label}</div>
+            {/* Category pill */}
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 11, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', color: ORANGE, marginBottom: 18, marginTop: 24, padding: '6px 14px', background: 'rgba(243,103,42,0.12)', borderRadius: 999, border: '1px solid rgba(243,103,42,0.2)' }}>
+              {category.label}
             </div>
-          ))}
+
+            <h1
+              style={{
+                fontSize: 'clamp(32px, 4vw, 54px)',
+                fontWeight: 800,
+                lineHeight: 1.0,
+                letterSpacing: '-1.5px',
+                color: 'white',
+                margin: '0 0 12px',
+                textTransform: 'uppercase',
+              }}
+            >
+              {h1.split('—')[0].trim()}
+            </h1>
+            {h1.includes('—') && (
+              <h2 style={{ fontSize: 'clamp(18px, 2vw, 26px)', fontWeight: 700, color: ORANGE, margin: '0 0 24px', letterSpacing: '-0.3px', textTransform: 'uppercase' }}>
+                {h1.split('—')[1]?.trim()}
+              </h2>
+            )}
+
+            <p style={{ fontSize: 16, lineHeight: 1.65, color: 'rgba(255,255,255,0.65)', margin: '0 0 32px', maxWidth: 560 }}>
+              {intro}
+            </p>
+
+            <div className="srv-hero-ctas" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 44 }}>
+              <Link
+                to="/request-consultation"
+                onClick={(e) => { e.preventDefault(); document.getElementById('request-consultation')?.scrollIntoView({ behavior: 'smooth' }) }}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  background: ORANGE, color: 'white', borderRadius: 8,
+                  padding: '14px 26px', fontSize: 14, fontWeight: 800,
+                  textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.6,
+                  boxShadow: '0 12px 28px rgba(243,103,42,0.35)',
+                }}
+              >
+                Book a free consultation <ArrowRight size={14} />
+              </Link>
+              <a
+                href={`tel:${INITIAL_DATA.brand.phone.replace(/\D/g, '')}`}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  background: 'rgba(255,255,255,0.08)', color: 'white',
+                  border: '1.5px solid rgba(255,255,255,0.18)', borderRadius: 8,
+                  padding: '13px 22px', fontSize: 14, fontWeight: 700, textDecoration: 'none',
+                }}
+              >
+                <Phone size={14} color={ORANGE} />
+                {INITIAL_DATA.brand.phone}
+              </a>
+            </div>
+
+            {/* Stats bar — real, verifiable facts only */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 30, alignItems: 'center', paddingTop: 30, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+              {[
+                { val: '9', label: 'LV Locations' },
+                { val: 'Free', label: 'Consultations' },
+                { val: 'Same-Day', label: 'Appointments' },
+                { val: 'Español', label: 'Se Habla' },
+              ].map(s => (
+                <div key={s.label}>
+                  <div style={{ fontSize: 21, fontWeight: 800, color: 'white', letterSpacing: '-0.5px', lineHeight: 1 }}>{s.val}</div>
+                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 5 }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT — Book your visit card */}
+          <div>
+            <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 16, padding: '30px 28px', backdropFilter: 'blur(8px)', boxShadow: '0 24px 60px rgba(0,0,0,0.35)' }}>
+              <h3 style={{ fontSize: 19, fontWeight: 800, color: 'white', margin: '0 0 4px' }}>Book your visit</h3>
+              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', marginBottom: 22 }}>New patients welcome at all 9 locations</div>
+              {[
+                'Free consultation — no obligation',
+                'Same-day appointments available',
+                'Most insurance & Nevada Medicaid accepted',
+                'Se Habla Español',
+              ].map((tline, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '11px 0', borderTop: i === 0 ? 'none' : '1px solid rgba(255,255,255,0.08)' }}>
+                  <span style={{ flex: 'none', width: 22, height: 22, borderRadius: '50%', background: 'rgba(243,103,42,0.15)', color: ORANGE, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 1 }}>
+                    <Check size={13} strokeWidth={3} />
+                  </span>
+                  <span style={{ fontSize: 14, fontWeight: 600, color: 'white', lineHeight: 1.4 }}>{tline}</span>
+                </div>
+              ))}
+              <Link
+                to="/request-consultation"
+                onClick={(e) => { e.preventDefault(); document.getElementById('request-consultation')?.scrollIntoView({ behavior: 'smooth' }) }}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: ORANGE, color: 'white', borderRadius: 9, padding: '14px', fontSize: 14, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 0.6, textDecoration: 'none', marginTop: 22 }}
+              >
+                Book Appointment <ArrowRight size={14} />
+              </Link>
+              <a href={`tel:${INITIAL_DATA.brand.phone.replace(/\D/g, '')}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, color: 'white', textDecoration: 'none', fontWeight: 700, fontSize: 15, marginTop: 12 }}>
+                <Phone size={14} color={ORANGE} /> {INITIAL_DATA.brand.phone}
+              </a>
+              <div style={{ textAlign: 'center', fontSize: 12, color: 'rgba(255,255,255,0.45)', marginTop: 16, fontWeight: 600 }}>9 Las Vegas valley locations</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -247,7 +284,7 @@ function Breadcrumb({
       style={{
         fontSize: 12,
         fontWeight: 600,
-        color: 'rgba(0,29,61,0.55)',
+        color: 'rgba(255,255,255,0.55)',
         display: 'flex',
         alignItems: 'center',
         gap: 8,
@@ -256,14 +293,14 @@ function Breadcrumb({
       }}
       aria-label="Breadcrumb"
     >
-      <Link to="/" style={{ color: 'rgba(0,29,61,0.55)', textDecoration: 'none' }}>Home</Link>
-      <span style={{ opacity: 0.4 }}>/</span>
-      <Link to="/services/" style={{ color: 'rgba(0,29,61,0.55)', textDecoration: 'none' }}>Services</Link>
-      <span style={{ opacity: 0.4 }}>/</span>
-      <Link to={`/${category.slug}/`} style={{ color: 'rgba(0,29,61,0.55)', textDecoration: 'none' }}>
+      <Link to="/" style={{ color: 'rgba(255,255,255,0.55)', textDecoration: 'none' }}>Home</Link>
+      <span style={{ color: 'rgba(255,255,255,0.3)' }}>/</span>
+      <Link to="/services/" style={{ color: 'rgba(255,255,255,0.55)', textDecoration: 'none' }}>Services</Link>
+      <span style={{ color: 'rgba(255,255,255,0.3)' }}>/</span>
+      <Link to={`/${category.slug}/`} style={{ color: 'rgba(255,255,255,0.55)', textDecoration: 'none' }}>
         {category.label}
       </Link>
-      <span style={{ opacity: 0.4 }}>/</span>
+      <span style={{ color: 'rgba(255,255,255,0.3)' }}>/</span>
       <span style={{ color: ORANGE, fontWeight: 700 }}>{page.label}</span>
     </nav>
   )
