@@ -114,14 +114,7 @@ const locationsGraph = lvLocations.map((loc) => ({
     addressCountry: 'US',
   },
   openingHours: ['Mo-Fr 09:00-19:00', 'Sa 09:00-19:00'],
-  aggregateRating:
-    loc.review_count > 0
-      ? {
-          '@type': 'AggregateRating',
-          ratingValue: loc.rating.toFixed(1),
-          reviewCount: loc.review_count,
-        }
-      : undefined,
+  // aggregateRating intentionally omitted — no verified GBP rating/review data yet (no-fabrication).
   areaServed: { '@type': 'City', name: 'Las Vegas' },
 }))
 
@@ -166,12 +159,7 @@ const graph = {
       logo: LOGO,
       telephone: INITIAL_DATA.brand.phone,
       areaServed: { '@type': 'City', name: 'Las Vegas' },
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: '4.9',
-        reviewCount: 1200,
-        itemReviewed: { '@id': `${DOMAIN}/#practice` },
-      },
+      // aggregateRating intentionally omitted — placeholder 4.9/1200 was fabricated (no-fabrication).
       hasOfferCatalog: {
         '@type': 'OfferCatalog',
         name: 'Dental Services',
