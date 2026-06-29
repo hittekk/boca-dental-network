@@ -3,11 +3,6 @@ import { Check, ArrowUpRight } from 'lucide-react'
 
 const PLANS = [
   {
-    name: 'In-House Plans',
-    tagline: 'Boca Membership',
-    body: 'Affordable monthly payment plans direct through our office — no third-party application required. $0 down on most treatments.',
-  },
-  {
     name: 'CareCredit',
     tagline: 'Healthcare financing',
     body: 'Special financing on purchases of $200+, with 6, 12, 18, or 24-month no-interest plans for qualified applicants.',

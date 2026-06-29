@@ -74,10 +74,6 @@ export const ES: Record<string, string> = {
   // — Financing —
   'Cost should never be the reason you delay dental care. We accept most insurance plans and offer flexible financing so quality care is always within reach.':
     'El costo nunca debe ser la razón para retrasar tu atención dental. Aceptamos la mayoría de los seguros y ofrecemos financiamiento flexible para que la atención de calidad siempre esté a tu alcance.',
-  'In-House Plans': 'Planes Internos',
-  'Boca Membership': 'Membresía Boca',
-  'Affordable monthly payment plans direct through our office — no third-party application required. $0 down on most treatments.':
-    'Planes de pago mensuales accesibles directamente con nuestra oficina — sin solicitud de terceros. $0 de enganche en la mayoría de los tratamientos.',
   'Healthcare Financing': 'Financiamiento de Salud',
   'Special financing options on purchases of $200+, with 6, 12, 18, or 24-month no-interest plans for qualified applicants.':
     'Opciones de financiamiento especial en compras de $200+, con planes sin intereses a 6, 12, 18 o 24 meses para solicitantes calificados.',

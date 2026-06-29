@@ -1,15 +1,8 @@
 import { motion } from 'framer-motion'
-import { CheckCircle, Wallet, CreditCard, Sparkles, Building2, ArrowRight } from 'lucide-react'
+import { CheckCircle, Wallet, CreditCard, Sparkles, ArrowRight } from 'lucide-react'
 import { useLang, t } from '../../lib/lang'
 
 const PLANS = [
-  {
-    icon: Building2,
-    name: 'In-House Plans',
-    tagline: 'Boca Membership',
-    body: 'Affordable monthly payment plans direct through our office — no third-party application required. $0 down on most treatments.',
-    highlight: true,
-  },
   {
     icon: CreditCard,
     name: 'CareCredit',
