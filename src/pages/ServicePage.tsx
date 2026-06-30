@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import { LangLink as Link } from '../lib/lang-link'
 import { motion } from 'framer-motion'
 import {
   ArrowRight,
@@ -31,6 +32,8 @@ import {
 } from '../data/serviceCatalog'
 import { serviceContentFor, type ServiceContent } from '../data/serviceContent'
 import { useServicePages } from '../lib/site-data'
+import { useLang, t } from '../lib/lang'
+import { useLangSeo } from '../lib/seo'
 
 const ORANGE = '#F3672A'
 const NAVY = '#001D3D'
@@ -55,30 +58,38 @@ export function ServicePage({ categorySlugProp }: { categorySlugProp?: string } 
   const categoryEntry = category ? findCategory(category) : undefined
   const pageEntry = category && service ? findServicePage(category, service) : undefined
   // DB content (admin-editable) is the source of truth; static serviceContent is the fallback.
-  const { content: dbServiceContent } = useServicePages()
-  const content = service ? (dbServiceContent[service] ?? serviceContentFor(service)) : undefined
+  const { content: dbServiceContent, contentEs: dbServiceContentEs } = useServicePages()
+  const lang = useLang()
+  const contentMap = lang === 'es' ? dbServiceContentEs : dbServiceContent
+  const content = service ? (contentMap[service] ?? serviceContentFor(service)) : undefined
+  // <html lang>, hreflang en/es/x-default (when ES is public), staging noindex on
+  // /es until then, and the canonical URL for the current language.
+  const canonical = useLangSeo(lang, `/${category}/${service}/`)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
   }, [category, service])
 
-  // Per-page meta updater
+  // Per-page meta updater (bilingual)
   useEffect(() => {
     if (!pageEntry) return
-    const titleTag = content?.titleTag ?? `${pageEntry.label} in Las Vegas, NV | Boca Dental & Braces`
-    const desc = content?.metaDesc ?? `${pageEntry.desc} ${pageEntry.label} at Boca Dental & Braces — 9 convenient locations across Las Vegas. Book a free consultation.`
-    const url = `${DOMAIN}/${category}/${service}/`
-    const prevTitle = document.title
+    // `||` (not `??`) so an empty string from the DB-row mapping also falls back.
+    const titleTag = content?.titleTag?.trim() || (lang === 'es'
+      ? `${pageEntry.label} en Las Vegas, NV | Boca Dental & Braces`
+      : `${pageEntry.label} in Las Vegas, NV | Boca Dental & Braces`)
+    const desc = content?.metaDesc?.trim() || (lang === 'es'
+      ? `${pageEntry.label} en Boca Dental & Braces — 9 ubicaciones convenientes en Las Vegas. Reserve una consulta gratuita.`
+      : `${pageEntry.desc} ${pageEntry.label} at Boca Dental & Braces — 9 convenient locations across Las Vegas. Book a free consultation.`)
     document.title = titleTag
     setMetaTag('description', desc, 'name')
     setMetaTag('og:title', titleTag, 'property')
     setMetaTag('og:description', desc, 'property')
-    setMetaTag('og:url', url, 'property')
+    setMetaTag('og:url', canonical, 'property')
     setMetaTag('og:type', 'article', 'property')
+    setMetaTag('og:locale', lang === 'es' ? 'es_US' : 'en_US', 'property')
     setMetaTag('og:image', `${DOMAIN}/boca-logo-color.png`, 'property')
-    setLink('canonical', url)
-    return () => { document.title = prevTitle }
-  }, [pageEntry, content, category, service])
+    setLink('canonical', canonical)
+  }, [pageEntry, content, canonical, lang])
 
   if (!categoryEntry || !pageEntry) {
     return <ServiceNotFound category={category} service={service} />
@@ -1479,7 +1490,9 @@ function ServiceSchema({
   page: { slug: string; label: string; desc: string }
   content?: ServiceContent
 }) {
-  const url = `${DOMAIN}/${category.slug}/${page.slug}/`
+  const lang = useLang()
+  const base = lang === 'es' ? `${DOMAIN}/es` : DOMAIN
+  const url = `${base}/${category.slug}/${page.slug}/`
   const graph: object[] = [
     {
       '@type': 'MedicalProcedure',
@@ -1487,14 +1500,15 @@ function ServiceSchema({
       name: page.label,
       description: content?.heroIntro ?? page.desc,
       url,
+      inLanguage: lang === 'es' ? 'es' : 'en',
       provider: { '@id': `${DOMAIN}/#practice` },
     },
     {
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: `${DOMAIN}/` },
-        { '@type': 'ListItem', position: 2, name: 'Services', item: `${DOMAIN}/services/` },
-        { '@type': 'ListItem', position: 3, name: category.label, item: `${DOMAIN}/${category.slug}/` },
+        { '@type': 'ListItem', position: 1, name: t(lang, 'Home', 'Inicio'), item: `${base}/` },
+        { '@type': 'ListItem', position: 2, name: t(lang, 'Services', 'Servicios'), item: `${base}/services/` },
+        { '@type': 'ListItem', position: 3, name: category.label, item: `${base}/${category.slug}/` },
         { '@type': 'ListItem', position: 4, name: page.label, item: url },
       ],
     },

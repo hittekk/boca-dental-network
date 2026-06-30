@@ -23,6 +23,8 @@ async function loadTs(rel) {
 
 const { INITIAL_DATA } = await loadTs('src/data/initialData.ts')
 const { SERVICE_CATEGORIES, SERVICE_PAGES } = await loadTs('src/data/serviceCatalog.ts')
+// Same one switch the runtime reads (dependency-free module, safe to transpile-import).
+const { ES_PUBLIC } = await loadTs('src/lib/es-flag.ts')
 
 const staticPaths = [
   '/',
@@ -130,16 +132,44 @@ function priority(p) {
   return '0.5'
 }
 
-const body = urls
-  .map((u) =>
-    `  <url>\n    <loc>${DOMAIN}${u}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${priority(u)}</priority>\n  </url>`,
-  )
-  .join('\n')
+// Each EN path may get a Spanish twin at /es<path>. When ES is public, both URLs
+// are emitted with a full set of hreflang alternates (en, es, x-default→en) so
+// Google serves the right language and never sees duplicate content. Until then,
+// only English is listed — the Spanish pages are built but not advertised.
+function urlBlock(loc, alts, prio) {
+  const links = (alts ?? [])
+    .map((a) => `    <xhtml:link rel="alternate" hreflang="${a.lang}" href="${DOMAIN}${a.path}" />`)
+    .join('\n')
+  const linksLine = links ? `${links}\n` : ''
+  return `  <url>\n    <loc>${DOMAIN}${loc}</loc>\n${linksLine}    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${prio}</priority>\n  </url>`
+}
 
-const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`
+const blocks = []
+for (const u of urls) {
+  const prio = priority(u)
+  if (ES_PUBLIC) {
+    const es = `/es${u}`
+    const alts = [
+      { lang: 'en', path: u },
+      { lang: 'es', path: es },
+      { lang: 'x-default', path: u },
+    ]
+    blocks.push(urlBlock(u, alts, prio))
+    blocks.push(urlBlock(es, alts, prio))
+  } else {
+    blocks.push(urlBlock(u, null, prio))
+  }
+}
+const body = blocks.join('\n')
+
+const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${body}\n</urlset>\n`
 
 const dist = path.join(ROOT, 'dist')
 if (!fs.existsSync(dist)) fs.mkdirSync(dist, { recursive: true })
 fs.writeFileSync(path.join(dist, 'sitemap.xml'), xml)
 
-console.log(`✓ sitemap.xml — ${urls.length} URLs (${clinicPaths.length} clinics · ${dentistPaths.length} dentists · ${categoryPaths.length} categories · ${servicePaths.length} services)`)
+console.log(
+  ES_PUBLIC
+    ? `✓ sitemap.xml — ${urls.length * 2} URLs (${urls.length} EN + ${urls.length} ES, hreflang-paired · ${clinicPaths.length} clinics · ${dentistPaths.length} dentists · ${categoryPaths.length} categories · ${servicePaths.length} services)`
+    : `✓ sitemap.xml — ${urls.length} EN URLs (ES staged, not yet listed · ${clinicPaths.length} clinics · ${dentistPaths.length} dentists · ${categoryPaths.length} categories · ${servicePaths.length} services)`,
+)

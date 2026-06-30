@@ -210,7 +210,7 @@ const CREDIT = `<!--
   `
 
 // ── Capture a single route ────────────────────────────────────────────────
-async function capture(routePath, routeTitle, isHomepage) {
+async function capture(routePath, routeTitle, isHomepage, isEs = false) {
   const page = await browser.newPage()
   await page.setViewport({ width: 1440, height: 900 })
 
@@ -218,6 +218,15 @@ async function capture(routePath, routeTitle, isHomepage) {
     waitUntil: 'networkidle0',
     timeout: 60_000,
   })
+
+  // On /es routes, useLangSeo sets <html lang="es"> and AutoTranslate rewrites
+  // visible English text to Spanish at runtime. Wait for the lang flip so the
+  // snapshot captures the Spanish DOM (not the English first paint).
+  if (isEs) {
+    await page
+      .waitForFunction(() => document.documentElement.lang === 'es', { timeout: 20_000 })
+      .catch(() => console.warn(`⚠ html[lang=es] not seen for ${routePath} — snapshotting current DOM`))
+  }
 
   // Scroll to fire every IntersectionObserver hook
   await page.evaluate(async () => {
@@ -237,8 +246,8 @@ async function capture(routePath, routeTitle, isHomepage) {
     })
   })
 
-  // Settle
-  await new Promise((r) => setTimeout(r, 800))
+  // Settle (extra time on /es so AutoTranslate's DOM walk fully completes)
+  await new Promise((r) => setTimeout(r, isEs ? 1500 : 800))
 
   let html = await page.content()
   await page.close()
@@ -314,28 +323,50 @@ try {
   console.warn('⚠ prerender: could not load blog:', err.message)
 }
 
-// ── Walk every route + write to its own dist file ─────────────────────────
+// ── Walk every route (EN) + its /es twin + write each to its own dist file ──
 const t0 = Date.now()
-for (const route of [...ROUTES, ...blogRoutes]) {
-  const isHome = route.path === '/'
-  const html = await capture(route.path, route.title, isHome)
+const allRoutes = [...ROUTES, ...blogRoutes]
 
-  // /clinics/russell-eastern/  →  dist/clinics/russell-eastern/index.html
-  // /careers/                   →  dist/careers/index.html
-  // /                           →  dist/index.html
-  const outDir = isHome
-    ? DIST
-    : path.join(DIST, route.path.replace(/^\/|\/$/g, ''))
+// Optional batching so a long EN+ES crawl can run in time-limited chunks.
+// PRERENDER_START = first route index (default 0); PRERENDER_LIMIT = count.
+const START = parseInt(process.env.PRERENDER_START || '0', 10)
+const LIMIT = parseInt(process.env.PRERENDER_LIMIT || String(allRoutes.length), 10)
+const batch = allRoutes.slice(START, START + LIMIT)
+console.log(`Crawling routes [${START}..${START + batch.length - 1}] of ${allRoutes.length} (EN+ES each)`)
+
+// esPath: '/' → '/es/', else '/es' + path (paths carry trailing slash already)
+const esPath = (p) => (p === '/' ? '/es/' : `/es${p}`)
+
+for (const route of batch) {
+  const isHome = route.path === '/'
+
+  // ── English ──
+  const html = await capture(route.path, route.title, isHome, false)
+  const outDir = isHome ? DIST : path.join(DIST, route.path.replace(/^\/|\/$/g, ''))
   fs.mkdirSync(outDir, { recursive: true })
   const outPath = path.join(outDir, 'index.html')
   fs.writeFileSync(outPath, html, 'utf-8')
-
   console.log(
     `  ✓ ${route.path.padEnd(48)} → ${path.relative(ROOT, outPath).padEnd(48)} (${(html.length / 1024).toFixed(0)} KB)`,
   )
+
+  // ── Spanish twin (/es) — staging (noindex) until clinical sign-off ──
+  const esRoute = esPath(route.path)
+  try {
+    const esHtml = await capture(esRoute, `${route.title} (ES)`, isHome, true)
+    const esOutDir = path.join(DIST, esRoute.replace(/^\/|\/$/g, ''))
+    fs.mkdirSync(esOutDir, { recursive: true })
+    const esOutPath = path.join(esOutDir, 'index.html')
+    fs.writeFileSync(esOutPath, esHtml, 'utf-8')
+    console.log(
+      `  ✓ ${esRoute.padEnd(48)} → ${path.relative(ROOT, esOutPath).padEnd(48)} (${(esHtml.length / 1024).toFixed(0)} KB)`,
+    )
+  } catch (err) {
+    console.warn(`⚠ ES twin failed for ${esRoute}: ${err.message} — skipping`)
+  }
 }
 const dt = ((Date.now() - t0) / 1000).toFixed(1)
-console.log(`✓ Prerendered ${ROUTES.length + blogRoutes.length} routes (${blogRoutes.length} blog) in ${dt}s`)
+console.log(`✓ Prerendered ${batch.length} routes ×2 (EN+ES) [${START}..${START + batch.length - 1}] in ${dt}s`)
 
 // ── Cleanup ───────────────────────────────────────────────────────────────
 await browser.close()

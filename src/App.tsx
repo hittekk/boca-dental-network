@@ -1,5 +1,7 @@
 import { useEffect, useState, lazy, Suspense } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
+import type { ReactNode } from 'react'
+import { LangProvider } from './lib/lang'
 
 // Admin module — code-split so it doesn't bloat the public bundle
 const AdminApp = lazy(() => import('./admin/AdminApp'))
@@ -133,6 +135,47 @@ function CatchAll() {
   return <Homepage />
 }
 
+/**
+ * Spanish (es) route tree. Mirrors the English routes under an `/es` prefix so
+ * each Spanish page is its own indexable URL (hreflang-paired with its English
+ * twin). Rendered inside <LangProvider lang="es"> so the whole subtree forces
+ * Spanish: lang-aware pages read *_es DB fields, chrome resolves via t() + the
+ * AutoTranslate dictionary. English routes are left untouched.
+ */
+function buildEsRoutes() {
+  const dual = (base: string, element: ReactNode, key: string) => [
+    <Route key={key} path={`/es${base}`} element={element} />,
+    <Route key={`${key}-s`} path={`/es${base}/`} element={element} />,
+  ]
+  const catRoutes = SERVICE_CATEGORIES.flatMap((cat) => [
+    ...dual(`/${cat.slug}`, <ServiceCategoryPage categorySlugProp={cat.slug} />, `es-${cat.slug}-hub`),
+    ...dual(`/${cat.slug}/:service`, <ServicePage categorySlugProp={cat.slug} />, `es-${cat.slug}-svc`),
+  ])
+  return [
+    <Route key="es-home" path="/es" element={<Homepage />} />,
+    <Route key="es-home-s" path="/es/" element={<Homepage />} />,
+    ...dual('/clinics', <ClinicsHubPage />, 'es-clinics-hub'),
+    ...dual('/clinics/:slug', <LocationPage />, 'es-clinics-detail'),
+    ...dual('/services', <ServicesHubPage />, 'es-services-hub'),
+    ...catRoutes,
+    ...dual('/about-us/dentists', <DentistsHubPage />, 'es-dentists-hub'),
+    ...dual('/about-us/dentists/:slug', <DentistPage />, 'es-dentist'),
+    ...dual('/about-us', <AboutUsPage />, 'es-about'),
+    ...dual('/patient-resources', <PatientResourcesHubPage />, 'es-pr-hub'),
+    ...dual('/patient-resources/insurance', <InsurancePage />, 'es-pr-ins'),
+    ...dual('/patient-resources/financing', <FinancingPage />, 'es-pr-fin'),
+    ...dual('/patient-resources/reviews', <ReviewsPage />, 'es-pr-rev'),
+    ...dual('/contact-us', <ContactPage />, 'es-contact'),
+    ...dual('/request-consultation', <RequestConsultationPage />, 'es-rc'),
+    ...dual('/careers', <CareersPage />, 'es-careers'),
+    ...dual('/privacy-policy', <PrivacyPage />, 'es-privacy'),
+    ...dual('/hipaa-compliance', <HipaaPage />, 'es-hipaa'),
+    ...dual('/blog', <BlogIndexPage />, 'es-blog'),
+    ...dual('/blog/:slug', <BlogPostPage />, 'es-blogpost'),
+    <Route key="es-catchall" path="/es/*" element={<CatchAll />} />,
+  ]
+}
+
 function App() {
   const routerLocation = useLocation()
   const isAdminRoute = routerLocation.pathname.startsWith('/dental-admin')
@@ -161,8 +204,21 @@ function App() {
     <Route key={`${cat.slug}-svc-noslash`} path={`/${cat.slug}/:service`} element={<ServicePage categorySlugProp={cat.slug} />} />,
   ])
 
+  const isEs = routerLocation.pathname === '/es' || routerLocation.pathname.startsWith('/es/')
+
+  // Spanish subtree: same pages, forced Spanish, /es-prefixed indexable URLs.
+  if (isEs) {
+    return (
+      <LangProvider lang="es">
+        <AutoTranslate />
+        <Routes>{buildEsRoutes()}</Routes>
+        <MobileStickyCTA phone={siteData.brand.phone} />
+      </LangProvider>
+    )
+  }
+
   return (
-    <>
+    <LangProvider lang="en">
       <AutoTranslate />
       <Routes>
         {/* Home */}
@@ -227,7 +283,7 @@ function App() {
         <Route path="*" element={<CatchAll />} />
       </Routes>
       <MobileStickyCTA phone={siteData.brand.phone} />
-    </>
+    </LangProvider>
   )
 }
 

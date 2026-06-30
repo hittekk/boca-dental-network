@@ -20,7 +20,9 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence, useScroll } from 'framer-motion'
 import { Phone, X, ChevronRight, Calendar, MapPin } from 'lucide-react'
 import type { Brand, Announcement, NavLink } from '../../types'
-import { useLang, useSetLang, t } from '../../lib/lang'
+import { useLang, t } from '../../lib/lang'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { esPath, stripEs } from '../../lib/seo'
 import { useBlogEnabled } from '../../lib/site-data'
 import { BocaLogo } from './BocaLogo'
 
@@ -298,7 +300,8 @@ function DesktopNav({
 
 function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: 'white' | 'dark' }) {
   const lang = useLang()
-  const setLang = useSetLang()
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
   const isDark = logoMode === 'dark'
   const subtleColor = isDark ? 'rgba(0,29,61,0.6)' : 'rgba(255,255,255,0.6)'
   const phoneIdle = isDark ? 'rgba(0,29,61,0.75)' : 'rgba(255,255,255,0.75)'
@@ -313,7 +316,7 @@ function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: '
     >
       <button
         type="button"
-        onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
+        onClick={() => navigate(pathname.startsWith('/es') ? stripEs(pathname) : esPath(pathname))}
         aria-label={lang === 'es' ? 'Switch to English' : 'Cambiar a Español'}
         style={{
           color: subtleColor,
@@ -387,7 +390,8 @@ function MobileMenu({
   phone: string
 }) {
   const lang = useLang()
-  const setLang = useSetLang()
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
   const blogEnabled = useBlogEnabled()
   const NAV_LINKS = getNavLinks(lang, blogEnabled)
   useEffect(() => {
@@ -466,7 +470,7 @@ function MobileMenu({
           </a>
           <button
             type="button"
-            onClick={() => { setLang(lang === 'es' ? 'en' : 'es'); onClose() }}
+            onClick={() => { navigate(pathname.startsWith('/es') ? stripEs(pathname) : esPath(pathname)); onClose() }}
             aria-label={lang === 'es' ? 'Switch to English' : 'Cambiar a Español'}
             style={{ width: '100%', textAlign: 'center', color: 'rgba(255,255,255,0.5)', background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 8, display: 'block' }}
           >

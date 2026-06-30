@@ -28,10 +28,12 @@ const BlogEnabledContext = createContext<boolean | undefined>(undefined);
 export type ServicePagesValue = {
   /** Full per-page content keyed by service slug (DB merged over static fallback). */
   content: Record<string, ServiceContent>;
+  /** Spanish twin of `content`. Field-by-field EN fallback so partial translations never blank a page. */
+  contentEs: Record<string, ServiceContent>;
   /** DB-managed service pages as catalog entries (for category-hub listings + new pages). */
   entries: ServicePageEntry[];
 };
-const DEFAULT_SERVICE_PAGES: ServicePagesValue = { content: SERVICE_CONTENT, entries: [] };
+const DEFAULT_SERVICE_PAGES: ServicePagesValue = { content: SERVICE_CONTENT, contentEs: SERVICE_CONTENT, entries: [] };
 const ServicePagesContext = createContext<ServicePagesValue>(DEFAULT_SERVICE_PAGES);
 
 export function SiteDataProvider({ children }: { children: ReactNode }) {
@@ -76,7 +78,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
             .order('is_featured', { ascending: false }),
           supabase
             .from('service_pages')
-            .select('slug, category_slug, label, short_desc, title_tag, meta_description, primary_keyword, secondary_keywords, h1, hero_intro, hero_alt, content')
+            .select('slug, category_slug, label, short_desc, title_tag, meta_description, primary_keyword, secondary_keywords, h1, hero_intro, hero_alt, content, title_tag_es, meta_description_es, h1_es, hero_intro_es, hero_alt_es, label_es, content_es')
             .eq('is_published', true)
             .order('sort_order'),
           supabase
@@ -219,14 +221,18 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
         }));
 
         const dbServiceContent: Record<string, ServiceContent> = {};
+        const dbServiceContentEs: Record<string, ServiceContent> = {};
         const dbServiceEntries: ServicePageEntry[] = [];
         (pages.data ?? []).forEach((p: {
           slug: string; category_slug: string; label: string; short_desc: string | null;
           title_tag: string | null; meta_description: string | null; primary_keyword: string | null;
           secondary_keywords: string[] | null; h1: string | null; hero_intro: string | null;
           hero_alt: string | null; content: Record<string, unknown> | null;
+          title_tag_es: string | null; meta_description_es: string | null; h1_es: string | null;
+          hero_intro_es: string | null; hero_alt_es: string | null; label_es: string | null;
+          content_es: Record<string, unknown> | null;
         }) => {
-          dbServiceContent[p.slug] = {
+          const en = {
             categorySlug: p.category_slug,
             slug: p.slug,
             label: p.label,
@@ -238,6 +244,21 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
             heroIntro: p.hero_intro ?? '',
             heroAlt: p.hero_alt ?? '',
             ...(p.content ?? {}),
+          } as unknown as ServiceContent;
+          dbServiceContent[p.slug] = en;
+          // ES twin: start from EN, overlay any present ES flat field + ES content keys.
+          // Field-by-field fallback keeps partial translations from blanking the page.
+          const esFlat: Record<string, unknown> = {};
+          if (p.label_es) esFlat.label = p.label_es;
+          if (p.title_tag_es) esFlat.titleTag = p.title_tag_es;
+          if (p.meta_description_es) esFlat.metaDesc = p.meta_description_es;
+          if (p.h1_es) esFlat.h1 = p.h1_es;
+          if (p.hero_intro_es) esFlat.heroIntro = p.hero_intro_es;
+          if (p.hero_alt_es) esFlat.heroAlt = p.hero_alt_es;
+          dbServiceContentEs[p.slug] = {
+            ...(en as unknown as Record<string, unknown>),
+            ...esFlat,
+            ...(p.content_es ?? {}),
           } as unknown as ServiceContent;
           dbServiceEntries.push({
             slug: p.slug,
@@ -272,6 +293,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
         setBlogEnabled(!!(settingsMap.blog as { enabled?: boolean } | undefined)?.enabled);
         setServicePages({
           content: { ...SERVICE_CONTENT, ...dbServiceContent },
+          contentEs: { ...SERVICE_CONTENT, ...dbServiceContentEs },
           entries: dbServiceEntries,
         });
       } catch (err) {
