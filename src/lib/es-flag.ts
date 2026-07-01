@@ -8,4 +8,4 @@
 // published, and the sitemap omits ES. Flip to true ONLY after Frankie +
 // Treysyde sign off the clinical Spanish, then rebuild — one change, fully live.
 // ─────────────────────────────────────────────────────────────────────────────
-export const ES_PUBLIC = false
+export const ES_PUBLIC = true
