@@ -19,6 +19,7 @@ import {
   reviewsFor,
 } from '../../data/locationDetails'
 import { INITIAL_DATA } from '../../data/initialData'
+import { GoogleG } from './icons/GoogleG'
 
 const ORANGE = '#F3672A'
 const NAVY = '#001D3D'
@@ -608,7 +609,11 @@ export function PatientReviewsSection({
   theme?: LocationTheme
 }) {
   const palette = paletteFor(theme)
-  const reviews = reviewsFor(location.slug)
+  // Real Google reviews (pulled into Supabase at build time) win; the static
+  // curated set is only a fallback until the first successful pull.
+  const liveReviews = location.reviews ?? []
+  const isLive = liveReviews.length > 0
+  const reviews = isLive ? liveReviews.slice(0, 3) : reviewsFor(location.slug)
 
   // Build Review JSON-LD inline so Google sees per-review schema
   const reviewSchemaJson = JSON.stringify({
@@ -646,9 +651,11 @@ export function PatientReviewsSection({
             </>
           }
           intro={
-            location.review_count > 0
-              ? `Reviews from real patients who specifically mention this clinic, a provider here, or a nearby neighborhood. Aggregated from ${location.review_count}+ verified Google reviews.`
-              : 'Pre-launch placeholders — real Google reviews will be selected before launch.'
+            isLive
+              ? `The most recent public Google reviews for this clinic, from ${location.review_count}+ verified Google reviews.`
+              : location.review_count > 0
+                ? `Reviews from real patients who specifically mention this clinic, a provider here, or a nearby neighborhood. Aggregated from ${location.review_count}+ verified Google reviews.`
+                : 'Pre-launch placeholders — real Google reviews will be selected before launch.'
           }
           palette={palette}
         />
@@ -692,7 +699,7 @@ export function PatientReviewsSection({
                   color: ORANGE,
                 }}
               >
-                {Array.from({ length: 5 }).map((_, idx) => (
+                {Array.from({ length: Math.min(5, Math.max(1, Math.round(r.rating))) }).map((_, idx) => (
                   <Star key={idx} size={14} fill={ORANGE} color={ORANGE} />
                 ))}
               </div>
@@ -772,6 +779,25 @@ export function PatientReviewsSection({
             </motion.div>
           ))}
         </div>
+
+        {/* Google attribution — required whenever real Google review content
+            is displayed. */}
+        {isLive && (
+          <div
+            style={{
+              marginTop: 20,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 7,
+              fontSize: 12,
+              color: palette.textFaint,
+            }}
+          >
+            <GoogleG size={13} />
+            <span>Reviews from Google</span>
+          </div>
+        )}
 
         {/* External link to all reviews on GBP — pill button, matches the
             "View all" pattern used elsewhere on the page (Services, Locations,

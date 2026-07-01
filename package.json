@@ -7,7 +7,7 @@
     "dev": "vite",
     "schema": "node scripts/inject-schema.mjs",
     "prerender": "node scripts/prerender.mjs",
-    "build": "node scripts/inject-schema.mjs && vite build && node scripts/prerender.mjs && node scripts/generate-sitemap.mjs",
+    "build": "node scripts/fetch-google-reviews.mjs; node scripts/inject-schema.mjs && vite build && node scripts/prerender.mjs && node scripts/generate-sitemap.mjs",
     "build:dev": "node scripts/inject-schema.mjs && vite build --mode development",
     "build:no-prerender": "node scripts/inject-schema.mjs && vite build",
     "lint": "eslint .",
