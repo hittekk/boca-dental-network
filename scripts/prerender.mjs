@@ -79,7 +79,7 @@ const ROUTES = [
   { path: '/about-us/dentists/dr-harrison-luu/',                title: 'Dr. Harrison Luu' },
   { path: '/about-us/dentists/dr-michael-st-laurent/',          title: 'Dr. Michael St Laurent' },
   { path: '/about-us/dentists/dr-bredan-marlin/',               title: 'Dr. Brenden Marlin' },
-  { path: '/about-us/dentists/dr-charles-calder/',              title: 'Dr. Charles Calder' },
+  { path: '/about-us/dentists/dr-charles-calder/',              title: 'Dr. Chad Calder' },
   { path: '/about-us/dentists/dr-wyatt-dannels/',               title: 'Dr. Wyatt Dannels' },
   { path: '/about-us/dentists/dr-james-yun/',                   title: 'Dr. James Yun' },
   { path: '/about-us/dentists/dr-kathy-gonzalez/',              title: 'Dr. Kathy Gonzales' },
