@@ -193,9 +193,6 @@ export function DentistPage() {
 
               {/* Quick facts */}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 28 }}>
-                {content.yearsInPractice && (
-                  <Chip icon={<Calendar size={12} color={ORANGE} />} text={`${content.yearsInPractice}+ years in practice`} />
-                )}
                 {content.dentalSchool && (
                   <Chip icon={<GraduationCap size={12} color={ORANGE} />} text={content.dentalSchool} />
                 )}

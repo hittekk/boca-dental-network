@@ -411,11 +411,7 @@ export function AboutUsPage() {
                 </div>
 
                 {/* Stats row */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                  <div style={{ padding: '18px 24px', borderRight: '1px solid rgba(255,255,255,0.06)' }}>
-                    <div style={{ fontSize: 28, fontWeight: 900, color: 'white', letterSpacing: '-1px', lineHeight: 1 }}>{doc.years}</div>
-                    <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.2, marginTop: 4 }}>Years in Practice</div>
-                  </div>
+                <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
                   <div style={{ padding: '18px 24px' }}>
                     <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
                       {doc.langs.map((lang, li) => (
