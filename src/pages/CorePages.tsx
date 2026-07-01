@@ -37,9 +37,9 @@ import { CTA } from '../components/CTA/CTA'
 import { LangProvider } from '../lib/lang'
 import { ConsultationForm } from '../components/ConsultationForm/ConsultationForm'
 import { INITIAL_DATA } from '../data/initialData'
-import { useDoctors } from '../lib/site-data'
+import { useDoctors, useSiteData } from '../lib/site-data'
+import { reviewAggregate } from '../lib/reviews'
 import { SERVICE_CATEGORIES, SERVICE_PAGES } from '../data/serviceCatalog'
-import { LOCATION_REVIEWS } from '../data/locationDetails'
 import { COORDS_BY_LOCATION } from './LocationPage'
 import { ServicesHubPage } from './ServicesPage'
 import { Homepage } from '../App'
@@ -203,6 +203,8 @@ export function CTAStrip({ headline = 'Ready to book? Your new Las Vegas dentist
 
 export function AboutUsPage() {
   const doctors = useDoctors()
+  const { locations } = useSiteData()
+  const aboutAgg = reviewAggregate(locations)
   const breadcrumbSchema = usePageMeta({
     title: 'About Boca Dental & Braces | Las Vegas, NV',
     description: 'Founded by Dr. Wyatt Dannels, Boca Dental & Braces has grown to 9 Las Vegas locations with a team of licensed providers — delivering consistent, high-quality care to every Las Vegas family regardless of ZIP code, schedule, or budget.',
@@ -287,7 +289,12 @@ export function AboutUsPage() {
               @media(max-width:760px){ .about-hero-stats{ grid-template-columns:repeat(3, minmax(0,1fr)); row-gap:26px; } .about-hero-stats > div + div::before{ display:none; } }
               @media(max-width:440px){ .about-hero-stats{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
             `}</style>
-            {[['9', 'Locations'], ['14', 'Providers'], ['20k+', 'Patients'], ['4.8★', 'Rating'], ['Medicaid', 'Accepted']].map(([val, label], i) => (
+            {[
+              [String(locations.length), 'Locations'],
+              [String(doctors.length), 'Providers'],
+              ...(aboutAgg ? [[`${aboutAgg.rating}★`, 'Google Rating'], [`${aboutAgg.count.toLocaleString('en-US')}+`, 'Google Reviews']] : []),
+              ['Medicaid', 'Accepted'],
+            ].map(([val, label], i) => (
               <div key={i}>
                 <div style={{ fontSize: 'clamp(18px, 2vw, 28px)', fontWeight: 800, color: 'white', letterSpacing: '-0.5px', lineHeight: 1.05, whiteSpace: 'nowrap' }}>{val}</div>
                 <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 6 }}>{label}</div>
@@ -966,6 +973,8 @@ function ClinicPopup({ clinic, onClose }: { clinic: ActiveClinic | null; onClose
 }
 
 export function ClinicsHubPage() {
+  const { locations: liveLocations } = useSiteData()
+  const hubAgg = reviewAggregate(liveLocations)
   const [activeNeighborhood, setActiveNeighborhood] = React.useState<string>('All')
   const [activeClinic, setActiveClinic] = React.useState<ActiveClinic | null>(null)
   const mapResetRef = React.useRef<(() => void) | null>(null)
@@ -1047,7 +1056,14 @@ export function ClinicsHubPage() {
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px 20px', marginBottom: 32, paddingBottom: 28, borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-            {[{ val: '9', label: 'Locations' }, { val: '4.8★', label: 'Avg Rating' }, { val: '20k+', label: 'Patients Served' }, { val: '6', label: 'Days a Week' }].map(s => (
+            {[
+              { val: String(liveLocations.length), label: 'Locations' },
+              ...(hubAgg ? [
+                { val: `${hubAgg.rating}★`, label: 'Google Rating' },
+                { val: `${hubAgg.count.toLocaleString('en-US')}+`, label: 'Google Reviews' },
+              ] : []),
+              { val: '6', label: 'Days a Week' },
+            ].map(s => (
               <div key={s.label}>
                 <div style={{ fontSize: 20, fontWeight: 800, color: 'white', letterSpacing: '-0.5px', lineHeight: 1 }}>{s.val}</div>
                 <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 5 }}>{s.label}</div>
@@ -1198,7 +1214,7 @@ export function PatientResourcesHubPage() {
   const items = [
     { slug: 'insurance', label: 'Insurance We Accept', desc: 'View accepted PPO plans + Nevada Medicaid eligibility.', icon: ShieldCheck },
     { slug: 'financing', label: 'Financing Options', desc: 'CareCredit, in-house plans, FSA/HSA — see all options.', icon: CreditCard },
-    { slug: 'reviews', label: 'Patient Reviews', desc: 'Read what 1,200+ Las Vegas patients are saying.', icon: Star },
+    { slug: 'reviews', label: 'Patient Reviews', desc: 'Read what Las Vegas patients are saying on Google.', icon: Star },
   ]
   const breadcrumbSchema = usePageMeta({
     title: 'Patient Resources | Boca Dental & Braces Las Vegas',
@@ -1330,22 +1346,42 @@ export function ReviewsPage() {
 
   const breadcrumbSchema = usePageMeta({
     title: 'Patient Reviews | Boca Dental & Braces Las Vegas',
-    description: 'Read 1,200+ verified Google reviews for Boca Dental & Braces across 9 Las Vegas locations. Rated 4.9 stars by patients across Southeast Las Vegas, Spring Valley, Downtown, and more.',
+    description: 'Read verified Google reviews for Boca Dental & Braces across our 9 Las Vegas locations — Southeast Las Vegas, Spring Valley, Downtown, and more.',
     url: `${DOMAIN}/patient-resources/reviews/`,
     breadcrumb: [{ name: 'Home', url: `${DOMAIN}/` }, { name: 'Patient Resources', url: `${DOMAIN}/patient-resources/` }, { name: 'Reviews' }],
   })
 
-  const allLocationReviews = INITIAL_DATA.locations.map(loc => ({
+  // ONLY real Google data renders here: live Supabase locations carry real
+  // rating / review_count / reviews[], refreshed from Google at build time.
+  const { locations } = useSiteData()
+  const allLocationReviews = locations.map(loc => ({
     location: loc,
-    reviews: LOCATION_REVIEWS[loc.slug] ?? [],
+    reviews: loc.reviews ?? [],
   }))
 
   const displayed = activeLocation === 'all'
     ? allLocationReviews
     : allLocationReviews.filter(lr => lr.location.slug === activeLocation)
 
-  const totalReviews = INITIAL_DATA.locations.reduce((sum, l) => sum + l.review_count, 0)
-  const avgRating = (INITIAL_DATA.locations.reduce((sum, l) => sum + l.rating, 0) / INITIAL_DATA.locations.length).toFixed(1)
+  const agg = reviewAggregate(locations)
+  const totalReviews = agg?.count ?? 0
+  const avgRating = agg ? agg.rating.toFixed(1) : null
+  // First real reviews across all clinics feed the hero illustration cards.
+  const heroReviews = allLocationReviews.flatMap(lr => lr.reviews).slice(0, 2)
+  const svgLines = (text: string, width = 34): string[] => {
+    const words = text.split(/\s+/)
+    const lines: string[] = []
+    let cur = ''
+    for (const w of words) {
+      if ((cur + ' ' + w).trim().length > width) { lines.push(cur.trim()); cur = w } else { cur = `${cur} ${w}` }
+      if (lines.length === 3) break
+    }
+    if (lines.length < 3 && cur.trim()) lines.push(cur.trim())
+    if (lines.length === 3 && words.join(' ').length > lines.join(' ').length) {
+      lines[2] = lines[2].slice(0, width - 1) + '…'
+    }
+    return lines
+  }
 
   return (
     <div style={{ background: '#fff', color: NAVY, fontFamily: 'inherit' }}>
@@ -1406,23 +1442,26 @@ export function ReviewsPage() {
               {/* Divider */}
               <line x1="24" y1="75" x2="306" y2="75" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
 
-              {/* Rating number + stars */}
-              <text x="24" y="118" fontSize="52" fontWeight="900" fontFamily="sans-serif" fill="white">4.8</text>
+              {/* Rating number + stars — real aggregate only */}
+              <text x="24" y="118" fontSize="52" fontWeight="900" fontFamily="sans-serif" fill="white">{avgRating ?? '—'}</text>
               {/* 5 stars */}
               {[0,1,2,3,4].map(i => {
                 const cx = 110 + i * 36
                 const cy = 104
                 const r = 14
+                const filled = avgRating ? i < Math.round(Number(avgRating)) : false
                 const pts = Array.from({length:5}, (_,k) => {
                   const a = (k * 144 - 90) * Math.PI / 180
                   const b = (k * 144 - 90 + 72) * Math.PI / 180
                   return `${cx + r * Math.cos(a)},${cy + r * Math.sin(a)} ${cx + r*0.42 * Math.cos(b)},${cy + r*0.42 * Math.sin(b)}`
                 }).join(' ')
-                return <polygon key={i} points={pts} fill={i < 4 ? '#F3672A' : 'none'} stroke="#F3672A" strokeWidth="1.5" fillOpacity={i < 4 ? '1' : '0'} filter={i < 4 ? 'url(#gr-glow)' : undefined} />
+                return <polygon key={i} points={pts} fill={filled ? '#F3672A' : 'none'} stroke="#F3672A" strokeWidth="1.5" fillOpacity={filled ? '1' : '0'} filter={filled ? 'url(#gr-glow)' : undefined} />
               })}
 
-              {/* Review count */}
-              <text x="24" y="145" fontSize="12" fontWeight="600" fontFamily="sans-serif" fill="rgba(255,255,255,0.45)">Based on 1,534+ verified reviews</text>
+              {/* Review count — real aggregate only */}
+              {agg && (
+                <text x="24" y="145" fontSize="12" fontWeight="600" fontFamily="sans-serif" fill="rgba(255,255,255,0.45)">Based on {agg.count.toLocaleString('en-US')}+ verified reviews</text>
+              )}
 
               {/* Mini bar chart */}
               {[[5,'#F3672A',0.9,72],[4,'rgba(243,103,42,0.6)',0.6,48],[3,'rgba(243,103,42,0.3)',0.3,20]].map(([label, color, op, w], i) => (
@@ -1433,43 +1472,28 @@ export function ReviewsPage() {
               ))}
             </g>
 
-            {/* ── Floating mini review cards ── */}
-
-            {/* Review card — bottom left */}
-            <g transform="translate(60, 370)">
-              <rect width="210" height="110" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.13)" strokeWidth="1" />
-              {/* Avatar circle */}
-              <circle cx="24" cy="24" r="14" fill="rgba(243,103,42,0.25)" />
-              <text x="24" y="29" textAnchor="middle" fontSize="12" fontWeight="800" fontFamily="sans-serif" fill="#F3672A">M</text>
-              {/* Name */}
-              <text x="44" y="20" fontSize="11" fontWeight="700" fontFamily="sans-serif" fill="rgba(255,255,255,0.9)">Maria G.</text>
-              {/* Stars */}
-              <text x="44" y="33" fontSize="10" fontFamily="sans-serif" fill="#F3672A">★★★★★</text>
-              {/* Divider */}
-              <line x1="14" y1="46" x2="196" y2="46" stroke="rgba(255,255,255,0.07)" strokeWidth="1" />
-              {/* Review text lines */}
-              <text x="14" y="64" fontSize="9.5" fontFamily="sans-serif" fill="rgba(255,255,255,0.65)">"Best dental experience I've had</text>
-              <text x="14" y="79" fontSize="9.5" fontFamily="sans-serif" fill="rgba(255,255,255,0.65)">in Las Vegas. Staff was amazing</text>
-              <text x="14" y="94" fontSize="9.5" fontFamily="sans-serif" fill="rgba(255,255,255,0.45)">and they accept my insurance!"</text>
-            </g>
-
-            {/* Review card — bottom right */}
-            <g transform="translate(305, 400)">
-              <rect width="210" height="110" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.13)" strokeWidth="1" />
-              {/* Avatar circle */}
-              <circle cx="24" cy="24" r="14" fill="rgba(96,165,250,0.2)" />
-              <text x="24" y="29" textAnchor="middle" fontSize="12" fontWeight="800" fontFamily="sans-serif" fill="#60a5fa">J</text>
-              {/* Name */}
-              <text x="44" y="20" fontSize="11" fontWeight="700" fontFamily="sans-serif" fill="rgba(255,255,255,0.9)">James T.</text>
-              {/* Stars */}
-              <text x="44" y="33" fontSize="10" fontFamily="sans-serif" fill="#F3672A">★★★★★</text>
-              {/* Divider */}
-              <line x1="14" y1="46" x2="196" y2="46" stroke="rgba(255,255,255,0.07)" strokeWidth="1" />
-              {/* Review text lines */}
-              <text x="14" y="64" fontSize="9.5" fontFamily="sans-serif" fill="rgba(255,255,255,0.65)">"Got my Invisalign here. Dr. L is</text>
-              <text x="14" y="79" fontSize="9.5" fontFamily="sans-serif" fill="rgba(255,255,255,0.65)">incredible — results in 6 months.</text>
-              <text x="14" y="94" fontSize="9.5" fontFamily="sans-serif" fill="rgba(255,255,255,0.45)">Highly recommend Boca!"</text>
-            </g>
+            {/* ── Floating mini review cards — REAL Google reviews only;
+                hidden until the first pull lands. ── */}
+            {heroReviews.map((rev, ci) => {
+              const lines = svgLines(rev.body)
+              const stars = '★'.repeat(Math.min(5, Math.max(1, Math.round(rev.rating))))
+              const pos = ci === 0 ? 'translate(60, 370)' : 'translate(305, 400)'
+              const avatarBg = ci === 0 ? 'rgba(243,103,42,0.25)' : 'rgba(96,165,250,0.2)'
+              const avatarColor = ci === 0 ? '#F3672A' : '#60a5fa'
+              return (
+                <g key={ci} transform={pos}>
+                  <rect width="210" height="110" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.13)" strokeWidth="1" />
+                  <circle cx="24" cy="24" r="14" fill={avatarBg} />
+                  <text x="24" y="29" textAnchor="middle" fontSize="12" fontWeight="800" fontFamily="sans-serif" fill={avatarColor}>{rev.author.charAt(0)}</text>
+                  <text x="44" y="20" fontSize="11" fontWeight="700" fontFamily="sans-serif" fill="rgba(255,255,255,0.9)">{rev.author}</text>
+                  <text x="44" y="33" fontSize="10" fontFamily="sans-serif" fill="#F3672A">{stars}</text>
+                  <line x1="14" y1="46" x2="196" y2="46" stroke="rgba(255,255,255,0.07)" strokeWidth="1" />
+                  {lines.map((line, li) => (
+                    <text key={li} x="14" y={64 + li * 15} fontSize="9.5" fontFamily="sans-serif" fill={li === 2 ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.65)'}>{li === 0 ? `"${line}` : li === lines.length - 1 ? `${line}"` : line}</text>
+                  ))}
+                </g>
+              )
+            })}
 
             {/* Accent dots */}
             {[{cx:88,cy:120,r:4},{cx:500,cy:200,r:3},{cx:460,cy:520,r:4},{cx:95,cy:500,r:3}].map((d,i) => (
@@ -1498,9 +1522,9 @@ export function ReviewsPage() {
             <div className="rev-hero-stats" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, auto)', gap: 2, width: 'fit-content' }}>
               <style>{`@media(max-width:640px){ .rev-hero-stats{ grid-template-columns:1fr 1fr !important; } }`}</style>
               {[
-                { value: `${avgRating}\u2605`, label: 'Average rating', accent: ORANGE },
-                { value: `${totalReviews.toLocaleString()}+`, label: 'Google reviews', accent: '#10b981' },
-                { value: '9', label: 'LV locations', accent: '#60a5fa' },
+                ...(avgRating ? [{ value: `${avgRating}\u2605`, label: 'Average rating', accent: ORANGE }] : []),
+                ...(totalReviews > 0 ? [{ value: `${totalReviews.toLocaleString()}+`, label: 'Google reviews', accent: '#10b981' }] : []),
+                { value: String(locations.length), label: 'LV locations', accent: '#60a5fa' },
               ].map((stat, i) => (
                 <div key={i} style={{ background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(10px)', borderRadius: i === 0 ? '16px 0 0 16px' : i === 2 ? '0 16px 16px 0' : '0', border: '1px solid rgba(255,255,255,0.1)', borderRight: i < 2 ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(255,255,255,0.1)', padding: '24px 36px', textAlign: 'center' }}>
                   <div style={{ fontSize: 32, fontWeight: 800, color: stat.accent, letterSpacing: '-1px', lineHeight: 1, marginBottom: 6 }}>{stat.value}</div>
@@ -1530,7 +1554,7 @@ export function ReviewsPage() {
               .rev-tab.active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
                 height: 2px; background: #F3672A; border-radius: 2px 2px 0 0; }
             `}</style>
-            {[{ slug: 'all', label: 'All Locations' }, ...INITIAL_DATA.locations.map(l => ({ slug: l.slug, label: l.label }))].map(opt => (
+            {[{ slug: 'all', label: 'All Locations' }, ...locations.map(l => ({ slug: l.slug, label: l.label }))].map(opt => (
               <button
                 key={opt.slug}
                 className={`rev-tab${activeLocation === opt.slug ? ' active' : ''}`}
@@ -1538,7 +1562,7 @@ export function ReviewsPage() {
               >
                 {opt.label}
                 {opt.slug === 'all' && (
-                  <span style={{ marginLeft: 6, fontSize: 10, fontWeight: 800, background: activeLocation === 'all' ? '#F3672A' : 'rgba(0,29,61,0.08)', color: activeLocation === 'all' ? 'white' : 'rgba(0,29,61,0.4)', borderRadius: 999, padding: '2px 6px', transition: 'all 0.18s' }}>9</span>
+                  <span style={{ marginLeft: 6, fontSize: 10, fontWeight: 800, background: activeLocation === 'all' ? '#F3672A' : 'rgba(0,29,61,0.08)', color: activeLocation === 'all' ? 'white' : 'rgba(0,29,61,0.4)', borderRadius: 999, padding: '2px 6px', transition: 'all 0.18s' }}>{locations.length}</span>
                 )}
               </button>
             ))}
@@ -1586,13 +1610,18 @@ export function ReviewsPage() {
                     @media(max-width:960px){.rev-cards{grid-template-columns:1fr 1fr !important;}}
                     @media(max-width:580px){.rev-cards{grid-template-columns:1fr !important;}}
                   `}</style>
+                  {reviews.length === 0 && (
+                    <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '28px 20px', color: 'rgba(0,29,61,0.5)', fontSize: 14, lineHeight: 1.6 }}>
+                      Verified Google reviews for {loc.label} will appear here as patients share them{loc.gbp_id ? <> — <a href={`https://www.google.com/maps?cid=${loc.gbp_id}`} target="_blank" rel="noopener noreferrer" style={{ color: ORANGE, fontWeight: 700 }}>read them on Google</a></> : null}.
+                    </div>
+                  )}
                   {reviews.map((review, i) => (
                     <div key={i} style={{ background: '#F7F9FC', borderRadius: 18, padding: '26px 24px', border: '1px solid rgba(0,29,61,0.06)', display: 'flex', flexDirection: 'column', gap: 16, position: 'relative', overflow: 'hidden' }}>
                       {/* Giant decorative quote mark */}
                       <div aria-hidden style={{ position: 'absolute', top: -8, right: 18, fontSize: 100, lineHeight: 1, color: 'rgba(243,103,42,0.07)', fontFamily: 'Georgia, serif', fontWeight: 900, pointerEvents: 'none', userSelect: 'none' }}>"</div>
                       {/* Stars */}
                       <div style={{ display: 'flex', gap: 3, position: 'relative', zIndex: 1 }}>
-                        {Array.from({ length: review.rating }).map((_, s) => <Star key={s} size={14} fill={ORANGE} color={ORANGE} />)}
+                        {Array.from({ length: Math.min(5, Math.max(1, Math.round(review.rating))) }).map((_, s) => <Star key={s} size={14} fill={ORANGE} color={ORANGE} />)}
                       </div>
                       {/* Quote body */}
                       <p style={{ fontSize: 14, lineHeight: 1.72, color: 'rgba(0,29,61,0.78)', margin: 0, flex: 1, position: 'relative', zIndex: 1, fontStyle: 'italic' }}>
@@ -1606,7 +1635,7 @@ export function ReviewsPage() {
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ fontSize: 14, fontWeight: 800, color: NAVY, marginBottom: 1 }}>{review.author}</div>
-                          <div style={{ fontSize: 11, color: 'rgba(0,29,61,0.45)', fontWeight: 600 }}>{review.authorArea}</div>
+                          <div style={{ fontSize: 11, color: 'rgba(0,29,61,0.45)', fontWeight: 600 }}>{review.authorArea ?? 'Google review'}</div>
                         </div>
                         {/* Google G badge */}
                         <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 5, background: 'white', borderRadius: 8, padding: '4px 8px', border: '1px solid rgba(0,29,61,0.08)', boxShadow: '0 1px 4px rgba(0,29,61,0.06)' }}>

@@ -4,6 +4,8 @@ import { MapPin, Phone, ChevronDown, Star } from 'lucide-react'
 import type { Brand } from '../../types'
 import { GoogleG } from '../shared/icons/GoogleG'
 import { useLang, t } from '../../lib/lang'
+import { useSiteData } from '../../lib/site-data'
+import { reviewAggregate } from '../../lib/reviews'
 
 interface HeroProps {
   brand: Brand
@@ -11,6 +13,8 @@ interface HeroProps {
 
 export function Hero({ brand }: HeroProps) {
   const lang = useLang()
+  const { locations } = useSiteData()
+  const agg = reviewAggregate(locations)
   const scrollToLocations = () => {
     const el = document.getElementById('locations')
     if (el) {
@@ -243,49 +247,52 @@ export function Hero({ brand }: HeroProps) {
             </Link>
           </motion.div>
 
-          {/* Inline rating line — micro trust signal in copy column */}
-          <motion.div
-            className="boca-hero-rating"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.05, duration: 0.5 }}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 12,
-              fontSize: 13,
-              color: 'rgba(255,255,255,0.7)',
-              flexWrap: 'wrap',
-            }}
-          >
-            <div style={{ display: 'flex', gap: 2 }}>
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star
-                  key={i}
-                  size={14}
-                  fill="#F3672A"
-                  style={{ color: '#F3672A' }}
-                />
-              ))}
-            </div>
-            <span style={{ fontWeight: 700, color: 'white' }}>4.9</span>
-            <span style={{ opacity: 0.55 }}>·</span>
-            <span
+          {/* Inline rating line — micro trust signal in copy column. Real
+              per-clinic Google numbers; hidden until real data exists. */}
+          {agg && (
+            <motion.div
+              className="boca-hero-rating"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.05, duration: 0.5 }}
               style={{
-                display: 'inline-flex',
+                display: 'flex',
                 alignItems: 'center',
-                gap: 6,
+                gap: 12,
+                fontSize: 13,
+                color: 'rgba(255,255,255,0.7)',
+                flexWrap: 'wrap',
               }}
             >
-              <GoogleG size={14} />
-              <span>{t(lang, '1,200+ Google reviews', 'Más de 1,200 reseñas')}</span>
-            </span>
-            <span style={{ opacity: 0.55 }}>·</span>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <MapPin size={13} color="#F3672A" />
-              <span>{t(lang, 'across 9 Las Vegas offices', 'en 9 clínicas de Las Vegas')}</span>
-            </span>
-          </motion.div>
+              <div style={{ display: 'flex', gap: 2 }}>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star
+                    key={i}
+                    size={14}
+                    fill="#F3672A"
+                    style={{ color: '#F3672A' }}
+                  />
+                ))}
+              </div>
+              <span style={{ fontWeight: 700, color: 'white' }}>{agg.rating}</span>
+              <span style={{ opacity: 0.55 }}>·</span>
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                }}
+              >
+                <GoogleG size={14} />
+                <span>{t(lang, `${agg.count.toLocaleString('en-US')}+ Google reviews`, `Más de ${agg.count.toLocaleString('en-US')} reseñas`)}</span>
+              </span>
+              <span style={{ opacity: 0.55 }}>·</span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <MapPin size={13} color="#F3672A" />
+                <span>{t(lang, `across ${locations.length} Las Vegas offices`, `en ${locations.length} clínicas de Las Vegas`)}</span>
+              </span>
+            </motion.div>
+          )}
         </div>
 
         {/* RIGHT — hero image (stretches to match copy column height) */}

@@ -16,7 +16,6 @@ import {
   languagesFor,
   parkingFor,
   servicesUnavailableFor,
-  reviewsFor,
 } from '../../data/locationDetails'
 import { INITIAL_DATA } from '../../data/initialData'
 import { GoogleG } from './icons/GoogleG'
@@ -609,11 +608,11 @@ export function PatientReviewsSection({
   theme?: LocationTheme
 }) {
   const palette = paletteFor(theme)
-  // Real Google reviews (pulled into Supabase at build time) win; the static
-  // curated set is only a fallback until the first successful pull.
+  // ONLY real Google reviews render here (pulled into Supabase at build time).
+  // No static/placeholder fallback — no-fabrication rule.
   const liveReviews = location.reviews ?? []
   const isLive = liveReviews.length > 0
-  const reviews = isLive ? liveReviews.slice(0, 3) : reviewsFor(location.slug)
+  const reviews = liveReviews.slice(0, 3)
 
   // Build Review JSON-LD inline so Google sees per-review schema
   const reviewSchemaJson = JSON.stringify({
@@ -654,8 +653,8 @@ export function PatientReviewsSection({
             isLive
               ? `The most recent public Google reviews for this clinic, from ${location.review_count}+ verified Google reviews.`
               : location.review_count > 0
-                ? `Reviews from real patients who specifically mention this clinic, a provider here, or a nearby neighborhood. Aggregated from ${location.review_count}+ verified Google reviews.`
-                : 'Pre-launch placeholders — real Google reviews will be selected before launch.'
+                ? `This clinic has ${location.review_count}+ verified Google reviews — read them on our Google listing below.`
+                : 'Verified Google reviews for this clinic will appear here as patients share them.'
           }
           palette={palette}
         />
@@ -843,10 +842,13 @@ export function PatientReviewsSection({
           </a>
         </div>
       </div>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: reviewSchemaJson }}
-      />
+      {/* Review JSON-LD — only when REAL Google reviews exist. */}
+      {isLive && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: reviewSchemaJson }}
+        />
+      )}
     </section>
   )
 }

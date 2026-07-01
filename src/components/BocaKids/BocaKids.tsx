@@ -2,6 +2,8 @@ import { motion } from 'framer-motion'
 import { Star, Quote, Phone, ArrowRight, Smile, ShieldCheck, Heart, Sparkles } from 'lucide-react'
 import { KIDS_FEATURE_ICONS } from './KidsIcons'
 import { useLang, t } from '../../lib/lang'
+import { useSiteData } from '../../lib/site-data'
+import type { Location } from '../../types'
 
 const ORANGE = '#F3672A'
 const NAVY = '#162E7A'
@@ -16,17 +18,26 @@ function getKidsFeatures(lang: import('../../lib/lang').Lang) { return [
   t(lang,'Orthodontics and braces for kids and teens','Ortodoncia y frenos para niños y adolescentes'),
 ]}
 
-function getStats(lang: import('../../lib/lang').Lang) { return [
+// Rating/review numbers come from the Boca Kids clinic's real Google data
+// (refreshed each build); those stats are omitted until real data exists.
+function getStats(lang: import('../../lib/lang').Lang, kidsLoc: Location | undefined) { return [
   { value: t(lang,'Age 1+','Edad 1+'), label: t(lang,'First-visit age','Primera visita') },
-  { value: '1,500+', label: t(lang,'Happy kids served','Niños felices atendidos') },
-  { value: '★ 4.9',  label: t(lang,'Parent rating','Calificación de padres') },
+  ...(kidsLoc && kidsLoc.review_count > 0 ? [
+    { value: `${kidsLoc.review_count.toLocaleString('en-US')}+`, label: t(lang,'Google reviews','Reseñas de Google') },
+  ] : []),
+  ...(kidsLoc && kidsLoc.rating > 0 ? [
+    { value: `★ ${kidsLoc.rating}`, label: t(lang,'Google rating','Calificación en Google') },
+  ] : []),
   { value: 'EN · ES', label: t(lang,'Bilingual care','Atención bilingüe') },
 ]}
 
 export function BocaKids() {
   const lang = useLang()
+  const { locations } = useSiteData()
+  const kidsLoc = locations.find((l) => l.slug === 'boca-kids-dentistry') ?? locations.find((l) => l.kids)
+  const kidsReview = kidsLoc?.reviews?.[0]
   const KIDS_FEATURES = getKidsFeatures(lang)
-  const STATS = getStats(lang)
+  const STATS = getStats(lang, kidsLoc)
   return (
     <section
       id="boca-kids"
@@ -602,63 +613,66 @@ export function BocaKids() {
               Fear-free zone
             </motion.div>
 
-            {/* Parent testimonial quote card (below image) */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              style={{
-                marginTop: 32,
-                background: 'white',
-                border: '1px solid rgba(243,103,42,0.18)',
-                borderRadius: 14,
-                padding: '20px 22px',
-                boxShadow: '0 10px 28px rgba(0,29,61,0.06)',
-                position: 'relative',
-              }}
-            >
-              <Quote
-                size={22}
-                color={ORANGE}
-                strokeWidth={1.8}
-                style={{ opacity: 0.4, marginBottom: 8 }}
-              />
-              <p
+            {/* Parent review quote card (below image) — first REAL Google
+                review for the Boca Kids clinic; hidden until one exists. */}
+            {kidsReview && (
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5, duration: 0.5 }}
                 style={{
-                  fontSize: 14,
-                  color: NAVY_DEEP,
-                  lineHeight: 1.55,
-                  margin: '0 0 12px',
-                  fontStyle: 'italic',
+                  marginTop: 32,
+                  background: 'white',
+                  border: '1px solid rgba(243,103,42,0.18)',
+                  borderRadius: 14,
+                  padding: '20px 22px',
+                  boxShadow: '0 10px 28px rgba(0,29,61,0.06)',
+                  position: 'relative',
                 }}
               >
-                {t(lang, "My 4-year-old was terrified of the dentist until we came to Boca Kids. They have a special quiet room and the team is amazing with sensory-sensitive kids. Game-changer.", "Mi niña de 4 años le tenía terror al dentista hasta que vinimos a Boca Kids. Tienen una sala silenciosa especial y el equipo es increíble con niños con necesidades sensoriales. ¡Un cambio total!")}
-              </p>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  paddingTop: 10,
-                  borderTop: '1px solid rgba(0,29,61,0.06)',
-                }}
-              >
-                <div>
-                  <div style={{ fontSize: 12, fontWeight: 800, color: NAVY_DEEP }}>
-                    Jessica P.
+                <Quote
+                  size={22}
+                  color={ORANGE}
+                  strokeWidth={1.8}
+                  style={{ opacity: 0.4, marginBottom: 8 }}
+                />
+                <p
+                  style={{
+                    fontSize: 14,
+                    color: NAVY_DEEP,
+                    lineHeight: 1.55,
+                    margin: '0 0 12px',
+                    fontStyle: 'italic',
+                  }}
+                >
+                  {kidsReview.body}
+                </p>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    paddingTop: 10,
+                    borderTop: '1px solid rgba(0,29,61,0.06)',
+                  }}
+                >
+                  <div>
+                    <div style={{ fontSize: 12, fontWeight: 800, color: NAVY_DEEP }}>
+                      {kidsReview.author}
+                    </div>
+                    <div style={{ fontSize: 10, color: 'rgba(0,29,61,0.55)', marginTop: 2 }}>
+                      {t(lang, 'Google review', 'Reseña de Google')}
+                    </div>
                   </div>
-                  <div style={{ fontSize: 10, color: 'rgba(0,29,61,0.55)', marginTop: 2 }}>
-                    Henderson · Google review
+                  <div style={{ display: 'flex', gap: 1, color: ORANGE }}>
+                    {Array.from({ length: Math.min(5, Math.max(1, Math.round(kidsReview.rating))) }).map((_, i) => (
+                      <Star key={i} size={12} fill={ORANGE} color={ORANGE} />
+                    ))}
                   </div>
                 </div>
-                <div style={{ display: 'flex', gap: 1, color: ORANGE }}>
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={12} fill={ORANGE} color={ORANGE} />
-                  ))}
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            )}
 
             {/* Decorative heart corner */}
             <div

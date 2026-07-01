@@ -21,39 +21,7 @@ import { CTA } from './components/CTA/CTA'
 import { ConsultationForm } from './components/ConsultationForm/ConsultationForm'
 import { Footer } from './components/Footer/Footer'
 
-// Variant B — Warm Editorial
-import { HeroV2 } from './components/v2/HeroV2'
-import { ServicesV2 } from './components/v2/ServicesV2'
-import { WhyBocaV2 } from './components/v2/WhyBocaV2'
-import { StepsV2 } from './components/v2/StepsV2'
-import { TestimonialsV2 } from './components/v2/TestimonialsV2'
-import { AudienceRoutingV2 } from './components/v2/AudienceRoutingV2'
-import { BocaKidsV2 } from './components/v2/BocaKidsV2'
-import { LocationsV2 } from './components/v2/LocationsV2'
-import { MeetTheTeamV2 } from './components/v2/MeetTheTeamV2'
-import { FinancingV2 } from './components/v2/FinancingV2'
-import { FAQV2 } from './components/v2/FAQV2'
-import { FooterV2 } from './components/v2/FooterV2'
-import { CTAv2 } from './components/v2/CTAv2'
 
-// Variant C — Super Modern
-import { HeaderV3 } from './components/v3/HeaderV3'
-import { HeroV3 } from './components/v3/HeroV3'
-import { TrustBarV3 } from './components/v3/TrustBarV3'
-import { AudienceRoutingV3 } from './components/v3/AudienceRoutingV3'
-import { MeetTheTeamV3 } from './components/v3/MeetTheTeamV3'
-import { LocationsMapV3 } from './components/v3/LocationsMapV3'
-import { ServicesV3 } from './components/v3/ServicesV3'
-import { WhyBocaV3 } from './components/v3/WhyBocaV3'
-import { StepsV3 } from './components/v3/StepsV3'
-import { BocaKidsV3 } from './components/v3/BocaKidsV3'
-import { TestimonialsV3 } from './components/v3/TestimonialsV3'
-import { FAQV3 } from './components/v3/FAQV3'
-import { FinancingV3 } from './components/v3/FinancingV3'
-import { LocationsV3 } from './components/v3/LocationsV3'
-import { ConsultationFormV3 } from './components/v3/ConsultationFormV3'
-import { CTAv3 } from './components/v3/CTAv3'
-import { FooterV3 } from './components/v3/FooterV3'
 
 // Shared
 import { TrustBar } from './components/shared/TrustBar'
@@ -83,19 +51,11 @@ import {
   PrivacyPage,
   HipaaPage,
 } from './pages/CorePages'
-import { VariantSwitcher, type Variant } from './components/VariantSwitcher'
 import { CustomPage, usePageBySlug } from './pages/CustomPage'
 import { BlogIndexPage, BlogPostPage } from './pages/BlogPage'
 import { useSiteData } from './lib/site-data'
 import { SERVICE_CATEGORIES } from './data/serviceCatalog'
 
-function readVariantFromUrl(): Variant {
-  if (typeof window === 'undefined') return 'a'
-  const v = new URLSearchParams(window.location.search).get('variant')
-  if (v === 'b') return 'b'
-  if (v === 'c') return 'c'
-  return 'a'
-}
 
 export function Homepage() {
   const siteData = useSiteData()

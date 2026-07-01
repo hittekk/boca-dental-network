@@ -2,12 +2,20 @@ import { motion } from 'framer-motion'
 import { MapPin, CreditCard, Clock, UserPlus, Languages } from 'lucide-react'
 import { GoogleG } from './icons/GoogleG'
 import { useLang, t } from '../../lib/lang'
+import { useSiteData } from '../../lib/site-data'
+import { reviewAggregate, type ReviewAggregate } from '../../lib/reviews'
 
 type Theme = 'light' | 'dark' | 'cream'
 
-function getItems(lang: import('../../lib/lang').Lang) { return [
-  { icon: <GoogleG size={14} />, text: t(lang, '4.9 — 1,200+ Google Reviews', '4.9 — Más de 1,200 Reseñas en Google'), bold: true },
-  { icon: <MapPin size={13} />, text: t(lang, '9 Las Vegas Locations', '9 Clínicas en Las Vegas') },
+// Google numbers are real per-clinic data (refreshed from Google each build);
+// the item is omitted entirely until real data exists — no-fabrication rule.
+function getItems(lang: import('../../lib/lang').Lang, agg: ReviewAggregate | null, locationCount: number) { return [
+  ...(agg ? [{
+    icon: <GoogleG size={14} />,
+    text: t(lang, `${agg.rating} — ${agg.count.toLocaleString('en-US')}+ Google Reviews`, `${agg.rating} — Más de ${agg.count.toLocaleString('en-US')} Reseñas en Google`),
+    bold: true,
+  }] : []),
+  { icon: <MapPin size={13} />, text: t(lang, `${locationCount} Las Vegas Locations`, `${locationCount} Clínicas en Las Vegas`) },
   { icon: <CreditCard size={13} />, text: t(lang, 'Most Insurance Accepted', 'Aceptamos la Mayoría de Seguros') },
   { icon: <Clock size={13} />, text: t(lang, 'Evening & Weekend Hours', 'Horario de Noche y Fin de Semana') },
   { icon: <UserPlus size={13} />, text: t(lang, 'Accepting New Patients', 'Aceptamos Nuevos Pacientes') },
@@ -16,7 +24,8 @@ function getItems(lang: import('../../lib/lang').Lang) { return [
 
 export function TrustBar({ theme = 'light' }: { theme?: Theme }) {
   const lang = useLang()
-  const ITEMS = getItems(lang)
+  const { locations } = useSiteData()
+  const ITEMS = getItems(lang, reviewAggregate(locations), locations.length)
   const isDark = theme === 'dark'
   const bg = isDark ? '#0F0F15' : theme === 'cream' ? '#FFF4ED' : 'white'
   const border = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(10,10,15,0.06)'

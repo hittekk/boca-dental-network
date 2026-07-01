@@ -2,55 +2,23 @@ import { motion } from 'framer-motion'
 import { Star } from 'lucide-react'
 import { GoogleG } from '../shared/icons/GoogleG'
 import { useLang, t } from '../../lib/lang'
+import { useSiteData } from '../../lib/site-data'
+import {
+  reviewAggregate,
+  allReviews,
+  googleReviewsUrl,
+  initialsOf,
+} from '../../lib/reviews'
 
-// 4 cards covering: (1) general/family/new-patient · (2) ortho-cosmetic ·
-// (3) pediatric/family · (4) location-specific · per Treysyde spec.
-const REVIEWS = [
-  {
-    initials: 'MG',
-    name: 'Maria G.',
-    location: 'Sahara Office',
-    rating: 5,
-    target: 'General · New patient experience',
-    quote:
-      'The whole team at Boca Sahara made me feel so welcome. Hablan español perfecto and they explained every option with my insurance. Best dental experience I have ever had in Las Vegas.',
-  },
-  {
-    initials: 'SL',
-    name: 'Sofia L.',
-    location: 'Flamingo Office',
-    rating: 5,
-    target: 'Orthodontic · Cosmetic',
-    quote:
-      'Started Invisalign here 8 months ago and my smile is already transformed. The financing through Sunbit made it actually affordable. Front desk is amazing and patient with all my questions.',
-  },
-  {
-    initials: 'AM',
-    name: 'Ana M.',
-    location: 'Boca Kids Dentistry',
-    rating: 5,
-    target: 'Pediatric · Family',
-    quote:
-      'My 4-year-old was terrified of the dentist. The Boca Kids team turned it into a fun visit — she now ASKS to go back. They accept Medicaid which made it possible for us. Forever grateful.',
-  },
-  {
-    initials: 'DT',
-    name: 'David T.',
-    location: 'Jones & I-95 Office',
-    rating: 5,
-    target: 'Location-specific · Family',
-    quote:
-      'Brought my whole family to the Jones & I-95 location for cleanings. Took our Aetna insurance, no surprises at checkout. The hygienist was gentle and thorough. Highly recommend if you are looking for a real family dentist on the west side.',
-  },
-]
+// Reviews are data-driven from the per-clinic `reviews[]` / `rating` /
+// `review_count` / `gbp_id` fields, refreshed from Google at build time by
+// scripts/fetch-google-reviews.mjs. Nothing here is hardcoded — no-fabrication
+// rule. Until real reviews exist the section renders the aggregate (real GMB
+// numbers) plus an honest empty state.
 
-function ReviewCard({
-  review,
-  index,
-}: {
-  review: (typeof REVIEWS)[0]
-  index: number
-}) {
+type Review = ReturnType<typeof allReviews>[number]
+
+function ReviewCard({ review, index }: { review: Review; index: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -68,7 +36,7 @@ function ReviewCard({
       }}
     >
       <div style={{ display: 'flex', gap: 3, marginBottom: 14 }}>
-        {Array.from({ length: review.rating }).map((_, i) => (
+        {Array.from({ length: Math.min(5, Math.max(1, Math.round(review.rating))) }).map((_, i) => (
           <Star
             key={i}
             size={15}
@@ -87,7 +55,7 @@ function ReviewCard({
           flex: 1,
         }}
       >
-        “{review.quote}”
+        “{review.body}”
       </div>
 
       <div
@@ -115,7 +83,7 @@ function ReviewCard({
             flexShrink: 0,
           }}
         >
-          {review.initials}
+          {initialsOf(review.author)}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div
@@ -126,7 +94,7 @@ function ReviewCard({
               lineHeight: 1.2,
             }}
           >
-            {review.name}
+            {review.author}
           </div>
           <div
             style={{
@@ -135,7 +103,7 @@ function ReviewCard({
               marginTop: 2,
             }}
           >
-            {review.location}
+            {review.clinic}
           </div>
         </div>
         <div
@@ -160,13 +128,18 @@ function ReviewCard({
 
 export function Testimonials() {
   const lang = useLang()
+  // Live Supabase locations (real Google data pulled at build time).
+  const { locations } = useSiteData()
+  const agg = reviewAggregate(locations)
+  const reviews = allReviews(locations).slice(0, 4)
+  const googleUrl = googleReviewsUrl(locations)
+
   return (
     <section
       id="testimonials"
       style={{ background: '#F7F7FA', padding: '96px 32px' }}
     >
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        {/* Header row */}
         {/* Centered header — H2 + intro (Treysyde Section 5) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -206,80 +179,131 @@ export function Testimonials() {
           </h2>
         </motion.div>
 
-        {/* Aggregate Rating Callout — single line, above reviews per Treysyde spec */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: 14,
-            flexWrap: 'wrap',
-            marginBottom: 48,
-            fontSize: 15,
-            color: '#0F172A',
-          }}
-        >
-          <span
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
-          >
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star
-                key={i}
-                size={16}
-                fill="#F3672A"
-                style={{ color: '#F3672A' }}
-              />
-            ))}
-            <strong
-              style={{
-                fontWeight: 800,
-                color: '#162E7A',
-                marginLeft: 4,
-              }}
-            >
-              {t(lang, '4.9 out of 5 stars', '4.9 de 5 estrellas')}
-            </strong>
-          </span>
-          <span style={{ color: '#94A3B8' }}>·</span>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-            <GoogleG size={15} />
-            <span>{t(lang, '1,200+ Google reviews across all 9 Las Vegas locations', 'Más de 1,200 reseñas de Google en las 9 clínicas')}</span>
-          </span>
-          <span style={{ color: '#94A3B8' }}>·</span>
-          <a
-            href="https://www.google.com/search?q=Boca+Dental+and+Braces+Las+Vegas+reviews"
-            target="_blank"
-            rel="noopener noreferrer"
+        {/* Aggregate Rating Callout — single line, above reviews per Treysyde
+            spec. Real weighted numbers from the per-clinic Google data; only
+            rendered when real data exists. */}
+        {agg && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.1 }}
             style={{
-              color: '#F3672A',
-              fontWeight: 800,
-              textDecoration: 'none',
-              borderBottom: '1.5px solid #F3672A',
-              paddingBottom: 1,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 14,
+              flexWrap: 'wrap',
+              marginBottom: 48,
+              fontSize: 15,
+              color: '#0F172A',
             }}
           >
-            {t(lang, 'Read all reviews →', 'Ver todas las reseñas →')}
-          </a>
-        </motion.div>
+            <span
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+            >
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star
+                  key={i}
+                  size={16}
+                  fill="#F3672A"
+                  style={{ color: '#F3672A' }}
+                />
+              ))}
+              <strong
+                style={{
+                  fontWeight: 800,
+                  color: '#162E7A',
+                  marginLeft: 4,
+                }}
+              >
+                {t(lang, `${agg.rating} out of 5 stars`, `${agg.rating} de 5 estrellas`)}
+              </strong>
+            </span>
+            <span style={{ color: '#94A3B8' }}>·</span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+              <GoogleG size={15} />
+              <span>
+                {t(
+                  lang,
+                  `${agg.count.toLocaleString('en-US')}+ Google reviews across all ${locations.length} Las Vegas locations`,
+                  `Más de ${agg.count.toLocaleString('en-US')} reseñas de Google en las ${locations.length} clínicas`,
+                )}
+              </span>
+            </span>
+            {googleUrl && (
+              <>
+                <span style={{ color: '#94A3B8' }}>·</span>
+                <a
+                  href={googleUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: '#F3672A',
+                    fontWeight: 800,
+                    textDecoration: 'none',
+                    borderBottom: '1.5px solid #F3672A',
+                    paddingBottom: 1,
+                  }}
+                >
+                  {t(lang, 'Read all reviews →', 'Ver todas las reseñas →')}
+                </a>
+              </>
+            )}
+          </motion.div>
+        )}
 
-        {/* Reviews grid — 4 cards per Treysyde spec, auto-wraps on mobile */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: 16,
-          }}
-        >
-          {REVIEWS.map((review, i) => (
-            <ReviewCard key={review.name} review={review} index={i} />
-          ))}
-        </div>
+        {/* Reviews grid — real Google reviews (4 cards per Treysyde spec) OR
+            an honest empty state until the first pull lands. */}
+        {reviews.length > 0 ? (
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gap: 16,
+            }}
+          >
+            {reviews.map((review, i) => (
+              <ReviewCard key={`${review.author}-${i}`} review={review} index={i} />
+            ))}
+          </div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            style={{
+              background: 'white',
+              border: '1px solid #E2E8F0',
+              borderRadius: 16,
+              padding: '40px 32px',
+              textAlign: 'center',
+              maxWidth: 640,
+              margin: '0 auto',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+            }}
+          >
+            <div style={{ display: 'inline-flex', gap: 3, marginBottom: 14 }}>
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} size={16} fill="#F3672A" style={{ color: '#F3672A' }} />
+              ))}
+            </div>
+            <p style={{ fontSize: 15, color: '#0F172A', lineHeight: 1.7, margin: '0 0 6px', fontWeight: 700 }}>
+              {t(lang, 'Real reviews from real patients.', 'Reseñas reales de pacientes reales.')}
+            </p>
+            <p style={{ fontSize: 14, color: '#64748B', lineHeight: 1.7, margin: 0 }}>
+              {t(
+                lang,
+                'Verified Google reviews for our Las Vegas clinics will appear here as patients share them.',
+                'Las reseñas verificadas de Google de nuestras clínicas aparecerán aquí a medida que los pacientes las compartan.',
+              )}
+            </p>
+          </motion.div>
+        )}
 
-        {/* Review source logos — multi-platform credibility per Treysyde S5 spec */}
+        {/* Review source — Google trust card + read-all CTA. Only real numbers;
+            "Reviews from Google" attribution required when review content shows. */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -302,7 +326,7 @@ export function Testimonials() {
               marginBottom: 22,
             }}
           >
-            Verified on platforms our patients trust
+            {t(lang, 'Reviews from Google', 'Reseñas de Google')}
           </div>
           <div
             style={{
@@ -313,155 +337,76 @@ export function Testimonials() {
               flexWrap: 'wrap',
             }}
           >
-            <a
-              href="https://www.google.com/search?q=Boca+Dental+and+Braces+Las+Vegas+reviews"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 14,
-                background: 'white',
-                border: '1px solid #E2E8F0',
-                borderRadius: 14,
-                padding: '14px 22px',
-                textDecoration: 'none',
-                transition: 'box-shadow 0.2s ease, transform 0.2s ease',
-                boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
-              }}
-              onMouseEnter={(e) => {
-                ;(e.currentTarget as HTMLElement).style.boxShadow =
-                  '0 8px 20px rgba(0,0,0,0.08)'
-                ;(e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'
-              }}
-              onMouseLeave={(e) => {
-                ;(e.currentTarget as HTMLElement).style.boxShadow =
-                  '0 1px 4px rgba(0,0,0,0.04)'
-                ;(e.currentTarget as HTMLElement).style.transform = 'translateY(0)'
-              }}
-            >
-              <GoogleG size={28} />
-              <div style={{ textAlign: 'left' }}>
-                <div
-                  style={{
-                    fontSize: 13,
-                    fontWeight: 800,
-                    color: '#0F172A',
-                    letterSpacing: '-0.2px',
-                    lineHeight: 1.1,
-                  }}
-                >
-                  Google
-                </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 6,
-                    marginTop: 4,
-                    fontSize: 11,
-                    color: '#64748B',
-                  }}
-                >
-                  <span style={{ display: 'flex', gap: 1 }}>
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star
-                        key={i}
-                        size={10}
-                        fill="#F3672A"
-                        style={{ color: '#F3672A' }}
-                      />
-                    ))}
-                  </span>
-                  <span style={{ fontWeight: 700, color: '#0F172A' }}>4.9</span>
-                  <span>· 1,200+ reviews</span>
-                </div>
-              </div>
-            </a>
-
-            <a
-              href="https://www.healthgrades.com/group-directory/dentist"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 14,
-                background: 'white',
-                border: '1px solid #E2E8F0',
-                borderRadius: 14,
-                padding: '14px 22px',
-                textDecoration: 'none',
-                transition: 'box-shadow 0.2s ease, transform 0.2s ease',
-                boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
-              }}
-              onMouseEnter={(e) => {
-                ;(e.currentTarget as HTMLElement).style.boxShadow =
-                  '0 8px 20px rgba(0,0,0,0.08)'
-                ;(e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'
-              }}
-              onMouseLeave={(e) => {
-                ;(e.currentTarget as HTMLElement).style.boxShadow =
-                  '0 1px 4px rgba(0,0,0,0.04)'
-                ;(e.currentTarget as HTMLElement).style.transform = 'translateY(0)'
-              }}
-            >
-              {/* Healthgrades brandmark */}
-              <img
-                src="/healthgrades-logo.png"
-                alt="Healthgrades"
-                width={28}
-                height={28}
+            {agg && googleUrl && (
+              <a
+                href={googleUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{
-                  width: 28,
-                  height: 28,
-                  objectFit: 'contain',
-                  display: 'block',
-                  flexShrink: 0,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 14,
+                  background: 'white',
+                  border: '1px solid #E2E8F0',
+                  borderRadius: 14,
+                  padding: '14px 22px',
+                  textDecoration: 'none',
+                  transition: 'box-shadow 0.2s ease, transform 0.2s ease',
+                  boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
                 }}
-              />
-              <div style={{ textAlign: 'left' }}>
-                <div
-                  style={{
-                    fontSize: 13,
-                    fontWeight: 800,
-                    color: '#0F172A',
-                    letterSpacing: '-0.2px',
-                    lineHeight: 1.1,
-                  }}
-                >
-                  Healthgrades
+                onMouseEnter={(e) => {
+                  ;(e.currentTarget as HTMLElement).style.boxShadow =
+                    '0 8px 20px rgba(0,0,0,0.08)'
+                  ;(e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'
+                }}
+                onMouseLeave={(e) => {
+                  ;(e.currentTarget as HTMLElement).style.boxShadow =
+                    '0 1px 4px rgba(0,0,0,0.04)'
+                  ;(e.currentTarget as HTMLElement).style.transform = 'translateY(0)'
+                }}
+              >
+                <GoogleG size={28} />
+                <div style={{ textAlign: 'left' }}>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 800,
+                      color: '#0F172A',
+                      letterSpacing: '-0.2px',
+                      lineHeight: 1.1,
+                    }}
+                  >
+                    Google
+                  </div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      marginTop: 4,
+                      fontSize: 11,
+                      color: '#64748B',
+                    }}
+                  >
+                    <span style={{ display: 'flex', gap: 1 }}>
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star
+                          key={i}
+                          size={10}
+                          fill="#F3672A"
+                          style={{ color: '#F3672A' }}
+                        />
+                      ))}
+                    </span>
+                    <span style={{ fontWeight: 700, color: '#0F172A' }}>{agg.rating}</span>
+                    <span>· {agg.count.toLocaleString('en-US')}+ {t(lang, 'reviews', 'reseñas')}</span>
+                  </div>
                 </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 6,
-                    marginTop: 4,
-                    fontSize: 11,
-                    color: '#64748B',
-                  }}
-                >
-                  <span style={{ display: 'flex', gap: 1 }}>
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star
-                        key={i}
-                        size={10}
-                        fill="#F3672A"
-                        style={{ color: '#F3672A' }}
-                      />
-                    ))}
-                  </span>
-                  <span style={{ fontWeight: 700, color: '#0F172A' }}>4.8</span>
-                  <span>· Patient verified</span>
-                </div>
-              </div>
-            </a>
+              </a>
+            )}
 
             <a
-              href="https://www.google.com/search?q=Boca+Dental+and+Braces+Las+Vegas+reviews"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/patient-resources/reviews/"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -492,7 +437,7 @@ export function Testimonials() {
                 ;(e.currentTarget as HTMLElement).style.boxShadow = 'none'
               }}
             >
-              Read All Reviews
+              {t(lang, 'Read All Reviews', 'Ver Todas las Reseñas')}
               <span style={{ fontSize: 16, lineHeight: 1 }}>→</span>
             </a>
           </div>
