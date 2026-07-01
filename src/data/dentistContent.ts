@@ -48,7 +48,7 @@ const PILOT_LOVELAND: DentistContent = {
 
 const PILOT_CALDER: DentistContent = {
   slug: 'dr-charles-calder',
-  name: 'Dr. Charles Calder, DDS',
+  name: 'Dr. Chad Calder, DDS',
   title: 'Oral and Maxillofacial Surgeon',
   medicalSpecialty: 'Oral and Maxillofacial Surgery',
   yearsInPractice: 14,
@@ -56,7 +56,7 @@ const PILOT_CALDER: DentistContent = {
   shortBio:
     'Dr. Calder is the oral and maxillofacial surgeon at our Flamingo & Torrey Pines location, performing wisdom-tooth removal, complex extractions, dental implant placement, and bone grafting.',
   longBio:
-    'Dr. Charles Calder completed his DDS at UCLA School of Dentistry followed by a four-year oral and maxillofacial surgery residency at UCSF Medical Center. He performs all oral surgery procedures at Boca Dental & Braces — wisdom teeth, surgical extractions, dental implant placement, bone grafting, frenectomy, and management of facial trauma. He is licensed in IV sedation and runs the in-office sedation program for high-anxiety cases. Dr. Calder has lectured nationally on minimally invasive implant placement and serves as a clinical mentor for general dentists across the Boca Dental & Braces network.',
+    'Dr. Chad Calder completed his DDS at UCLA School of Dentistry followed by a four-year oral and maxillofacial surgery residency at UCSF Medical Center. He performs all oral surgery procedures at Boca Dental & Braces — wisdom teeth, surgical extractions, dental implant placement, bone grafting, frenectomy, and management of facial trauma. He is licensed in IV sedation and runs the in-office sedation program for high-anxiety cases. Dr. Calder has lectured nationally on minimally invasive implant placement and serves as a clinical mentor for general dentists across the Boca Dental & Braces network.',
   worksAt: ['flamingo-torrey'],
   languages: ['English'],
 }

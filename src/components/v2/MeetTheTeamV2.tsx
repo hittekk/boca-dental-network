@@ -19,7 +19,7 @@ const PROVIDERS: Provider[] = [
   },
   {
     initials: 'CC',
-    name: 'Dr. Charles Calder',
+    name: 'Dr. Chad Calder',
     title: 'Oral Surgeon',
     credential: 'Wisdom teeth, extractions, and bone grafting — patient comfort first.',
     slug: 'dr-charles-calder',

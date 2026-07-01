@@ -82,7 +82,7 @@ export function ServicesHubPage() {
   const ALL_CATS = SERVICE_CATEGORIES
 
   const SPOTLIGHTS = [
-    { slug: 'dental-implants',    label: 'Dental Implants',    eyebrow: 'Most Requested',  stat: '95%',  statLabel: 'Success rate',   desc: 'Single implants, full arch, All-on-4 — performed in-house by Dr. Charles Calder, oral & maxillofacial surgeon. No outside referrals needed.' },
+    { slug: 'dental-implants',    label: 'Dental Implants',    eyebrow: 'Most Requested',  stat: '95%',  statLabel: 'Success rate',   desc: 'Single implants, full arch, All-on-4 — performed in-house by Dr. Chad Calder, oral & maxillofacial surgeon. No outside referrals needed.' },
     { slug: 'orthodontics',       label: 'Invisalign & Braces', eyebrow: 'Diamond+ Provider', stat: '6mo', statLabel: 'Avg. results',  desc: 'Clear aligners and traditional braces overseen by Dr. Kelcey Loveland. Teen and adult programs. Results in as little as 6 months.' },
     { slug: 'cosmetic-dentistry', label: 'Smile Makeovers',    eyebrow: 'Free Consult',     stat: '1 Day', statLabel: 'Whitening',    desc: 'Complete cosmetic transformations using porcelain veneers, professional whitening, and bonding — tailored to your goals.' },
   ]

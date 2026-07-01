@@ -233,7 +233,7 @@ export function AboutUsPage() {
     },
     {
       slug: 'dr-charles-calder',
-      name: 'Dr. Charles Calder',
+      name: 'Dr. Chad Calder',
       title: 'Oral & Maxillofacial Surgeon',
       school: 'UCLA School of Dentistry · UCSF Medical Center Residency',
       years: 14,

@@ -52,7 +52,7 @@ export const SERVICE_CATEGORIES: ServiceCategoryEntry[] = [
     longDesc: 'Anxiety-free dental care with nitrous oxide, oral sedation, and IV sedation options. Available at select Boca Dental & Braces Las Vegas locations.' },
   { slug: 'oral-surgery',          label: 'Oral Surgery',
     desc: 'Extractions, wisdom teeth, bone grafting',
-    longDesc: 'Surgical dental care including extractions, wisdom teeth removal, bone grafting, and frenectomy — overseen by Dr. Charles Calder, oral and maxillofacial surgeon at our Flamingo & Torrey Pines location.' },
+    longDesc: 'Surgical dental care including extractions, wisdom teeth removal, bone grafting, and frenectomy — overseen by Dr. Chad Calder, oral and maxillofacial surgeon at our Flamingo & Torrey Pines location.' },
   { slug: 'periodontal',           label: 'Periodontal Care',
     desc: 'Gum disease treatment, deep cleaning, maintenance',
     longDesc: 'Gum disease treatment, scaling and root planing (deep cleaning), periodontal maintenance, and laser gum treatment at Boca Dental & Braces Las Vegas locations.' },

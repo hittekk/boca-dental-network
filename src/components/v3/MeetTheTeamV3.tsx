@@ -37,7 +37,7 @@ const PROVIDERS: Provider[] = [
   },
   {
     initials: 'CC',
-    name: 'Dr. Charles Calder',
+    name: 'Dr. Chad Calder',
     title: 'Oral & Maxillofacial Surgeon',
     years: '15',
     reviewCount: '210+',

@@ -472,9 +472,9 @@ Originally from Arizona, Dr. Dannels now calls Las Vegas home. He is bilingual i
       locations: [],
     },
     {
-      slug: 'dr-charles-calder', name: 'Dr. Charles Calder', title: 'Oral & Maxillofacial Surgeon',
+      slug: 'dr-charles-calder', name: 'Dr. Chad Calder', title: 'Oral & Maxillofacial Surgeon',
       photo: '/team/dr-charles-calder.webp',
-      bio: 'Dr. Charles Calder is an oral and maxillofacial surgeon who has spent 25 years helping patients get the care they need. He earned his DDS from the Loma Linda University School of Dentistry in 2000, followed by his MD in 2003 and completion of his Oral and Maxillofacial Surgery residency in 2006. His practice focuses on extractions, dental implants, bone grafting, and pathology, and he brings the kind of steady, experienced hand that puts patients at ease \u2014 especially when surgery feels intimidating. Dr. Calder is a member of the American Association of Oral and Maxillofacial Surgeons and was inducted into the OKU dental honor society in recognition of his academic achievement. A California native who now lives in Las Vegas, he enjoys cooking and spending time with family and friends.',
+      bio: 'Dr. Chad Calder is an oral and maxillofacial surgeon who has spent 25 years helping patients get the care they need. He earned his DDS from the Loma Linda University School of Dentistry in 2000, followed by his MD in 2003 and completion of his Oral and Maxillofacial Surgery residency in 2006. His practice focuses on extractions, dental implants, bone grafting, and pathology, and he brings the kind of steady, experienced hand that puts patients at ease \u2014 especially when surgery feels intimidating. Dr. Calder is a member of the American Association of Oral and Maxillofacial Surgeons and was inducted into the OKU dental honor society in recognition of his academic achievement. A California native who now lives in Las Vegas, he enjoys cooking and spending time with family and friends.',
       locations: [],
     },
     {
