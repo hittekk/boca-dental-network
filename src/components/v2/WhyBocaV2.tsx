@@ -201,7 +201,7 @@ export function WhyBocaV2() {
             }}
           >
             This is the short version of what makes Boca different. The long
-            version is twenty years of word-of-mouth from Las Vegas families
+            version is word-of-mouth from Las Vegas families
             who keep coming back.
           </p>
         </motion.div>

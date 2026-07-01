@@ -120,8 +120,7 @@ export function AboutV2() {
               }}
             >
               That's why we accept Medicaid at every location. Why our front desks
-              speak Spanish. Why the same patients have been coming back for two
-              decades — and bringing their kids and grandkids with them.
+              speak Spanish. Why the same patients have been coming back — and bringing their kids and grandkids with them.
             </p>
 
             <a

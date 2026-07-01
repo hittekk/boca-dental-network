@@ -103,7 +103,7 @@ export function AboutV3() {
                 maxWidth: 520,
               }}
             >
-              Two decades in, the same patients keep coming back — and
+              The same patients keep coming back — and
               bringing their kids. That's the part the marketing can't fake.
             </p>
 
