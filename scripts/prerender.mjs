@@ -167,7 +167,7 @@ function masthead(routePath, routeTitle) {
   │    Family · Cosmetic · Orthodontic · Specialty Dental Care           │
   │    Las Vegas, Nevada                                                 │
   │                                                                      │
-  │    ★ 4.9 · 1,200+ Verified Google Reviews                            │
+  │    Real Verified Google Reviews · every clinic                       │
   │    9 LV Locations · Same-day Emergencies · Bilingual                 │
   │                                                                      │
   │    ✆ (702) 456-0005                                                  │
@@ -189,7 +189,7 @@ const HOMEPAGE_SECTIONS = [
   ['how-can-we-help',      '§2',  'AUDIENCE ROUTING',     '"How can we help you today?" · 5 routing cards'],
   ['services',             '§3',  'OUR DENTAL SERVICES',  '"Comprehensive Dental Care for Every Stage of Life" · 9 categories · 3×3 grid'],
   ['why-boca',             '§4',  'WHY BOCA',             '"Why Las Vegas Chooses Boca Dental & Braces" · 6 differentiator cards'],
-  ['testimonials',         '§5',  'PATIENT REVIEWS',      '★4.9 · 1,200+ reviews · 4 representative patient cards'],
+  ['testimonials',         '§5',  'PATIENT REVIEWS',      'Real Google reviews · live aggregate + patient cards'],
   ['boca-kids',            'EX',  'BOCA KIDS',            'Pediatric program highlight — supplemental section'],
   ['locations',            '§6',  'FIND A LOCATION',      '9 LV intersections · GEO paragraph · location card grid'],
   ['meet-the-team',        '§8',  'MEET THE TEAM',        '"Experienced Providers. Compassionate Care." · 3-4 provider highlights'],
@@ -209,10 +209,33 @@ const CREDIT = `<!--
   -->
   `
 
+// Third-party hosts that keep connections alive and stall networkidle0 but
+// contribute nothing to the captured DOM (analytics beacons, webfonts).
+// Blocking them shaves seconds off EVERY route — the 182-page crawl was
+// timing out Netlify's 18-minute build limit — and stops CI runs from
+// polluting GA/GTM with fake pageviews.
+const BLOCKED_HOSTS = [
+  'googletagmanager.com',
+  'google-analytics.com',
+  'analytics.google.com',
+  'stats.g.doubleclick.net',
+  'connect.facebook.net',
+  'fonts.googleapis.com',
+  'fonts.gstatic.com',
+  'events.mapbox.com', // mapbox telemetry only — tiles/styles stay allowed
+]
+
 // ── Capture a single route ────────────────────────────────────────────────
 async function capture(routePath, routeTitle, isHomepage, isEs = false) {
   const page = await browser.newPage()
   await page.setViewport({ width: 1440, height: 900 })
+
+  await page.setRequestInterception(true)
+  page.on('request', (req) => {
+    const u = req.url()
+    if (BLOCKED_HOSTS.some((h) => u.includes(h))) return req.abort()
+    req.continue()
+  })
 
   await page.goto(`http://localhost:${PORT}${routePath}`, {
     waitUntil: 'networkidle0',
