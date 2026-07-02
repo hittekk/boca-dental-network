@@ -56,3 +56,11 @@ export function initialsOf(name: string): string {
     .join('')
     .toUpperCase()
 }
+
+/** Truncate a review body for card display — cut at a word boundary. */
+export function truncateReview(text: string, max = 320): string {
+  if (text.length <= max) return text
+  const cut = text.slice(0, max)
+  const lastSpace = cut.lastIndexOf(' ')
+  return cut.slice(0, lastSpace > max * 0.6 ? lastSpace : max).trimEnd() + '…'
+}

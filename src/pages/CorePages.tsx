@@ -38,7 +38,7 @@ import { LangProvider } from '../lib/lang'
 import { ConsultationForm } from '../components/ConsultationForm/ConsultationForm'
 import { INITIAL_DATA } from '../data/initialData'
 import { useDoctors, useSiteData } from '../lib/site-data'
-import { reviewAggregate } from '../lib/reviews'
+import { reviewAggregate, truncateReview } from '../lib/reviews'
 import { SERVICE_CATEGORIES, SERVICE_PAGES } from '../data/serviceCatalog'
 import { COORDS_BY_LOCATION } from './LocationPage'
 import { CustomPage, usePageBySlug } from './CustomPage'
@@ -1627,7 +1627,7 @@ export function ReviewsPage() {
                       </div>
                       {/* Quote body */}
                       <p style={{ fontSize: 14, lineHeight: 1.72, color: 'rgba(0,29,61,0.78)', margin: 0, flex: 1, position: 'relative', zIndex: 1, fontStyle: 'italic' }}>
-                        "{review.body}"
+                        "{truncateReview(review.body, 420)}"
                       </p>
                       {/* Author row */}
                       <div style={{ display: 'flex', alignItems: 'center', gap: 12, paddingTop: 16, borderTop: '1px solid rgba(0,29,61,0.07)', position: 'relative', zIndex: 1 }}>

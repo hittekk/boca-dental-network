@@ -19,6 +19,7 @@ import {
 } from '../../data/locationDetails'
 import { INITIAL_DATA } from '../../data/initialData'
 import { GoogleG } from './icons/GoogleG'
+import { truncateReview } from '../../lib/reviews'
 
 const ORANGE = '#F3672A'
 const NAVY = '#001D3D'
@@ -722,7 +723,7 @@ export function PatientReviewsSection({
                   color={ORANGE}
                   style={{ opacity: 0.18, marginRight: 6, marginBottom: -2 }}
                 />
-                {r.body}
+                {truncateReview(r.body)}
               </p>
               {/* Author */}
               <div

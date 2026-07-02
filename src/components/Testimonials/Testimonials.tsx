@@ -8,6 +8,7 @@ import {
   allReviews,
   googleReviewsUrl,
   initialsOf,
+  truncateReview,
 } from '../../lib/reviews'
 
 // Reviews are data-driven from the per-clinic `reviews[]` / `rating` /
@@ -55,7 +56,7 @@ function ReviewCard({ review, index }: { review: Review; index: number }) {
           flex: 1,
         }}
       >
-        “{review.body}”
+        “{truncateReview(review.body)}”
       </div>
 
       <div
