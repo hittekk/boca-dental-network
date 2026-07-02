@@ -135,6 +135,10 @@ async function syncLocation(loc) {
   // rows atomically and updates the aggregate fields.
   const seen = new Set()
   const rows = (r.reviews ?? [])
+    // Per client: only display 5-star reviews. The aggregate rating/count
+    // shown next to them remains the REAL unfiltered Google number, with a
+    // link to the full listing — curation, not misrepresentation.
+    .filter((rev) => rev.rating === 5)
     .filter((rev) => rev.text && rev.text.trim().length > 0)
     .filter((rev) => {
       const k = `${rev.author_name}::${rev.text.trim()}`
