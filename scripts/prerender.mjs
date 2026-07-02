@@ -136,6 +136,39 @@ try {
   console.warn(`⚠ service_pages prerender expansion skipped: ${err.message}`)
 }
 
+// ── Append DB-managed doctor profile routes (from Supabase) ───────────────
+// The static list above matches today's 14 published providers, but an
+// admin-added doctor would otherwise serve the SPA shell to crawlers (this
+// exact gap bit the Reno site). Same non-fatal guard as service pages.
+try {
+  const SB_URL = process.env.VITE_SUPABASE_URL
+  const SB_KEY = process.env.VITE_SUPABASE_ANON_KEY
+  if (SB_URL && SB_KEY) {
+    const res = await fetch(
+      `${SB_URL}/rest/v1/doctors?select=slug,name&is_published=eq.true&order=sort_order.asc`,
+      { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } },
+    )
+    if (res.ok) {
+      const rows = await res.json()
+      const existing = new Set(ROUTES.map((r) => r.path))
+      let added = 0
+      for (const row of rows) {
+        const p = `/about-us/dentists/${row.slug}/`
+        if (!existing.has(p)) {
+          ROUTES.push({ path: p, title: row.name })
+          existing.add(p)
+          added++
+        }
+      }
+      console.log(`✓ Added ${added} DB doctor route(s) from Supabase`)
+    } else {
+      console.warn(`⚠ doctors fetch returned ${res.status} — static doctor routes only`)
+    }
+  }
+} catch (err) {
+  console.warn(`⚠ doctors prerender expansion skipped: ${err.message}`)
+}
+
 // ── Start a static server serving dist/ ───────────────────────────────────
 // SPA fallback rewrite — Vite produces a single index.html; React Router
 // handles every route from there. The `**` wildcard means any unknown URL
