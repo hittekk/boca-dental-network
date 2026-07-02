@@ -300,6 +300,18 @@ export function Footer() {
             }}
           >
             © {year} Boca Dental and Braces. All rights reserved.
+            {' · '}
+            Site by{' '}
+            <a
+              href="https://blazedigital.io/"
+              target="_blank"
+              rel="noopener"
+              style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', transition: 'color 0.2s ease' }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#F3672A')}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.5)')}
+            >
+              Blaze Digital
+            </a>
           </div>
 
           <div
