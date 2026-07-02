@@ -135,10 +135,6 @@ async function syncLocation(loc) {
   // rows atomically and updates the aggregate fields.
   const seen = new Set()
   const rows = (r.reviews ?? [])
-    // Per client: only display 5-star reviews. The aggregate rating/count
-    // shown next to them remains the REAL unfiltered Google number, with a
-    // link to the full listing — curation, not misrepresentation.
-    .filter((rev) => rev.rating === 5)
     .filter((rev) => rev.text && rev.text.trim().length > 0)
     .filter((rev) => {
       const k = `${rev.author_name}::${rev.text.trim()}`
@@ -152,6 +148,11 @@ async function syncLocation(loc) {
       review_text: rev.text.trim(),
       review_date: rev.time ? new Date(rev.time * 1000).toISOString().slice(0, 10) : null,
       source_url: r.url ?? null,
+      // Per client: only 5-star reviews DISPLAY on the site. Lower-rated
+      // reviews are still stored (visible in the admin, re-publishable
+      // there) — just unpublished. The aggregate rating/count stays the
+      // real unfiltered Google number with a link to the full listing.
+      is_published: rev.rating === 5,
     }))
 
   const { data: inserted, error } = await supabase.rpc('sync_google_reviews', {
