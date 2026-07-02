@@ -109,12 +109,26 @@ async function syncLocation(loc) {
   const placeId = await resolvePlaceId(loc)
   if (!placeId) return { label: loc.label, ok: false }
 
+  // Google returns at most 5 reviews per call and many "newest" reviews are
+  // star-only (no text) — Boca Kids' 5 newest had just one written review.
+  // Fetch BOTH sorts (most_relevant first: Google ranks written, substantial
+  // reviews higher) and merge, so each location gets up to 10 candidates.
   const details = await placesGet('details', {
     place_id: placeId,
     fields: 'rating,user_ratings_total,reviews,url',
-    reviews_sort: 'newest',
+    reviews_sort: 'most_relevant',
   })
   const r = details.result ?? {}
+  try {
+    const newest = await placesGet('details', {
+      place_id: placeId,
+      fields: 'reviews',
+      reviews_sort: 'newest',
+    })
+    r.reviews = [...(r.reviews ?? []), ...(newest.result?.reviews ?? [])]
+  } catch (e) {
+    warn(`${loc.label}: newest-sort fetch failed (${e.message}) — using most_relevant only.`)
+  }
 
   // Individual reviews — Google returns at most 5; rating-only reviews
   // (no text) are skipped. The RPC replaces this location's google-sourced
