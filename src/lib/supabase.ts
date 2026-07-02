@@ -29,7 +29,7 @@ export type DbLocation = {
   zip: string;
   phone: string;
   hours: string;
-  hours_detailed: Record<string, { open: string; close: string }> | null;
+  hours_detailed: { day: string; open: string; close: string; closed?: boolean; note?: string }[] | null;
   is_kids_clinic: boolean;
   rating: number | null;
   review_count: number;
@@ -108,10 +108,19 @@ export type DbLead = {
   preferred_location_id: string | null;
   service_interest: string | null;
   message: string | null;
+  pain_level: number | null;
+  insurance: string | null;
+  preferred_contact: string | null;
   source_page: string | null;
   source_form: string | null;
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
   status: string;
+  notes: string | null;
   created_at: string;
+  contacted_at: string | null;
+  closed_at: string | null;
 };
 
 export type TemplateField = {

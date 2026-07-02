@@ -199,6 +199,78 @@ export default function LocationEditPage() {
           </div>
         </Card>
 
+
+        <Card title="Hours — day by day">
+          <p className="text-xs text-slate-400 mb-3 -mt-1">
+            Shown as the hours table on this clinic's page. Type "Closed" in the open column to mark a day closed.
+          </p>
+          <div className="space-y-2">
+            {(form.hours_detailed ?? []).map((row, i) => (
+              <div key={row.day} className="grid grid-cols-3 gap-3 items-center">
+                <div className="text-xs font-bold uppercase tracking-wider text-slate-500">{row.day}</div>
+                <input
+                  type="text"
+                  value={row.open}
+                  onChange={(e) => {
+                    const next = [...(form.hours_detailed ?? [])];
+                    const open = e.target.value;
+                    next[i] = { ...next[i], open, closed: open.trim().toLowerCase() === 'closed' ? true : undefined };
+                    update('hours_detailed', next);
+                  }}
+                  className="input-style"
+                  placeholder="9:00 AM"
+                />
+                <input
+                  type="text"
+                  value={row.close}
+                  onChange={(e) => {
+                    const next = [...(form.hours_detailed ?? [])];
+                    next[i] = { ...next[i], close: e.target.value };
+                    update('hours_detailed', next);
+                  }}
+                  className="input-style"
+                  placeholder="5:00 PM"
+                  disabled={row.open.trim().toLowerCase() === 'closed'}
+                />
+              </div>
+            ))}
+            {!(form.hours_detailed ?? []).length && (
+              <button
+                type="button"
+                onClick={() =>
+                  update('hours_detailed', ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day) => ({ day, open: '9:00 AM', close: '5:00 PM' })).concat([{ day: 'Sunday', open: 'Closed', close: '', closed: true, note: 'By emergency only' } as never]))
+                }
+                className="text-xs font-bold px-3 py-2 rounded-lg border border-slate-200 text-slate-500 hover:border-orange-300 hover:text-orange-600"
+              >
+                + Add day-by-day hours
+              </button>
+            )}
+          </div>
+        </Card>
+
+        <Card title="Parking & languages">
+          <div className="grid grid-cols-2 gap-4">
+            <Field label="Parking info">
+              <input
+                type="text"
+                value={form.parking_info ?? ''}
+                onChange={(e) => update('parking_info', e.target.value || null)}
+                className="input-style"
+                placeholder="Free on-site parking"
+              />
+            </Field>
+            <Field label="Languages (comma-separated)">
+              <input
+                type="text"
+                value={(form.languages ?? []).join(', ')}
+                onChange={(e) => update('languages', e.target.value.split(',').map((v) => v.trim()).filter(Boolean))}
+                className="input-style"
+                placeholder="English, Spanish"
+              />
+            </Field>
+          </div>
+        </Card>
+
         <Card title="Reviews & rating">
           <div className="grid grid-cols-2 gap-4">
             <Field label="Rating">
