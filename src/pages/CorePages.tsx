@@ -203,7 +203,8 @@ export function CTAStrip({ headline = 'Ready to book? Your new Las Vegas dentist
 
 export function AboutUsPage() {
   const doctors = useDoctors()
-  const { locations } = useSiteData()
+  // Live Supabase data (admin-managed) with static fallback in the provider.
+  const { locations, managers } = useSiteData()
   const aboutAgg = reviewAggregate(locations)
   const breadcrumbSchema = usePageMeta({
     title: 'About Boca Dental & Braces | Las Vegas, NV',
@@ -485,7 +486,7 @@ export function AboutUsPage() {
 
           <div className="about-mgr-g" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
             <style>{`@media(max-width:860px){ .about-mgr-g{ grid-template-columns:repeat(3,1fr) !important; } } @media(max-width:560px){ .about-mgr-g{ grid-template-columns:repeat(2,1fr) !important; } }`}</style>
-            {INITIAL_DATA.managers.map((m, i) => {
+            {managers.map((m, i) => {
               const initials = m.name.split(/\s+/).map((w) => w[0]).slice(0, 2).join('')
               const clinic = INITIAL_DATA.locations.find((l) => l.slug === m.locationSlug)?.label
               return (

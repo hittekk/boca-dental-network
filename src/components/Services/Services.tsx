@@ -13,7 +13,7 @@ import {
   ShieldCheck,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import { INITIAL_DATA } from '../../data/initialData'
+import { useSiteData } from '../../lib/site-data'
 import { useLang, t } from '../../lib/lang'
 
 // Map each service slug (from initialData) to its lucide icon.
@@ -219,6 +219,9 @@ function ServiceCard({ service, index }: ServiceCardProps) {
 
 export function Services() {
   const lang = useLang()
+  // Live Supabase services (admin-managed) — falls back to static INITIAL_DATA
+  // inside the provider until the fetch resolves.
+  const { services } = useSiteData()
   return (
     <section id="services" style={{ background: '#ffffff', padding: '96px 32px' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
@@ -278,7 +281,7 @@ export function Services() {
             gap: 16,
           }}
         >
-          {INITIAL_DATA.services.map((service, i) => (
+          {services.map((service, i) => (
             <ServiceCard key={service.slug} service={service} index={i} />
           ))}
         </div>
