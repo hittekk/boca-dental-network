@@ -160,9 +160,10 @@ export function ClinicInfoSection({
   officeNo: string
 }) {
   const palette = paletteFor(theme)
-  const hours = hoursDetailFor(location.slug)
-  const languages = languagesFor(location.slug)
-  const parking = parkingFor(location.slug)
+  // Admin-managed DB values win; static maps remain the fallback.
+  const hours = location.hoursDetailed?.length ? location.hoursDetailed : hoursDetailFor(location.slug)
+  const languages = location.languages?.length ? location.languages : languagesFor(location.slug)
+  const parking = location.parkingInfo || parkingFor(location.slug)
 
   return (
     <section

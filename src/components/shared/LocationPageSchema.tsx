@@ -37,7 +37,7 @@ function buildLocationGraph(location: Location, coords?: [number, number]) {
       postalCode: location.zip,
       addressCountry: 'US',
     },
-    openingHours: ['Mo-Fr 09:00-19:00', 'Sa 09:00-19:00'],
+    openingHours: ['Mo-Fr 09:00-17:00', 'Sa 09:00-17:00'],
     aggregateRating:
       location.review_count > 0
         ? {

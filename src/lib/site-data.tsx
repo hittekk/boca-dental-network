@@ -51,7 +51,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
         const [locs, svcs, settings, ann, faqs, reviews, pages, docs, docLocs, oms] = await Promise.all([
           supabase
             .from('locations')
-            .select('legacy_id, slug, label, address, city, state, zip, phone, hours, is_kids_clinic, rating, review_count, neighborhood, narrative, gbp_id, languages, gallery, id')
+            .select('legacy_id, slug, label, address, city, state, zip, phone, hours, hours_detailed, parking_info, is_kids_clinic, rating, review_count, neighborhood, narrative, gbp_id, languages, gallery, id')
             .eq('is_published', true)
             .order('sort_order'),
           supabase
@@ -132,6 +132,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
           is_kids_clinic: boolean; rating: number | null; review_count: number;
           neighborhood: string | null; narrative: string | null; gbp_id: string | null;
           languages: string[] | null; gallery: string[] | null; id: string;
+          hours_detailed: import('../types').DayHours[] | null; parking_info: string | null;
         }) => ({
           id: l.legacy_id ?? 0,
           slug: l.slug,
@@ -155,6 +156,8 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
             ? l.gallery
             : INITIAL_DATA.locations.find((s) => s.slug === l.slug)?.gallery,
           heroImage: INITIAL_DATA.locations.find((s) => s.slug === l.slug)?.heroImage,
+          hoursDetailed: l.hours_detailed ?? undefined,
+          parkingInfo: l.parking_info ?? undefined,
           reviews: reviewsByLocation.get(l.id) ?? [],
           faqs: faqsByLocation.get(l.id) ?? [],
         }));

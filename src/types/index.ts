@@ -67,6 +67,10 @@ export interface Location {
   servicesUnavailable?: string[];
   /** 3 location-specific reviews per Treysyde Location §6. [content] populate from real Google reviews before launch. */
   reviews?: LocationReview[];
+  /** Day-by-day hours from the DB (admin-managed); static fallback when absent */
+  hoursDetailed?: DayHours[];
+  /** Parking blurb from the DB (admin-managed); static fallback when absent */
+  parkingInfo?: string;
   /** True = Boca Kids pediatric location */
   kids: boolean;
   rating: number;

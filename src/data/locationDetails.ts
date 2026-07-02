@@ -13,31 +13,26 @@ import type { DayHours } from '../types'
 /** Standard Mon–Sat 9–7, Sun closed — used as the default for clinics
  *  without confirmed hours. [verify with client] */
 const DEFAULT_HOURS: DayHours[] = [
-  { day: 'Monday',    open: '9:00 AM',  close: '7:00 PM' },
-  { day: 'Tuesday',   open: '9:00 AM',  close: '7:00 PM' },
-  { day: 'Wednesday', open: '9:00 AM',  close: '7:00 PM' },
-  { day: 'Thursday',  open: '9:00 AM',  close: '7:00 PM' },
-  { day: 'Friday',    open: '9:00 AM',  close: '7:00 PM' },
-  { day: 'Saturday',  open: '9:00 AM',  close: '7:00 PM' },
+  { day: 'Monday',    open: '9:00 AM',  close: '5:00 PM' },
+  { day: 'Tuesday',   open: '9:00 AM',  close: '5:00 PM' },
+  { day: 'Wednesday', open: '9:00 AM',  close: '5:00 PM' },
+  { day: 'Thursday',  open: '9:00 AM',  close: '5:00 PM' },
+  { day: 'Friday',    open: '9:00 AM',  close: '5:00 PM' },
+  { day: 'Saturday',  open: '9:00 AM',  close: '5:00 PM' },
   { day: 'Sunday',    open: 'Closed',   close: '',
     closed: true, note: 'By emergency only' },
 ]
 
-const SHORT_SAT_HOURS: DayHours[] = [
-  ...DEFAULT_HOURS.slice(0, 5),
-  { day: 'Saturday',  open: '9:00 AM',  close: '3:00 PM' },
-  DEFAULT_HOURS[6],
-]
 
 export const LOCATION_HOURS_DETAIL: Record<string, DayHours[]> = {
   'russell-eastern':      DEFAULT_HOURS,
   'boca-kids-dentistry':  DEFAULT_HOURS,
-  'bonanza-eastern':      SHORT_SAT_HOURS,
+  'bonanza-eastern':      DEFAULT_HOURS,
   'sahara-decatur':       DEFAULT_HOURS,
-  'jones-i95':            SHORT_SAT_HOURS,
+  'jones-i95':            DEFAULT_HOURS,
   'charleston-lamb':      DEFAULT_HOURS,
   'flamingo-torrey':      DEFAULT_HOURS,
-  'cheyenne-commons':     SHORT_SAT_HOURS,
+  'cheyenne-commons':     DEFAULT_HOURS,
   'beltway-marketplace':  DEFAULT_HOURS,
 }
 

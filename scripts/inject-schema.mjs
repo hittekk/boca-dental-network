@@ -113,7 +113,7 @@ const locationsGraph = lvLocations.map((loc) => ({
     postalCode: loc.zip,
     addressCountry: 'US',
   },
-  openingHours: ['Mo-Fr 09:00-19:00', 'Sa 09:00-19:00'],
+  openingHours: ['Mo-Fr 09:00-17:00', 'Sa 09:00-17:00'],
   // aggregateRating intentionally omitted — no verified GBP rating/review data yet (no-fabrication).
   areaServed: { '@type': 'City', name: 'Las Vegas' },
 }))
