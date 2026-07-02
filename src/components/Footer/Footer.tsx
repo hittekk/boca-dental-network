@@ -1,32 +1,39 @@
 import { motion } from 'framer-motion'
 import { Phone, MapPin } from 'lucide-react'
 import { useSiteData } from '../../lib/site-data'
+import { useLang } from '../../lib/lang'
+import { localizeHref } from '../../lib/seo'
 
+// Real page URLs, not homepage section anchors — the footer renders sitewide,
+// and '#services'-style anchors only resolve on the homepage (dead links
+// everywhere else). Real URLs also give every page internal links to the
+// money pages.
 const QUICK_LINKS = [
-  { label: 'About Boca', href: '#about' },
-  { label: 'Locations', href: '#locations' },
-  { label: 'Services', href: '#services' },
-  { label: 'New Patients', href: '#new-patients' },
-  { label: 'Boca Kids', href: '#boca-kids' },
-  { label: 'Financing', href: '#financing' },
-  { label: 'FAQs', href: '#faq' },
-  { label: 'Contact', href: '#cta' },
+  { label: 'About Boca', href: '/about-us/' },
+  { label: 'Locations', href: '/clinics/' },
+  { label: 'Services', href: '/services/' },
+  { label: 'New Patients', href: '/request-consultation/' },
+  { label: 'Boca Kids', href: '/clinics/boca-kids-dentistry/' },
+  { label: 'Financing', href: '/patient-resources/financing/' },
+  { label: 'FAQs', href: '/#faq' },
+  { label: 'Contact', href: '/contact-us/' },
 ]
 
 const SERVICE_LINKS = [
-  { label: 'General Dentistry', href: '#services' },
-  { label: 'Braces & Orthodontics', href: '#services' },
-  { label: 'Invisalign', href: '#services' },
-  { label: 'Dental Implants', href: '#services' },
-  { label: 'Teeth Whitening', href: '#services' },
-  { label: 'Emergency Dental', href: '#services' },
-  { label: 'Pediatric Care', href: '#boca-kids' },
-  { label: 'Crowns & Veneers', href: '#services' },
+  { label: 'General Dentistry', href: '/general-dentistry/' },
+  { label: 'Braces & Orthodontics', href: '/orthodontics/braces/' },
+  { label: 'Invisalign', href: '/orthodontics/invisalign/' },
+  { label: 'Dental Implants', href: '/dental-implants/' },
+  { label: 'Teeth Whitening', href: '/cosmetic-dentistry/teeth-whitening/' },
+  { label: 'Emergency Dental', href: '/general-dentistry/emergency-dental-care/' },
+  { label: 'Pediatric Care', href: '/pediatric-dentistry/' },
+  { label: 'Crowns & Veneers', href: '/cosmetic-dentistry/veneers/' },
 ]
 
 export function Footer() {
   const year = new Date().getFullYear()
   const siteData = useSiteData()
+  const lang = useLang()
 
   return (
     <footer
@@ -121,7 +128,7 @@ export function Footer() {
               {QUICK_LINKS.map((link) => (
                 <a
                   key={link.label}
-                  href={link.href}
+                  href={localizeHref(link.href, lang)}
                   style={{
                     fontSize: 13,
                     color: 'rgba(255,255,255,0.6)',
@@ -160,7 +167,7 @@ export function Footer() {
               {SERVICE_LINKS.map((link) => (
                 <a
                   key={link.label}
-                  href={link.href}
+                  href={localizeHref(link.href, lang)}
                   style={{
                     fontSize: 13,
                     color: 'rgba(255,255,255,0.6)',
@@ -205,7 +212,7 @@ export function Footer() {
               {siteData.locations.map((loc) => (
                 <a
                   key={loc.id}
-                  href={`#location-${loc.slug}`}
+                  href={localizeHref(`/clinics/${loc.slug}/`, lang)}
                   style={{
                     textDecoration: 'none',
                     display: 'block',
@@ -323,13 +330,12 @@ export function Footer() {
             }}
           >
             {[
-              { label: 'Privacy Policy', href: '/privacy' },
-              { label: 'HIPAA Notice', href: '/hipaa' },
-              { label: 'Terms of Use', href: '/terms' },
+              { label: 'Privacy Policy', href: '/privacy-policy/' },
+              { label: 'HIPAA Notice', href: '/hipaa-compliance/' },
             ].map((link) => (
               <a
                 key={link.label}
-                href={link.href}
+                href={localizeHref(link.href, lang)}
                 style={{
                   fontSize: 12,
                   color: 'rgba(255,255,255,0.5)',
