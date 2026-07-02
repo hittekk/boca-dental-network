@@ -618,14 +618,21 @@ function ProcessSection({ page, content }: { page: { label: string }; content?: 
           ))}
         </div>
 
-        <div
-          className="srv-process-callouts"
-          style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}
-        >
-          <style>{`@media (max-width: 720px){ .srv-process-callouts{ grid-template-columns: 1fr !important; } }`}</style>
-          <Callout label="Duration / Timeline" body={content.duration} dark />
-          <Callout label="Technology at Boca" body={content.technology} dark />
-        </div>
+        {/* Callouts render only when their content exists — no empty cards. */}
+        {(content.duration?.trim() || content.technology?.trim()) && (
+          <div
+            className="srv-process-callouts"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: content.duration?.trim() && content.technology?.trim() ? '1fr 1fr' : '1fr',
+              gap: 18,
+            }}
+          >
+            <style>{`@media (max-width: 720px){ .srv-process-callouts{ grid-template-columns: 1fr !important; } }`}</style>
+            {content.duration?.trim() && <Callout label="Duration / Timeline" body={content.duration} dark />}
+            {content.technology?.trim() && <Callout label="Technology at Boca" body={content.technology} dark />}
+          </div>
+        )}
       </div>
     </section>
   )
