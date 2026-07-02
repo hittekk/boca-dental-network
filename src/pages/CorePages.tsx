@@ -41,6 +41,7 @@ import { useDoctors, useSiteData } from '../lib/site-data'
 import { reviewAggregate } from '../lib/reviews'
 import { SERVICE_CATEGORIES, SERVICE_PAGES } from '../data/serviceCatalog'
 import { COORDS_BY_LOCATION } from './LocationPage'
+import { CustomPage, usePageBySlug } from './CustomPage'
 import { ServicesHubPage } from './ServicesPage'
 import { Homepage } from '../App'
 import mapboxgl from 'mapbox-gl'
@@ -2193,12 +2194,16 @@ function CareerApplyForm() {
 }
 
 export function PrivacyPage() {
+  // Counsel-approved text is managed in the admin Pages CMS: create/publish a
+  // page with slug "privacy-policy" and it replaces the interim text below.
+  const { loading: legalLoading, page: legalPage } = usePageBySlug('/privacy-policy/')
   const breadcrumbSchema = usePageMeta({
     title: 'Privacy Policy | Boca Dental & Braces Las Vegas',
     description: 'Privacy Policy for Boca Dental & Braces website and patient data handling.',
     url: `${DOMAIN}/privacy-policy/`,
     breadcrumb: [{ name: 'Home', url: `${DOMAIN}/` }, { name: 'Privacy Policy' }],
   })
+  if (!legalLoading && legalPage) return <CustomPage page={legalPage} />
   return (
     <Shell>
       <HeroBlock
@@ -2220,12 +2225,16 @@ export function PrivacyPage() {
 }
 
 export function HipaaPage() {
+  // Counsel-approved text is managed in the admin Pages CMS: create/publish a
+  // page with slug "hipaa-compliance" and it replaces the interim text below.
+  const { loading: legalLoading, page: legalPage } = usePageBySlug('/hipaa-compliance/')
   const breadcrumbSchema = usePageMeta({
     title: 'HIPAA Notice of Privacy Practices | Boca Dental & Braces',
     description: 'HIPAA Notice of Privacy Practices for Boca Dental & Braces — how we use and disclose protected health information (PHI).',
     url: `${DOMAIN}/hipaa-compliance/`,
     breadcrumb: [{ name: 'Home', url: `${DOMAIN}/` }, { name: 'HIPAA Compliance' }],
   })
+  if (!legalLoading && legalPage) return <CustomPage page={legalPage} />
   return (
     <Shell>
       <HeroBlock
