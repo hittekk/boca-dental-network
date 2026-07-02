@@ -16,6 +16,7 @@ const QUICK_LINKS = [
   { label: 'Boca Kids', href: '/clinics/boca-kids-dentistry/' },
   { label: 'Financing', href: '/patient-resources/financing/' },
   { label: 'FAQs', href: '/#faq' },
+  { label: 'Careers', href: '/careers/' },
   { label: 'Contact', href: '/contact-us/' },
 ]
 
