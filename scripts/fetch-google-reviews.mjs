@@ -10,16 +10,19 @@
 //      fall back to Places Find Place (name + address), accepted only when
 //      the returned address matches the location's street number + zip.
 //   2. Place Details → rating, user_ratings_total, reviews (max 5), url.
-//   3. Write back: locations.rating / review_count / gbp_review_url, and
-//      replace this location's `source='google'` rows in `reviews` with the
-//      fresh set (idempotent — repeat deploys never stack duplicates, and we
-//      don't warehouse review content Google no longer returns).
+//   3. Write back through the token-gated `sync_google_reviews` RPC
+//      (SECURITY DEFINER, see supabase migration google_reviews_sync_rpc):
+//      locations.rating / review_count / gbp_review_url, and replace this
+//      location's `source='google'` rows in `reviews` with the fresh set
+//      (idempotent — repeat deploys never stack duplicates, and we don't
+//      warehouse review content Google no longer returns). The RPC token can
+//      ONLY sync reviews — deliberately narrower than a service_role key.
 //
 // Fail-open policy: any error (missing env, network, API denial) logs a
 // warning and exits 0. Reviews are additive; the site must always build.
 //
-// Env (Netlify, --secret --scope builds): GOOGLE_PLACES_API_KEY,
-// SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY.
+// Env (Netlify): GOOGLE_PLACES_API_KEY (secret), REVIEWS_SYNC_TOKEN (secret),
+// SUPABASE_URL, VITE_SUPABASE_ANON_KEY.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { createClient } from '@supabase/supabase-js'
@@ -41,21 +44,22 @@ const PLACE_IDS = {
 const BRAND = 'Boca Dental and Braces'
 
 const API_KEY = process.env.GOOGLE_PLACES_API_KEY
-const SUPABASE_URL = process.env.SUPABASE_URL
-const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL
+const ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY
+const SYNC_TOKEN = process.env.REVIEWS_SYNC_TOKEN
 
 function warn(msg) {
   console.warn(`[fetch-google-reviews] WARN: ${msg}`)
 }
 
-if (!API_KEY || !SUPABASE_URL || !SERVICE_KEY) {
+if (!API_KEY || !SUPABASE_URL || !ANON_KEY || !SYNC_TOKEN) {
   warn(
-    'missing env (GOOGLE_PLACES_API_KEY / SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY) — skipping reviews pull, build continues.',
+    'missing env (GOOGLE_PLACES_API_KEY / SUPABASE_URL / VITE_SUPABASE_ANON_KEY / REVIEWS_SYNC_TOKEN) — skipping reviews pull, build continues.',
   )
   process.exit(0)
 }
 
-const supabase = createClient(SUPABASE_URL, SERVICE_KEY)
+const supabase = createClient(SUPABASE_URL, ANON_KEY)
 
 async function placesGet(path, params) {
   const url = new URL(`https://maps.googleapis.com/maps/api/place/${path}/json`)
@@ -112,19 +116,9 @@ async function syncLocation(loc) {
   })
   const r = details.result ?? {}
 
-  // 1. Aggregate fields on the location row — only real values, never nulls
-  //    over existing data.
-  const patch = {}
-  if (typeof r.rating === 'number') patch.rating = r.rating
-  if (typeof r.user_ratings_total === 'number') patch.review_count = r.user_ratings_total
-  if (r.url) patch.gbp_review_url = r.url
-  if (Object.keys(patch).length > 0) {
-    const { error } = await supabase.from('locations').update(patch).eq('id', loc.id)
-    if (error) throw new Error(`locations update: ${error.message}`)
-  }
-
-  // 2. Individual reviews — replace this location's google-sourced rows.
-  //    Google returns at most 5; rating-only reviews (no text) are skipped.
+  // Individual reviews — Google returns at most 5; rating-only reviews
+  // (no text) are skipped. The RPC replaces this location's google-sourced
+  // rows atomically and updates the aggregate fields.
   const seen = new Set()
   const rows = (r.reviews ?? [])
     .filter((rev) => rev.text && rev.text.trim().length > 0)
@@ -135,25 +129,25 @@ async function syncLocation(loc) {
       return true
     })
     .map((rev) => ({
-      location_id: loc.id,
       author_name: rev.author_name,
       rating: Math.round(rev.rating),
       review_text: rev.text.trim(),
       review_date: rev.time ? new Date(rev.time * 1000).toISOString().slice(0, 10) : null,
-      source: 'google',
       source_url: r.url ?? null,
-      is_published: true,
     }))
 
-  if (rows.length > 0) {
-    const del = await supabase.from('reviews').delete().eq('location_id', loc.id).eq('source', 'google')
-    if (del.error) throw new Error(`reviews delete: ${del.error.message}`)
-    const ins = await supabase.from('reviews').insert(rows)
-    if (ins.error) throw new Error(`reviews insert: ${ins.error.message}`)
-  }
+  const { data: inserted, error } = await supabase.rpc('sync_google_reviews', {
+    p_token: SYNC_TOKEN,
+    p_location_id: loc.id,
+    p_rating: typeof r.rating === 'number' ? r.rating : null,
+    p_review_count: typeof r.user_ratings_total === 'number' ? r.user_ratings_total : null,
+    p_review_url: r.url ?? null,
+    p_reviews: rows,
+  })
+  if (error) throw new Error(`sync rpc: ${error.message}`)
 
   console.log(
-    `[fetch-google-reviews] ${loc.label}: rating=${r.rating ?? '—'} count=${r.user_ratings_total ?? '—'} reviews=${rows.length}`,
+    `[fetch-google-reviews] ${loc.label}: rating=${r.rating ?? '—'} count=${r.user_ratings_total ?? '—'} reviews=${inserted ?? rows.length}`,
   )
   return { label: loc.label, ok: true }
 }
