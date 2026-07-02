@@ -32,14 +32,17 @@ export default function DashboardPage() {
   const stats = useQuery({
     queryKey: ['admin', 'stats'],
     queryFn: async () => {
-      const [loc, svc, doc, lead, page, xform, review] = await Promise.all([
+      const [loc, svc, doc, lead, page, xform, reviewTotals] = await Promise.all([
         supabase.from('locations').select('id', { count: 'exact', head: true }),
         supabase.from('services').select('id', { count: 'exact', head: true }),
         supabase.from('doctors').select('id', { count: 'exact', head: true }),
         supabase.from('leads').select('id', { count: 'exact', head: true }),
         supabase.from('pages').select('id', { count: 'exact', head: true }),
         supabase.from('transformations').select('id', { count: 'exact', head: true }),
-        supabase.from('reviews').select('id', { count: 'exact', head: true }),
+        // Real Google review total (sum of each clinic's live listing count,
+        // refreshed from Google on every deploy) — not the handful of review
+        // rows the CMS stores for display.
+        supabase.from('locations').select('review_count'),
       ]);
       return {
         locations: loc.count ?? 0,
@@ -48,7 +51,7 @@ export default function DashboardPage() {
         leads: lead.count ?? 0,
         pages: page.count ?? 0,
         transformations: xform.count ?? 0,
-        reviews: review.count ?? 0,
+        reviews: (reviewTotals.data ?? []).reduce((s, r) => s + (r.review_count ?? 0), 0),
       };
     },
   });
@@ -347,7 +350,7 @@ function MiniStat({
         </div>
         <div className="text-[10px] font-bold uppercase tracking-wider text-white/60">{label}</div>
       </div>
-      <div className="text-2xl font-extrabold text-white tabular-nums">{value ?? '—'}</div>
+      <div className="text-2xl font-extrabold text-white tabular-nums">{value != null ? value.toLocaleString('en-US') : '—'}</div>
     </div>
   );
 }
