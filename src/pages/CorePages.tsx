@@ -248,7 +248,7 @@ export function AboutUsPage() {
   ]
 
   const VALUES = [
-    { num: '01', title: 'Access for Every Family', body: 'Nevada Medicaid accepted. Most major PPO plans welcomed. Flexible in-house payment options available. We built Boca so that cost is never the reason a Las Vegas family skips dental care.' },
+    { num: '01', title: 'Access for Every Family', body: 'Nevada Medicaid accepted. Most major PPO plans welcomed. Flexible in-house payment options available — so cost is never the reason a Las Vegas family skips dental care.' },
     { num: '02', title: 'Bilingual by Design', body: 'Se habla español en todas nuestras oficinas. Spanish-speaking staff at every one of our 9 Las Vegas locations — because serving Las Vegas means serving the whole community.' },
     { num: '03', title: 'Every Specialty, One Roof', body: 'General dentistry, orthodontics, oral surgery, periodontics, pediatric care, sedation, implants, and cosmetics. No outside referrals. No runaround. One practice that handles it all.' },
     { num: '04', title: 'Same-Day When You Need It', body: "Dental emergencies don't wait. Same-day emergency appointments are available at all 9 Las Vegas locations. Saturday hours at select clinics. We are here when life happens." },
@@ -279,7 +279,7 @@ export function AboutUsPage() {
           </h1>
 
           <p style={{ fontSize: 'clamp(16px, 1.8vw, 20px)', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, maxWidth: 640, margin: '0 auto 52px' }}>
-            Las Vegas deserved a better dental practice. One that accepts Medicaid. One that speaks Spanish. One that has specialists on staff — not on referral. Dr. Wyatt Dannels built that practice. Nine locations later, that is still the mission.
+            Boca Dental & Braces provides full-specialty dental care across 9 locations in the Las Vegas Valley — general, orthodontics, oral surgery, periodontics, implants, sedation, cosmetic, and pediatric care — with Nevada Medicaid and most major PPO plans accepted.
           </p>
 
           {/* Stats row */}
@@ -315,36 +315,20 @@ export function AboutUsPage() {
             {/* Left — sticky label */}
             <motion.div className="about-story-grid" initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ position: 'sticky', top: 120 }}>
               <div style={{ width: 40, height: 3, background: ORANGE, marginBottom: 24, borderRadius: 2 }} />
-              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 16 }}>Our Story</div>
+              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: ORANGE, marginBottom: 16 }}>About Us</div>
               <h2 style={{ fontSize: 'clamp(28px, 3vw, 44px)', fontWeight: 800, letterSpacing: '-1.5px', color: NAVY, margin: '0 0 20px', lineHeight: 1.1 }}>
-                One Clinic.<br />One Idea.
+                9 Clinics.<br />One Standard.
               </h2>
-              <p style={{ fontSize: 14, color: 'rgba(0,29,61,0.5)', lineHeight: 1.7, margin: 0 }}>Southeast Las Vegas.</p>
+              <p style={{ fontSize: 14, color: 'rgba(0,29,61,0.5)', lineHeight: 1.7, margin: 0 }}>Across the Las Vegas Valley.</p>
             </motion.div>
 
             {/* Right — story */}
             <motion.div className="about-story-grid" initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.15 }}>
-              {/* Pull quote */}
-              <div style={{ borderLeft: `4px solid ${ORANGE}`, paddingLeft: 28, marginBottom: 40 }}>
-                <p style={{ fontSize: 'clamp(18px, 2vw, 24px)', fontWeight: 700, color: NAVY, lineHeight: 1.5, margin: 0, fontStyle: 'italic' }}>
-                  "Every Las Vegas family deserves consistent, high-quality dental care close to home — regardless of ZIP code, schedule, or budget."
-                </p>
-                <p style={{ fontSize: 13, color: 'rgba(0,29,61,0.4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.2, marginTop: 14, marginBottom: 0 }}>
-                  Dr. Wyatt Dannels · Founder & CEO
-                </p>
-              </div>
-
-                            <p style={{ fontSize: 17, lineHeight: 1.85, color: 'rgba(0,29,61,0.75)', marginBottom: 24 }}>
-                Dr. Wyatt Dannels' commitment to serving underserved communities began long before he opened his first dental practice. From 2000 to 2002 he lived in Torreón, Mexico, spending two years serving the Hispanic community — an experience that profoundly shaped his perspective on healthcare, service, and the barriers many families face when seeking dental treatment.
-              </p>
               <p style={{ fontSize: 17, lineHeight: 1.85, color: 'rgba(0,29,61,0.75)', marginBottom: 24 }}>
-                Upon returning home, Dr. Dannels pursued degrees in both Spanish and Biology, knowing his calling was to become a dentist who could bridge cultural and language gaps in healthcare. He later earned his Doctor of Dental Surgery degree from the University of Southern California, where his bilingual abilities allowed him to care for many Spanish-speaking patients who had never visited a dentist or who suffered from significant dental anxiety.
+                Boca Dental & Braces provides full-specialty dental care across 9 locations throughout the Las Vegas Valley, including a dedicated kids' clinic.
               </p>
-              <p style={{ fontSize: 17, lineHeight: 1.85, color: 'rgba(0,29,61,0.75)', marginBottom: 24 }}>
-                After graduating from dental school, Dr. Dannels moved his family to Las Vegas with a clear mission: to improve access to quality dental care for underserved populations. He soon realized the challenges of limited access extended far beyond any single demographic — families from every background faced financial barriers, fear of treatment, and too few quality providers.
-              </p>
-              <p style={{ fontSize: 17, lineHeight: 1.85, color: 'rgba(0,29,61,0.75)', marginBottom: 40 }}>
-                Driven by the belief that everyone deserves exceptional dental care, he expanded his vision and began opening practices throughout the Las Vegas Valley to serve the communities with the greatest need. Today Boca Dental & Braces spans nine Las Vegas locations, and his mission remains simple: to ensure that every patient — regardless of language, background, or circumstance — has access to the high-quality dental care they deserve.
+              <p style={{ fontSize: 17, lineHeight: 1.85, color: 'rgba(0,29,61,0.75)', margin: 0 }}>
+                Care spans general dentistry, orthodontics, oral surgery, periodontics, implants, sedation, cosmetic, and pediatric care — handled in-house, so most patients avoid an outside referral. The practice accepts Nevada Medicaid and most major PPO plans, with Spanish-speaking staff across its offices.
               </p>
             </motion.div>
           </div>
