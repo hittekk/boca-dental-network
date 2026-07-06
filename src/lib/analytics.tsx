@@ -63,6 +63,29 @@ function parseUTM(): Record<string, string> {
   return utm;
 }
 
+// Fire-and-forget first-party event insert.
+// NOTE: the postgrest-js query builder is LAZY — the HTTP request is only sent
+// when the builder is awaited or `.then()`-chained. A bare `void supabase…insert()`
+// builds the query but never sends it, silently dropping every event. We chain
+// `.then()` here so the request actually fires, and swallow errors so analytics
+// can never break the page.
+function recordEvent(row: Record<string, unknown>) {
+  if (!isSupabaseConfigured) return;
+  supabase
+    .from('analytics_events')
+    .insert(row)
+    .then(
+      ({ error }) => {
+        if (error && typeof console !== 'undefined') {
+          console.debug('[analytics] event insert failed:', error.message);
+        }
+      },
+      () => {
+        /* network error — ignore, analytics is non-critical */
+      },
+    );
+}
+
 export function AnalyticsProvider({ children }: { children: ReactNode }) {
   const safeConfig = useAnalyticsConfigFromSettings() ?? {};
   const injectedRef = useRef(false);
@@ -179,7 +202,7 @@ export function AnalyticsProvider({ children }: { children: ReactNode }) {
     // First-party event (always — works without any Google IDs)
     if (isSupabaseConfigured) {
       const utm = parseUTM();
-      void supabase.from('analytics_events').insert({
+      recordEvent({
         event_type: 'page_view',
         page_path: path,
         page_title: typeof document !== 'undefined' ? document.title : null,
@@ -219,7 +242,7 @@ export function AnalyticsProvider({ children }: { children: ReactNode }) {
 
     // First-party (always)
     if (isSupabaseConfigured) {
-      void supabase.from('analytics_events').insert({
+      recordEvent({
         event_type: eventType,
         page_path: typeof window !== 'undefined' ? window.location.pathname : null,
         page_title: typeof document !== 'undefined' ? document.title : null,
