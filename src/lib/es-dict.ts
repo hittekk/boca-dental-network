@@ -108,7 +108,6 @@ export const ES: Record<string, string> = {
     'Atención dental de clase mundial y accesible para las familias de Reno y Sparks — en Reno, Sparks y el condado de Washoe.',
   'Quick Links': 'Enlaces Rápidos',
   'About Boca': 'Sobre Boca',
-  'Locations': 'Ubicaciones',
   'Services': 'Servicios',
   'New Patients': 'Nuevos Pacientes',
   'Financing': 'Financiamiento',
@@ -236,8 +235,6 @@ export const ES: Record<string, string> = {
   'Smile Makeovers': 'Transformaciones de Sonrisa',
   'Complete cosmetic transformations using porcelain veneers, professional whitening, and bonding — tailored to your goals.':
     'Transformaciones cosméticas completas con carillas de porcelana, blanqueamiento profesional y bonding — adaptadas a tus metas.',
-  'All Services': 'Todos los Servicios',
-  'Complete Care Under One Roof.': 'Atención Completa Bajo un Mismo Techo.',
   'Comprehensive care in one practice. Select a category to explore all available treatments.':
     'Atención integral en una sola práctica. Selecciona una categoría para explorar todos los tratamientos disponibles.',
   'Explore →': 'Explorar →',
@@ -327,6 +324,12 @@ export const ES: Record<string, string> = {
   'Always Close to Home.': 'Siempre Cerca de Casa.',
 
   // — About page: body —
+  "Boca Dental & Braces provides full-specialty dental care across 9 locations in the Las Vegas Valley — general, orthodontics, oral surgery, periodontics, implants, sedation, cosmetic, and pediatric care — with Nevada Medicaid and most major PPO plans accepted.": "Boca Dental & Braces ofrece atención dental de especialidad completa en 9 ubicaciones en el Valle de Las Vegas — general, ortodoncia, cirugía oral, periodoncia, implantes, sedación, estética y atención pediátrica — con Nevada Medicaid y la mayoría de los principales planes PPO aceptados.",
+  "Boca Dental & Braces provides full-specialty dental care across 9 locations throughout the Las Vegas Valley, including a dedicated kids' clinic.": "Boca Dental & Braces ofrece atención dental de especialidad completa en 9 ubicaciones en todo el Valle de Las Vegas, incluida una clínica dedicada para niños.",
+  "Care spans general dentistry, orthodontics, oral surgery, periodontics, implants, sedation, cosmetic, and pediatric care — handled in-house, so most patients avoid an outside referral. The practice accepts Nevada Medicaid and most major PPO plans, with Spanish-speaking staff across its offices.": "La atención abarca odontología general, ortodoncia, cirugía oral, periodoncia, implantes, sedación, estética y atención pediátrica — todo en casa, para que la mayoría de los pacientes eviten una referencia externa. La práctica acepta Nevada Medicaid y la mayoría de los principales planes PPO, con personal de habla hispana en sus oficinas.",
+  "About Us": "Acerca de Nosotros",
+  "9 Clinics.": "9 Clínicas.",
+  "Across the Las Vegas Valley.": "En todo el Valle de Las Vegas.",
   'Reno deserved a better dental practice. One that accepts Medicaid. One that speaks Spanish. One that has specialists on staff — not on referral. We built that practice to serve Reno and Sparks. Three clinics later, that is still the mission.':
     'Reno merecía una mejor práctica dental. Una que acepte Medicaid. Una que hable español. Una que tenga especialistas en el equipo — no por referencia. Construimos esa práctica para servir a Reno y Sparks. Tres clínicas después, esa sigue siendo la misión.',
   '"Every Reno family deserves consistent, high-quality dental care close to home — regardless of ZIP code, schedule, or budget."':
@@ -416,12 +419,8 @@ export const ES: Record<string, string> = {
 
   // — Reviews page —
   '+ verified reviews': '+ reseñas verificadas',
-  'Average rating': 'Calificación promedio',
-  'All Locations': 'Todas las Clínicas',
   'Book your next visit': 'Reserva tu próxima visita',
-  'Verified Google Reviews': 'Reseñas Verificadas de Google',
   'What Reno patients': 'Lo que dicen los pacientes de Reno',
-  'say about Boca.': 'sobre Boca.',
   'Real reviews from real patients. We never pay for reviews — every star is earned at one of our Reno and Sparks clinics.':
     'Reseñas reales de pacientes reales. Nunca pagamos por reseñas — cada estrella se gana en una de nuestras clínicas de Reno y Sparks.',
   'is a growing office — verified Google reviews will appear here as patients share them.':
