@@ -22,7 +22,7 @@ function getSteps(lang: import('../../lib/lang').Lang): Step[] { return [
   {
     number: '01',
     title: t(lang, 'Book Your Appointment', 'Reserva Tu Cita'),
-    body: t(lang, 'Call any Boca location or book online. Most locations offer same-day and next-day appointments for new patients.', 'Llama a cualquier clínica Boca o reserva en línea. La mayoría de las clínicas ofrecen citas el mismo día para nuevos pacientes.'),
+    body: t(lang, 'Call any Boca location or book online. Every location is accepting new patients and can see dental emergencies the same day.', 'Llama a cualquier clínica Boca o reserva en línea. Cada clínica acepta nuevos pacientes y atiende urgencias dentales el mismo día.'),
     icon: Phone,
     duration: t(lang, '< 5 min', '< 5 min'),
   },
