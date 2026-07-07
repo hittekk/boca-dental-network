@@ -107,10 +107,10 @@ export function ServiceCategoryPage({ categorySlugProp }: { categorySlugProp?: s
             <span style={{ color: ORANGE, fontWeight: 700 }}>{cat.label}</span>
           </motion.nav>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: 56, alignItems: 'center' }}>
+          <div className="sc-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: 56, alignItems: 'center' }}>
             <style>{`@media(max-width:860px){.sc-hero-grid{grid-template-columns:1fr!important}.sc-hero-right{display:none!important}}`}</style>
 
-            <motion.div className="sc-hero-grid" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
               <div style={{ display: 'inline-block', background: 'rgba(243,103,42,0.12)', border: '1px solid rgba(243,103,42,0.32)', borderRadius: 20, padding: '6px 20px', fontSize: 11, fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase', color: ORANGE, marginBottom: 24 }}>
                 Las Vegas · All 9 Locations · In-House Specialists
               </div>
@@ -181,10 +181,10 @@ export function ServiceCategoryPage({ categorySlugProp }: { categorySlugProp?: s
                 Treatments We Offer
               </h2>
             </motion.div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }}>
+            <div className="svc-cat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }}>
               <style>{`@media(max-width:768px){.svc-cat-grid{grid-template-columns:repeat(2,1fr)!important;gap:12px!important}}@media(max-width:480px){.svc-cat-grid{grid-template-columns:1fr!important}}`}</style>
               {services.map((s, i) => (
-                <div key={s.slug} className="svc-cat-grid">
+                <div key={s.slug}>
                   <ServiceCard s={s} catSlug={cat.slug} index={i} />
                 </div>
               ))}
@@ -204,10 +204,10 @@ export function ServiceCategoryPage({ categorySlugProp }: { categorySlugProp?: s
               {cat.label} at All 9 Las Vegas Locations
             </h2>
           </motion.div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10 }}>
+          <div className="loc-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10 }}>
             <style>{`@media(max-width:768px){.loc-grid{grid-template-columns:repeat(2,1fr)!important;gap:8px!important}}@media(max-width:480px){.loc-grid{grid-template-columns:1fr!important}}`}</style>
             {INITIAL_DATA.locations.map((loc, i) => (
-              <motion.div key={loc.slug} className="loc-grid" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: (i % 3) * 0.07 }}>
+              <motion.div key={loc.slug} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: (i % 3) * 0.07 }}>
                 <Link to={`/clinics/${loc.slug}/`} style={{ display: 'flex', flexDirection: 'column', gap: 8, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: '20px 20px', textDecoration: 'none', transition: 'background 0.2s' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 10, fontWeight: 800, letterSpacing: 1.5, textTransform: 'uppercase', color: ORANGE }}>
                     <MapPin size={11} /> {loc.neighborhood}
