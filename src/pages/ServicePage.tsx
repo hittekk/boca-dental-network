@@ -1000,22 +1000,17 @@ function CostInsuranceSection({ page, content }: { page: { label: string }; cont
     {
       icon: ShieldCheck,
       label: 'Insurance',
-      body: 'Boca Dental & Braces accepts most major PPO dental insurance plans. Our team performs a complimentary benefits verification before treatment begins so you know your exact out-of-pocket cost.',
+      body: 'Boca Dental & Braces accepts Nevada Medicaid and most major PPO and dental plans. Our team performs a complimentary benefits verification before treatment begins so you know what your plan covers.',
     },
     {
       icon: CreditCard,
-      label: 'Financing',
-      body: 'We offer financing through CareCredit, Sunbit, and Alphaeon — spread your cost over 6, 12, 18, or 24 months. Apply in minutes at the front desk or online. Subject to credit approval.',
-    },
-    {
-      icon: Calendar,
-      label: 'In-house payment plans',
-      body: 'We also offer in-house payment plans to help make treatment affordable regardless of your insurance situation. Ask our team about monthly payment options at your free consultation.',
+      label: 'Flexible payment options',
+      body: 'We work with patients to find a payment approach that fits their budget — ask our team about the options available at your visit.',
     },
     {
       icon: Wallet,
       label: 'FSA / HSA',
-      body: 'Flexible Spending Accounts (FSA) and Health Savings Accounts (HSA) can be used to pay for treatment, reducing your taxable out-of-pocket cost.',
+      body: 'Flexible Spending Accounts (FSA) and Health Savings Accounts (HSA) can be used to pay for eligible dental treatment.',
     },
   ]
 
@@ -1037,7 +1032,7 @@ function CostInsuranceSection({ page, content }: { page: { label: string }; cont
           {header}
         </h2>
         <p style={{ fontSize: 16, lineHeight: 1.7, color: 'rgba(0,29,61,0.78)', margin: '0 0 40px', maxWidth: 820 }}>
-          At Boca Dental &amp; Braces, cost should never stand between you and the care you need. We accept Nevada Medicaid and many major dental plans, verify your benefits at no charge, and offer flexible financing — so you can move forward with confidence.
+          At Boca Dental &amp; Braces, cost should never stand between you and the care you need. We accept Nevada Medicaid and many major dental plans, verify your benefits at no charge, and offer flexible payment options — so you can move forward with confidence.
         </p>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 14, margin: '0 0 22px' }}>
@@ -1051,7 +1046,7 @@ function CostInsuranceSection({ page, content }: { page: { label: string }; cont
               whiteSpace: 'nowrap',
             }}
           >
-            Insurance, Financing &amp; Payment Options
+            Insurance &amp; Payment Options
           </span>
           <span style={{ flex: 1, height: 1, background: 'rgba(0,29,61,0.10)' }} />
         </div>

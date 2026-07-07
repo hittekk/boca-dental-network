@@ -1,27 +1,27 @@
 import { motion } from 'framer-motion'
-import { CheckCircle, Wallet, CreditCard, Sparkles, ArrowRight } from 'lucide-react'
+import { CheckCircle, Wallet, CreditCard, ArrowRight } from 'lucide-react'
 import { useLang, t } from '../../lib/lang'
 
 const PLANS = [
   {
-    icon: CreditCard,
-    name: 'CareCredit',
-    tagline: 'Healthcare Financing',
-    body: 'Special financing options on purchases of $200+, with 6, 12, 18, or 24-month no-interest plans for qualified applicants.',
+    icon: CheckCircle,
+    name: 'Medicaid & Liberty Dental',
+    tagline: 'Access for More Families',
+    body: 'Boca is a leading provider for Nevada Medicaid and Liberty Dental patients — part of our mission to make quality dental care accessible across Las Vegas.',
     highlight: false,
   },
   {
     icon: Wallet,
-    name: 'Sunbit',
-    tagline: 'Pay Over Time',
-    body: 'Quick approval for nearly everyone — no impact to your credit score to apply. Flexible monthly payments with no late fees.',
+    name: 'Most Major PPO Plans',
+    tagline: 'Insurance Welcome',
+    body: 'We accept many major PPO and dental plans. Our team verifies your specific benefits before your visit so you know what to expect.',
     highlight: false,
   },
   {
-    icon: Sparkles,
-    name: 'Alphaeon',
-    tagline: 'Smile Financing',
-    body: 'Dedicated dental financing with promotional terms and longer repayment options for larger treatment plans like implants and Invisalign.',
+    icon: CreditCard,
+    name: 'Flexible Payment Options',
+    tagline: 'Ask Our Team',
+    body: 'We work with patients to find payment approaches that fit their needs — ask our team about options at your consultation.',
     highlight: false,
   },
 ]
@@ -94,7 +94,7 @@ export function Financing() {
             }}
           >
             Cost should never be the reason you delay dental care. We
-            accept most insurance plans and offer flexible financing
+            accept most insurance plans and offer flexible payment options
             so quality care is always within reach.
           </p>
         </motion.div>
@@ -130,7 +130,7 @@ export function Financing() {
                 marginBottom: 16,
               }}
             >
-              {t(lang, 'Financing Options', 'Opciones de Financiamiento')}
+              {t(lang, 'Payment Options', 'Opciones de Pago')}
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>

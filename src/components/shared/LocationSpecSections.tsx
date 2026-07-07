@@ -978,11 +978,11 @@ export function InsuranceFinancingSection({
                 color: palette.textFaint,
               }}
             >
-              Nevada Medicaid + CHIP accepted for eligible patients at this location.
+              Nevada Medicaid accepted for eligible patients.
             </div>
           </div>
 
-          {/* CareCredit card */}
+          {/* Payment options card */}
           <div
             style={{
               background: palette.cardBg,
@@ -994,8 +994,8 @@ export function InsuranceFinancingSection({
           >
             <CardHead
               icon={CreditCard}
-              label="Financing"
-              title="CareCredit + in-house plans"
+              label="Payment"
+              title="Flexible payment options"
               palette={palette}
             />
             <p
@@ -1006,9 +1006,9 @@ export function InsuranceFinancingSection({
                 margin: '0 0 14px',
               }}
             >
-              CareCredit lets you spread treatment over 6, 12, 18, or 24 months
-              with low or no interest. We also offer in-house payment plans
-              with no credit check for routine care.
+              We work with patients to find payment approaches that fit their
+              budget. Our team can walk you through the options available at
+              your visit.
             </p>
             <ul
               style={{
@@ -1019,9 +1019,9 @@ export function InsuranceFinancingSection({
                 lineHeight: 1.7,
               }}
             >
-              <li>Apply in minutes at the front desk or online</li>
-              <li>Same-day approval common for qualified applicants</li>
-              <li>Use for any service — implants, ortho, restorative</li>
+              <li>Talk through options with our front-desk team</li>
+              <li>We verify your insurance benefits up front</li>
+              <li>Available across a range of treatment types</li>
             </ul>
           </div>
 

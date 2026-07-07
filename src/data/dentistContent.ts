@@ -47,7 +47,7 @@ const PILOT_LOVELAND: DentistContent = {
 
 const PILOT_CALDER: DentistContent = {
   slug: 'dr-charles-calder',
-  name: 'Dr. Charles Calder, DDS',
+  name: 'Dr. Charles Calder',
   title: 'Oral and Maxillofacial Surgeon',
   medicalSpecialty: 'Oral and Maxillofacial Surgery',
   dentalSchool: 'Loma Linda University School of Dentistry — DDS 2000, MD 2003, OMFS Residency 2006',
@@ -61,7 +61,7 @@ const PILOT_CALDER: DentistContent = {
 
 const PILOT_DANNELS: DentistContent = {
   slug: 'dr-wyatt-dannels',
-  name: 'Dr. Wyatt Dannels, DDS',
+  name: 'Dr. Wyatt Dannels',
   title: 'Lead Dentist & Founder',
   medicalSpecialty: 'General Dentistry',
   yearsInPractice: 13,

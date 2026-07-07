@@ -96,8 +96,8 @@ export interface ServiceContent {
   faqs:          ServiceFAQ[]
 
   // §9 Cost & Insurance
-  costHeader:    string
-  costRange:     { value: string; context: string }
+  costHeader?:   string
+  costRange?:    { value: string; context: string }
   /** Inline financing callout text */
   inlineCTA:     string
 
@@ -215,7 +215,7 @@ const INVISALIGN: ServiceContent = {
     'Free Invisalign consultations — no cost, no commitment to get started',
     'Orthodontic treatment available at all 9 Las Vegas locations for maximum convenience',
     'Accepts most major PPO dental insurance plans; our team verifies your benefits at no charge before treatment begins',
-    'Flexible payment options including CareCredit financing and in-house payment plans',
+    'Flexible payment options — our team helps you find an approach that fits your budget',
     'Evening and weekend appointment availability to fit around your work or school schedule',
     'Bilingual staff (English and Spanish) at multiple locations',
   ],
@@ -229,9 +229,9 @@ const INVISALIGN: ServiceContent = {
 
   faqs: [
     { question: 'How much does Invisalign cost in Las Vegas?',
-      answer: 'Invisalign treatment in Las Vegas typically ranges from $3,000 to $7,000, depending on the complexity of your case, the number of aligners required, and the length of treatment. At Boca Dental & Braces, we offer flexible financing through CareCredit and in-house payment plans to make treatment accessible on any budget. We also accept most major PPO dental insurance plans, which often cover a portion of orthodontic treatment — our team will verify your benefits at no cost before you begin.' },
+      answer: 'The cost of Invisalign depends on the complexity of your case, the number of aligners required, and the length of treatment. At your free consultation we review your treatment plan and go over your options. Many PPO dental plans cover a portion of orthodontic treatment, and our team will verify your benefits at no cost before you begin.' },
     { question: 'Does dental insurance cover Invisalign?',
-      answer: 'Many PPO dental and orthodontic insurance plans cover Invisalign the same way they cover traditional braces — typically up to your plan\'s annual or lifetime orthodontic maximum. Coverage varies by plan, so it is important to verify your specific benefits before starting treatment. The team at Boca Dental & Braces will perform a complimentary benefits check and provide you with your estimated out-of-pocket cost before your first aligner is made.' },
+      answer: 'Many PPO dental and orthodontic insurance plans cover Invisalign the same way they cover traditional braces — typically up to your plan\'s annual or lifetime orthodontic maximum. Coverage varies by plan, so it is important to verify your specific benefits before starting treatment. The team at Boca Dental & Braces will perform a complimentary benefits check and confirm what your plan covers before your first aligner is made.' },
     { question: 'How long does Invisalign treatment take?',
       answer: 'Most Invisalign cases at Boca Dental & Braces are completed in 6 to 18 months. Minor corrections, such as closing small gaps or straightening mildly crowded teeth, can be resolved in as little as 6 months. More complex alignment or bite issues may require 18 to 24 months of treatment. Your exact treatment timeline will be determined during your free consultation and mapped out in your personalized digital treatment plan.' },
     { question: 'Is Invisalign painful?',
@@ -246,19 +246,13 @@ const INVISALIGN: ServiceContent = {
       answer: "Getting started is simple. Book a free Invisalign consultation online or by phone at any of our 9 Las Vegas locations. At your appointment, Dr. Loveland's team will assess your teeth, answer your questions, and create a digital preview of your projected results. There is no cost and no obligation for the initial consultation." },
   ],
 
-  costHeader: 'How Much Does Invisalign Cost in Las Vegas?',
-  costRange: {
-    value: '$3,000 – $7,000',
-    context:
-      "The cost of Invisalign treatment at Boca Dental & Braces in Las Vegas typically ranges from $3,000 to $7,000. Your final cost depends on the complexity of your case, the number of aligner sets needed, and the projected treatment duration. Patients requiring minor corrections tend to fall toward the lower end of this range, while more comprehensive full-arch alignment or bite corrections may cost more. Every Invisalign case is different, which is why we provide a detailed cost estimate at your free consultation — based on your actual scan and treatment plan, not a generic quote.",
-  },
   inlineCTA:
-    'Get a personalized Invisalign cost estimate with no obligation. Book your free consultation at any of our 9 Las Vegas locations and our team will walk you through your treatment plan and financing options before you commit to anything.',
+    'Book your free consultation at any of our 9 Las Vegas locations and our team will walk you through your personalized treatment plan and payment options before you commit to anything.',
 
   relatedSlugs: ['braces', 'teen-dentistry', 'retainers', 'teeth-whitening'],
 
   geoParagraph:
-    'Boca Dental & Braces offers Invisalign clear aligner treatment at all 9 of its Las Vegas dental clinics, including locations near Bonanza & Eastern, Russell & Eastern, Sahara & Decatur, Charleston & Lamb, Flamingo & Torrey Pines, Cheyenne Commons, Beltway Marketplace, Jones & I-95, and our Boca Kids Dentistry location. Patients across Las Vegas can access affordable Invisalign treatment with flexible financing and free consultations at the location most convenient to them.',
+    'Boca Dental & Braces offers Invisalign clear aligner treatment at all 9 of its Las Vegas dental clinics, including locations near Bonanza & Eastern, Russell & Eastern, Sahara & Decatur, Charleston & Lamb, Flamingo & Torrey Pines, Cheyenne Commons, Beltway Marketplace, Jones & I-95, and our Boca Kids Dentistry location. Patients across Las Vegas can access Invisalign treatment with flexible payment options and free consultations at the location most convenient to them.',
 }
 
 export const SERVICE_CONTENT: Record<string, ServiceContent> = {

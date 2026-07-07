@@ -47,10 +47,10 @@ function getReasons(lang: import('../../lib/lang').Lang): Reason[] { return [
   },
   {
     icon: CreditCard,
-    stat: '24mo',
-    statLabel: 'CareCredit financing',
-    title: t(lang, 'Flexible Financing Options', 'Opciones de Financiamiento Flexible'),
-    body: t(lang, "Treatment shouldn't wait because of cost. We offer CareCredit financing and in-house payment plans to make dental care accessible for every budget.", 'El tratamiento no debe esperar por el costo. Ofrecemos financiamiento CareCredit y planes de pago propios para que la atención dental sea accesible.'),
+    stat: 'Flexible',
+    statLabel: 'payment options',
+    title: t(lang, 'Flexible Payment Options', 'Opciones de Pago Flexibles'),
+    body: t(lang, "Treatment shouldn't wait because of cost. We accept Nevada Medicaid and most major PPO plans, and our team will work with you to find an approach that fits your budget.", 'El tratamiento no debe esperar por el costo. Aceptamos Nevada Medicaid y la mayoría de los planes PPO, y nuestro equipo trabajará contigo para encontrar una opción que se ajuste a tu presupuesto.'),
   },
   {
     icon: Award,

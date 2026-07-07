@@ -6,7 +6,6 @@ import {
   ArrowUpRight,
   GraduationCap,
   Stethoscope,
-  Languages,
   MapPin,
   Phone,
   Star,
@@ -198,9 +197,6 @@ export function DentistPage() {
                 )}
                 {content.medicalSpecialty && (
                   <Chip icon={<Stethoscope size={12} color={ORANGE} />} text={content.medicalSpecialty} />
-                )}
-                {content.languages && content.languages.length > 0 && (
-                  <Chip icon={<Languages size={12} color={ORANGE} />} text={content.languages.join(' · ')} />
                 )}
               </div>
 
@@ -396,7 +392,6 @@ function DentistSchema({
       ...(content.photo ? { image: content.photo } : {}),
       ...(content.medicalSpecialty ? { medicalSpecialty: content.medicalSpecialty } : {}),
       ...(content.dentalSchool ? { alumniOf: { '@type': 'EducationalOrganization', name: content.dentalSchool } } : {}),
-      ...(content.languages ? { knowsLanguage: content.languages } : {}),
       worksFor: { '@id': `${DOMAIN}/#practice` },
       ...(worksAtClinics.length > 0
         ? { workLocation: worksAtClinics.map((l) => ({ '@id': `${DOMAIN}/clinics/${l.slug}/#localbusiness` })) }

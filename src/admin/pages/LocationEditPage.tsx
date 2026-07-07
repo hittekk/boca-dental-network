@@ -229,7 +229,7 @@ export default function LocationEditPage() {
                     update('hours_detailed', next);
                   }}
                   className="input-style"
-                  placeholder="5:00 PM"
+                  placeholder="6:00 PM"
                   disabled={row.open.trim().toLowerCase() === 'closed'}
                 />
               </div>
@@ -238,7 +238,7 @@ export default function LocationEditPage() {
               <button
                 type="button"
                 onClick={() =>
-                  update('hours_detailed', ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day) => ({ day, open: '9:00 AM', close: '5:00 PM' })).concat([{ day: 'Sunday', open: 'Closed', close: '', closed: true, note: 'By emergency only' } as never]))
+                  update('hours_detailed', ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day) => ({ day, open: '9:00 AM', close: '6:00 PM' })).concat([{ day: 'Sunday', open: 'Closed', close: '', closed: true, note: 'By emergency only' } as never]))
                 }
                 className="text-xs font-bold px-3 py-2 rounded-lg border border-slate-200 text-slate-500 hover:border-orange-300 hover:text-orange-600"
               >

@@ -246,7 +246,7 @@ export function AboutUsPage() {
   ]
 
   const VALUES = [
-    { num: '01', title: 'Access for Every Family', body: 'Nevada Medicaid accepted. Most major PPO plans welcomed. Flexible in-house payment options available — so cost is never the reason a Las Vegas family skips dental care.' },
+    { num: '01', title: 'Access for Every Family', body: 'Nevada Medicaid accepted. Most major PPO plans welcomed. Flexible payment options available — so cost is never the reason a Las Vegas family skips dental care.' },
     { num: '02', title: 'Bilingual by Design', body: 'Se habla español en todas nuestras oficinas. Spanish-speaking staff at every one of our 9 Las Vegas locations — because serving Las Vegas means serving the whole community.' },
     { num: '03', title: 'Every Specialty, One Roof', body: 'General dentistry, orthodontics, oral surgery, periodontics, pediatric care, sedation, implants, and cosmetics. No outside referrals. No runaround. One practice that handles it all.' },
     { num: '04', title: 'Same-Day When You Need It', body: "Dental emergencies don't wait. Same-day emergency appointments are available at all 9 Las Vegas locations. Saturday hours at select clinics. We are here when life happens." },
@@ -1199,7 +1199,7 @@ export function ClinicsHubPage() {
 export function PatientResourcesHubPage() {
   const items = [
     { slug: 'insurance', label: 'Insurance We Accept', desc: 'View accepted PPO plans + Nevada Medicaid eligibility.', icon: ShieldCheck },
-    { slug: 'financing', label: 'Financing Options', desc: 'CareCredit, in-house plans, FSA/HSA — see all options.', icon: CreditCard },
+    { slug: 'financing', label: 'Payment & Insurance', desc: 'Medicaid, PPO plans, FSA/HSA, and payment options.', icon: CreditCard },
     { slug: 'reviews', label: 'Patient Reviews', desc: 'Read what Las Vegas patients are saying on Google.', icon: Star },
   ]
   const breadcrumbSchema = usePageMeta({
@@ -1289,7 +1289,7 @@ export function InsurancePage() {
 export function FinancingPage() {
   const breadcrumbSchema = usePageMeta({
     title: 'Financing & Payment Plans | Boca Dental & Braces Las Vegas',
-    description: 'Flexible financing options at Boca Dental & Braces — CareCredit, in-house payment plans, FSA/HSA accepted. Spread treatment cost over 6, 12, 18, or 24 months.',
+    description: 'Insurance and payment options at Boca Dental & Braces — Nevada Medicaid, most major PPO plans, and FSA/HSA accepted across all 9 Las Vegas locations.',
     url: `${DOMAIN}/patient-resources/financing/`,
     breadcrumb: [{ name: 'Home', url: `${DOMAIN}/` }, { name: 'Patient Resources', url: `${DOMAIN}/patient-resources/` }, { name: 'Financing' }],
   })
@@ -1298,17 +1298,17 @@ export function FinancingPage() {
       <HeroBlock
         eyebrow="[ 02 ] · Financing"
         h1="Financing & Payment Plans"
-        intro="No patient should delay needed dental care because of cost. Boca Dental & Braces offers multiple financing options across all 9 Las Vegas locations to make treatment affordable for every budget."
+        intro="No patient should delay needed dental care because of cost. Boca Dental & Braces accepts Nevada Medicaid and most major PPO plans and offers flexible payment options across all 9 Las Vegas locations."
         breadcrumb={[{ name: 'Home', href: '/' }, { name: 'Patient Resources', href: '/patient-resources/' }, { name: 'Financing' }]}
       />
       <section style={{ background: 'white', padding: '32px 32px 80px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }} className="fin-grid">
             <style>{`@media (max-width: 720px){ .fin-grid{ grid-template-columns: 1fr !important; } }`}</style>
-            <FinCard title="CareCredit" body="Spread the cost over 6, 12, 18, or 24 months. Low or no interest. Apply in minutes at the front desk or online. Subject to credit approval." />
-            <FinCard title="In-House Payment Plans" body="We also offer in-house monthly payment plans without a hard credit check for routine care. Ask your treatment coordinator at your visit." />
-            <FinCard title="FSA / HSA Accepted" body="Use pre-tax Flexible Spending Account or Health Savings Account funds toward your dental treatment to reduce your out-of-pocket cost." />
-            <FinCard title="No Insurance?" body="Boca Dental & Braces accepts cash, check, and all major credit cards. We never let cost stop necessary care — talk to us about all available options." />
+            <FinCard title="Nevada Medicaid & Liberty Dental" body="Boca is a leading provider for Nevada Medicaid and Liberty Dental patients — part of our mission to keep quality dental care within reach for Las Vegas families." />
+            <FinCard title="Most Major PPO Plans" body="We accept many major PPO and dental plans. Our team verifies your specific benefits before treatment so you know what your plan covers." />
+            <FinCard title="FSA / HSA Accepted" body="Use pre-tax Flexible Spending Account or Health Savings Account funds toward eligible dental treatment." />
+            <FinCard title="Flexible Payment Options" body="We work with patients to find a payment approach that fits their budget, and we accept cash, check, and major credit cards. Ask our team about your options at your visit." />
           </div>
         </div>
       </section>

@@ -598,7 +598,7 @@ export default function ServicePageEditPage({ isNew = false }: { isNew?: boolean
           </Field>
           <div className="grid grid-cols-2 gap-4 mt-4">
             <Field label="Cost value">
-              <input className="input-style" value={form.costValue} onChange={(e) => set('costValue', e.target.value)} placeholder="$1,000–$1,800" />
+              <input className="input-style" value={form.costValue} onChange={(e) => set('costValue', e.target.value)} placeholder="Leave blank — no pricing on site" />
             </Field>
             <Field label="Cost context">
               <input className="input-style" value={form.costContext} onChange={(e) => set('costContext', e.target.value)} placeholder="per crown, varies by material" />

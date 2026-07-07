@@ -13,12 +13,12 @@ import type { DayHours } from '../types'
 /** Standard Mon–Sat 9–7, Sun closed — used as the default for clinics
  *  without confirmed hours. [verify with client] */
 const DEFAULT_HOURS: DayHours[] = [
-  { day: 'Monday',    open: '9:00 AM',  close: '5:00 PM' },
-  { day: 'Tuesday',   open: '9:00 AM',  close: '5:00 PM' },
-  { day: 'Wednesday', open: '9:00 AM',  close: '5:00 PM' },
-  { day: 'Thursday',  open: '9:00 AM',  close: '5:00 PM' },
-  { day: 'Friday',    open: '9:00 AM',  close: '5:00 PM' },
-  { day: 'Saturday',  open: '9:00 AM',  close: '5:00 PM' },
+  { day: 'Monday',    open: '9:00 AM',  close: '6:00 PM' },
+  { day: 'Tuesday',   open: '9:00 AM',  close: '6:00 PM' },
+  { day: 'Wednesday', open: '9:00 AM',  close: '6:00 PM' },
+  { day: 'Thursday',  open: '9:00 AM',  close: '6:00 PM' },
+  { day: 'Friday',    open: '9:00 AM',  close: '6:00 PM' },
+  { day: 'Saturday',  open: '9:00 AM',  close: '6:00 PM' },
   { day: 'Sunday',    open: 'Closed',   close: '',
     closed: true, note: 'By emergency only' },
 ]
@@ -64,15 +64,15 @@ export const LOCATION_PARKING: Record<string, string> = {
  *  availability callout. Sedation availability per Boca Bible services tab:
  *  ONLY 4G (charleston-lamb), Russell (russell-eastern), Flamingo (flamingo-torrey). */
 export const LOCATION_SERVICES_UNAVAILABLE: Record<string, string[]> = {
-  'russell-eastern':      ['oral-surgery'],
+  'russell-eastern':      [],
   'boca-kids-dentistry':  ['cosmetic-dentistry', 'dental-implants', 'oral-surgery', 'periodontal', 'sedation-dentistry'],
-  'bonanza-eastern':      ['oral-surgery', 'sedation-dentistry'],
-  'sahara-decatur':       ['oral-surgery', 'sedation-dentistry'],
-  'jones-i95':            ['oral-surgery', 'sedation-dentistry'],
-  'charleston-lamb':      ['oral-surgery'],
+  'bonanza-eastern':      ['sedation-dentistry'],
+  'sahara-decatur':       ['sedation-dentistry'],
+  'jones-i95':            ['sedation-dentistry'],
+  'charleston-lamb':      [],
   'flamingo-torrey':      [], // Flamingo is the all-services flagship
-  'cheyenne-commons':     ['oral-surgery', 'sedation-dentistry'],
-  'beltway-marketplace':  ['oral-surgery', 'sedation-dentistry'],
+  'cheyenne-commons':     ['sedation-dentistry'],
+  'beltway-marketplace':  ['sedation-dentistry'],
 }
 
 // Location review content is REAL Google data only, pulled into Supabase at

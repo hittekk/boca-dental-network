@@ -40,7 +40,7 @@ function getFAQS(lang: import('../../lib/lang').Lang) { return [
   {
     question: t(lang, 'Do you offer payment plans for dental treatment?', '¿Ofrecen planes de pago para los tratamientos?'),
     answer:
-      t(lang, 'Yes. Boca Dental & Braces offers flexible financing through CareCredit, allowing patients to spread treatment costs over 6, 12, 18, or 24 months. We also offer in-house payment plans at most locations. Additionally, FSA and HSA funds can be applied toward dental treatment. No patient should delay needed dental care because of cost — our team will work with you to find a plan that fits your budget.', 'Sí. Ofrecemos financiamiento flexible a través de CareCredit en 6, 12, 18 o 24 meses. También ofrecemos planes de pago propios en la mayoría de las clínicas. Ningún paciente debe retrasar su atención dental por costo.'),
+      t(lang, 'Boca Dental & Braces is committed to making dental care accessible. We accept Nevada Medicaid and most major PPO plans, and our team will work with you to find a payment approach that fits your budget. Ask us about your options at your visit — no one should delay needed care because of cost.', 'Boca Dental & Braces se compromete a que la atención dental sea accesible. Aceptamos Nevada Medicaid y la mayoría de los planes PPO, y nuestro equipo trabajará contigo para encontrar una forma de pago que se ajuste a tu presupuesto. Pregúntanos por tus opciones en tu visita — nadie debe retrasar la atención necesaria por el costo.'),
   },
   {
     question: t(lang, 'Is Boca Dental & Braces good for kids?', '¿Es Boca Dental & Braces buena opción para niños?'),
