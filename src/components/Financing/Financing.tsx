@@ -26,19 +26,22 @@ const PLANS = [
   },
 ]
 
+// Accepted-insurance list — source of truth: Boca Bible "Insurances That are Accepted"
+// tab (Frankie). NOTE: never present as inclusive/complete — these are the major plans only.
 const INSURANCE = [
-  'Delta Dental',
-  'MetLife',
-  'Cigna',
-  'Aetna',
-  'United Healthcare',
-  'Guardian',
-  'Humana',
-  'Anthem BCBS',
-  'Ameritas',
-  'Principal',
   'Nevada Medicaid',
-  'Nevada CHIP',
+  'Liberty Medicaid (HMO)',
+  'Careington',
+  'Cigna PPO',
+  'Delta Dental PPO',
+  'DenteMax',
+  'Diversified',
+  'Guardian PPO',
+  'Liberty Dental PPO',
+  'MetLife',
+  'Primecare / NDB',
+  'Sierra Health (SHL/SHO/HPN)',
+  'United Concordia',
 ]
 
 export function Financing() {

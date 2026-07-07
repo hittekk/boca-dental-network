@@ -15,7 +15,7 @@ function getFAQS(lang: import('../../lib/lang').Lang) { return [
   {
     question: t(lang, 'Does Boca Dental & Braces accept dental insurance?', '¿Aceptan seguros dentales?'),
     answer:
-      t(lang, 'Boca Dental & Braces accepts most major PPO dental insurance plans, including Delta Dental, Aetna, Cigna, Guardian, MetLife, and many others. Our team will verify your benefits before your appointment and provide a clear breakdown of your estimated out-of-pocket costs. We also accept Medicaid for eligible patients at select locations.', 'Aceptamos la mayoría de los planes PPO, incluyendo Delta Dental, Aetna, Cigna, Guardian, MetLife y muchos más. Verificamos tus beneficios antes de la cita y te damos un desglose claro de tus costos. También aceptamos Medicaid para pacientes elegibles.'),
+      t(lang, 'Boca Dental & Braces accepts Nevada Medicaid and many major PPO and dental plans — including Cigna, Delta Dental, Guardian, MetLife, United Concordia, Liberty Dental, Sierra Health, Careington, and DenteMax, among others. This is not a complete list, so our team will verify your specific plan and benefits before your appointment.', 'Boca Dental & Braces acepta Nevada Medicaid y muchos planes PPO y dentales importantes — incluyendo Cigna, Delta Dental, Guardian, MetLife, United Concordia, Liberty Dental, Sierra Health, Careington y DenteMax, entre otros. Esta no es una lista completa, por lo que nuestro equipo verificará tu plan y beneficios específicos antes de tu cita.'),
   },
   {
     question: t(lang, 'What dental services does Boca Dental & Braces offer?', '¿Qué servicios dentales ofrecen?'),

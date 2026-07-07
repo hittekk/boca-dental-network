@@ -859,15 +859,18 @@ export function PatientReviewsSection({
 // Section 8 — Insurance & Financing
 // ─────────────────────────────────────────────────────────────────────────────
 
+// Accepted plans — source: Boca Bible "Insurances That are Accepted" tab (Frankie).
+// Not inclusive/complete — major plans only.
 const PPO_PLANS = [
-  'Delta Dental',
-  'Aetna',
-  'Cigna',
-  'Guardian',
+  'Cigna PPO',
+  'Delta Dental PPO',
+  'Guardian PPO',
+  'Liberty Dental PPO',
   'MetLife',
-  'United Healthcare',
-  'Humana',
-  'Anthem BCBS',
+  'United Concordia',
+  'Sierra Health (SHL/SHO/HPN)',
+  'Careington',
+  'DenteMax',
 ]
 
 export function InsuranceFinancingSection({
