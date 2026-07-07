@@ -61,17 +61,18 @@ export const LOCATION_PARKING: Record<string, string> = {
 }
 
 /** Service slugs explicitly NOT available at this clinic. Drives Section 5
- *  availability callout. [verify with client] */
+ *  availability callout. Sedation availability per Boca Bible services tab:
+ *  ONLY 4G (charleston-lamb), Russell (russell-eastern), Flamingo (flamingo-torrey). */
 export const LOCATION_SERVICES_UNAVAILABLE: Record<string, string[]> = {
   'russell-eastern':      ['oral-surgery'],
-  'boca-kids-dentistry':  ['cosmetic-dentistry', 'dental-implants', 'oral-surgery', 'periodontal'],
+  'boca-kids-dentistry':  ['cosmetic-dentistry', 'dental-implants', 'oral-surgery', 'periodontal', 'sedation-dentistry'],
   'bonanza-eastern':      ['oral-surgery', 'sedation-dentistry'],
-  'sahara-decatur':       ['oral-surgery'],
+  'sahara-decatur':       ['oral-surgery', 'sedation-dentistry'],
   'jones-i95':            ['oral-surgery', 'sedation-dentistry'],
   'charleston-lamb':      ['oral-surgery'],
   'flamingo-torrey':      [], // Flamingo is the all-services flagship
   'cheyenne-commons':     ['oral-surgery', 'sedation-dentistry'],
-  'beltway-marketplace':  ['oral-surgery'],
+  'beltway-marketplace':  ['oral-surgery', 'sedation-dentistry'],
 }
 
 // Location review content is REAL Google data only, pulled into Supabase at
