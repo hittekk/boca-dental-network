@@ -20,9 +20,8 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence, useScroll } from 'framer-motion'
 import { Phone, X, ChevronRight, Calendar, MapPin } from 'lucide-react'
 import type { Brand, Announcement, NavLink } from '../../types'
-import { useLang, t } from '../../lib/lang'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { esPath, stripEs } from '../../lib/seo'
+import { useLang, useSetLang, t } from '../../lib/lang'
+import { localizeHref, stripEs, esPath } from '../../lib/seo'
 import { useBlogEnabled } from '../../lib/site-data'
 import { BocaLogo } from './BocaLogo'
 
@@ -45,7 +44,7 @@ function getNavLinks(lang: ReturnType<typeof useLang>, blogEnabled = false): Nav
   { label: t(lang, 'About', 'Nosotros'), href: '/about-us/' },
   { label: t(lang, 'Reviews', 'Reseñas'), href: '/patient-resources/reviews/' },
   ...(blogEnabled ? [{ label: t(lang, 'Blog', 'Blog'), href: '/blog/' }] : []),
-]}
+].map((l) => ({ ...l, href: localizeHref(l.href, lang) }))}
 
 const SCROLL_THRESHOLD = 10
 
@@ -163,7 +162,7 @@ function AnnouncementBar({ data }: { data: Announcement }) {
 
           {data.link && data.linkLabel && (
             <a
-              href={data.link}
+              href={localizeHref(data.link, lang)}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -300,8 +299,7 @@ function DesktopNav({
 
 function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: 'white' | 'dark' }) {
   const lang = useLang()
-  const navigate = useNavigate()
-  const { pathname } = useLocation()
+  const setLang = useSetLang()
   const isDark = logoMode === 'dark'
   const subtleColor = isDark ? 'rgba(0,29,61,0.6)' : 'rgba(255,255,255,0.6)'
   const phoneIdle = isDark ? 'rgba(0,29,61,0.75)' : 'rgba(255,255,255,0.75)'
@@ -316,7 +314,12 @@ function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: '
     >
       <button
         type="button"
-        onClick={() => navigate(pathname.startsWith('/es') ? stripEs(pathname) : esPath(pathname))}
+        onClick={() => {
+          const { pathname, search, hash } = window.location
+          const target = lang === 'es' ? stripEs(pathname) : esPath(pathname)
+          setLang(lang === 'es' ? 'en' : 'es')
+          window.location.assign(`${target}${search}${hash}`)
+        }}
         aria-label={lang === 'es' ? 'Switch to English' : 'Cambiar a Español'}
         style={{
           color: subtleColor,
@@ -348,7 +351,7 @@ function HeaderCTAs({ phone, logoMode = 'white' }: { phone: string; logoMode?: '
 
 
       <a
-        href="/request-consultation"
+        href={localizeHref('/request-consultation', lang)}
         style={{
           display: 'inline-flex',
           alignItems: 'center',
@@ -390,8 +393,7 @@ function MobileMenu({
   phone: string
 }) {
   const lang = useLang()
-  const navigate = useNavigate()
-  const { pathname } = useLocation()
+  const setLang = useSetLang()
   const blogEnabled = useBlogEnabled()
   const NAV_LINKS = getNavLinks(lang, blogEnabled)
   useEffect(() => {
@@ -456,7 +458,7 @@ function MobileMenu({
         ))}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 24 }}>
           <a
-            href="/request-consultation"
+            href={localizeHref('/request-consultation', lang)}
             onClick={onClose}
             style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '16px', borderRadius: 12, background: '#F3672A', color: 'white', fontSize: 15, fontWeight: 800, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.5, boxShadow: '0 8px 20px rgba(243,103,42,0.35)' }}
           >
@@ -470,7 +472,13 @@ function MobileMenu({
           </a>
           <button
             type="button"
-            onClick={() => { navigate(pathname.startsWith('/es') ? stripEs(pathname) : esPath(pathname)); onClose() }}
+            onClick={() => {
+              const { pathname, search, hash } = window.location
+              const target = lang === 'es' ? stripEs(pathname) : esPath(pathname)
+              setLang(lang === 'es' ? 'en' : 'es')
+              onClose()
+              window.location.assign(`${target}${search}${hash}`)
+            }}
             aria-label={lang === 'es' ? 'Switch to English' : 'Cambiar a Español'}
             style={{ width: '100%', textAlign: 'center', color: 'rgba(255,255,255,0.5)', background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginTop: 8, display: 'block' }}
           >
