@@ -75,7 +75,6 @@ export function Hero({ brand }: HeroProps) {
           }
           .boca-hero-image {
             min-height: 320px !important;
-            order: -1 !important;
           }
           .boca-hero-copy { text-align: center !important; }
           .boca-hero-copy > * { margin-left: auto !important; margin-right: auto !important; }
