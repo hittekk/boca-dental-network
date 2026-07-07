@@ -33,30 +33,28 @@ export interface DentistContent {
 
 const PILOT_LOVELAND: DentistContent = {
   slug: 'dr-kelcey-loveland',
-  name: 'Dr. Kelcey Loveland, DDS',
-  title: 'Orthodontist · Board-Eligible',
+  name: 'Dr. Kelcey Loveland',
+  title: 'Orthodontist',
   medicalSpecialty: 'Orthodontics',
-  yearsInPractice: 8,
-  dentalSchool: 'University of the Pacific, Arthur A. Dugoni School of Dentistry',
+  dentalSchool: '',
   shortBio:
-    "Dr. Loveland is the board-eligible orthodontist overseeing all Invisalign and orthodontic treatment at Boca Dental & Braces' Las Vegas locations. She specializes in clear aligner therapy for adults and teens.",
+    "Dr. Loveland is the orthodontist overseeing Invisalign and orthodontic treatment at Boca Dental & Braces' Las Vegas locations, with a focus on clear aligner therapy for adults and teens.",
   longBio:
-    "Dr. Kelcey Loveland completed her DDS at the University of the Pacific, Arthur A. Dugoni School of Dentistry, and pursued specialty residency training in orthodontics with a focus on digital workflow and clear aligner therapy. She is board-eligible with the American Board of Orthodontics and personally reviews and approves every Invisalign treatment plan developed across the Boca Dental & Braces network in Las Vegas. Dr. Loveland is a Diamond+ Invisalign provider and runs Invisalign Teen programs across the practice. Outside the office, she serves on the orthodontic faculty advisory committee at the Nevada State Dental Association and is fluent in English and Spanish.",
+    "Dr. Kelcey Loveland is the orthodontist at Boca Dental & Braces, overseeing Invisalign and orthodontic treatment across the Las Vegas locations. She focuses on clear aligner therapy for adults and teens.",
   worksAt: ['boca-kids-dentistry', 'flamingo-torrey', 'beltway-marketplace'],
-  languages: ['English', 'Spanish'],
+  languages: ['English'],
 }
 
 const PILOT_CALDER: DentistContent = {
   slug: 'dr-charles-calder',
-  name: 'Dr. Chad Calder, DDS',
+  name: 'Dr. Charles Calder, DDS',
   title: 'Oral and Maxillofacial Surgeon',
   medicalSpecialty: 'Oral and Maxillofacial Surgery',
-  yearsInPractice: 14,
-  dentalSchool: 'UCLA School of Dentistry · UCSF Medical Center Residency',
+  dentalSchool: 'Loma Linda University School of Dentistry — DDS 2000, MD 2003, OMFS Residency 2006',
   shortBio:
     'Dr. Calder is the oral and maxillofacial surgeon at our Flamingo & Torrey Pines location, performing wisdom-tooth removal, complex extractions, dental implant placement, and bone grafting.',
   longBio:
-    'Dr. Chad Calder completed his DDS at UCLA School of Dentistry followed by a four-year oral and maxillofacial surgery residency at UCSF Medical Center. He performs all oral surgery procedures at Boca Dental & Braces — wisdom teeth, surgical extractions, dental implant placement, bone grafting, frenectomy, and management of facial trauma. He is licensed in IV sedation and runs the in-office sedation program for high-anxiety cases. Dr. Calder has lectured nationally on minimally invasive implant placement and serves as a clinical mentor for general dentists across the Boca Dental & Braces network.',
+    'Dr. Charles Calder earned his DDS from the Loma Linda University School of Dentistry in 2000, followed by his MD in 2003 and completion of his Oral and Maxillofacial Surgery residency in 2006. He performs oral surgery procedures at Boca Dental & Braces — wisdom teeth, surgical extractions, dental implant placement, bone grafting, and frenectomy — and is licensed in IV sedation for high-anxiety cases. He is a member of the American Association of Oral and Maxillofacial Surgeons and was inducted into the OKU dental honor society.',
   worksAt: ['flamingo-torrey'],
   languages: ['English'],
 }

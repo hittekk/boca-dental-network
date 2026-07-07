@@ -228,20 +228,18 @@ export function AboutUsPage() {
     {
       slug: 'dr-kelcey-loveland',
       name: 'Dr. Kelcey Loveland',
-      title: 'Orthodontist · Board-Eligible',
-      school: 'University of the Pacific, Arthur A. Dugoni School of Dentistry',
-      years: 8,
-      bio: 'Dr. Loveland personally reviews and approves every Invisalign treatment plan across the Boca Dental & Braces network. A Diamond+ Invisalign provider, she completed her specialty residency focused on digital workflow and clear aligner therapy, and runs Invisalign Teen programs across the practice. She serves on the orthodontic faculty advisory committee at the Nevada State Dental Association.',
-      langs: ['English', 'Spanish'],
+      title: 'Orthodontist',
+      school: '',
+      bio: 'Dr. Loveland is the orthodontist at Boca Dental & Braces, overseeing Invisalign and orthodontic treatment across the Las Vegas locations, with a focus on clear aligner therapy for adults and teens.',
+      langs: ['English'],
       initial: 'K',
     },
     {
       slug: 'dr-charles-calder',
-      name: 'Dr. Chad Calder',
+      name: 'Dr. Charles Calder',
       title: 'Oral & Maxillofacial Surgeon',
-      school: 'UCLA School of Dentistry · UCSF Medical Center Residency',
-      years: 14,
-      bio: 'Dr. Calder completed a four-year oral and maxillofacial surgery residency at UCSF Medical Center and is licensed in IV sedation. He performs all surgical procedures at Boca — wisdom teeth, implant placement, bone grafting, and frenectomy — and has lectured nationally on minimally invasive implant placement.',
+      school: 'Loma Linda University School of Dentistry',
+      bio: 'Dr. Calder earned his DDS from Loma Linda University School of Dentistry (2000), his MD (2003), and completed his Oral and Maxillofacial Surgery residency (2006). He performs surgical procedures at Boca — wisdom teeth, implant placement, bone grafting, and frenectomy — and is licensed in IV sedation. He is a member of the American Association of Oral and Maxillofacial Surgeons.',
       langs: ['English'],
       initial: 'C',
     },
@@ -416,10 +414,12 @@ export function AboutUsPage() {
                 </div>
 
                 {/* School */}
+                {doc.school && (
                 <div style={{ padding: '16px 24px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'flex-start', gap: 10 }}>
                   <div style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 12 }}>🎓</div>
                   <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', lineHeight: 1.5 }}>{doc.school}</div>
                 </div>
+                )}
 
                 {/* Bio */}
                 <div style={{ padding: '24px 24px 28px' }}>

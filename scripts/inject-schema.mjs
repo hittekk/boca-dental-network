@@ -42,7 +42,7 @@ const LOGO = `${DOMAIN}/boca-logo.png`
 // ── Featured providers (Treysyde spec: 3-4 highlighted on homepage) ────────
 const PROVIDERS = [
   { slug: 'dr-kelcey-loveland', name: 'Dr. Kelcey Loveland', jobTitle: 'Orthodontist' },
-  { slug: 'dr-charles-calder', name: 'Dr. Chad Calder', jobTitle: 'Oral and Maxillofacial Surgeon' },
+  { slug: 'dr-charles-calder', name: 'Dr. Charles Calder', jobTitle: 'Oral and Maxillofacial Surgeon' },
   { slug: 'dr-wyatt-dannels', name: 'Dr. Wyatt Dannels', jobTitle: 'General Dentist · Founder' },
   { slug: 'dr-harrison-luu', name: 'Dr. Harrison Luu', jobTitle: 'General Dentist' },
 ]

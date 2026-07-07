@@ -28,7 +28,7 @@ const PROVIDERS: Provider[] = [
   },
   {
     initials: 'CC',
-    name: 'Dr. Chad Calder',
+    name: 'Dr. Charles Calder',
     title: 'Oral Surgeon',
     credential: 'Wisdom teeth · extractions · bone grafting',
     slug: 'dr-charles-calder',
@@ -155,7 +155,7 @@ export function MeetTheTeam({
               margin: 0,
             }}
           >
-            {t(lang, 'Boca Dental & Braces is a Las Vegas-based multi-specialty dental practice serving patients across 9 clinic locations in the greater Las Vegas, Nevada area. Our team includes licensed general dentists, a board-eligible orthodontist, oral and maxillofacial surgeons, periodontists, and pediatric dental specialists — all working under one unified practice to provide comprehensive dental care for patients of all ages. We believe that access to high-quality dental care should not depend on your zip code, schedule, or budget, which is why every Boca Dental & Braces location accepts most major insurance plans and offers flexible payment options.', 'Boca Dental & Braces es una práctica dental multi-especialidad con sede en Las Vegas que atiende a pacientes en 9 clínicas en el área metropolitana. Nuestro equipo incluye dentistas generales, un ortodoncista, cirujanos orales, periodoncistas y especialistas en odontología pediátrica. Creemos que el acceso a atención dental de alta calidad no debe depender de tu código postal, horario o presupuesto.')}
+            {t(lang, 'Boca Dental & Braces is a Las Vegas-based multi-specialty dental practice serving patients across 9 clinic locations in the greater Las Vegas, Nevada area. Our team includes licensed general dentists, an orthodontist, oral and maxillofacial surgeons, and pediatric dental specialists — all working under one unified practice to provide comprehensive dental care for patients of all ages. We believe that access to high-quality dental care should not depend on your zip code, schedule, or budget, which is why every Boca Dental & Braces location accepts most major insurance plans and offers flexible payment options.', 'Boca Dental & Braces es una práctica dental multi-especialidad con sede en Las Vegas que atiende a pacientes en 9 clínicas en el área metropolitana. Nuestro equipo incluye dentistas generales, un ortodoncista, cirujanos orales y especialistas en odontología pediátrica. Creemos que el acceso a atención dental de alta calidad no debe depender de tu código postal, horario o presupuesto.')}
           </p>
         </motion.div>
 

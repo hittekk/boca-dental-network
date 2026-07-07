@@ -57,7 +57,7 @@ function getReasons(lang: import('../../lib/lang').Lang): Reason[] { return [
     stat: '14',
     statLabel: 'Licensed providers',
     title: t(lang, 'Experienced, Caring Providers', 'Proveedores con Experiencia y Vocación'),
-    body: t(lang, 'Our team includes general dentists, a board-eligible orthodontist, oral surgeons, periodontists, and pediatric specialists — all under one practice umbrella.', 'Nuestro equipo incluye dentistas generales, ortodoncista, cirujanos orales, periodoncistas y especialistas en pediatría — todo bajo una misma práctica.'),
+    body: t(lang, 'Our team includes general dentists, an orthodontist, oral surgeons, and pediatric specialists — all under one practice umbrella.', 'Nuestro equipo incluye dentistas generales, ortodoncista, cirujanos orales y especialistas en pediatría — todo bajo una misma práctica.'),
   },
   {
     icon: Users,

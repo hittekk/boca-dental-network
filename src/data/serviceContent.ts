@@ -125,7 +125,7 @@ const INVISALIGN: ServiceContent = {
   ],
   h1:            'Invisalign in Las Vegas — Clear Aligners at Boca Dental & Braces',
   heroIntro:
-    "Boca Dental & Braces offers Invisalign clear aligner treatment at all 9 of its Las Vegas dental clinics, giving patients a comfortable, nearly invisible way to achieve a straighter smile without traditional metal braces. Our board-eligible orthodontist, Dr. Kelcey Loveland, designs every Invisalign treatment plan using 3D digital imaging technology for results that are as precise as they are discreet. Whether you're an adult who has put off orthodontic care, a teen looking for a confidence-friendly option, or a parent exploring treatment for your child, Boca Dental & Braces makes Invisalign accessible and affordable across Las Vegas.",
+    "Boca Dental & Braces offers Invisalign clear aligner treatment at all 9 of its Las Vegas dental clinics, giving patients a comfortable, nearly invisible way to achieve a straighter smile without traditional metal braces. Our orthodontist, Dr. Kelcey Loveland, designs every Invisalign treatment plan using 3D digital imaging technology for results that are as precise as they are discreet. Whether you're an adult who has put off orthodontic care, a teen looking for a confidence-friendly option, or a parent exploring treatment for your child, Boca Dental & Braces makes Invisalign accessible and affordable across Las Vegas.",
   heroAlt:       'Invisalign clear aligners in Las Vegas at Boca Dental & Braces.',
 
   whatIsHeader:  'What Is Invisalign and How Does It Work?',
@@ -221,7 +221,7 @@ const INVISALIGN: ServiceContent = {
   ],
   providerInline: {
     sentence:
-      'Invisalign treatment at Boca Dental & Braces is overseen by Dr. Kelcey Loveland, our board-eligible orthodontist with advanced training in clear aligner therapy. Dr. Loveland personally reviews and approves every Invisalign treatment plan developed at our Las Vegas clinics.',
+      'Invisalign treatment at Boca Dental & Braces is overseen by Dr. Kelcey Loveland, our orthodontist. Dr. Loveland personally reviews and approves every Invisalign treatment plan developed at our Las Vegas clinics.',
     providerSlug: 'dr-kelcey-loveland',
   },
   nineLocationStatement:

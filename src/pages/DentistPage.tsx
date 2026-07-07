@@ -455,7 +455,7 @@ export function DentistsHubPage() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
     document.title = 'Meet Our Dentists | Boca Dental & Braces Las Vegas'
-    setMeta('description', 'Meet the licensed dentists and specialists at Boca Dental & Braces across our Las Vegas locations — orthodontists, oral surgeons, periodontists, and general dentists.', 'name')
+    setMeta('description', 'Meet the licensed dentists and specialists at Boca Dental & Braces across our Las Vegas locations — orthodontists, oral surgeons, and general dentists.', 'name')
     setLink('canonical', `${DOMAIN}/about-us/dentists/`)
   }, [])
 
@@ -477,7 +477,7 @@ export function DentistsHubPage() {
           </h1>
           <p style={{ fontSize: 17, lineHeight: 1.7, color: 'rgba(0,29,61,0.78)', maxWidth: 820 }}>
             Licensed dentists and specialists serving our Las Vegas locations — general dentists,
-            a board-eligible orthodontist, an oral and maxillofacial surgeon, periodontists, and
+            an orthodontist, an oral and maxillofacial surgeon, and
             pediatric specialists, all under one practice.
           </p>
         </div>
