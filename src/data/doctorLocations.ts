@@ -7,19 +7,20 @@
 // Keep this in sync with the DB doctor_locations table (admin view).
 //
 // Display order within each location: lead/general dentists first, then
-// orthodontist, oral surgeon, hygienist. Dr. Dannels (owner) appears network-wide.
+// orthodontist, oral surgeon, hygienist. Per the Bible, Dr. Dannels (owner)
+// is listed at Cheyenne Commons only — not network-wide.
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const DOCTORS_BY_LOCATION: Record<string, string[]> = {
-  'bonanza-eastern':     ['dr-wyatt-dannels', 'dr-justin-wall', 'dr-kelcey-loveland', 'minh-nguyen'],
-  'russell-eastern':     ['dr-wyatt-dannels', 'dr-harrison-luu', 'dr-sana-fahim', 'dr-kelcey-loveland', 'dr-charles-calder'],
-  'sahara-decatur':      ['dr-wyatt-dannels', 'dr-harrison-luu', 'dr-johnson-fong', 'dr-kelcey-loveland'],
-  'charleston-lamb':     ['dr-wyatt-dannels', 'dr-michael-st-laurent', 'dr-sana-fahim', 'dr-kelcey-loveland', 'minh-nguyen'],
-  'flamingo-torrey':     ['dr-wyatt-dannels', 'dr-bredan-marlin', 'dr-charles-calder'],
-  'cheyenne-commons':    ['dr-wyatt-dannels', 'dr-james-yun', 'minh-nguyen'],
-  'beltway-marketplace': ['dr-wyatt-dannels', 'dr-kathy-gonzalez', 'dr-kelcey-loveland'],
-  'jones-i95':           ['dr-wyatt-dannels', 'dr-farhan-hossain', 'dr-cole-thompson', 'dr-james-yun', 'dr-kelcey-loveland'],
-  'boca-kids-dentistry': ['dr-wyatt-dannels', 'dr-farhan-hossain'],
+  'bonanza-eastern':     ['dr-justin-wall', 'dr-kelcey-loveland', 'minh-nguyen'],
+  'russell-eastern':     ['dr-harrison-luu', 'dr-sana-fahim', 'dr-kelcey-loveland', 'dr-charles-calder'],
+  'sahara-decatur':      ['dr-harrison-luu', 'dr-johnson-fong', 'dr-kelcey-loveland'],
+  'charleston-lamb':     ['dr-michael-st-laurent', 'dr-sana-fahim', 'dr-kelcey-loveland', 'minh-nguyen'],
+  'flamingo-torrey':     ['dr-bredan-marlin', 'dr-charles-calder'],
+  'cheyenne-commons':    ['dr-james-yun', 'dr-wyatt-dannels', 'minh-nguyen'],
+  'beltway-marketplace': ['dr-kathy-gonzalez', 'dr-kelcey-loveland'],
+  'jones-i95':           ['dr-farhan-hossain', 'dr-cole-thompson', 'dr-james-yun', 'dr-kelcey-loveland'],
+  'boca-kids-dentistry': ['dr-farhan-hossain'],
 }
 
 export function doctorsForLocation(slug: string): string[] {
