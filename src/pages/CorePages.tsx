@@ -221,7 +221,7 @@ export function AboutUsPage() {
       title: 'Founder & Lead Dentist',
       school: 'University of Southern California',
       years: 13,
-      bio: 'Dr. Dannels founded Boca Dental & Braces with one goal: give every Las Vegas family access to consistent, high-quality dental care regardless of ZIP code or budget. He oversees clinical standards across all 9 locations and personally sees patients at Russell & Eastern and our newest Beltway Marketplace clinic. He is a member of the American Dental Association and the Nevada Dental Association.',
+      bio: 'Dr. Wyatt Dannels is the founder and CEO of Boca Dental & Braces, which he built to expand access to quality, affordable dental care across Las Vegas — becoming a leading provider for Medicaid and Liberty Dental patients. A USC dental graduate, he is most passionate about implant dentistry and full-mouth rehabilitation. He serves on the Liberty Dental board and is a member of the Academy of General Dentistry.',
       langs: ['English', 'Spanish'],
       initial: 'W',
     },
