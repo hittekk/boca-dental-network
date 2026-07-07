@@ -407,9 +407,9 @@ export function Hero({ brand }: HeroProps) {
 
       {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1, y: [0, 6, 0] }}
+        className="absolute bottom-6 left-1/2 flex flex-col items-center gap-2 cursor-pointer"
+        initial={{ opacity: 0, x: '-50%' }}
+        animate={{ opacity: 1, x: '-50%', y: [0, 6, 0] }}
         transition={{
           opacity: { delay: 2, duration: 0.5 },
           y: { delay: 2, duration: 1.5, repeat: Infinity, ease: 'easeInOut' },
