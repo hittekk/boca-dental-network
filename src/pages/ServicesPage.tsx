@@ -109,7 +109,8 @@ export function ServicesHubPage() {
             <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.7)', lineHeight: 1.65, maxWidth: 500, margin: '0 0 36px' }}>
               General, cosmetic, orthodontics, implants, oral surgery, pediatric care and more — every specialist on staff at all 9 Las Vegas locations.
             </p>
-            <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+            <div className="sh-cta" style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+              <style>{`@media(max-width:768px){.sh-cta{flex-direction:column;align-items:stretch}.sh-cta>a{width:100%!important;justify-content:center}}`}</style>
               <a href="/request-consultation" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: 'white', borderRadius: 8, padding: '14px 28px', fontSize: 14, fontWeight: 800, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 0.4, boxShadow: '0 8px 18px rgba(243,103,42,0.32)' }}>Book an Appointment →</a>
               <a href="#services" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.85)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: 8, padding: '14px 22px', fontSize: 14, fontWeight: 700, textDecoration: 'none', textTransform: 'uppercase' }}>Browse All Services ↓</a>
             </div>
