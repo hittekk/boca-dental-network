@@ -52,7 +52,7 @@ content = {
   "candidacy": [
     "Adults due for their twice-yearly preventive cleaning and checkup",
     "New patients who haven't seen a dentist in years and want to get back on track",
-    "Families looking for a practice that accepts Nevada Medicaid and CHIP for kids",
+    "Families looking for a practice that accepts Nevada Medicaid for kids",
     "Patients with a history of gum disease, who often benefit from 3–4 month intervals",
     "Anyone with dry mouth, high cavity risk, or tobacco use who needs closer monitoring",
   ],
@@ -73,7 +73,7 @@ content = {
   "benefits": [
     {"icon":"Target","label":"9 Valley Locations","body":"The most convenient dental network in Clark County — there's a Boca location near your home or work, wherever you are in the valley."},
     {"icon":"Calendar","label":"Evening & Saturday Hours","body":"Appointments available outside the 9-to-5 at most locations, so a cleaning never has to mean a day off work."},
-    {"icon":"CircleCheck","label":"Medicaid & PPO Accepted","body":"Nevada Medicaid (DHCFP) and CHIP accepted, along with most major PPO plans — we verify your benefits before your visit."},
+    {"icon":"CircleCheck","label":"Medicaid & PPO Accepted","body":"Nevada Medicaid (DHCFP) accepted, along with most major PPO plans — we verify your benefits before your visit."},
     {"icon":"Sparkles","label":"Comprehensive In-House Care","body":"From cleanings to specialty treatment, most needs are handled in-house — no chasing referrals across town."},
     {"icon":"Smile","label":"Se Habla Español","body":"Bilingual staff at all locations make every step of your visit clear and comfortable."},
     {"icon":"Eye","label":"Thorough, Honest Exams","body":"Every cleaning includes a full clinical exam and oral cancer screening — catching small issues before they become big ones."},
@@ -81,7 +81,7 @@ content = {
   "differentiators": [
     "9 Las Vegas valley locations — the most convenient dental network in Clark County",
     "Evening and Saturday appointments available at most locations",
-    "Nevada Medicaid (DHCFP) and CHIP accepted — dental care accessible for all Las Vegas families",
+    "Nevada Medicaid (DHCFP) accepted — dental care accessible for all Las Vegas families",
     "Most major PPO insurance plans accepted, with complimentary benefits verification",
     "Bilingual (English and Spanish) staff at every location",
     "Comprehensive in-house care — no referrals needed for most dental needs",
@@ -93,18 +93,11 @@ content = {
   "nineLocationStatement": "Dental exams and cleanings are available at all 9 Boca Dental & Braces clinics across the Las Vegas valley — with convenient locations on Charleston, Rainbow, Eastern, Flamingo, Sahara, and Jones, plus a dedicated pediatric office. There's a Boca location near you, open six days a week.",
   "faqs": [
     {"question":"How often do I need a dental cleaning in Las Vegas?","answer":"Most adults benefit from a professional cleaning every 6 months. Patients with a history of gum disease, high cavity risk, dry mouth, or tobacco use may benefit from 3–4 month intervals. Your Boca dentist will recommend the appropriate schedule based on your specific oral health profile at your first exam."},
-    {"question":"Does Boca Dental & Braces accept Nevada Medicaid?","answer":"Yes. Boca Dental & Braces accepts Nevada Medicaid (DHCFP) and Nevada CHIP at all 9 Las Vegas valley locations. Medicaid covers dental exams, cleanings, X-rays, and most necessary dental treatment for qualifying adults and children. Call your nearest location to confirm your specific coverage."},
+    {"question":"Does Boca Dental & Braces accept Nevada Medicaid?","answer":"Yes. Boca Dental & Braces accepts Nevada Medicaid (DHCFP) at all 9 Las Vegas valley locations. Medicaid covers dental exams, cleanings, X-rays, and most necessary dental treatment for qualifying adults and children. Call your nearest location to confirm your specific coverage."},
     {"question":"What is included in a new patient dental exam at Boca?","answer":"Your first comprehensive exam includes digital X-rays, a full clinical exam, periodontal charting, an oral cancer screening, a professional cleaning (in most cases completed the same visit), and a complete treatment plan discussion. New patient exams at Boca are thorough — plan for 60–90 minutes."},
-    {"question":"How much does a dental cleaning cost in Las Vegas without insurance?","answer":"A standard adult cleaning (prophylaxis) at Boca typically costs $100–$175 without insurance. A new patient comprehensive exam with X-rays and cleaning typically costs $200–$350. Financing options are available, and we verify all insurance benefits before your appointment."},
     {"question":"Do you offer same-day dental cleaning appointments in Las Vegas?","answer":"We do our best to accommodate same-day and next-day appointments across our 9 Las Vegas locations. Book online or call, and our scheduling team will find the nearest available opening across all locations."},
     {"question":"Do I need to fast before a dental cleaning?","answer":"No — you don't need to fast before a routine dental exam or cleaning. We recommend brushing and flossing before your appointment. If you're scheduled for a procedure requiring sedation, you'll receive specific pre-procedure fasting instructions."},
-  ],
-  "costHeader": "How Much Does a Dental Exam & Cleaning Cost in Las Vegas?",
-  "costRange": {
-    "value": "$100 – $350",
-    "context": "A standard adult cleaning (prophylaxis) at Boca Dental & Braces typically runs $100–$175 without insurance, and is usually 100% covered by the preventive benefit on most PPO plans. A new-patient comprehensive exam with X-rays and cleaning typically runs $200–$350, and is also commonly covered in full. Nevada Medicaid and CHIP cover exams, cleanings, and X-rays for qualifying patients. We verify your benefits before your visit so there are no surprises.",
-  },
-  "inlineCTA": "Not sure what's covered? Our team verifies your insurance benefits at no charge before your appointment, and flexible payment and financing options are available for any treatment you may need. Book your cleaning today and we'll handle the rest.",
+  ],  "inlineCTA": "Not sure what's covered? Our team verifies your insurance benefits at no charge before your appointment, and flexible payment and financing options are available for any treatment you may need. Book your cleaning today and we'll handle the rest.",
   "relatedSlugs": ["gum-disease-treatment","scaling-root-planing","teeth-whitening","childrens-exams-cleanings","emergency-dental-care"],
   "geoParagraph": "Boca Dental & Braces provides professional dental exams and cleanings at 9 locations across the Las Vegas valley — serving Henderson, Summerlin, North Las Vegas, Enterprise, Spring Valley, Whitney, Sunrise Manor, Paradise, and all of Clark County. Nevada Medicaid accepted. New patients are always welcome.",
 }
