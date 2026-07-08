@@ -70,7 +70,7 @@ export const INITIAL_DATA: InitialData = {
         },
         {
           question: 'Do you accept Medicaid at the Russell & Eastern office?',
-          answer:   'Yes. Our Russell & Eastern location accepts Nevada Medicaid and CHIP for qualifying patients including children.',
+          answer:   'Yes. Our Russell & Eastern location accepts Nevada Medicaid for qualifying patients including children.',
         },
       ],
     },
@@ -116,7 +116,7 @@ export const INITIAL_DATA: InitialData = {
         },
         {
           question: 'Does Boca Kids accept Medicaid for children?',
-          answer:   'Yes. Boca Kids accepts Nevada Medicaid and CHIP. We believe every child deserves quality dental care regardless of budget.',
+          answer:   'Yes. Boca Kids accepts Nevada Medicaid. We believe every child deserves quality dental care regardless of budget.',
         },
       ],
     },

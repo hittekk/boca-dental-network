@@ -27,7 +27,7 @@ function buildMeta(location: Location) {
   // Per spec: "Boca Dental & Braces at [Intersection] offers comprehensive dental care
   //           for families in [neighborhood] — new patients welcome."
   const desc = location.kids
-    ? `Boca Kids Dentistry at ${location.label} offers pediatric dental care for families in ${location.neighborhood}, Las Vegas — Nevada Medicaid + CHIP accepted, new patients welcome.`
+    ? `Boca Kids Dentistry at ${location.label} offers pediatric dental care for families in ${location.neighborhood}, Las Vegas — Nevada Medicaid accepted, new patients welcome.`
     : `Boca Dental & Braces at ${location.label} offers comprehensive dental care for families in ${location.neighborhood}, Las Vegas — new patients welcome, most insurance accepted.`
 
   return { url, title, desc }

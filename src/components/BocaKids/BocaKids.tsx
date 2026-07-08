@@ -12,7 +12,7 @@ const NAVY_DEEP = '#001D3D'
 function getKidsFeatures(lang: import('../../lib/lang').Lang) { return [
   t(lang,'Pediatric dental care from age 1','Atención pediátrica desde los 12 meses'),
   t(lang,'Kid-friendly offices built for comfort','Clínicas diseñadas para la comodidad de los niños'),
-  t(lang,'Medicaid and CHIP accepted','Medicaid y CHIP aceptados'),
+  t(lang,'Nevada Medicaid accepted','Nevada Medicaid aceptado'),
   t(lang,'Bilingual staff — hablamos español','Personal bilingüe — hablamos español'),
   t(lang,'Preventive care, fillings, and extractions','Cuidado preventivo, empastes y extracciones'),
   t(lang,'Orthodontics and braces for kids and teens','Ortodoncia y frenos para niños y adolescentes'),
@@ -567,7 +567,7 @@ export function BocaKids() {
               </div>
               <div>
                 <div style={{ fontSize: 11, fontWeight: 800, color: NAVY_DEEP, lineHeight: 1.1 }}>
-                  Medicaid + CHIP
+                  Nevada Medicaid
                 </div>
                 <div
                   style={{

@@ -226,7 +226,7 @@ const HOMEPAGE_SECTIONS = [
   ['boca-kids',            'EX',  'BOCA KIDS',            'Pediatric program highlight — supplemental section'],
   ['locations',            '§6',  'FIND A LOCATION',      '9 LV intersections · GEO paragraph · location card grid'],
   ['meet-the-team',        '§8',  'MEET THE TEAM',        '"Experienced Providers. Compassionate Care." · 3-4 provider highlights'],
-  ['financing',            'EX',  'CARE YOU CAN AFFORD',  'CareCredit + in-house financing options'],
+  ['financing',            'EX',  'CARE YOU CAN AFFORD',  'In-house payment plans available'],
   ['faq',                  '§9',  'FAQS',                 'Practice-level Q&As · all schema-emitted in FAQPage block above'],
   ['request-consultation', 'CV',  'CONSULTATION FORM',    'Conversion form · pre-fills the central booking flow'],
   ['locations-map',        '§6b', 'COVERAGE MAP',         'Supplemental map view · 9 LV catchment areas'],

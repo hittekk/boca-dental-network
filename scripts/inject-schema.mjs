@@ -82,7 +82,7 @@ const HOMEPAGE_FAQS = [
   {
     question: 'Do you offer payment plans for dental treatment?',
     answer:
-      'Yes. Boca Dental & Braces offers flexible financing through CareCredit, allowing patients to spread treatment costs over 6, 12, 18, or 24 months. We also offer in-house payment plans at most locations. Additionally, FSA and HSA funds can be applied toward dental treatment.',
+      'Yes. Boca Dental & Braces offers in-house payment plans at most locations, and FSA and HSA funds can be applied toward dental treatment. Our team will review the available options with you before beginning care.',
   },
   {
     question: 'Is Boca Dental & Braces good for kids?',

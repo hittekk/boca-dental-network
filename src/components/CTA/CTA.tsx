@@ -205,7 +205,7 @@ export function CTA() {
               }}
             >
               <TrustPill icon={<Languages size={13} />} text={t(lang, "Se Habla Español", "Se Habla Español")} />
-              <TrustPill icon={<ShieldCheck size={13} />} text={t(lang, "Medicaid · CHIP", "Medicaid · CHIP")} />
+              <TrustPill icon={<ShieldCheck size={13} />} text={t(lang, "Nevada Medicaid", "Nevada Medicaid")} />
               <TrustPill icon={<Clock size={13} />} text={t(lang, "Mon–Sat · 9am–5pm", "Lun–Sáb · 9am–5pm")} />
               {agg && (
                 <TrustPill
