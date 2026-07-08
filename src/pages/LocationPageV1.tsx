@@ -934,7 +934,7 @@ function TrustStrip({ location }: { location: Location }) {
  */
 const LOCATION_LANDMARKS: Record<string, string[]> = {
   'russell-eastern':      ['215 Beltway', 'McCarran International', 'Sunset Park', 'Eastern Marketplace', '89119 · 89120'],
-  'boca-kids-dentistry':  ['Whitney', 'Paradise', 'Henderson border', 'Sensory-quiet room', 'Medicaid + CHIP'],
+  'boca-kids-dentistry':  ['Whitney', 'Paradise', 'Henderson border', 'Sensory-quiet room', 'Nevada Medicaid'],
   'bonanza-eastern':      ['Downtown LV', 'East Las Vegas', 'Sunrise Manor', '89101', 'Free covered parking'],
   'sahara-decatur':       ['West Sahara', 'Chinatown corridor', '89102', 'RTC bus stop', 'Multilingual staff'],
   'jones-i95':            ['Northwest LV', 'US-95 freeway', 'Summerlin border', '89108', 'Wheelchair accessible'],
@@ -1637,7 +1637,7 @@ function DoctorsHere({
   doctors: { slug: string; name: string; title: string; photo?: string }[]
   location: Location
 }) {
-  // Pull initials from name like "Dr. Wyatt Dannels, DDS" → "WD"
+  // Pull initials from name like "Dr. Wyatt Dannels" → "WD"
   const initials = (name: string) => {
     const parts = name.replace(/^Dr\.?\s+/i, '').split(/[\s,]+/).filter(Boolean)
     const first = parts[0]?.[0] ?? ''

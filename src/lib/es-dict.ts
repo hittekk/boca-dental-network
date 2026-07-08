@@ -5,7 +5,7 @@
 // not listed falls back to English. Most component copy is already translated
 // inline via t(lang, en, es); this dictionary fills the English that wasn't
 // wrapped (data-driven content, sub-components, footer, alts, etc.).
-// Proper nouns (brands, insurers, place names, "Invisalign", "CareCredit") are
+// Proper nouns (brands, insurers, place names, "Invisalign") are
 // intentionally left untranslated.
 // ─────────────────────────────────────────────────────────────────────────────
 export const ES: Record<string, string> = {
@@ -34,7 +34,6 @@ export const ES: Record<string, string> = {
   'Reno clinics': 'Clínicas en Reno',
   'Days per week': 'Días por semana',
   'PPO plans accepted': 'Planes PPO aceptados',
-  'CareCredit financing': 'Financiamiento CareCredit',
   'Licensed dentists': 'Dentistas con licencia',
   'Languages spoken': 'Idiomas hablados',
 
@@ -75,14 +74,10 @@ export const ES: Record<string, string> = {
   'Cost should never be the reason you delay dental care. We accept most insurance plans and offer flexible financing so quality care is always within reach.':
     'El costo nunca debe ser la razón para retrasar tu atención dental. Aceptamos la mayoría de los seguros y ofrecemos financiamiento flexible para que la atención de calidad siempre esté a tu alcance.',
   'Healthcare Financing': 'Financiamiento de Salud',
-  'Special financing options on purchases of $200+, with 6, 12, 18, or 24-month no-interest plans for qualified applicants.':
-    'Opciones de financiamiento especial en compras de $200+, con planes sin intereses a 6, 12, 18 o 24 meses para solicitantes calificados.',
   'Pay Over Time': 'Paga con el Tiempo',
   'Quick approval for nearly everyone — no impact to your credit score to apply. Flexible monthly payments with no late fees.':
     'Aprobación rápida para casi todos — sin afectar tu puntaje de crédito al solicitar. Pagos mensuales flexibles sin cargos por mora.',
   'Smile Financing': 'Financiamiento para tu Sonrisa',
-  'Dedicated dental financing with promotional terms and longer repayment options for larger treatment plans like implants and Invisalign.':
-    'Financiamiento dental dedicado con términos promocionales y opciones de pago más largas para tratamientos mayores como implantes e Invisalign.',
   'Plus 20+ additional plans. Do not see yours? Call us — we likely accept it.':
     'Más de 20 planes adicionales. ¿No ves el tuyo? Llámanos — probablemente lo aceptamos.',
   'Verify My Insurance': 'Verifica Mi Seguro',
@@ -689,7 +684,6 @@ export const ES: Record<string, string> = {
   "because we make quality care convenient and welcoming — neighborhood locations, same-day emergency availability, bilingual teams, and most major insurance plus Nevada Medicaid accepted.": "porque hacemos que la atención de calidad sea conveniente y acogedora — clínicas en el vecindario, disponibilidad de urgencias el mismo día, equipos bilingües y la mayoría de los seguros principales además de Nevada Medicaid.",
   "I went in for a free consultation not knowing what to expect. They scanned my teeth, showed me what my smile would look like at the end, and I was sold. 14 months later and I couldn’t be happier.": "Fui a una consulta gratis sin saber qué esperar. Escanearon mis dientes, me mostraron cómo se vería mi sonrisa al final y quedé convencido. 14 meses después y no podría estar más feliz.",
   "At Boca Dental & Braces, cost should never stand between you and the care you need. We accept Nevada Medicaid and many major dental plans, verify your benefits at no charge, and offer flexible financing — so you can move forward with confidence.": "En Boca Dental and Braces, el costo nunca debe interponerse entre tú y la atención que necesitas. Aceptamos Nevada Medicaid y muchos planes dentales principales, verificamos tus beneficios sin costo y ofrecemos financiamiento flexible — para que puedas avanzar con confianza.",
-  "We offer CareCredit financing, which lets you spread the cost over 6, 12, 18, or 24 months. Apply in minutes at our front desk or online. Subject to credit approval.": "Ofrecemos financiamiento CareCredit, que te permite distribuir el costo en 6, 12, 18 o 24 meses. Solicita en minutos en nuestra recepción o en línea. Sujeto a aprobación de crédito.",
   "Book a free consultation at any of our Las Vegas locations and we’ll build your personalized dental exams & cleanings treatment plan.": "Reserva una consulta gratis en cualquiera de nuestras clínicas de Las Vegas y crearemos tu plan de tratamiento personalizado.",
   "Near You — 9 Boca Dental & Braces Locations Across Las Vegas": "Cerca de Ti — 9 Clínicas Boca en Las Vegas",
   "Choose your nearest Boca location and we’ll confirm within one business hour. Same-day and next-day appointments available.": "Elige tu clínica Boca más cercana y te confirmaremos en una hora hábil. Citas el mismo día y al día siguiente disponibles.",
@@ -765,15 +759,12 @@ export const ES: Record<string, string> = {
   "Closer to you?": "¿Más cerca de ti?",
   "See all 9 offices": "Ver las 9 clínicas",
   "Verified": "Verificado",
-  "Nevada Medicaid + CHIP accepted for eligible patients at this location.": "Nevada Medicaid + CHIP aceptados para pacientes elegibles en esta clínica.",
-  "CareCredit + in-house plans": "CareCredit + planes internos",
-  "CareCredit lets you spread treatment over 6, 12, 18, or 24 months with low or no interest. We also offer in-house payment plans with no credit check for routine care.": "CareCredit te permite distribuir el tratamiento en 6, 12, 18 o 24 meses con interés bajo o sin interés. También ofrecemos planes de pago internos sin verificación de crédito para atención de rutina.",
   "My 4-year-old was terrified of the dentist until we came to Boca Kids. They have a special quiet room and the team is amazing with sensory-sensitive kids. Game-changer.": "Mi hija de 4 años le tenía terror al dentista hasta que vinimos a Boca Kids. Tienen una sala silenciosa especial y el equipo es increíble con niños sensibles a lo sensorial. ¡Un cambio total!",
   "Dr. Loveland is excellent with my teens going through Invisalign. Pediatric-only office means my younger kids aren't waiting next to adults — huge plus.": "La Dra. Loveland es excelente con mis adolescentes que usan Invisalign. Al ser una clínica solo para niños, mis hijos menores no esperan junto a adultos — una gran ventaja.",
   "At what age should my child first see a dentist?": "¿A qué edad debe mi hijo visitar al dentista por primera vez?",
   "We recommend a child's first dental visit by age 1, or within 6 months of their first tooth appearing.": "Recomendamos la primera visita dental de un niño al año de edad, o dentro de los 6 meses de la aparición de su primer diente.",
   "Does Boca Kids accept Medicaid for children?": "¿Boca Kids acepta Medicaid para niños?",
-  "Yes. Boca Kids accepts Nevada Medicaid and CHIP. We believe every child deserves quality dental care regardless of budget.": "Sí. Boca Kids acepta Nevada Medicaid y CHIP. Creemos que cada niño merece atención dental de calidad sin importar el presupuesto.",
+  "Yes. Boca Kids accepts Nevada Medicaid. We believe every child deserves quality dental care regardless of budget.": "Sí. Boca Kids acepta Nevada Medicaid. Creemos que cada niño merece atención dental de calidad sin importar el presupuesto.",
 
   // Homepage testimonials + shared labels (Vegas)
   "Lead Dentist & Founder": "Dentista Principal y Fundador",
@@ -782,7 +773,6 @@ export const ES: Record<string, string> = {
   "Boca Dental and Braces. All rights reserved.": "Boca Dental and Braces. Todos los derechos reservados.",
   "Invisalign + braces · teen and adult ortho": "Invisalign + frenos · ortodoncia para adolescentes y adultos",
   "Founder of Boca Dental & Braces": "Fundador de Boca Dental and Braces",
-  "Started Invisalign here 8 months ago and my smile is already transformed. The financing through Sunbit made it actually affordable. Front desk is amazing and patient with all my questions.": "Comencé con Invisalign hace 8 meses y mi sonrisa ya está transformada. El financiamiento con Sunbit lo hizo realmente accesible. La recepción es increíble y paciente con todas mis preguntas.",
   "My 4-year-old was terrified of the dentist. The Boca Kids team turned it into a fun visit — she now ASKS to go back. They accept Medicaid which made it possible for us. Forever grateful.": "Mi hija de 4 años le tenía terror al dentista. El equipo de Boca Kids lo convirtió en una visita divertida — ahora PIDE volver. Aceptan Medicaid, lo que lo hizo posible para nosotros. Eternamente agradecida.",
   "Brought my whole family to the Jones & I-95 location for cleanings. Took our Aetna insurance, no surprises at checkout. The hygienist was gentle and thorough. Highly recommend if you are looking for a real family dentist on the west side.": "Llevé a toda mi familia a la clínica de Jones & I-95 para limpiezas. Aceptaron nuestro seguro Aetna, sin sorpresas al pagar. La higienista fue gentil y minuciosa. Muy recomendado si buscas un verdadero dentista familiar en el lado oeste.",
 
@@ -817,7 +807,7 @@ export const ES: Record<string, string> = {
   "Does Boca Dental on Eastern Ave accept walk-ins?": "¿Boca Dental en Eastern Ave acepta pacientes sin cita?",
   "Yes — we accept walk-ins at our Russell & Eastern location during regular business hours, though we recommend calling ahead to minimize wait times.": "Sí — aceptamos pacientes sin cita en nuestra clínica de Russell & Eastern durante el horario regular, aunque recomendamos llamar con anticipación para minimizar los tiempos de espera.",
   "Do you accept Medicaid at the Russell & Eastern office?": "¿Aceptan Medicaid en la clínica de Russell & Eastern?",
-  "Yes. Our Russell & Eastern location accepts Nevada Medicaid and CHIP for qualifying patients including children.": "Sí. Nuestra clínica de Russell & Eastern acepta Nevada Medicaid y CHIP para pacientes que califiquen, incluyendo niños.",
+  "Yes. Our Russell & Eastern location accepts Nevada Medicaid for qualifying patients including children.": "Sí. Nuestra clínica de Russell & Eastern acepta Nevada Medicaid para pacientes que califiquen, incluyendo niños.",
   "Visit us": "Visítanos",
 
   // Single-quoted location reviews
@@ -861,7 +851,7 @@ export const ES: Record<string, string> = {
   "One Patient Record": "Un Solo Expediente",
   "Medicaid & Most PPOs": "Medicaid y Mayoría de PPOs",
   "9 Locations, One Standard": "9 Clínicas, Un Estándar",
-  "Nevada Medicaid, CHIP, and most major PPO plans accepted at all 9 locations.": "Nevada Medicaid, CHIP y la mayoría de los planes PPO principales aceptados en las 9 clínicas.",
+  "Nevada Medicaid and most major PPO plans accepted at all 9 locations.": "Nevada Medicaid y la mayoría de los planes PPO principales aceptados en las 9 clínicas.",
   "Same clinical protocols at every clinic. Go to whichever is closest.": "Los mismos protocolos clínicos en cada clínica. Ve a la que esté más cerca.",
 
   // Reviews page hero (missing translations)
