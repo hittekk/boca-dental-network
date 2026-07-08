@@ -774,7 +774,6 @@ export const ES: Record<string, string> = {
   "Invisalign + braces · teen and adult ortho": "Invisalign + frenos · ortodoncia para adolescentes y adultos",
   "Founder of Boca Dental & Braces": "Fundador de Boca Dental and Braces",
   "My 4-year-old was terrified of the dentist. The Boca Kids team turned it into a fun visit — she now ASKS to go back. They accept Medicaid which made it possible for us. Forever grateful.": "Mi hija de 4 años le tenía terror al dentista. El equipo de Boca Kids lo convirtió en una visita divertida — ahora PIDE volver. Aceptan Medicaid, lo que lo hizo posible para nosotros. Eternamente agradecida.",
-  "Brought my whole family to the Jones & I-95 location for cleanings. Took our Aetna insurance, no surprises at checkout. The hygienist was gentle and thorough. Highly recommend if you are looking for a real family dentist on the west side.": "Llevé a toda mi familia a la clínica de Jones & I-95 para limpiezas. Aceptaron nuestro seguro Aetna, sin sorpresas al pagar. La higienista fue gentil y minuciosa. Muy recomendado si buscas un verdadero dentista familiar en el lado oeste.",
 
   // Location reviews + parking (Vegas)
   "I work downtown and the Bonanza & Eastern location is a 5-minute walk. Free parking is a huge plus in this part of town. Dr. Wall is fantastic.": "Trabajo en el centro y la clínica de Bonanza & Eastern está a 5 minutos caminando. El estacionamiento gratuito es una gran ventaja en esta parte de la ciudad. El Dr. Wall es fantástico.",
